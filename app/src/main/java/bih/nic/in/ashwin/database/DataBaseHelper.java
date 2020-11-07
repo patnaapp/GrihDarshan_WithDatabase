@@ -788,6 +788,90 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<ActivityCategory_entity> getActictivityCategoryList(){
+
+        ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master",null);
+
+            while (cur.moveToNext()) {
+
+                ActivityCategory_entity info = new ActivityCategory_entity();
+
+                info.set_AcitivtyCategoryId(cur.getString(cur.getColumnIndex("category_id")));
+                info.set_AcitivtyCategoryDesc(cur.getString(cur.getColumnIndex("category_name")));
+                info.set_AcitivtyCategoryDesc_Hn(cur.getString(cur.getColumnIndex("category_name_hn")));
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Activity_entity> getActictivityList(String catId){
+
+        ArrayList<Activity_entity> list = new ArrayList<Activity_entity>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String[] whereArgs = new String[]{catId};
+
+            Cursor cur = db.rawQuery("Select * from ActivityList_Master WHERE Activity_categ_Id=?",whereArgs);
+
+            while (cur.moveToNext()) {
+
+                Activity_entity info = new Activity_entity();
+
+                info.set_ActivityId(cur.getString(cur.getColumnIndex("Activity_Id")));
+                info.set_ActivityDesc(cur.getString(cur.getColumnIndex("Activity_Desc")));
+                info.set_ActivityAmt(cur.getString(cur.getColumnIndex("Activity_Amt")));
+                info.set_AcitivtyCategoryId(cur.getString(cur.getColumnIndex("Activity_categ_Id")));
+                info.set_OrderStatus(cur.getString(cur.getColumnIndex("Order_Status")));
+                info.set_RegisterId(cur.getString(cur.getColumnIndex("Register_Id")));
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public RegisterDetailsEntity getRegisterDetail(String regId){
+        RegisterDetailsEntity info = new RegisterDetailsEntity();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String[] whereArgs = new String[]{regId};
+
+            Cursor cur = db.rawQuery("Select * from RegisterDetails WHERE register_id=?",whereArgs);
+
+            while (cur.moveToNext()) {
+
+                info.set_RegisterId(cur.getString(cur.getColumnIndex("register_id")));
+                info.set_RegisterDesc(cur.getString(cur.getColumnIndex("register_desc")));
+                info.set_RegisterDesc_Hn(cur.getString(cur.getColumnIndex("register_desc_hn")));
+                info.set_VolNo(cur.getString(cur.getColumnIndex("vol_no")));
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return info;
+    }
+
 
     public long setPanchayatName(ArrayList<Panchayat_List> list,String blkcode) {
 
