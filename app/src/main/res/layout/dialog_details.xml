@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:ignore="HardcodedText">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_footer"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/IndiraAwas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Change Password"
+                android:textColor="@android:color/background_light"
+                android:gravity="center"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Password"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_weight="0.6"
+            android:id="@+id/edt_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:maxLength="20"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_cnfpass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="New Confirm Password"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+        <EditText
+            android:layout_weight="0.6"
+            android:id="@+id/edt_cnf_pass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:maxLength="20"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/Panchayat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="दूसरी किश्त    :  "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Panchayat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="तीसरी किश्त    :  "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/thirdins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorPrimary"/>
+</LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="चौथी किश्त    :  "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fourthins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Update "
+            android:textStyle="bold"
+            android:background="@color/color_footer"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@android:color/background_light"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
