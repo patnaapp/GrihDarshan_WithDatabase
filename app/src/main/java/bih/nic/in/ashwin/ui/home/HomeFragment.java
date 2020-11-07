@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
+    Button btn_proceed;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -72,11 +74,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         initializeViews(root);
 
         setUserDetail();
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
-            loadUserRoleSpinnerdata();
-        }
+
         setFYearSpinner();
-        setFMonthSpinner();
+        //setFMonthSpinner();
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +100,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 // TODO Auto-generated method stub
                 if (position > 0) {
                     fyear = fYearArray.get(position-1);
+                    setFMonthSpinner();
                 }
             }
 
@@ -118,6 +119,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 // TODO Auto-generated method stub
                 if (position > 0) {
                     fmonth = fMonthArray.get(position-1);
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+                    {
+                        loadUserRoleSpinnerdata();
+                    }
                 }
             }
 
@@ -217,15 +222,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_pan = root.findViewById(R.id.ll_pan);
         ll_division = root.findViewById(R.id.ll_division);
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
+        btn_proceed = root.findViewById(R.id.btn_proceed);
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
             ll_hsc.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.VISIBLE);
         }
         else {
             ll_hsc.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
             ll_division.setVisibility(View.VISIBLE);
