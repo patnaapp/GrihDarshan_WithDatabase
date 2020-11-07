@@ -1,11 +1,14 @@
 package bih.nic.in.ashwin.ui.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +32,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
+import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -147,7 +152,11 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 .show();
     }
 
-    private void syncData(){
+    private void syncData()
+    {
         Toast.makeText(this, "Sync", Toast.LENGTH_SHORT).show();
     }
+
+
+
 }

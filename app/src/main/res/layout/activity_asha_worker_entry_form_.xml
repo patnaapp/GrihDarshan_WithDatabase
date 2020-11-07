@@ -256,12 +256,21 @@
                                 android:textColor="@color/color_black"
                                 android:textSize="12sp"/>
 
-                            <Spinner
-                                android:background="@drawable/spinner_bg1"
+
+                            <EditText
                                 android:layout_marginTop="4dp"
-                                android:id="@+id/sp_reg_name"
+                                android:id="@+id/edt_reg_name"
                                 android:layout_width="match_parent"
-                                android:layout_height="36dp" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="खंड"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="20"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
                         </LinearLayout>
 
 

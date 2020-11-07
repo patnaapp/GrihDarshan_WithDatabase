@@ -32,8 +32,6 @@ public class WebServiceHelper {
     public static final String Get_Asset = "getASSetMasterDetailsList";
     public static final String ChangePassword = "ChangePassword";
 
-
-
     private static final String FIELD_METHOD = "getFieldInformation";
     private static final String SPINNER_METHOD = "getSpinnerInformation";
     //private static final String UPLOAD_METHOD = "InsertData";
