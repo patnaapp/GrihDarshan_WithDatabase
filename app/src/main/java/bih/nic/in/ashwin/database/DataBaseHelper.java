@@ -18,8 +18,11 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 
@@ -626,6 +629,58 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public long setDistrictList_Local(ArrayList<District_list> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<District_list> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("DistCode", info.get(i).getDistt_code());
+                    values.put("DistName", info.get(i).getDistt_name());
+                    values.put("DistNameHN", info.get(i).getDist_NAME_HN());
+
+
+                    String[] whereArgs = new String[]{info.get(i).getDistt_code()};
+
+                    c = db.update("Districts", values, "DistCode=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("Districts", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
     //Get Data
 
     public ArrayList<Financial_Year> getFinancialYearList(){
@@ -680,6 +735,111 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return list;
+    }
+
+
+    public long setPanchayatName(ArrayList<Panchayat_List> list,String blkcode) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Panchayat_List> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("BlockCode", blkcode);
+                    values.put("PanchayatCode", info.get(i).getPanchayat_code());
+                    values.put("PanchayatName", info.get(i).getPanchayat_Name());
+                    values.put("PanchayatNameHnd", info.get(i).get_Panchayat_NAME_HN());
+
+                    String[] whereArgs = new String[]{info.get(i).getPanchayat_code()};
+
+                    c = db.update("Panchayat", values, "PanchayatCode=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("Panchayat", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setBlockLocal(ArrayList<Block_List> list,String distcode) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Block_List> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("DistCode", distcode);
+                    values.put("BlockCode", info.get(i).getBlk_Code());
+                    values.put("BlockName", info.get(i).getBlk_Name());
+                    values.put("BlockNameHN", info.get(i).getBlock_NAME_HN());
+
+                    String[] whereArgs = new String[]{info.get(i).getBlk_Code()};
+
+                    c = db.update("Block_Master", values, "BlockCode=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("Block_Master", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
     }
 
 }

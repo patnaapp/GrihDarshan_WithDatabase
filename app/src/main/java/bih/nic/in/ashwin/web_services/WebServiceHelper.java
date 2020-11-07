@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.DefaultResponse;
+import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
@@ -34,7 +36,9 @@ public class WebServiceHelper {
     public static final String FinMonth_LIST_METHOD = "FinMonth";
     public static final String Activity_LIST_METHOD = "Activity";
     public static final String Activity_Category_LIST_METHOD = "ActivityCategory";
+    public static final String District_LIST_METHOD = "getDistrict";
     public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
+    public static final String Block_LIST_METHOD = "getBlock";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -464,6 +468,30 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+    public static ArrayList<District_list> getDistrictList() {
+
+        SoapObject res1;
+        res1 = getServerData(District_LIST_METHOD, District_list.District_Name_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<District_list> fieldList = new ArrayList<District_list>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    District_list sm = new District_list(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
 
     public static ArrayList<Panchayat_List> getPanchayatName(String blkcode) {
 
@@ -479,6 +507,31 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     Panchayat_List sm = new Panchayat_List(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+
+    public static ArrayList<Block_List> getBlockList(String distcode) {
+
+        SoapObject res1;
+        res1 = getServerData(Block_LIST_METHOD, Block_List.Block_Name_CLASS, "DistCode", distcode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Block_List> fieldList = new ArrayList<Block_List>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Block_List sm = new Block_List(final_object);
                     fieldList.add(sm);
                 }
             } else
