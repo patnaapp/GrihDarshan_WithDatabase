@@ -16,27 +16,27 @@
         android:orientation="vertical">
 
         <include
+            android:visibility="gone"
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             layout="@layout/header_main"/>
-
-
     </LinearLayout>
+
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Entry"
         android:layout_below="@id/ll_header"
-
         android:id="@+id/tv_desc"
         android:layout_margin="8dp"
         android:textColor="@color/holo_green_dark"
         android:gravity="center_horizontal"
         />
-    <ScrollView
 
+    <ScrollView
         android:id="@+id/reg_form"
         android:layout_below="@+id/tv_desc"
         android:layout_above="@+id/btn_proceed"
@@ -46,101 +46,154 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_margin="20dp"
-                android:visibility="gone"
-                android:id="@+id/iv_logo1"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@drawable/ashwin_logo"
-                android:padding="4dp"
-                android:background="@drawable/circular_shape_white"
-                android:layout_centerHorizontal="true"/>
+        <LinearLayout
+            android:layout_marginBottom="12dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:background="@drawable/shape_adapter_cell"
+                android:padding="8dp"
                 android:layout_width="match_parent"
-                android:id="@+id/ll_all"
-
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
+                <TextView
+                    android:id="@+id/tv_fn_yr"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="वित्तीय वर्ष: "
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/fn_mnth"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="वित्तीय महीना: "
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_marginBottom="12dp"
-                    android:layout_width="fill_parent"
-
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
-                    <LinearLayout
 
-                        android:layout_width="fill_parent"
-
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="कार्य का श्रेणी : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
 
-
-                        android:weightSum="2"
-                        android:orientation="horizontal">
-                        <LinearLayout
-
-                            android:layout_marginBottom="12dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="karya का श्रेणी : [*]"
-                                android:textColor="@color/color_black"
-                                android:textSize="12sp"/>
-
-                            <Spinner
-                                android:background="@drawable/spinner_bg1"
-                                android:layout_marginTop="4dp"
-                                android:id="@+id/sp_work_categ"
-                                android:layout_width="match_parent"
-                                android:layout_height="36dp" />
-                        </LinearLayout>
-                        <View
-                            android:layout_width="4dp"
-                            android:layout_height="match_parent"/>
-                        <LinearLayout
-
-                            android:layout_marginBottom="12dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="कार्य : [*]"
-                                android:textColor="@color/color_black"
-                                android:textSize="12sp"/>
-
-                            <Spinner
-                                android:background="@drawable/spinner_bg1"
-                                android:layout_marginTop="4dp"
-                                android:id="@+id/sp_work"
-                                android:layout_width="match_parent"
-                                android:layout_height="36dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                    <LinearLayout
-
-                        android:layout_width="fill_parent"
-
-                        android:layout_height="wrap_content"
+                    <Spinner
+                        android:background="@drawable/spinner_bg1"
                         android:layout_marginTop="4dp"
+                        android:id="@+id/sp_work_categ"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
+
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <Spinner
+                        android:background="@drawable/spinner_bg1"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/sp_work"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य पूर्ण की तिथि : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:layout_marginTop="4dp"
+                            android:layout_marginRight="8dp"
+                            android:id="@+id/edt_work_complt_date"
+                            android:layout_toLeftOf="@+id/img_tentative_cce"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="कार्य पूर्ण की तिथि "
+                            android:padding="10dp"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:focusableInTouchMode="true"
+                            android:textSize="15sp" />
+
+                        <ImageView
+                            android:onClick="ShowDialog"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/img_tentative_cce"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:src="@drawable/calendaricon" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+
+                        android:layout_width="fill_parent"
+
+                        android:layout_height="wrap_content"
+
 
                         android:weightSum="2"
                         android:orientation="horizontal">
@@ -155,250 +208,194 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="कार्य पूर्ण की तिथि : [*]"
+                                android:text="दावा की गयी राशी : [*]"
                                 android:textColor="@color/color_black"
                                 android:textSize="12sp"/>
-                            <LinearLayout
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/edt_amount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <EditText
-                                    android:layout_marginTop="4dp"
-                                    android:id="@+id/edt_work_complt_date"
-                                    android:layout_width="208dp"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/textboxshape"
-                                    android:hint="कार्य पूर्ण की तिथि "
-                                    android:padding="10dp"
-                                    android:inputType="number"
-                                    android:maxLength="6"
-                                    android:singleLine="true"
-                                    android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
-                                    android:textSize="15sp" />
-
-                                <ImageView
-                                    android:id="@+id/img_tentative_cce"
-                                    android:layout_width="50sp"
-                                    android:layout_height="match_parent"
-                                    android:gravity="center"
-                                    android:src="@drawable/calendaricon" />
-
-                            </LinearLayout>
-                            <LinearLayout
-
-                                android:layout_width="fill_parent"
-
-                                android:layout_height="wrap_content"
-
-
-                                android:weightSum="2"
-                                android:orientation="horizontal">
-                                <LinearLayout
-                                    android:layout_marginTop="5dp"
-                                    android:layout_marginBottom="12dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="दावा की गयी राशी : [*]"
-                                        android:textColor="@color/color_black"
-                                        android:textSize="12sp"/>
-
-                                    <EditText
-                                        android:layout_marginTop="4dp"
-                                        android:id="@+id/edt_amount"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:background="@drawable/textboxshape"
-                                        android:hint="दावा की गयी राशी "
-                                        android:padding="10dp"
-                                        android:inputType="number"
-                                        android:maxLength="6"
-                                        android:singleLine="true"
-                                        android:textColor="#222222"
-                                        android:focusableInTouchMode="true"
-                                        android:textSize="15sp" />
-                                </LinearLayout>
-
-
-                            </LinearLayout>
+                                android:background="@drawable/textboxshape"
+                                android:hint="दावा की गयी राशी "
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="6"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
                         </LinearLayout>
 
+
                     </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
 
-                    <LinearLayout
+            <LinearLayout
 
-                        android:layout_width="fill_parent"
+                android:layout_width="fill_parent"
 
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+
+                android:weightSum="2"
+                android:orientation="horizontal">
+                <LinearLayout
+
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="पंजी का नाम : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+
+                    <EditText
                         android:layout_marginTop="4dp"
-
-                        android:weightSum="2"
-                        android:orientation="horizontal">
-                        <LinearLayout
-
-                            android:layout_marginBottom="12dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="पंजी का नाम : [*]"
-                                android:textColor="@color/color_black"
-                                android:textSize="12sp"/>
-
-
-                            <EditText
-                                android:layout_marginTop="4dp"
-                                android:id="@+id/edt_reg_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/textboxshape"
-                                android:hint="खंड"
-                                android:padding="10dp"
-                                android:inputType="number"
-                                android:maxLength="20"
-                                android:singleLine="true"
-                                android:textColor="#222222"
-                                android:focusableInTouchMode="true"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-
-
-
-                        <View
-                            android:layout_width="4dp"
-                            android:layout_height="match_parent"/>
-                        <LinearLayout
-
-                            android:layout_marginBottom="12dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="खंड:"
-                                android:textColor="@color/color_black"
-                                android:textSize="12sp"/>
-
-                            <EditText
-                                android:layout_marginTop="4dp"
-                                android:id="@+id/edt_volume"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/textboxshape"
-                                android:hint="खंड"
-                                android:padding="10dp"
-                                android:inputType="number"
-                                android:maxLength="20"
-                                android:singleLine="true"
-                                android:textColor="#222222"
-                                android:focusableInTouchMode="true"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_marginBottom="12dp"
-                        android:layout_width="fill_parent"
+                        android:id="@+id/edt_reg_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-                        <LinearLayout
-
-                            android:layout_width="fill_parent"
-
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-
-                            android:weightSum="2"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="12dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="पेज संख्या : [*]"
-                                    android:textColor="@color/color_black"
-                                    android:textSize="12sp"/>
-
-                                <EditText
-                                    android:layout_marginTop="4dp"
-                                    android:id="@+id/edt_pageno"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/textboxshape"
-                                    android:hint="पेज संख्या "
-                                    android:padding="10dp"
-                                    android:inputType="number"
-                                    android:maxLength="6"
-                                    android:singleLine="true"
-                                    android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="match_parent"/>
-                            <LinearLayout
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="12dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="क्रमांक:"
-                                    android:textColor="@color/color_black"
-                                    android:textSize="12sp"/>
-
-                                <EditText
-                                    android:layout_marginTop="4dp"
-                                    android:id="@+id/edt_slno"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/textboxshape"
-                                    android:hint="क्रमांक"
-                                    android:padding="10dp"
-                                    android:inputType="number"
-                                    android:maxLength="20"
-                                    android:singleLine="true"
-                                    android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:background="@drawable/textboxshape"
+                        android:hint="खंड"
+                        android:padding="10dp"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:focusableInTouchMode="true"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
 
 
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"/>
+                <LinearLayout
 
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="खंड:"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <EditText
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/edt_volume"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textboxshape"
+                        android:hint="खंड"
+                        android:padding="10dp"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_marginBottom="12dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <LinearLayout
+
+                    android:layout_width="fill_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="पेज संख्या : [*]"
+                            android:textColor="@color/color_black"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/edt_pageno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="पेज संख्या "
+                            android:padding="10dp"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent"/>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="क्रमांक:"
+                            android:textColor="@color/color_black"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/edt_slno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="क्रमांक"
+                            android:padding="10dp"
+                            android:inputType="number"
+                            android:maxLength="20"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
     </ScrollView>
     <Button
         android:layout_gravity="center"

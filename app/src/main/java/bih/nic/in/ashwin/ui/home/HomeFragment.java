@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,10 +67,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                getContext().startActivity(intent);
+                if(fyear != null && fmonth != null) {
+                    Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
+                    intent.putExtra("FYear", fyear);
+                    intent.putExtra("FMonth", fmonth);
+                    getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(getContext(), "Please select Financial Year and Month", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
