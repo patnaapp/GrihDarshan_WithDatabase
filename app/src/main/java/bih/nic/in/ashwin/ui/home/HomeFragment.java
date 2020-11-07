@@ -148,12 +148,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             case R.id.sp_fn_year:
                 if (i > 0) {
                     fyear = fYearArray.get(i-1);
+                }else{
+                    fyear = null;
                 }
                 break;
 
             case R.id.sp_fn_month:
                 if (i > 0) {
                     fmonth = fMonthArray.get(i-1);
+                }else{
+                    fmonth = null;
                 }
                 break;
 

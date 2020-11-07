@@ -12,7 +12,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,12 +26,13 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Spinner sp_work_categ,sp_work;
-    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name;
-    TextView tv_fn_yr,fn_mnth;
+    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -40,6 +43,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     ActivityCategory_entity categoryEntity;
     Activity_entity activityEntity;
+    RegisterDetailsEntity registerDetailsEntity;
+
+    int caltype = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_pageno = findViewById(R.id.edt_pageno);
         edt_slno = findViewById(R.id.edt_slno);
         edt_reg_name = findViewById(R.id.edt_reg_name);
+        edt_reg_date = findViewById(R.id.edt_reg_date);
+
+        tv_cat_title = findViewById(R.id.tv_cat_title);
+        tv_activity = findViewById(R.id.tv_activity);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -77,7 +87,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setCategorySpinner(){
-        //categoryArray = dbhelper.getFinancialMonthList();
+        categoryArray = dbhelper.getActictivityCategoryList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
@@ -92,22 +102,32 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setActivitySpinner(){
-        //categoryArray = dbhelper.getFinancialMonthList();
+        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId());
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (ActivityCategory_entity info: categoryArray){
-            array.add(info.get_AcitivtyCategoryDesc_Hn());
+        for (Activity_entity info: activityArray){
+            array.add(info.get_ActivityDesc());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_work_categ.setAdapter(adaptor);
-        sp_work_categ.setOnItemSelectedListener(this);
+        sp_work.setAdapter(adaptor);
+        sp_work.setOnItemSelectedListener(this);
     }
 
 
     public void ShowDialog(View view) {
+        caltype = 1;
+        viewCalender();
+    }
+
+    public void ShowDialogReg(View view) {
+        caltype = 2;
+        viewCalender();
+    }
+
+    public void viewCalender(){
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
@@ -117,9 +137,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         if (c.getTimeInMillis() < System.currentTimeMillis()) {
 
-            datedialog.getDatePicker().setMinDate(c.getTimeInMillis());
+            datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());
         } else {
-            datedialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         }
 
         datedialog.show();
@@ -149,8 +169,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     smMonth = "0" + (mMonth + 1);
                 }
 
-                edt_work_complt_date.setText(mYear + "-" + smMonth + "-" + smDay);
-
+                if(caltype == 1) {
+                    edt_work_complt_date.setText(mYear + "-" + smMonth + "-" + smDay);
+                    edt_work_complt_date.setError(null);
+                }else if (caltype == 2){
+                    edt_reg_date.setText(mYear + "-" + smMonth + "-" + smDay);
+                    edt_reg_date.setError(null);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -164,11 +189,25 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 if (i > 0) {
                     categoryEntity = categoryArray.get(i-1);
                     setActivitySpinner();
+
+                    edt_amount.setText("");
+                    edt_reg_name.setText("");
+                    tv_cat_title.setError(null);
+                }else{
+                    categoryEntity = null;
                 }
                 break;
             case R.id.sp_work:
                 if (i > 0) {
                     activityEntity = activityArray.get(i-1);
+                    edt_amount.setText(activityEntity.get_ActivityAmt());
+
+                    registerDetailsEntity = dbhelper.getRegisterDetail(activityEntity.get_RegisterId());
+                    edt_reg_name.setText(registerDetailsEntity.get_RegisterDesc_Hn());
+                    tv_activity.setError(null);
+                    //edt_volume.setText(registerDetailsEntity.get_VolNo());
+                }else{
+                    activityEntity = null;
                 }
                 break;
         }
@@ -177,5 +216,84 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void onSaveData(View view) {
+        if (isDataValidated()){
+
+        }
+    }
+
+    public Boolean isDataValidated(){
+        View focusView = null;
+        boolean validate = true;
+
+        if(categoryEntity == null){
+            //Toast.makeText(this, "कृप्या कार्य का श्रेणी का चयन करें ", Toast.LENGTH_SHORT).show();
+            tv_cat_title.setError("कृप्या कार्य का श्रेणी का चयन करें ");
+            focusView = tv_cat_title;
+            validate = false;
+        }
+
+        if(activityEntity == null){
+            //Toast.makeText(this, "कृप्या कार्य का चयन करें", Toast.LENGTH_SHORT).show();
+            tv_activity.setError("कृप्या कार्य का चयन करें");
+            focusView = tv_activity;
+            validate = false;
+        }
+
+        if (edt_volume.getText().toString().equals("")) {
+            edt_volume.setError("कृप्या खंड डालें");
+            focusView = edt_volume;
+            validate = false;
+        }
+
+        if (edt_pageno.getText().toString().equals("")) {
+            edt_pageno.setError("कृप्या पेज संख्या डालें");
+            focusView = edt_pageno;
+            validate = false;
+        }
+
+        if (edt_slno.getText().toString().equals("")) {
+             edt_slno.setError("कृप्या क्रमांक डालें");
+            focusView = edt_slno;
+            validate = false;
+        }
+
+        if (edt_work_complt_date.getText().toString().equals("")) {
+            edt_work_complt_date.setError("कृप्या कार्य पूर्ण की तिथि का चयन करें");
+            focusView = edt_work_complt_date;
+            validate = false;
+        }
+
+        if (edt_reg_date.getText().toString().equals("")) {
+            edt_reg_date.setError("कृप्या पंजी का दिनांक का चयन करें");
+            focusView = edt_reg_date;
+            validate = false;
+        }
+
+        try{
+            if(isRegDateGreaterThanComplDate()){
+                validate = false;
+                Toast.makeText(this, "कृप्या पंजी का दिनांक कार्य पूर्ण की तिथि के पहले का डालें", Toast.LENGTH_SHORT).show();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            validate = false;
+        }
+
+        return validate;
+    }
+
+    public boolean isRegDateGreaterThanComplDate() throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date regDate = sdf.parse(edt_reg_date.getText().toString());
+        Date complDate = sdf.parse(edt_work_complt_date.getText().toString());
+
+        if (regDate.after(complDate)) {
+            return true;
+        }
+        return false;
     }
 }
