@@ -558,7 +558,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setregisterDetails_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaWorkersList().execute();
                     }
 
@@ -612,7 +612,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setAshaWorkerList_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaFacilitatorList().execute();
                     }
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();

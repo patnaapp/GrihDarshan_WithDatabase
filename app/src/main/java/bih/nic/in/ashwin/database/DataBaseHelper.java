@@ -1080,7 +1080,72 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return c;
 
+    }
 
+    public ArrayList<AshaWoker_Entity> getAshaWorkerList(){
+
+        ArrayList<AshaWoker_Entity> userRoleList = new ArrayList<AshaWoker_Entity>();
+
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from AshaWorkersMaster",null);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                AshaWoker_Entity userRole = new AshaWoker_Entity();
+
+                userRole.set_ASHAID(cur.getString(cur.getColumnIndex("asha_id")));
+                userRole.set_Asha_Name(cur.getString(cur.getColumnIndex("aasha_name")));
+                userRole.set_Asha_Name_Hn(cur.getString(cur.getColumnIndex("aasha_name_hn")));
+
+                userRoleList.add(userRole);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
+    }
+
+    public ArrayList<AshaFacilitator_Entity> getAshaFacilitatorList(){
+
+        ArrayList<AshaFacilitator_Entity> userRoleList = new ArrayList<AshaFacilitator_Entity>();
+
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from AshaFacilitatorMaster",null);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                AshaFacilitator_Entity userRole = new AshaFacilitator_Entity();
+
+                userRole.set_Facilitator_ID(cur.getString(cur.getColumnIndex("asha_facilitator_id")));
+                userRole.set_Facilitator_Name(cur.getString(cur.getColumnIndex("facilitator_name")));
+                userRole.set_Facilitator_Name_Hn(cur.getString(cur.getColumnIndex("facilitator_name_hn")));
+
+                userRoleList.add(userRole);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
     }
 
 }
