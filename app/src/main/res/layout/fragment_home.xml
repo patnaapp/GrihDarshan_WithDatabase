@@ -130,6 +130,7 @@
                     <LinearLayout
                         android:gravity="center_horizontal"
                         android:layout_weight="1"
+                        android:id="@+id/ll_pan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -294,8 +295,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="आशा वर्कर/ फैसिलिटेटर"
+                    android:text="आशा वर्कर"
                     android:textColor="@color/color_black"
+                    android:id="@+id/tv_spworker"
                     android:textSize="12sp"/>
 
                 <Spinner
@@ -316,14 +318,21 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:layout_alignParentBottom="true"
+        android:id="@+id/ll_floating_btn"
         android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/ic_add"
-        tools:ignore="VectorDrawableCompat"/>
-
+        android:orientation="horizontal">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/ic_add"
+            tools:ignore="VectorDrawableCompat"/>
+    </LinearLayout>
 </RelativeLayout>
