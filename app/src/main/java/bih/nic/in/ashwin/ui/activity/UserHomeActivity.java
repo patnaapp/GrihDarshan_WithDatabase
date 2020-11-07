@@ -541,11 +541,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
         @Override
         protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
-            if (this.dialog.isShowing()) {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
 
-            if (result != null) {
+            if (result != null)
+            {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
@@ -554,6 +556,63 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setregisterDetails_Local(result);
                 if (i > 0) {
 
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
+                        new GetRegisterDetails().execute();
+                    }
+
+                    Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<RegisterDetailsEntity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Register details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<RegisterDetailsEntity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getregisterDetails();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setregisterDetails_Local(result);
+                if (i > 0) {
+
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
+                        new GetRegisterDetails().execute();
+                    }
 
                     Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
 
