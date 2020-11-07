@@ -79,7 +79,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         TextView navMobileNum = (TextView) headerView.findViewById(R.id.nav_mobile_no);
         navUsername.setText((CommonPref.getUserDetails(getApplicationContext())).getUserName());
         //navMobileNum.setText((CommonPref.getUserDetails(getApplicationContext())).getAwcName());
-        navMobileNum.setText("9905104780");
+        navMobileNum.setText((CommonPref.getUserDetails(getApplicationContext())).getMobileNo());
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 

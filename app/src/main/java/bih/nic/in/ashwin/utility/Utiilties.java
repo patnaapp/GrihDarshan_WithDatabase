@@ -1,5 +1,6 @@
 package bih.nic.in.ashwin.utility;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.view.Window;
 import android.view.WindowManager;
@@ -491,5 +493,27 @@ public class Utiilties {
     }
 
 
+    public static String getDeviceIMEI(Context context) {
+        String imei;
+        MarshmallowPermission permission = new MarshmallowPermission(context, Manifest.permission.READ_PHONE_STATE);
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            imei = Settings.Secure.getString(context.getContentResolver(),Settings.Secure.ANDROID_ID);
+        }
+        else
+        {
+            final TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (mTelephony.getDeviceId() != null)
+            {
+                imei = mTelephony.getDeviceId();
+            }
+            else
+            {
+                imei = Settings.Secure.getString(context.getContentResolver(),Settings.Secure.ANDROID_ID);
+            }
+        }
+
+        return imei;
+    }
 }
