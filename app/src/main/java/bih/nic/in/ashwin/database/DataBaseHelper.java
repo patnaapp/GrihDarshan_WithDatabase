@@ -23,6 +23,7 @@ import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 
@@ -419,7 +420,57 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return userRoleList;
     }
+    public long setregisterDetails_Local(ArrayList<RegisterDetailsEntity> list) {
 
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<RegisterDetailsEntity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("register_id", info.get(i).get_RegisterId());
+                    values.put("register_desc", info.get(i).get_RegisterDesc());
+                    values.put("register_desc_hn", info.get(i).get_RegisterDesc_Hn());
+                    values.put("vol_no", info.get(i).get_VolNo());
+
+                    String[] whereArgs = new String[]{info.get(i).get_RegisterId()};
+
+                    c = db.update("RegisterDetails", values, "register_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("RegisterDetails", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
 
     public long setFinyr_Local(ArrayList<Financial_Year> list) {
 
