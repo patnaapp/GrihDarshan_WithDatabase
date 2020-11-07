@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +24,12 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
+import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.utility.CommonPref;
 
@@ -36,15 +40,22 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
-    Spinner sp_fn_year,sp_fn_month;
+    Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_facilitator;
+    LinearLayout ll_hsc;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
 
     Financial_Year fyear;
     Financial_Month fmonth;
-
+    ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
+    ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
+    ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
     DataBaseHelper dbhelper;
+    ArrayAdapter<String> roleAdapter;
+    ArrayAdapter<String> workerAdapter;
+    ArrayAdapter<String> facilitatorAdapter;
+    String userRole = "";
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
@@ -60,7 +71,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         initializeViews(root);
         setUserDetail();
-
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
+            loadUserRoleSpinnerdata();
+        }
         setFYearSpinner();
         setFMonthSpinner();
 
@@ -81,7 +94,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return root;
     }
 
-    void initializeViews(View root){
+    void initializeViews(View root)
+    {
         dbhelper = new DataBaseHelper(getContext());
 
         tv_username = root.findViewById(R.id.tv_username);
@@ -93,6 +107,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         sp_fn_year = root.findViewById(R.id.sp_fn_year);
         sp_fn_month = root.findViewById(R.id.sp_fn_month);
+        sp_userrole = root.findViewById(R.id.sp_userrole);
+        sp_worker = root.findViewById(R.id.sp_worker);
+        sp_facilitator = root.findViewById(R.id.sp_facilitator);
+        ll_hsc = root.findViewById(R.id.ll_hsc);
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
+            ll_hsc.setVisibility(View.VISIBLE);
+        }
+        else {
+            ll_hsc.setVisibility(View.GONE);
+        }
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
     }
@@ -160,12 +184,76 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     fmonth = null;
                 }
                 break;
-
+            case R.id.sp_userrole:
+                if (i > 0) {
+                    UserRole role = userRoleList.get(i-1);
+                    userRole = role.getRole();
+                    if (userRole.equals("ASHA")){
+                        sp_facilitator.setVisibility(View.GONE);
+                        loadashaWorkerSpinnerdata();
+                    }
+                    else if (userRole.equals("ASHAFC")){
+                        sp_worker.setVisibility(View.GONE);
+                        loadashafacilitatorSpinnerdata();
+                    }
+                }
+                break;
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    public void loadUserRoleSpinnerdata() {
+        dbhelper = new DataBaseHelper(getContext());
+        userRoleList = dbhelper.getUserRoleList();
+        String[] typeNameArray = new String[userRoleList.size() + 1];
+        typeNameArray[0] = "- चयन करें -";
+        int i = 1;
+        for (UserRole type : userRoleList)
+        {
+            typeNameArray[i] = type.getRoleDescHN();
+            i++;
+        }
+        roleAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_userrole.setAdapter(roleAdapter);
+
+    }
+
+    public void loadashaWorkerSpinnerdata() {
+        dbhelper = new DataBaseHelper(getContext());
+        ashaworkerList = dbhelper.getAshaWorkerList();
+        String[] typeNameArray = new String[ashaworkerList.size() + 1];
+        typeNameArray[0] = "- चयन करें -";
+        int i = 1;
+        for (AshaWoker_Entity type : ashaworkerList)
+        {
+            typeNameArray[i] = type.get_ASHAID();
+            i++;
+        }
+        workerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
+        workerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_worker.setAdapter(workerAdapter);
+
+    }
+
+    public void loadashafacilitatorSpinnerdata() {
+        dbhelper = new DataBaseHelper(getContext());
+        facilitatorList = dbhelper.getAshaFacilitatorList();
+        String[] typeNameArray = new String[facilitatorList.size() + 1];
+        typeNameArray[0] = "- चयन करें -";
+        int i = 1;
+        for (AshaFacilitator_Entity type : facilitatorList)
+        {
+            typeNameArray[i] = type.get_Facilitator_ID();
+            i++;
+        }
+        facilitatorAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
+        facilitatorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_facilitator.setAdapter(facilitatorAdapter);
 
     }
 }
