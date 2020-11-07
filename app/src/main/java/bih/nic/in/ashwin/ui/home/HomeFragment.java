@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,9 +40,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private HomeViewModel homeViewModel;
 
     FloatingActionButton floating_action_button;
-    TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
+    TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_facilitator;
-    LinearLayout ll_hsc;
+    LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
+    Button btn_proceed;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -70,12 +72,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //        });
 
         initializeViews(root);
+
         setUserDetail();
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
-            loadUserRoleSpinnerdata();
-        }
+
         setFYearSpinner();
-        setFMonthSpinner();
+        //setFMonthSpinner();
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,111 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
             }
         });
+
+        sp_fn_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                if (position > 0) {
+                    fyear = fYearArray.get(position-1);
+                    setFMonthSpinner();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        sp_fn_month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                if (position > 0) {
+                    fmonth = fMonthArray.get(position-1);
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+                    {
+                        loadUserRoleSpinnerdata();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        sp_userrole.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+                if (position > 0) {
+                    UserRole role = userRoleList.get(position-1);
+                    userRole = role.getRole();
+                    if (userRole.equals("ASHA")){
+                        tv_spworker.setText("आशा वर्कर");
+                        sp_worker.setVisibility(View.VISIBLE);
+                        sp_facilitator.setVisibility(View.GONE);
+                        loadashaWorkerSpinnerdata();
+                    }
+                    else if (userRole.equals("ASHAFC")){
+                        tv_spworker.setText("आशा फैसिलिटेटर");
+                        sp_facilitator.setVisibility(View.VISIBLE);
+                        sp_worker.setVisibility(View.GONE);
+                        loadashafacilitatorSpinnerdata();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        sp_worker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        sp_facilitator.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
 
         return root;
     }
@@ -106,19 +212,34 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_panchayat = root.findViewById(R.id.tv_panchayat);
 
         sp_fn_year = root.findViewById(R.id.sp_fn_year);
+
         sp_fn_month = root.findViewById(R.id.sp_fn_month);
         sp_userrole = root.findViewById(R.id.sp_userrole);
         sp_worker = root.findViewById(R.id.sp_worker);
         sp_facilitator = root.findViewById(R.id.sp_facilitator);
+        tv_spworker = root.findViewById(R.id.tv_spworker);
         ll_hsc = root.findViewById(R.id.ll_hsc);
+        ll_pan = root.findViewById(R.id.ll_pan);
+        ll_division = root.findViewById(R.id.ll_division);
+        ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
+        btn_proceed = root.findViewById(R.id.btn_proceed);
+        floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
             ll_hsc.setVisibility(View.VISIBLE);
+            ll_floating_btn.setVisibility(View.GONE);
+            ll_pan.setVisibility(View.GONE);
+            ll_division.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.VISIBLE);
         }
         else {
             ll_hsc.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.VISIBLE);
+            ll_pan.setVisibility(View.VISIBLE);
+            ll_division.setVisibility(View.VISIBLE);
         }
 
-        floating_action_button = root.findViewById(R.id.floating_action_button);
+
     }
 
     public void setUserDetail(){
@@ -168,37 +289,35 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (adapterView.getId()) {
-            case R.id.sp_fn_year:
-                if (i > 0) {
-                    fyear = fYearArray.get(i-1);
-                }else{
-                    fyear = null;
-                }
-                break;
-
-            case R.id.sp_fn_month:
-                if (i > 0) {
-                    fmonth = fMonthArray.get(i-1);
-                }else{
-                    fmonth = null;
-                }
-                break;
-            case R.id.sp_userrole:
-                if (i > 0) {
-                    UserRole role = userRoleList.get(i-1);
-                    userRole = role.getRole();
-                    if (userRole.equals("ASHA")){
-                        sp_facilitator.setVisibility(View.GONE);
-                        loadashaWorkerSpinnerdata();
-                    }
-                    else if (userRole.equals("ASHAFC")){
-                        sp_worker.setVisibility(View.GONE);
-                        loadashafacilitatorSpinnerdata();
-                    }
-                }
-                break;
-        }
+//        switch (adapterView.getId()) {
+//            case R.id.sp_fn_year:
+//                if (i > 0) {
+//                    fyear = fYearArray.get(i-1);
+//                }
+//                break;
+//
+//            case R.id.sp_fn_month:
+//                if (i > 0) {
+//                    fmonth = fMonthArray.get(i-1);
+//                }
+//                break;
+//            case R.id.sp_userrole:
+//                if (i > 0) {
+//                    UserRole role = userRoleList.get(i-1);
+//                    userRole = role.getRole();
+//                    if (userRole.equals("ASHA")){
+//                        sp_worker.setVisibility(View.VISIBLE);
+//                        sp_facilitator.setVisibility(View.GONE);
+//                        loadashaWorkerSpinnerdata();
+//                    }
+//                    else if (userRole.equals("ASHAFC")){
+//                        sp_facilitator.setVisibility(View.VISIBLE);
+//                        sp_worker.setVisibility(View.GONE);
+//                        loadashafacilitatorSpinnerdata();
+//                    }
+//                }
+//                break;
+//        }
     }
 
     @Override
@@ -208,7 +327,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void loadUserRoleSpinnerdata() {
         dbhelper = new DataBaseHelper(getContext());
-        userRoleList = dbhelper.getUserRoleList();
+        userRoleList = dbhelper.getUserTypeList();
         String[] typeNameArray = new String[userRoleList.size() + 1];
         typeNameArray[0] = "- चयन करें -";
         int i = 1;
@@ -231,7 +350,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         int i = 1;
         for (AshaWoker_Entity type : ashaworkerList)
         {
-            typeNameArray[i] = type.get_ASHAID();
+            typeNameArray[i] = type.get_Asha_Name_Hn();
             i++;
         }
         workerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
@@ -248,7 +367,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         int i = 1;
         for (AshaFacilitator_Entity type : facilitatorList)
         {
-            typeNameArray[i] = type.get_Facilitator_ID();
+            typeNameArray[i] = type.get_Facilitator_Name_Hn();
             i++;
         }
         facilitatorAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);

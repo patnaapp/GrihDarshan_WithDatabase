@@ -665,9 +665,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setFacilitatorList_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
-                        new GetAshaWorkersList().execute();
-                    }
                     Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {

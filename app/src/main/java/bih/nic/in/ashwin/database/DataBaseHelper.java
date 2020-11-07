@@ -388,7 +388,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return userInfo;
     }
+    public ArrayList<UserRole> getUserTypeList(){
 
+        ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
+
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from UserType",null);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                UserRole userRole = new UserRole();
+
+                userRole.setRole(cur.getString(cur.getColumnIndex("UserRole")));
+                userRole.setRoleDesc(cur.getString(cur.getColumnIndex("RoleDesc")));
+                userRole.setRoleDescHN(cur.getString(cur.getColumnIndex("RoleDescHN")));
+
+                userRoleList.add(userRole);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
+    }
 
     public ArrayList<UserRole> getUserRoleList(){
 
