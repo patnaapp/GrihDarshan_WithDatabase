@@ -4,9 +4,10 @@ import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class Financial_Year implements KvmSerializable {
+public class Financial_Year implements KvmSerializable, Serializable {
 
     public static Class<Financial_Year> Financial_Year_CLASS = Financial_Year.class;
 
