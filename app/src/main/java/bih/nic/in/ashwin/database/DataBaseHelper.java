@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -960,6 +962,110 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     if (!(c > 0)) {
 
                         c = db.insert("Block_Master", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setAshaWorkerList_Local(ArrayList<AshaWoker_Entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<AshaWoker_Entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("asha_id", info.get(i).get_ASHAID());
+                    values.put("aasha_name", info.get(i).get_Asha_Name());
+                    values.put("aasha_name_hn", info.get(i).get_Asha_Name_Hn());
+
+
+                    String[] whereArgs = new String[]{info.get(i).get_ASHAID()};
+
+                    c = db.update("AshaWorkersMaster", values, "asha_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("AshaWorkersMaster", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setFacilitatorList_Local(ArrayList<AshaFacilitator_Entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<AshaFacilitator_Entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("asha_facilitator_id", info.get(i).get_Facilitator_ID());
+                    values.put("facilitator_name", info.get(i).get_Facilitator_Name());
+                    values.put("facilitator_name_hn", info.get(i).get_Facilitator_Name_Hn());
+
+
+                    String[] whereArgs = new String[]{info.get(i).get_Facilitator_ID()};
+
+                    c = db.update("AshaFacilitatorMaster", values, "asha_facilitator_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("AshaFacilitatorMaster", null, values);
                     }
 
 

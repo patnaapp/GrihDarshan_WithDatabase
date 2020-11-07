@@ -39,6 +39,8 @@ import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -557,7 +559,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 if (i > 0) {
 
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
-                        new GetRegisterDetails().execute();
+                        new GetAshaWorkersList().execute();
                     }
 
                     Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
@@ -570,7 +572,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<RegisterDetailsEntity>> {
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
 
         private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
 
@@ -580,21 +582,21 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         protected void onPreExecute() {
 
             this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Register details...");
+            this.dialog.setMessage("Loading Asha details...");
             this.dialog.show();
             // sync.setBackgroundResource(R.drawable.syncr);
         }
 
         @Override
-        protected ArrayList<RegisterDetailsEntity> doInBackground(String... param) {
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
 
 
-            return WebServiceHelper.getregisterDetails();
+            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
 
         }
 
         @Override
-        protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -607,14 +609,66 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
 
-                long i = helper.setregisterDetails_Local(result);
+                long i = helper.setAshaWorkerList_Local(result);
                 if (i > 0) {
 
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
-                        new GetRegisterDetails().execute();
+                        new GetAshaFacilitatorList().execute();
                     }
+                    Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Facilitator details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setFacilitatorList_Local(result);
+                if (i > 0) {
+
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("")){
+                        new GetAshaWorkersList().execute();
+                    }
+                    Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();

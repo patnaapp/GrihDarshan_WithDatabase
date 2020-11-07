@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
@@ -41,6 +43,8 @@ public class WebServiceHelper {
     public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
     public static final String Block_LIST_METHOD = "getBlock";
     public static final String Register_METHOD = "Registerdetails";
+    public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
+    public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -558,6 +562,56 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     Block_List sm = new Block_List(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+
+    public static ArrayList<AshaWoker_Entity> getAshaWorkerList(String distcode,String blkcode,String hsccode) {
+
+        SoapObject res1;
+        res1 = getServerData(Asha_worker_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "Distcode","blockcode","HscCode", distcode,blkcode,hsccode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWoker_Entity sm = new AshaWoker_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+
+    public static ArrayList<AshaFacilitator_Entity> getFacilitatorList(String distcode, String blkcode, String hsccode) {
+
+        SoapObject res1;
+        res1 = getServerData(Facilitator_LIST_METHOD, AshaFacilitator_Entity.Facilitator_CLASS, "Distcode","blockcode","HscCode", distcode,blkcode,hsccode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaFacilitator_Entity> fieldList = new ArrayList<AshaFacilitator_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaFacilitator_Entity sm = new AshaFacilitator_Entity(final_object);
                     fieldList.add(sm);
                 }
             } else
