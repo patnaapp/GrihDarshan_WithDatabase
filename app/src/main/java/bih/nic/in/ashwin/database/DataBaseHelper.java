@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -501,6 +503,112 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     if (!(c > 0)) {
 
                         c = db.insert("Financial_Month", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setActivityList_Local(ArrayList<Activity_entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Activity_entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Activity_Id", info.get(i).get_ActivityId());
+                    values.put("Activity_Desc", info.get(i).get_ActivityDesc());
+                    values.put("Activity_Amt", info.get(i).get_ActivityAmt());
+                    values.put("Activity_categ_Id", info.get(i).get_AcitivtyCategoryId());
+                    values.put("Order_Status", info.get(i).get_OrderStatus());
+                    values.put("Register_Id", info.get(i).get_RegisterId());
+
+                    String[] whereArgs = new String[]{info.get(i).get_ActivityId()};
+
+                    c = db.update("ActivityList_Master", values, "Activity_Id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("ActivityList_Master", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setActivityCategoryList_Local(ArrayList<ActivityCategory_entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<ActivityCategory_entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("category_id", info.get(i).get_AcitivtyCategoryId());
+                    values.put("category_name", info.get(i).get_AcitivtyCategoryDesc());
+                    values.put("category_name_hn", info.get(i).get_AcitivtyCategoryDesc_Hn());
+
+
+                    String[] whereArgs = new String[]{info.get(i).get_AcitivtyCategoryId()};
+
+                    c = db.update("ActivtiyCategory_Master", values, "category_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("ActivtiyCategory_Master", null, values);
                     }
 
 

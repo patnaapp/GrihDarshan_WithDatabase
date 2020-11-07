@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -249,8 +251,107 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setFinMonth_Local(result);
                 if (i > 0) {
 
-
+                    new GetActivityList().execute();
                     Toast.makeText(getApplicationContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Activity list...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<Activity_entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getActivityList();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_entity> result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setActivityList_Local(result);
+                if (i > 0) {
+
+                    new GetActivityCategoryList().execute();
+                    Toast.makeText(getApplicationContext(), "Activity List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+
+    private class GetActivityCategoryList extends AsyncTask<String, Void, ArrayList<ActivityCategory_entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Category list...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<ActivityCategory_entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getActivityCAtegoryList();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ActivityCategory_entity> result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setActivityCategoryList_Local(result);
+                if (i > 0) {
+
+
+                    Toast.makeText(getApplicationContext(), "Activity Category List loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
