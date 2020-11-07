@@ -626,4 +626,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //Get Data
+
+    public ArrayList<Financial_Year> getFinancialYearList(){
+
+        ArrayList<Financial_Year> list = new ArrayList<Financial_Year>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from FinancialYear",null);
+
+            while (cur.moveToNext()) {
+
+                Financial_Year info = new Financial_Year();
+
+                info.setYear_Id(cur.getString(cur.getColumnIndex("fyear_id")));
+                info.setFinancial_year(cur.getString(cur.getColumnIndex("fyear_name")));
+                info.setStatus(cur.getString(cur.getColumnIndex("status")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Financial_Month> getFinancialMonthList(){
+
+        ArrayList<Financial_Month> list = new ArrayList<Financial_Month>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from Financial_Month",null);
+
+            while (cur.moveToNext()) {
+
+                Financial_Month info = new Financial_Month();
+
+                info.set_MonthId(cur.getString(cur.getColumnIndex("Month_id")));
+                info.set_MonthName(cur.getString(cur.getColumnIndex("Month_name")));
+                info.set_OrderStatus(cur.getString(cur.getColumnIndex("order_status")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }
