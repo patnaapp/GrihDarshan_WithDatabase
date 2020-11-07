@@ -34,6 +34,8 @@ public class CommonPref {
 
         editor.putString("UserId", userInfo.getUserID());
         editor.putString("UserName", userInfo.getUserName());
+        editor.putString("SVRID", userInfo.getSVRID());
+        editor.putString("MobileNo", userInfo.getMobileNo());
         editor.putBoolean("isAuthenticated", userInfo.getIsAuthenticated());
         editor.putString("UserPassword", userInfo.getPassword());
         editor.putString("Role", userInfo.getUserrole());
@@ -83,6 +85,8 @@ public class CommonPref {
         userInfo.setAwcName(prefs.getString("AwcName", ""));
         userInfo.setHSCCode(prefs.getString("HSCCode", ""));
         userInfo.setHSCName(prefs.getString("HSCName", ""));
+        userInfo.setSVRID(prefs.getString("SVRID", ""));
+        userInfo.setMobileNo(prefs.getString("MobileNo", ""));
 
 
         return userInfo;

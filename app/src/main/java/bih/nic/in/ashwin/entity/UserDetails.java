@@ -16,6 +16,8 @@ public class UserDetails implements KvmSerializable, Serializable {
     private String UserID = "";
     private String UserName = "";
 
+    private String SVRID = "";
+    private String MobileNo = "";
 
     private String DistrictCode = "";
     private String DistName = "";
@@ -44,6 +46,8 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setUserID(obj.getProperty("UserID").toString());
         this.setPassword(obj.getProperty("Password").toString());
         this.setUserName(obj.getProperty("UserName").toString());
+        this.setMobileNo(obj.getProperty("MobileNo").toString());
+        this.setSVRID(obj.getProperty("SVRID").toString());
         this.setDistrictCode(obj.getProperty("DistrictCode").toString());
         this.setDistName(obj.getProperty("DistName").toString());
         this.setDistNameHN(obj.getProperty("DistNameHN").toString());
@@ -67,6 +71,22 @@ public class UserDetails implements KvmSerializable, Serializable {
 
     public static void setUserClass(Class<UserDetails> userClass) {
         USER_CLASS = userClass;
+    }
+
+    public String getSVRID() {
+        return SVRID;
+    }
+
+    public void setSVRID(String SVRID) {
+        this.SVRID = SVRID;
+    }
+
+    public String getMobileNo() {
+        return MobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        MobileNo = mobileNo;
     }
 
     public String getHSCName() {

@@ -3,7 +3,10 @@ package bih.nic.in.ashwin.ui.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -24,9 +27,13 @@ import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -220,7 +227,26 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     public void onSaveData(View view) {
         if (isDataValidated()){
+            AshaWorkEntity entity = new AshaWorkEntity();
+            entity.setAcitivtyCategoryId(categoryEntity.get_AcitivtyCategoryId());
+            entity.setAcitivtyCategoryDesc(categoryEntity.get_AcitivtyCategoryDesc());
+            entity.setAshaActivityId(activityEntity.get_ActivityId());
+            entity.setActivityDesc(activityEntity.get_ActivityDesc());
+            entity.setActivityDate(edt_work_complt_date.getText().toString());
+            entity.setActivityAmt(edt_amount.getText().toString());
+            entity.setRegisterId(registerDetailsEntity.get_RegisterId());
+            entity.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
+            entity.setVolume(edt_volume.getText().toString());
+            entity.setRegisterPageNo(edt_pageno.getText().toString());
+            entity.setPageSerialNo(edt_slno.getText().toString());
+            entity.setRegisterDate(edt_reg_date.getText().toString());
+            entity.setAppVersion(Utiilties.getAppVersion(this));
 
+            entity.setAshaWorkerId(CommonPref.getUserDetails(this).getSVRID());
+            entity.setIemi(Utiilties.getDeviceIMEI(this));
+            entity.setFinYear(fyear.getYear_Id());
+            entity.setMonthName(fmonth.get_MonthId());
+            //new UploadAshaWorkDetail(entity).execute();
         }
     }
 
@@ -296,4 +322,51 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
         return false;
     }
+
+//    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String> {
+//        AshaWorkEntity data;
+//
+//        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+//
+//        UploadAshaWorkDetail(AshaWorkEntity data) {
+//            this.data = data;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//            this.dialog.setCanceledOnTouchOutside(false);
+//            this.dialog.setMessage("अपलोड हो राहा है...");
+//            this.dialog.show();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... param) {
+//
+//
+//            String res = WebServiceHelper.uploadPlantationDate(data);
+//            return res;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            if (this.dialog.isShowing()) {
+//                this.dialog.dismiss();
+//            }
+//            Log.d("Responsevalue",""+result);
+//
+//            if (result != null) {
+//
+//
+//            }
+//            else {
+//
+//                Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
+//            }
+//
+//
+//
+//        }
+//    }
 }

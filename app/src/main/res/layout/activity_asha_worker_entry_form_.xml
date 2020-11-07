@@ -172,7 +172,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <EditText
-                                android:enabled="true"
+                                android:enabled="false"
                                 android:layout_marginTop="4dp"
                                 android:layout_marginRight="8dp"
                                 android:id="@+id/edt_work_complt_date"
@@ -415,7 +415,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <EditText
-                            android:enabled="true"
+                            android:enabled="false"
                             android:layout_marginTop="4dp"
                             android:layout_marginRight="8dp"
                             android:id="@+id/edt_reg_date"
