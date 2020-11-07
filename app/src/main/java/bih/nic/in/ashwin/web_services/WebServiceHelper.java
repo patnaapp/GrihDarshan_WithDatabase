@@ -17,6 +17,7 @@ import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
 
@@ -33,6 +34,7 @@ public class WebServiceHelper {
     public static final String FinMonth_LIST_METHOD = "FinMonth";
     public static final String Activity_LIST_METHOD = "Activity";
     public static final String Activity_Category_LIST_METHOD = "ActivityCategory";
+    public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -462,4 +464,28 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+
+    public static ArrayList<Panchayat_List> getPanchayatName(String blkcode) {
+
+        SoapObject res1;
+        res1 = getServerData(PANCHAYAT_LIST_METHOD, Panchayat_List.Panchayat_Name_CLASS, "BlockCode", blkcode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Panchayat_List> fieldList = new ArrayList<Panchayat_List>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Panchayat_List sm = new Panchayat_List(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
 }

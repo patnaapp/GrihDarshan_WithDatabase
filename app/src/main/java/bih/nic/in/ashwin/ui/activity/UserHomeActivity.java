@@ -41,6 +41,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -350,12 +351,62 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setActivityCategoryList_Local(result);
                 if (i > 0) {
 
-
+                    new GetPANCHAYATDATA().execute();
                     Toast.makeText(getApplicationContext(), "Activity Category List loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
+
+            }
+        }
+    }
+
+    private class GetPANCHAYATDATA extends AsyncTask<String, Void, ArrayList<Panchayat_List>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Panchayat...");
+            this.dialog.show();
+
+        }
+
+        @Override
+        protected ArrayList<Panchayat_List> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getPanchayatName(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Panchayat_List> result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+//                long i = helper.setPanchayatName(result);
+//                if (i > 0) {
+//                    // setPanchayatData();
+//
+//
+//                    Toast.makeText(getApplicationContext(), "Panchayat loaded", Toast.LENGTH_SHORT).show();
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         }
