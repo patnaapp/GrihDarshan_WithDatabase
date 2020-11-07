@@ -20,6 +20,7 @@ import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
 
@@ -39,6 +40,7 @@ public class WebServiceHelper {
     public static final String District_LIST_METHOD = "getDistrict";
     public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
     public static final String Block_LIST_METHOD = "getBlock";
+    public static final String Register_METHOD = "Registerdetails";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -385,6 +387,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     Financial_Year sm = new Financial_Year(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<RegisterDetailsEntity> getregisterDetails() {
+
+        SoapObject res1;
+        res1 = getServerData(Register_METHOD, RegisterDetailsEntity.Register_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<RegisterDetailsEntity> fieldList = new ArrayList<RegisterDetailsEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    RegisterDetailsEntity sm = new RegisterDetailsEntity(final_object);
                     fieldList.add(sm);
                 }
             } else

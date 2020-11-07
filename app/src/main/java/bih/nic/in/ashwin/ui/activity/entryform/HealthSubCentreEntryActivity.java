@@ -3,10 +3,13 @@ package bih.nic.in.ashwin.ui.activity.entryform;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import bih.nic.in.ashwin.R;
 
 public class HealthSubCentreEntryActivity extends AppCompatActivity {
+
+    TextView tv_username_hsc,tv_aanganwadi_hsc,tv_hscname_hsc,tv_district_hsc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
