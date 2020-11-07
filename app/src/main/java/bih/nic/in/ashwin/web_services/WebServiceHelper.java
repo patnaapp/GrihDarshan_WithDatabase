@@ -13,6 +13,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.DefaultResponse;
+import bih.nic.in.ashwin.entity.Financial_Month;
+import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
 
@@ -25,6 +27,8 @@ public class WebServiceHelper {
 
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String AUTHENTICATE_METHOD = "Authenticate";
+    public static final String FinYear_LIST_METHOD = "FinYear";
+    public static final String FinMonth_LIST_METHOD = "FinMonth";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -354,6 +358,55 @@ public class WebServiceHelper {
         }
         return userDetails;
 
+    }
+
+
+    public static ArrayList<Financial_Year> getFinancialYear() {
+
+        SoapObject res1;
+        res1 = getServerData(FinYear_LIST_METHOD, Financial_Year.Financial_Year_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Financial_Year> fieldList = new ArrayList<Financial_Year>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Financial_Year sm = new Financial_Year(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<Financial_Month> getFinancialMonth() {
+
+        SoapObject res1;
+        res1 = getServerData(FinMonth_LIST_METHOD, Financial_Year.Financial_Year_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Financial_Month> fieldList = new ArrayList<Financial_Month>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Financial_Month sm = new Financial_Month(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
     }
 
 }

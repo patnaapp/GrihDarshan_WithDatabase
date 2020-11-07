@@ -36,9 +36,13 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.Financial_Month;
+import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class UserHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -154,9 +158,105 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private void syncData()
     {
-        Toast.makeText(this, "Sync", Toast.LENGTH_SHORT).show();
+        new GetFinYear().execute();
     }
 
 
+    private class GetFinYear extends AsyncTask<String, Void, ArrayList<Financial_Year>> {
 
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading financial year...");
+            this.dialog.show();
+           // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<Financial_Year> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getFinancialYear();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Financial_Year> result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setFinyr_Local(result);
+                if (i > 0) {
+
+                    new GetFinMonth().execute();
+                    Toast.makeText(getApplicationContext(), "Financial year loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetFinMonth extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading financial month...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<Financial_Month> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getFinancialMonth();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Financial_Month> result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setFinMonth_Local(result);
+                if (i > 0) {
+
+
+                    Toast.makeText(getApplicationContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
 }

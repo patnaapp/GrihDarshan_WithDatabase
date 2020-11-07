@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import bih.nic.in.ashwin.entity.Financial_Month;
+import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 
@@ -413,5 +415,107 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return userRoleList;
     }
 
+
+    public long setFinyr_Local(ArrayList<Financial_Year> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Financial_Year> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("fyear_id", info.get(i).getYear_Id());
+                    values.put("fyear_name", info.get(i).getFinancial_year());
+                    values.put("status", info.get(i).getStatus());
+
+                    String[] whereArgs = new String[]{info.get(i).getYear_Id()};
+
+                    c = db.update("FinancialYear", values, "fyear_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("FinancialYear", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setFinMonth_Local(ArrayList<Financial_Month> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Financial_Month> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Month_id", info.get(i).get_MonthId());
+                    values.put("Month_name", info.get(i).get_MonthName());
+                    values.put("order_status", info.get(i).get_OrderStatus());
+
+                    String[] whereArgs = new String[]{info.get(i).get_MonthId()};
+
+                    c = db.update("Financial_Month", values, "Month_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("Financial_Month", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
 
 }

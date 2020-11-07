@@ -13,8 +13,8 @@ public class Financial_Year implements KvmSerializable {
     private String Year_Id, Financial_year,Status;
 
     public Financial_Year(SoapObject sobj) {
-        this.Year_Id = sobj.getProperty("ID").toString();
-        this.Financial_year = sobj.getProperty("FinancialYear").toString();
+        this.Year_Id = sobj.getProperty("FYearID").toString();
+        this.Financial_year = sobj.getProperty("FinYear").toString();
         this.Status = sobj.getProperty("Status").toString();
 
     }
@@ -57,5 +57,13 @@ public class Financial_Year implements KvmSerializable {
 
     public void setFinancial_year(String financial_year) {
         Financial_year = financial_year;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }
