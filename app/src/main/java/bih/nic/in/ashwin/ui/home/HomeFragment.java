@@ -264,7 +264,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             array.add("-Select-");
             array.add("ALL");
 
-            for (AshaFacilitator_Entity info: facilitatorList){
+            for (AshaFacilitator_Entity info: facilitatorList)
+            {
                 // if(!info.getFinancial_year().equals("anyType{}")){
                 array.add(info.get_Facilitator_Name_Hn());
                 // }
@@ -273,6 +274,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
             adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_worker.setAdapter(adaptor);
+            sp_worker.setSelection(1);
         }
         sp_worker.setOnItemSelectedListener(this);
     }
@@ -308,16 +310,27 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if (i > 0) {
 
                     if (userRole.equals("ASHA")){
-                        AshaWoker_Entity role = ashaworkerList.get(i-1);
-                        ashaname = role.get_Asha_Name_Hn();
-                        asha_id = role.get_ASHAID();
-                        svri_id = role.get_svr_id();
+                        if (i>0) {
+                            AshaWoker_Entity role = ashaworkerList.get(i - 1);
+                            ashaname = role.get_Asha_Name_Hn();
+                            asha_id = role.get_ASHAID();
+                            svri_id = role.get_svr_id();
+                        }
                     }
                     else if (userRole.equals("ASHAFC")){
-                        AshaFacilitator_Entity role = facilitatorList.get(i-2);
-                        facilator_name = role.get_Facilitator_Name_Hn();
-                        facilator_id = role.get_Facilitator_ID();
-                        svri_id = role.get_svr_id();
+                        if (i>1){
+                            AshaFacilitator_Entity role = facilitatorList.get(i-2);
+                            facilator_name = role.get_Facilitator_Name_Hn();
+                            facilator_id = role.get_Facilitator_ID();
+                            svri_id = role.get_svr_id();
+                        }
+                        else if(i==1){
+
+                            facilator_name = "ALL";
+                            facilator_id = "0";
+                            svri_id = "0";
+                        }
+
                     }
 
                     btn_proceed.setVisibility(View.VISIBLE);
