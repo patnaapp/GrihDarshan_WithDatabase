@@ -178,8 +178,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_block.setText(userInfo.getBlockName());
         tv_panchayat.setText(userInfo.getPanchayatName());
 
-        facilitatorList = dbhelper.getAshaFacilitatorList();
-        ashaworkerList = dbhelper.getAshaWorkerList();
+        facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
+        ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
     }
 
     public void setFYearSpinner(){
@@ -235,7 +235,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void loadWorkerFascilatorData(){
         if (userRole.equals("ASHA")){
-            ashaworkerList = dbhelper.getAshaWorkerList();
+            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
 
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             sp_worker.setAdapter(adaptor);
         }
         else if (userRole.equals("ASHAFC")){
-            facilitatorList = dbhelper.getAshaFacilitatorList();
+            facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
             array.add("ALL");

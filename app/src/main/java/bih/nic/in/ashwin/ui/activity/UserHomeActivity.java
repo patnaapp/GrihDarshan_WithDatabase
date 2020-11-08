@@ -611,7 +611,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
 
-                long i = helper.setAshaWorkerList_Local(result);
+                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
                 if (i > 0) {
 
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
@@ -664,7 +664,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
 
-                long i = helper.setFacilitatorList_Local(result);
+                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
                 if (i > 0) {
 
                     Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();

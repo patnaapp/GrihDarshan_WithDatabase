@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data;
+    Button btn_finalize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +77,18 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
+        btn_finalize = findViewById(R.id.btn_finalize);
+        btn_finalize.setVisibility(View.GONE);
 
     }
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
+        if (!isPendingforfinalie(data))
+        {
+            btn_finalize.setVisibility(View.VISIBLE);
+        }
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(getApplicationContext(), data, fyear, fmonth);
+        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
     }
 
@@ -113,7 +122,18 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
             if (result != null)
             {
                 setupRecuyclerView(result);
+
             }
         }
+    }
+
+
+    public static boolean isPendingforfinalie(ArrayList<AshaWorkEntity> arraylist) {
+        for (AshaWorkEntity info : arraylist) {
+            if (info.getVerificationStatus().contains("विचाराधीन")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

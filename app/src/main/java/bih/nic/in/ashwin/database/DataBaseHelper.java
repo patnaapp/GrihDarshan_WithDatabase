@@ -1010,7 +1010,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long setAshaWorkerList_Local(ArrayList<AshaWoker_Entity> list) {
+    public long setAshaWorkerList_Local(ArrayList<AshaWoker_Entity> list,String hsccode) {
 
 
         long c = -1;
@@ -1038,6 +1038,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("aasha_name", info.get(i).get_Asha_Name());
                     values.put("aasha_name_hn", info.get(i).get_Asha_Name_Hn());
                     values.put("svr_id", info.get(i).get_svr_id());
+                    values.put("hsc_code", hsccode);
 
 
                     String[] whereArgs = new String[]{info.get(i).get_ASHAID()};
@@ -1063,7 +1064,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long setFacilitatorList_Local(ArrayList<AshaFacilitator_Entity> list) {
+    public long setFacilitatorList_Local(ArrayList<AshaFacilitator_Entity> list,String hsccode) {
 
 
         long c = -1;
@@ -1091,6 +1092,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("facilitator_name", info.get(i).get_Facilitator_Name());
                     values.put("facilitator_name_hn", info.get(i).get_Facilitator_Name_Hn());
                     values.put("fc_svr_id", info.get(i).get_svr_id());
+                    values.put("hsc_code",hsccode);
 
                     String[] whereArgs = new String[]{info.get(i).get_Facilitator_ID()};
 
@@ -1114,14 +1116,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<AshaWoker_Entity> getAshaWorkerList(){
+    public ArrayList<AshaWoker_Entity> getAshaWorkerList(String hsccode){
 
         ArrayList<AshaWoker_Entity> userRoleList = new ArrayList<AshaWoker_Entity>();
 
         try {
-
+            String[] whereArgs = new String[]{hsccode};
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from AshaWorkersMaster",null);
+            Cursor cur = db.rawQuery("Select * from AshaWorkersMaster where hsc_code=?",whereArgs);
             int x = cur.getCount();
 
             while (cur.moveToNext()) {
@@ -1148,14 +1150,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return userRoleList;
     }
 
-    public ArrayList<AshaFacilitator_Entity> getAshaFacilitatorList(){
+    public ArrayList<AshaFacilitator_Entity> getAshaFacilitatorList(String hsccode){
 
         ArrayList<AshaFacilitator_Entity> userRoleList = new ArrayList<AshaFacilitator_Entity>();
 
         try {
-
+            String[] whereArgs = new String[]{hsccode};
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from AshaFacilitatorMaster",null);
+            Cursor cur = db.rawQuery("Select * from AshaFacilitatorMaster where hsc_code=?",whereArgs);
             int x = cur.getCount();
 
             while (cur.moveToNext()) {

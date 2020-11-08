@@ -9,8 +9,8 @@
 <!--        android:layout_height="wrap_content">-->
 
         <RelativeLayout
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
             android:layout_marginBottom="8dp"
             android:id="@+id/sblist"
             android:layout_width="match_parent"

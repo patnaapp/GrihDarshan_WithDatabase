@@ -25,10 +25,12 @@
             android:id="@+id/rl_user_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_below="@+id/header"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp">
+            android:padding="8dp"
+            android:layout_marginTop="5dp"
+            >
 
             <LinearLayout
                 android:orientation="vertical"
@@ -156,7 +158,24 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_data"
+        android:padding="6dp"
+
         android:layout_width="match_parent"
         android:layout_below="@+id/ll1"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_finalize"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/buttonshape"
+        android:text="FINALIZE"
+        android:textColor="@color/color_white"
+        android:textSize="17sp" />
+
 </RelativeLayout>

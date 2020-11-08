@@ -1,5 +1,6 @@
 package bih.nic.in.ashwin.adaptor;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,11 +35,11 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
     private ArrayList<AshaWorkEntity> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    Context context;
+    Activity context;
     Financial_Year fyear;
     Financial_Month fmonth;
 
-    public AshaActivityAccpRjctAdapter(Context context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
+    public AshaActivityAccpRjctAdapter(Activity context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.fyear = fyear;
@@ -88,13 +89,13 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             public void onClick(View v) {
                 if(Utiilties.isOnline(context)) {
 
-                    new android.app.AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context)
                             .setTitle("स्वीकृति की पुष्टि")
-                            .setMessage("क्या आप वाकई इस नौकरी को स्वीकार करना चाहते हैं?")
+                            .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                             .setCancelable(false)
                             .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    //new AcceptRecordsFromPacs(info, position).execute();
+                                    new AcceptRecordsFromPacs(info, position).execute();
                                     dialog.dismiss();
                                 }
                             }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
@@ -105,7 +106,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                     }).show();
                 }
                 else {
-                    new android.app.AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context)
                             .setTitle("अलर्ट !!")
                             .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
                             .setCancelable(false)
@@ -127,13 +128,13 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             public void onClick(View v) {
                 if (Utiilties.isOnline(context)) {
 
-                    new android.app.AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context)
                             .setTitle("अस्वीकृति की पुष्टि")
-                            .setMessage("क्या आप वाकई इस नौकरी को अस्वीकार करना चाहते हैं?")
+                            .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
                             .setCancelable(false)
                             .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                  //  new RejectRecordsFromPacs(info, position).execute();
+                                    new RejectRecordsFromPacs(info, position).execute();
                                     dialog.dismiss();
                                 }
                             }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
@@ -147,7 +148,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                 }
                 else {
 
-                    new android.app.AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context)
                             .setTitle("अलर्ट !!")
                             .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
                             .setCancelable(false)
@@ -368,6 +369,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
         }
     }
+
 
 
 }
