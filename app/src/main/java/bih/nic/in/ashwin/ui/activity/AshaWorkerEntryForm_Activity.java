@@ -2,8 +2,10 @@ package bih.nic.in.ashwin.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,6 +55,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     RegisterDetailsEntity registerDetailsEntity;
 
     int caltype = 0;
+    String entryType;
+
+    AshaWorkEntity info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         initializeViews();
         extractDataFromIntent();
+
         setCategorySpinner();
     }
 
@@ -88,9 +94,25 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void extractDataFromIntent(){
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
+        entryType =  getIntent().getStringExtra("Type");
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
+
+        if (entryType.equals("U")){
+            info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
+            setData();
+        }
+    }
+
+    public void setData(){
+        edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
+        edt_amount.setText(info.getActivityAmt());
+        edt_reg_name.setText(info.getRegisterDesc());
+        edt_volume.setText(info.getVolume());
+        edt_pageno.setText(info.getRegisterPageNo());
+        edt_slno.setText(info.getPageSerialNo());
+        edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
     }
 
     public void setCategorySpinner(){
@@ -106,6 +128,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_work_categ.setAdapter(adaptor);
         sp_work_categ.setOnItemSelectedListener(this);
+
+        if(entryType.equals("U")){
+            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+        }
     }
 
     public void setActivitySpinner(){
@@ -121,6 +147,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_work.setAdapter(adaptor);
         sp_work.setOnItemSelectedListener(this);
+
+        if(entryType.equals("U")){
+            sp_work.setSelection(array.indexOf(info.getActivityDesc()));
+        }
     }
 
 
@@ -230,7 +260,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             AshaWorkEntity entity = new AshaWorkEntity();
             entity.setAcitivtyCategoryId(categoryEntity.get_AcitivtyCategoryId());
             entity.setAcitivtyCategoryDesc(categoryEntity.get_AcitivtyCategoryDesc());
-            entity.setAshaActivityId(activityEntity.get_ActivityId());
+            entity.setActivityId(activityEntity.get_ActivityId());
             entity.setActivityDesc(activityEntity.get_ActivityDesc());
             entity.setActivityDate(edt_work_complt_date.getText().toString());
             entity.setActivityAmt(edt_amount.getText().toString());
@@ -246,8 +276,20 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setIemi(Utiilties.getDeviceIMEI(this));
             entity.setFinYear(fyear.getYear_Id());
             entity.setMonthName(fmonth.get_MonthId());
+
             entity.setDistrictCode(CommonPref.getUserDetails(this).getDistrictCode());
-            //new UploadAshaWorkDetail(entity).execute();
+            entity.setBlockCode(CommonPref.getUserDetails(this).getBlockCode());
+            entity.setPanchayatCode(CommonPref.getUserDetails(this).getDistrictCode());
+            entity.setAwcId(CommonPref.getUserDetails(this).getAwcCode());
+            entity.setEntryType(entryType);
+
+            if(entryType.equals("U")){
+                entity.setAshaActivityId(info.getAshaActivityId());
+            }
+
+            new UploadAshaWorkDetail(entity).execute();
+        }else{
+            Toast.makeText(this, "Please check all field", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -324,47 +366,64 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         return false;
     }
 
-//    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String> {
-//        AshaWorkEntity data;
-//
-//        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
-//
-//        UploadAshaWorkDetail(AshaWorkEntity data) {
-//            this.data = data;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//
-//            this.dialog.setCanceledOnTouchOutside(false);
-//            this.dialog.setMessage("अपलोड हो राहा है...");
-//            this.dialog.show();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... param) {
-//
-//
-//            String res = WebServiceHelper.uploadPlantationDate(data);
-//            return res;
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            if (this.dialog.isShowing()) {
-//                this.dialog.dismiss();
-//            }
-//            Log.d("Responsevalue",""+result);
-//
-//            if (result != null) {
-//
-//
-//            }
-//            else {
-//
-//                Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String> {
+        AshaWorkEntity data;
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+
+        UploadAshaWorkDetail(AshaWorkEntity data) {
+            this.data = data;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("अपलोड हो राहा है...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+
+            return WebServiceHelper.uploadAshaActivityDetail(data);
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue",""+result);
+
+            if (result != null) {
+                if(result.contains("0")){
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+                }else if(result.contains("1")){
+                    onDataUploaded();
+                }else{
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+
+                Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void onDataUploaded(){
+        new AlertDialog.Builder(this)
+                .setTitle("Success")
+                .setIcon(R.drawable.asha)
+                .setMessage("Data Uploaded Successfully.")
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .show();
+    }
 }

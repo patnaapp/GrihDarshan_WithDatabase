@@ -4,14 +4,15 @@ import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class AshaWorkEntity implements KvmSerializable {
+public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId;
-    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId;
+    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -54,6 +55,22 @@ public class AshaWorkEntity implements KvmSerializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getActivityId() {
+        return ActivityId;
+    }
+
+    public void setActivityId(String activityId) {
+        ActivityId = activityId;
+    }
+
+    public String getEntryType() {
+        return entryType;
+    }
+
+    public void setEntryType(String entryType) {
+        this.entryType = entryType;
     }
 
     public String getDistrictCode() {
