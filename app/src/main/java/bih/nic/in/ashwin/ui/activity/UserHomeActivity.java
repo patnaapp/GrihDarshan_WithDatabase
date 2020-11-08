@@ -616,6 +616,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaFacilitatorList().execute();
+                    }else{
+                        displaySelectedFragment(new HomeFragment());
                     }
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
@@ -663,7 +665,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
                 long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
                 if (i > 0) {
 
@@ -673,6 +674,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
+                displaySelectedFragment(new HomeFragment());
             }
         }
     }
