@@ -70,6 +70,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
                 intent.putExtra("FYear", fyear);
                 intent.putExtra("FMonth", fmonth);
                 intent.putExtra("Type", "U");
+                intent.putExtra("data", info);
                 context.startActivity(intent);
 
             }

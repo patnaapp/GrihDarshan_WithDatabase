@@ -47,6 +47,7 @@ public class WebServiceHelper {
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
+    public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -61,23 +62,6 @@ public class WebServiceHelper {
 
     private static final String BLOCK_METHOD = "getBlock";
 
-    private static final String GETINITIALPLANTATIONDATA = "getInitialDetailRDDPlantation";
-    private static final String PONDLAKEENCRCHMNTDATA = "getInitialDetailsPondLakeDataCoVerified";
-    private static final String WELLNCRCHMNTDATA = "getInitialDetailsWellDataCoVerified";
-    private static final String GETPLANTATIONINSPECTIONDETAIL = "getPlantationInspdetails";
-    private static final String WELLINSPECTIONLIST = "getWellInspectionList";
-    private static final String UPLOADPLANTATIONINSPECTIONDETAIL = "PlantationInspDetails";
-    private static final String UPLOADSCHEMEINSPECTIONDETAIL = "Inspection_Insert";
-    private static final String GETVILLAGELIST = "getVillageList";
-    private static final String GETPLANATATIONSITELIST = "getPlantationSite";
-    private static final String GETSANRACHNATYPELIST = "getTypesOfSanrchnaList";
-    private static final String GETWARDLIST = "getWardList";
-    private static final String GETPANCHAYATLIST = "getPanchayatList";
-    private static final String GETDISTRICTLIST = "Districts_Select";
-    private static final String GETSURFACESCHEMELIST = "Surface_Search";
-    private static final String GETOPTOINFILTERLIST = "Options_Filter";
-    private static final String GETSURFACESCHEMEINSPECTIONLIST = "Inspection_Search";
-    private static final String GETSURFACESCHEMEINSPECTIONDETAIL = "Inspection_Search_On_Inspection_ID";
 
     static String rest;
 
@@ -646,5 +630,50 @@ public class WebServiceHelper {
 
 
         return fieldList;
+    }
+
+    public static String uploadAshaActivityDetail(AshaWorkEntity data) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
+
+        request.addProperty("DistrictCode",data.getDistrictCode());
+        request.addProperty("BlockCode",data.getBlockCode());
+        request.addProperty("PanchayatCode",data.getPanchayatCode());
+        request.addProperty("AWCID",data.getAwcId());
+        request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        request.addProperty("AcitivtyCategoryId",data.getAcitivtyCategoryId());
+        request.addProperty("AcitivtyId", data.getActivityId());
+        request.addProperty("ActivityAmt", data.getActivityAmt());
+        request.addProperty("ActivityDate", data.getActivityDate());
+        request.addProperty("MonthId", data.getMonthName());
+        request.addProperty("FYearId", data.getFinYear());
+        request.addProperty("RegisterId", data.getRegisterId());
+
+        request.addProperty("Volume", data.getVolume());
+        request.addProperty("RegisterPageNo",data.getRegisterPageNo());
+        request.addProperty("PageSerialNo", data.getPageSerialNo());
+        request.addProperty("RegisterDate", data.getRegisterDate());
+        request.addProperty("EntryBy", data.getAshaWorkerId());
+        request.addProperty("MobVersion", data.getAppVersion());
+        request.addProperty("MobDeviceId", data.getIemi());
+        request.addProperty("Type", data.getEntryType());
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + INSERTASHAWORK_METHOD,envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
     }
 }
