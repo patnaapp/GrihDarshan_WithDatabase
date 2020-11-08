@@ -328,6 +328,11 @@
             android:text="Proceed"
             android:textColor="@color/color_white"
             android:textSize="17sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <LinearLayout

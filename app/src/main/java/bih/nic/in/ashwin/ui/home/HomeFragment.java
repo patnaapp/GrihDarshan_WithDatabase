@@ -1,6 +1,8 @@
 package bih.nic.in.ashwin.ui.home;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,22 +21,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
+import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
+import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
 public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -44,6 +52,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker;
+    RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
     Button btn_proceed;
@@ -138,8 +147,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_pan = root.findViewById(R.id.ll_pan);
         ll_division = root.findViewById(R.id.ll_division);
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
+
+        rv_data = root.findViewById(R.id.rv_data);
+
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_proceed.setVisibility(View.GONE);
+
+
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
             ll_hsc.setVisibility(View.VISIBLE);
@@ -269,9 +283,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             case R.id.sp_fn_month:
                 if (i > 0) {
                     fmonth = fMonthArray.get(i-1);
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
-                    {
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")) {
                         loadUserRoleSpinnerdata();
+                    }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+
                     }
                 }
                 break;
@@ -288,5 +303,48 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
+        rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
+        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), data);
+        rv_data.setAdapter(adapter);
+    }
+
+    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+
+            }
+        }
     }
 }
