@@ -48,6 +48,7 @@ public class WebServiceHelper {
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
+    public static final String AcceptRjctRecordsFromPacs = "InsertAshaActivity";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -675,5 +676,76 @@ public class WebServiceHelper {
             return "0";
         }
         return rest;
+    }
+
+    public static DefaultResponse UploadAcceptedRecordsFromPacs(AshaWorkEntity data, String regNo) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+//        request.addProperty("_RequestId", data.getId());
+//        request.addProperty("_RegistrationNo",regNo);
+//        request.addProperty("_Status","Y");
+
+        DefaultResponse response;
+        SoapObject res1;
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs, envelope);
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            response = new DefaultResponse(res1);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            //return "0";
+            return null;
+        }
+        return response;
+
+    }
+
+
+    public static DefaultResponse UploadRejectedRecordsFromPacs(AshaWorkEntity data, String regNo) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+//        request.addProperty("_RequestId", data.getId());
+//        request.addProperty("_RegistrationNo",regNo);
+//        request.addProperty("_Status","R");
+
+        DefaultResponse response;
+        SoapObject res1;
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs, envelope);
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            response = new DefaultResponse(res1);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            //return "0";
+            return null;
+        }
+        return response;
+
     }
 }

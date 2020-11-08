@@ -244,7 +244,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
         @Override
         protected DefaultResponse doInBackground(String... param) {
-            DefaultResponse res = WebServiceHelper.UploadAcceptedRecordsFromPacs(data, regNo);
+            DefaultResponse res = WebServiceHelper.UploadAcceptedRecordsFromPacs(data, "");
 
             return res;
 
@@ -299,8 +299,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         AshaWorkEntity data;
         String rowid;
         int position;
-        private final ProgressDialog dialog = new ProgressDialog(activity);
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(activity).create();
+        private final ProgressDialog dialog = new ProgressDialog(context);
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
 
 
         RejectRecordsFromPacs(AshaWorkEntity data, int position) {
@@ -322,7 +322,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         @Override
         protected DefaultResponse doInBackground(String... param) {
 
-            DefaultResponse res = WebServiceHelper.UploadRejectedRecordsFromPacs(data, regNo);
+            DefaultResponse res = WebServiceHelper.UploadRejectedRecordsFromPacs(data, "");
             return res;
 
         }
