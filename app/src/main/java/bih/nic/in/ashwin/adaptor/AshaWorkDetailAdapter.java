@@ -44,15 +44,15 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final AshaWorkEntity info = mData.get(position);
 
-//        holder.tv_inspection_by.setText(info.getINSPECTION_BY_NAME());
-//        holder.tv_inspection_id.setText(info.getINSPECTION_ID());
-//        holder.tv_number.setText(info.getINSPECTION_BY_Phone());
-//        holder.tv_designation.setText(info.getDESIGNATION());
-//        holder.tv_observation.setText(info.getObservetion_Category());
-//        holder.tv_completion.setText(info.getWork_Competion_In_Presentage());
-//        holder.tv_comment.setText(info.getCOMMENT());
-//        holder.tv_date.setText(Utiilties.convertDateStringFormet("MM/dd/yyyy HH:mm:ss a", "dd MMM yyyy",info.getINSPECTION_DATE()));
-        //holder.tv_serial.setText(String.valueOf(position+1)+".");
+        holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
+        holder.tv_work.setText(info.getActivityDesc());
+        holder.tv_workcompldate.setText(info.getActivityDate());
+        holder.tv_amount.setText(info.getActivityAmt());
+        holder.tv_regname.setText(info.getRegisterDesc());
+        holder.tv_volume.setText(info.getVolume());
+        holder.tv_slno.setText(info.getPageSerialNo());
+        holder.tv_reg_date.setText(info.getRegisterDate());
+        holder.tv_count.setText(String.valueOf(position+1)+".");
 
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date;
+        TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count;
         RelativeLayout sblist;
 
         ViewHolder(View itemView) {
@@ -91,6 +91,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_volume = itemView.findViewById(R.id.tv_volume);
             tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
+            tv_count = itemView.findViewById(R.id.tv_count);
             sblist = itemView.findViewById(R.id.sblist);
             //itemView.setOnClickListener(this);
         }

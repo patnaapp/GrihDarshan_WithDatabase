@@ -246,6 +246,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setIemi(Utiilties.getDeviceIMEI(this));
             entity.setFinYear(fyear.getYear_Id());
             entity.setMonthName(fmonth.get_MonthId());
+            entity.setDistrictCode(CommonPref.getUserDetails(this).getDistrictCode());
             //new UploadAshaWorkDetail(entity).execute();
         }
     }
@@ -364,9 +365,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //
 //                Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
 //            }
-//
-//
-//
 //        }
 //    }
 }

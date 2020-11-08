@@ -11,7 +11,7 @@ public class AshaWorkEntity implements KvmSerializable {
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId;
-    String appVersion,iemi;
+    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -54,6 +54,38 @@ public class AshaWorkEntity implements KvmSerializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    public String getBlockCode() {
+        return blockCode;
+    }
+
+    public void setBlockCode(String blockCode) {
+        this.blockCode = blockCode;
+    }
+
+    public String getPanchayatCode() {
+        return PanchayatCode;
+    }
+
+    public void setPanchayatCode(String panchayatCode) {
+        PanchayatCode = panchayatCode;
+    }
+
+    public String getAwcId() {
+        return awcId;
+    }
+
+    public void setAwcId(String awcId) {
+        this.awcId = awcId;
     }
 
     public String getAppVersion() {

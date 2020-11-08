@@ -158,9 +158,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     else if (userRole.equals("ASHAFC")){
 
                         tv_spworker.setText("आशा फैसिलिटेटर");
+                        loadashafacilitatorSpinnerdata();
                         sp_facilitator.setVisibility(View.VISIBLE);
                         sp_worker.setVisibility(View.GONE);
-                        loadashafacilitatorSpinnerdata();
                     }
                 }
             }
@@ -179,9 +179,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                                        int position, long id) {
                 // TODO Auto-generated method stub
 
-                AshaWoker_Entity role = ashaworkerList.get(position-1);
-                ashaname = role.get_Asha_Name_Hn();
-                asha_id = role.get_ASHAID();
+                if(ashaworkerList.size()>0){
+                    AshaWoker_Entity role = ashaworkerList.get(position-1);
+                    ashaname = role.get_Asha_Name_Hn();
+                    asha_id = role.get_ASHAID();
+                }
+
             }
 
             @Override
@@ -190,15 +193,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
+
         sp_facilitator.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view,int position, long id) {
                 // TODO Auto-generated method stub
-                AshaFacilitator_Entity role = facilitatorList.get(position-1);
-                facilator_name = role.get_Facilitator_Name_Hn();
-                facilator_id = role.get_Facilitator_ID();
+                if(facilitatorList.size()>0){
+                    AshaFacilitator_Entity role = facilitatorList.get(position-1);
+                    facilator_name = role.get_Facilitator_Name_Hn();
+                    facilator_id = role.get_Facilitator_ID();
+                }
+
             }
 
             @Override
@@ -280,6 +286,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_district.setText(userInfo.getDistName());
         tv_block.setText(userInfo.getBlockName());
         tv_panchayat.setText(userInfo.getPanchayatName());
+
+        facilitatorList = dbhelper.getAshaFacilitatorList();
+        ashaworkerList = dbhelper.getAshaWorkerList();
     }
 
     public void setFYearSpinner(){
@@ -372,36 +381,66 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void loadashaWorkerSpinnerdata() {
-        dbhelper = new DataBaseHelper(getContext());
+        //dbhelper = new DataBaseHelper(getContext());
+
         ashaworkerList = dbhelper.getAshaWorkerList();
-        String[] typeNameArray = new String[ashaworkerList.size() + 1];
-        typeNameArray[0] = "- चयन करें -";
-        int i = 1;
-        for (AshaWoker_Entity type : ashaworkerList)
-        {
-            typeNameArray[i] = type.get_Asha_Name_Hn();
-            i++;
+
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (AshaWoker_Entity info: ashaworkerList){
+           // if(!info.getFinancial_year().equals("anyType{}")){
+                array.add(info.get_Asha_Name_Hn());
+           // }
         }
-        workerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
-        workerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_worker.setAdapter(workerAdapter);
+
+        ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_worker.setAdapter(adaptor);
+        //sp_worker.setOnItemSelectedListener(this);
+
+//        String[] typeNameArray = new String[ashaworkerList.size() + 1];
+//        typeNameArray[0] = "- चयन करें -";
+//        int i = 1;
+//        for (AshaWoker_Entity type : ashaworkerList)
+//        {
+//            typeNameArray[i] = type.get_Asha_Name_Hn();
+//            i++;
+//        }
+//        workerAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
+//        workerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        sp_worker.setAdapter(workerAdapter);
 
     }
 
     public void loadashafacilitatorSpinnerdata() {
-        dbhelper = new DataBaseHelper(getContext());
+        //dbhelper = new DataBaseHelper(getContext());
         facilitatorList = dbhelper.getAshaFacilitatorList();
-        String[] typeNameArray = new String[facilitatorList.size() + 1];
-        typeNameArray[0] = "- चयन करें -";
-        int i = 1;
-        for (AshaFacilitator_Entity type : facilitatorList)
-        {
-            typeNameArray[i] = type.get_Facilitator_Name_Hn();
-            i++;
+
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (AshaFacilitator_Entity info: facilitatorList){
+            // if(!info.getFinancial_year().equals("anyType{}")){
+            array.add(info.get_Facilitator_Name_Hn());
+            // }
         }
-        facilitatorAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
-        facilitatorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_facilitator.setAdapter(facilitatorAdapter);
+
+        ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_facilitator.setAdapter(adaptor);
+
+//        String[] typeNameArray = new String[facilitatorList.size() + 1];
+//        typeNameArray[0] = "- चयन करें -";
+//        int i = 1;
+//        for (AshaFacilitator_Entity type : facilitatorList)
+//        {
+//            typeNameArray[i] = type.get_Facilitator_Name_Hn();
+//            i++;
+//        }
+//        facilitatorAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, typeNameArray);
+//        facilitatorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        sp_facilitator.setAdapter(facilitatorAdapter);
 
     }
 }
