@@ -398,4 +398,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
     }
+
+    public Boolean isAshaFinazlizeWork(){
+        if(ashaWorkData.size()>0){
+
+        }else{
+            return false;
+        }
+
+        return true;
+    }
 }
