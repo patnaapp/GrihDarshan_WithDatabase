@@ -1,20 +1,34 @@
 package bih.nic.in.ashwin.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
+import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
+import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.ui.home.HomeFragment;
+import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
-    String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="";
+    String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
     TextView tv_name,tv_year,tv_month,tv_role;
     Financial_Year fyear;
     Financial_Month fmonth;
+    RecyclerView rv_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +38,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         initialise();
 
         user_role=getIntent().getStringExtra("role");
+        svrid=getIntent().getStringExtra("svr");
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
@@ -43,6 +58,13 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
+
+        if (user_role.equals("ASHA")) {
+            new SynchronizeAshaActivityList().execute();
+        }
+        else {
+
+        }
     }
 
     public void initialise()
@@ -51,5 +73,47 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         tv_year=findViewById(R.id.tv_year);
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
+        rv_data = findViewById(R.id.recyclerview_data);
+
+    }
+
+    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
+        rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(getApplicationContext(), data, fyear, fmonth);
+        rv_data.setAdapter(adapter);
+    }
+
+    private class SynchronizeAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorker_Facilitator_Activity_List.this);
+
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading details...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                setupRecuyclerView(result);
+            }
+        }
     }
 }

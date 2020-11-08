@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> roleAdapter;
     ArrayAdapter<String> workerAdapter;
     ArrayAdapter<String> facilitatorAdapter;
-    String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="";
+    String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(root);
-
+        btn_proceed.setVisibility(View.GONE);
         setUserDetail();
 
         setFYearSpinner();
@@ -114,6 +114,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 i.putExtra("_faciltator_id",facilator_id);
                 i.putExtra("_faciltator_nm",facilator_name);
+                i.putExtra("svr",svri_id);
                 startActivity(i);
             }
         });
@@ -155,11 +156,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-            btn_proceed.setVisibility(View.VISIBLE);
+
         }
         else {
             ll_hsc.setVisibility(View.GONE);
-            btn_proceed.setVisibility(View.GONE);
+
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
             ll_division.setVisibility(View.VISIBLE);
@@ -250,6 +251,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             facilitatorList = dbhelper.getAshaFacilitatorList();
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
+            array.add("ALL");
 
             for (AshaFacilitator_Entity info: facilitatorList){
                 // if(!info.getFinancial_year().equals("anyType{}")){
@@ -298,12 +300,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         AshaWoker_Entity role = ashaworkerList.get(i-1);
                         ashaname = role.get_Asha_Name_Hn();
                         asha_id = role.get_ASHAID();
+                        svri_id = role.get_svr_id();
                     }
                     else if (userRole.equals("ASHAFC")){
-                        AshaFacilitator_Entity role = facilitatorList.get(i-1);
+                        AshaFacilitator_Entity role = facilitatorList.get(i-2);
                         facilator_name = role.get_Facilitator_Name_Hn();
                         facilator_id = role.get_Facilitator_ID();
+                        svri_id = role.get_svr_id();
                     }
+
+                    btn_proceed.setVisibility(View.VISIBLE);
                 }
                 break;
         }

@@ -16,6 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll1"
         android:layout_below="@+id/header"
         android:orientation="vertical">
 
@@ -153,5 +154,9 @@
 
     </LinearLayout>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_data"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/ll1"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
