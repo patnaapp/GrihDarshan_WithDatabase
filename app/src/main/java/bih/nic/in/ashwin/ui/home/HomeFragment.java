@@ -40,6 +40,8 @@ import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
+import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -71,6 +73,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> facilitatorAdapter;
     String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
 
+    ArrayList<AshaWorkEntity> ashaWorkData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
@@ -103,19 +106,27 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
-                i.putExtra("fyear",fyear);
-                i.putExtra("fmonth",fmonth);
-                i.putExtra("role",userRole);
+                if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                    Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    i.putExtra("workArray", ashaWorkData);
+                    startActivity(i);
+                }else {
+                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    i.putExtra("role", userRole);
 
-                    i.putExtra("ashaid",asha_id);
-                    i.putExtra("ashanm",ashaname);
+                    i.putExtra("ashaid", asha_id);
+                    i.putExtra("ashanm", ashaname);
 
 
-                i.putExtra("_faciltator_id",facilator_id);
-                i.putExtra("_faciltator_nm",facilator_name);
-                i.putExtra("svr",svri_id);
-                startActivity(i);
+                    i.putExtra("_faciltator_id", facilator_id);
+                    i.putExtra("_faciltator_nm", facilator_name);
+                    i.putExtra("svr",svri_id);
+                    startActivity(i);
+                }
             }
         });
 
@@ -156,11 +167,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-
+            btn_proceed.setVisibility(View.VISIBLE);
         }
         else {
             ll_hsc.setVisibility(View.GONE);
-
+            btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
             ll_division.setVisibility(View.VISIBLE);
@@ -320,10 +331,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
-    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
+    public void setupRecuyclerView(){
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), data, fyear, fmonth);
+        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
         rv_data.setAdapter(adapter);
+
+        if(ashaWorkData.size()>0){
+            btn_proceed.setVisibility(View.VISIBLE);
+        }
     }
 
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
@@ -355,7 +370,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             if (result != null)
             {
-                setupRecuyclerView(result);
+                ashaWorkData = result;
+                setupRecuyclerView();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(fyear != null && fmonth != null){
+            if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                new SyncAshaActivityList().execute();
             }
         }
     }

@@ -16,9 +16,6 @@ public class ActivityCategory_entity implements KvmSerializable {
         this._AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
         this._AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
         this._AcitivtyCategoryDesc_Hn = sobj.getProperty("AcitivtyCategoryDesc_Hn").toString();
-
-
-
     }
 
     public ActivityCategory_entity() {

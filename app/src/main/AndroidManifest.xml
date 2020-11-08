@@ -55,7 +55,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.AshaWorker_Facilitator_Activity_List"></activity>
+        <activity android:name=".ui.activity.FinalizeAshaWorkActivity"></activity>
+        <activity android:name=".ui.activity.AshaWorker_Facilitator_Activity_List" />
         <activity android:name=".ui.activity.entryform.HealthSubCentreEntryActivity" />
         <activity android:name=".ui.activity.AshaWorkerEntryForm_Activity" />
         <activity
