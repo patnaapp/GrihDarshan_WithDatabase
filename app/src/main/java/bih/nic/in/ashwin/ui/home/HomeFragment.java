@@ -77,21 +77,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-
         initializeViews(root);
 
         setUserDetail();
 
         setFYearSpinner();
         //setFMonthSpinner();
-
-
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +91,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
                     intent.putExtra("FYear", fyear);
                     intent.putExtra("FMonth", fmonth);
+                    intent.putExtra("Type", "I");
                     getContext().startActivity(intent);
                 }else{
                     Toast.makeText(getContext(), "Please select Financial Year and Month", Toast.LENGTH_SHORT).show();
@@ -145,7 +137,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_month = root.findViewById(R.id.sp_fn_month);
         sp_userrole = root.findViewById(R.id.sp_userrole);
         sp_worker = root.findViewById(R.id.sp_worker);
-        //sp_facilitator = root.findViewById(R.id.sp_facilitator);
+
         tv_spworker = root.findViewById(R.id.tv_spworker);
         ll_hsc = root.findViewById(R.id.ll_hsc);
         ll_pan = root.findViewById(R.id.ll_pan);
@@ -156,7 +148,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_proceed.setVisibility(View.GONE);
-
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
@@ -173,7 +164,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_pan.setVisibility(View.VISIBLE);
             ll_division.setVisibility(View.VISIBLE);
         }
-
 
     }
 
@@ -290,7 +280,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")) {
                         loadUserRoleSpinnerdata();
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-
+                        new SyncAshaActivityList().execute();
                     }
                 }
                 break;
@@ -314,8 +304,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         facilator_name = role.get_Facilitator_Name_Hn();
                         facilator_id = role.get_Facilitator_ID();
                     }
-
-
                 }
                 break;
         }
@@ -328,11 +316,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), data);
+        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), data, fyear, fmonth);
         rv_data.setAdapter(adapter);
     }
 
-    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
 
         private final ProgressDialog dialog = new ProgressDialog(getContext());
 
@@ -344,19 +332,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Loading details...");
             this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
         }
 
         @Override
-        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
-
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
             return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
-
         }
 
         @Override
-        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -364,7 +349,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             if (result != null)
             {
-
+                setupRecuyclerView(result);
             }
         }
     }

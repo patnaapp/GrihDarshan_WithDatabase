@@ -16,6 +16,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
+import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
@@ -623,20 +624,20 @@ public class WebServiceHelper {
         return fieldList;
     }
 
-    public static ArrayList<AshaWoker_Entity> getAshaWorkActivityList(String workId, String monthId, String yearId) {
+    public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId) {
 
         SoapObject res1;
         res1 = getServerData(ASHAWORK_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId", workId,monthId,yearId);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
-        ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
 
         for (int i = 0; i < TotalProperty; i++) {
             if (res1.getProperty(i) != null) {
                 Object property = res1.getProperty(i);
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
-                    AshaWoker_Entity sm = new AshaWoker_Entity(final_object);
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object);
                     fieldList.add(sm);
                 }
             } else
