@@ -1037,6 +1037,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("asha_id", info.get(i).get_ASHAID());
                     values.put("aasha_name", info.get(i).get_Asha_Name());
                     values.put("aasha_name_hn", info.get(i).get_Asha_Name_Hn());
+                    values.put("svr_id", info.get(i).get_svr_id());
 
 
                     String[] whereArgs = new String[]{info.get(i).get_ASHAID()};
@@ -1089,7 +1090,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("asha_facilitator_id", info.get(i).get_Facilitator_ID());
                     values.put("facilitator_name", info.get(i).get_Facilitator_Name());
                     values.put("facilitator_name_hn", info.get(i).get_Facilitator_Name_Hn());
-
+                    values.put("fc_svr_id", info.get(i).get_svr_id());
 
                     String[] whereArgs = new String[]{info.get(i).get_Facilitator_ID()};
 
@@ -1131,6 +1132,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 userRole.set_ASHAID(cur.getString(cur.getColumnIndex("asha_id")));
                 userRole.set_Asha_Name(cur.getString(cur.getColumnIndex("aasha_name")));
                 userRole.set_Asha_Name_Hn(cur.getString(cur.getColumnIndex("aasha_name_hn")));
+                userRole.set_svr_id(cur.getString(cur.getColumnIndex("svr_id")));
 
                 userRoleList.add(userRole);
             }
@@ -1164,6 +1166,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 userRole.set_Facilitator_ID(cur.getString(cur.getColumnIndex("asha_facilitator_id")));
                 userRole.set_Facilitator_Name(cur.getString(cur.getColumnIndex("facilitator_name")));
                 userRole.set_Facilitator_Name_Hn(cur.getString(cur.getColumnIndex("facilitator_name_hn")));
+                userRole.set_svr_id(cur.getString(cur.getColumnIndex("fc_svr_id")));
 
                 userRoleList.add(userRole);
             }

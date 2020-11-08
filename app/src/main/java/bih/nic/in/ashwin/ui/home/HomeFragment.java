@@ -41,6 +41,7 @@ import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -70,7 +71,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> roleAdapter;
     ArrayAdapter<String> workerAdapter;
     ArrayAdapter<String> facilitatorAdapter;
-    String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="";
+    String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
 
     ArrayList<AshaWorkEntity> ashaWorkData;
 
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(root);
-
+        btn_proceed.setVisibility(View.GONE);
         setUserDetail();
 
         setFYearSpinner();
@@ -123,6 +124,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                     i.putExtra("_faciltator_id", facilator_id);
                     i.putExtra("_faciltator_nm", facilator_name);
+                    i.putExtra("svr",svri_id);
                     startActivity(i);
                 }
             }
@@ -260,6 +262,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             facilitatorList = dbhelper.getAshaFacilitatorList();
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
+            array.add("ALL");
 
             for (AshaFacilitator_Entity info: facilitatorList){
                 // if(!info.getFinancial_year().equals("anyType{}")){
@@ -308,12 +311,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         AshaWoker_Entity role = ashaworkerList.get(i-1);
                         ashaname = role.get_Asha_Name_Hn();
                         asha_id = role.get_ASHAID();
+                        svri_id = role.get_svr_id();
                     }
                     else if (userRole.equals("ASHAFC")){
-                        AshaFacilitator_Entity role = facilitatorList.get(i-1);
+                        AshaFacilitator_Entity role = facilitatorList.get(i-2);
                         facilator_name = role.get_Facilitator_Name_Hn();
                         facilator_id = role.get_Facilitator_ID();
+                        svri_id = role.get_svr_id();
                     }
+
+                    btn_proceed.setVisibility(View.VISIBLE);
                 }
                 break;
         }

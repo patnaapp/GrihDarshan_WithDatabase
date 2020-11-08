@@ -68,4 +68,12 @@ public class AshaFacilitator_Entity implements KvmSerializable, Serializable {
     public void set_Facilitator_Name_Hn(String _Facilitator_Name_Hn) {
         this._Facilitator_Name_Hn = _Facilitator_Name_Hn;
     }
+
+    public String get_svr_id() {
+        return _svr_id;
+    }
+
+    public void set_svr_id(String _svr_id) {
+        this._svr_id = _svr_id;
+    }
 }
