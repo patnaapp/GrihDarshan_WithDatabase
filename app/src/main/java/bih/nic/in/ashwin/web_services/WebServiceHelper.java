@@ -16,6 +16,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
+import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
@@ -45,6 +46,7 @@ public class WebServiceHelper {
     public static final String Register_METHOD = "Registerdetails";
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
+    public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -612,6 +614,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     AshaFacilitator_Entity sm = new AshaFacilitator_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORK_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId", workId,monthId,yearId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object);
                     fieldList.add(sm);
                 }
             } else

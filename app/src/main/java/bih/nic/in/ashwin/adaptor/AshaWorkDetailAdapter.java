@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
+import bih.nic.in.ashwin.entity.Financial_Month;
+import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 
 
 public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAdapter.ViewHolder> {
@@ -23,11 +26,15 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     private ArrayList<AshaWorkEntity> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private Context context;
+    Context context;
+    Financial_Year fyear;
+    Financial_Month fmonth;
 
-    public AshaWorkDetailAdapter(Context context, ArrayList<AshaWorkEntity> data) {
+    public AshaWorkDetailAdapter(Context context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.fyear = fyear;
+        this.fmonth = fmonth;
         this.context = context;
     }
 
@@ -52,18 +59,18 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.tv_volume.setText(info.getVolume());
         holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
+        holder.tv_status.setText(info.getVerificationStatus());
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                    Intent i = new Intent(context, SurfaceViewInspectionDetailActivity.class);
-//                    i.putExtra("data", schemeInfo);
-//                    i.putExtra("id", info.getINSPECTION_ID());
-//                    i.putExtra("user", userInfo);
-//                    context.startActivity(i);
-                    //new SyncSchemeInspectionDetail(info, userInfo).execute();
+                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+                intent.putExtra("FYear", fyear);
+                intent.putExtra("FMonth", fmonth);
+                intent.putExtra("Type", "U");
+                context.startActivity(intent);
 
             }
         });
@@ -78,7 +85,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count;
+        TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
 
         ViewHolder(View itemView) {
@@ -92,6 +99,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
+            tv_status = itemView.findViewById(R.id.tv_status);
             sblist = itemView.findViewById(R.id.sblist);
             //itemView.setOnClickListener(this);
         }
