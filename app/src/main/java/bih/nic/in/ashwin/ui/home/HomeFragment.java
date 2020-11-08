@@ -336,9 +336,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
         rv_data.setAdapter(adapter);
 
-        if(ashaWorkData.size()>0){
+        if(isAshaFinalizeWork()){
+            btn_proceed.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.GONE);
+        }else{
             btn_proceed.setVisibility(View.VISIBLE);
+            ll_floating_btn.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
@@ -386,13 +392,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
-    public Boolean isAshaFinazlizeWork(){
+    public Boolean isAshaFinalizeWork(){
         if(ashaWorkData.size()>0){
-
+            for(AshaWorkEntity info: ashaWorkData){
+                if(info.getIsFinalize().equals("Y"))
+                    return true;
+            }
         }else{
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
