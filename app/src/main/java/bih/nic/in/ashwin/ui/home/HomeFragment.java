@@ -2,6 +2,7 @@ package bih.nic.in.ashwin.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.utility.CommonPref;
 
 
@@ -57,7 +59,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> roleAdapter;
     ArrayAdapter<String> workerAdapter;
     ArrayAdapter<String> facilitatorAdapter;
-    String userRole = "";
+    String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="";
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
@@ -77,6 +80,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         setFYearSpinner();
         //setFMonthSpinner();
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+        {
+            loadUserRoleSpinnerdata();
+        }
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,10 +126,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 // TODO Auto-generated method stub
                 if (position > 0) {
                     fmonth = fMonthArray.get(position-1);
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
-                    {
-                        loadUserRoleSpinnerdata();
-                    }
+
                 }
             }
 
@@ -142,13 +146,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if (position > 0) {
                     UserRole role = userRoleList.get(position-1);
                     userRole = role.getRole();
+                    btn_proceed.setVisibility(View.VISIBLE);
+                    Log.e("role",userRole);
                     if (userRole.equals("ASHA")){
+
                         tv_spworker.setText("आशा वर्कर");
                         sp_worker.setVisibility(View.VISIBLE);
                         sp_facilitator.setVisibility(View.GONE);
                         loadashaWorkerSpinnerdata();
                     }
                     else if (userRole.equals("ASHAFC")){
+
                         tv_spworker.setText("आशा फैसिलिटेटर");
                         sp_facilitator.setVisibility(View.VISIBLE);
                         sp_worker.setVisibility(View.GONE);
@@ -171,6 +179,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                                        int position, long id) {
                 // TODO Auto-generated method stub
 
+                AshaWoker_Entity role = ashaworkerList.get(position-1);
+                ashaname = role.get_Asha_Name_Hn();
+                asha_id = role.get_ASHAID();
             }
 
             @Override
@@ -185,13 +196,30 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 // TODO Auto-generated method stub
-
+                AshaFacilitator_Entity role = facilitatorList.get(position-1);
+                facilator_name = role.get_Facilitator_Name_Hn();
+                facilator_id = role.get_Facilitator_ID();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
 
+            }
+        });
+
+        btn_proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                i.putExtra("fyear",fyear);
+                i.putExtra("fmonth",fmonth);
+                i.putExtra("role",userRole);
+                i.putExtra("ashaid",asha_id);
+                i.putExtra("ashanm",ashaname);
+                i.putExtra("_faciltator_id",facilator_id);
+                i.putExtra("_faciltator_nm",facilator_name);
+                startActivity(i);
             }
         });
 
@@ -223,6 +251,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_division = root.findViewById(R.id.ll_division);
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
         btn_proceed = root.findViewById(R.id.btn_proceed);
+        btn_proceed.setVisibility(View.GONE);
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
             ll_hsc.setVisibility(View.VISIBLE);
