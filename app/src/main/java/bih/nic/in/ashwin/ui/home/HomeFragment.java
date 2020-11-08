@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         //setFMonthSpinner();
 
 
+
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,8 +106,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 i.putExtra("fyear",fyear);
                 i.putExtra("fmonth",fmonth);
                 i.putExtra("role",userRole);
-                i.putExtra("ashaid",asha_id);
-                i.putExtra("ashanm",ashaname);
+
+                    i.putExtra("ashaid",asha_id);
+                    i.putExtra("ashanm",ashaname);
+
+
                 i.putExtra("_faciltator_id",facilator_id);
                 i.putExtra("_faciltator_nm",facilator_name);
                 startActivity(i);
@@ -280,6 +284,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     UserRole role = userRoleList.get(i-1);
                     userRole = role.getRole();
                     loadWorkerFascilatorData();
+                }
+                break;
+            case R.id.sp_worker:
+                if (i > 0) {
+
+                    if (userRole.equals("ASHA")){
+                        AshaWoker_Entity role = ashaworkerList.get(i-1);
+                        ashaname = role.get_Asha_Name_Hn();
+                        asha_id = role.get_ASHAID();
+                    }
+                    else if (userRole.equals("ASHAFC")){
+                        AshaFacilitator_Entity role = facilitatorList.get(i-1);
+                        facilator_name = role.get_Facilitator_Name();
+                        facilator_id = role.get_Facilitator_ID();
+                    }
+
+
                 }
                 break;
         }

@@ -58,6 +58,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     DrawerLayout drawer;
     Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +167,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private void syncData()
     {
+
         new GetFinYear().execute();
     }
 
