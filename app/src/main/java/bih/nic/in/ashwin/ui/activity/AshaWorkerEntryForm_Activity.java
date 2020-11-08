@@ -135,7 +135,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setActivitySpinner(){
-        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId());
+        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), "D");
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 

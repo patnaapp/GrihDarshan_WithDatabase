@@ -11,7 +11,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
-    private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId;
+    private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId;
 
     public AshaWorkEntity(SoapObject sobj) {
@@ -31,6 +31,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.RegisterDate = sobj.getProperty("RegisterDate").toString();
         this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
         this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+        this.IsFinalize = sobj.getProperty("IsFinalize").toString();
     }
 
     public AshaWorkEntity() {
@@ -55,6 +56,14 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getIsFinalize() {
+        return IsFinalize;
+    }
+
+    public void setIsFinalize(String isFinalize) {
+        IsFinalize = isFinalize;
     }
 
     public String getActivityId() {

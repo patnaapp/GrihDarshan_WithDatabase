@@ -637,6 +637,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("Activity_categ_Id", info.get(i).get_AcitivtyCategoryId());
                     values.put("Order_Status", info.get(i).get_OrderStatus());
                     values.put("Register_Id", info.get(i).get_RegisterId());
+                    values.put("AcitivtyType", info.get(i).getAcitivtyType());
 
                     String[] whereArgs = new String[]{info.get(i).get_ActivityId()};
 
@@ -847,15 +848,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<Activity_entity> getActictivityList(String catId){
+    public ArrayList<Activity_entity> getActictivityList(String catId, String activityType){
 
         ArrayList<Activity_entity> list = new ArrayList<Activity_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
 
-            String[] whereArgs = new String[]{catId};
+            String[] whereArgs = new String[]{catId,activityType};
 
-            Cursor cur = db.rawQuery("Select * from ActivityList_Master WHERE Activity_categ_Id=?",whereArgs);
+            Cursor cur = db.rawQuery("Select * from ActivityList_Master WHERE Activity_categ_Id=? AND AcitivtyType=?",whereArgs);
 
             while (cur.moveToNext()) {
 
@@ -867,6 +868,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_AcitivtyCategoryId(cur.getString(cur.getColumnIndex("Activity_categ_Id")));
                 info.set_OrderStatus(cur.getString(cur.getColumnIndex("Order_Status")));
                 info.set_RegisterId(cur.getString(cur.getColumnIndex("Register_Id")));
+                info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
                 list.add(info);
             }
 
