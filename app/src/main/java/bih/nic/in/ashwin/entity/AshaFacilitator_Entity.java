@@ -11,12 +11,13 @@ public class AshaFacilitator_Entity implements KvmSerializable, Serializable {
 
     public static Class<AshaFacilitator_Entity> Facilitator_CLASS = AshaFacilitator_Entity.class;
 
-    private String _Facilitator_ID, _Facilitator_Name,_Facilitator_Name_Hn;
+    private String _Facilitator_ID, _Facilitator_Name,_Facilitator_Name_Hn,_svr_id;
 
     public AshaFacilitator_Entity(SoapObject sobj) {
         this._Facilitator_ID = sobj.getProperty("ASHAFacilitatorID").toString();
         this._Facilitator_Name = sobj.getProperty("Name").toString();
         this._Facilitator_Name_Hn = sobj.getProperty("Name_Hn").toString();
+        this._svr_id = sobj.getProperty("SvrID").toString();
 
     }
 
