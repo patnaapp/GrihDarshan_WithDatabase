@@ -296,7 +296,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }
                     else if (userRole.equals("ASHAFC")){
                         AshaFacilitator_Entity role = facilitatorList.get(i-1);
-                        facilator_name = role.get_Facilitator_Name();
+                        facilator_name = role.get_Facilitator_Name_Hn();
                         facilator_id = role.get_Facilitator_ID();
                     }
 
