@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,28 +66,37 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.tv_rate.setText(info.getActivityDesc());
         holder.tv_total_amt.setText(info.getActivityDate());
 
-        holder.sblist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        holder.sblist.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+//                intent.putExtra("FYear", fyear);
+//                intent.putExtra("FMonth", fmonth);
+//                intent.putExtra("Type", "U");
+//                context.startActivity(intent);
+//
+//            }
+//        });
 
-                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                intent.putExtra("Type", "U");
-                context.startActivity(intent);
+        CustomWatcher oldWatcher = (CustomWatcher)holder.edt_no_days.getTag();
+        if(oldWatcher != null)
+            holder.edt_no_days.removeTextChangedListener(oldWatcher);
 
-            }
-        });
+//populate your editText with the model data here (before adding the new text watcher)
 
+        CustomWatcher newWatcher = new CustomWatcher(position);
+        holder.edt_no_days.setTag(newWatcher);
+        holder.edt_no_days.addTextChangedListener(newWatcher);
 
     }
 
     // total number of rows
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mData.size();
     }
-
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -93,13 +104,14 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         EditText edt_no_days;
         RelativeLayout sblist;
 
-
         ViewHolder(View itemView) {
             super(itemView);
             tv_fc_name = itemView.findViewById(R.id.tv_fc_name);
             tv_rate = itemView.findViewById(R.id.tv_rate);
             tv_total_amt = itemView.findViewById(R.id.tv_total_amt);
             edt_no_days = itemView.findViewById(R.id.edt_no_days);
+
+
 
             sblist = itemView.findViewById(R.id.sblist);
 
@@ -126,8 +138,31 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         void onItemClick(View view, int position);
     }
 
+    private class CustomWatcher implements TextWatcher
+    {
+        private Object item;
 
+        private CustomWatcher(Object item)
+        {
+            this.item = item;
+        }
 
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
 
+        }
 
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable)
+        {
+
+        }
+    }
 }
