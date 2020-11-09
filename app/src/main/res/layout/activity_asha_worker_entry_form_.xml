@@ -176,7 +176,7 @@
                                 android:layout_marginTop="4dp"
                                 android:layout_marginRight="8dp"
                                 android:id="@+id/edt_work_complt_date"
-                                android:layout_toLeftOf="@+id/img_tentative_cce"
+                                android:layout_toLeftOf="@+id/img_date1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/textboxshape"
@@ -191,7 +191,7 @@
                             <ImageView
                                 android:onClick="ShowDialog"
                                 android:layout_alignParentRight="true"
-                                android:id="@+id/img_tentative_cce"
+                                android:id="@+id/img_date1"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:gravity="center"
@@ -251,12 +251,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-
                     android:layout_width="fill_parent"
-
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-
                     android:weightSum="2"
                     android:orientation="horizontal">
 
@@ -328,7 +325,6 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -419,7 +415,7 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginRight="8dp"
                             android:id="@+id/edt_reg_date"
-                            android:layout_toLeftOf="@+id/img_tentative"
+                            android:layout_toLeftOf="@+id/img_date2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/textboxshape"
@@ -434,7 +430,7 @@
                         <ImageView
                             android:onClick="ShowDialogReg"
                             android:layout_alignParentRight="true"
-                            android:id="@+id/img_tentative"
+                            android:id="@+id/img_date2"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:gravity="center"
@@ -444,6 +440,15 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="नोट: यह कार्य पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
+                android:layout_margin="8dp"
+                android:textSize="13sp"
+                android:textColor="@color/holo_green_dark"/>
 
         </LinearLayout>
     </ScrollView>

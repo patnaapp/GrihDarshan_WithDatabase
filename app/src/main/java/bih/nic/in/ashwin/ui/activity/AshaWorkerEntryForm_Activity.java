@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     Spinner sp_work_categ,sp_work;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
+    Button btn_proceed;
+    ImageView img_date2,img_date1;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -89,6 +93,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         sp_work_categ = findViewById(R.id.sp_work_categ);
         sp_work = findViewById(R.id.sp_work);
+
+        btn_proceed = findViewById(R.id.btn_proceed);
+        img_date2 = findViewById(R.id.img_date2);
+        img_date1 = findViewById(R.id.img_date1);
+
+        tv_note = findViewById(R.id.tv_note);
     }
 
     public void extractDataFromIntent(){
@@ -113,6 +123,18 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_pageno.setText(info.getRegisterPageNo());
         edt_slno.setText(info.getPageSerialNo());
         edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
+
+        if(info.getIsFinalize().equals("Y")) {
+            btn_proceed.setVisibility(View.GONE);
+            img_date2.setVisibility(View.GONE);
+            img_date1.setVisibility(View.GONE);
+            tv_note.setVisibility(View.VISIBLE);
+            edt_volume.setEnabled(false);
+            edt_pageno.setEnabled(false);
+            edt_slno.setEnabled(false);
+            sp_work_categ.setEnabled(false);
+            sp_work.setEnabled(false);
+        }
     }
 
     public void setCategorySpinner(){
