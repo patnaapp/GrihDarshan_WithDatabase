@@ -157,6 +157,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
         {
 
+
         }
 
         @Override

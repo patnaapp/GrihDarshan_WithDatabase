@@ -50,7 +50,7 @@ public class WebServiceHelper {
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
-    public static final String AcceptRjctRecordsFromPacs = "InsertAshaActivity";
+    public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -704,74 +704,65 @@ public class WebServiceHelper {
         return rest;
     }
 
-    public static DefaultResponse UploadAcceptedRecordsFromPacs(AshaWorkEntity data, String regNo) {
+    public static String UploadAcceptedRecordsFromPacs(AshaWorkEntity data,String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
-//        request.addProperty("_RequestId", data.getId());
-//        request.addProperty("_RegistrationNo",regNo);
-//        request.addProperty("_Status","Y");
-
-        DefaultResponse response;
-        SoapObject res1;
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("VerificationBy",userid);
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
 
         try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
 
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs, envelope);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
 
-            res1 = (SoapObject) envelope.getResponse();
-
-            int TotalProperty = res1.getPropertyCount();
-
-            response = new DefaultResponse(res1);
-
-        }
-        catch (Exception e) {
+            // rest=res2.toString();
+        } catch (Exception e) {
             e.printStackTrace();
-            //return "0";
-            return null;
-        }
-        return response;
 
+        }
+        return rest;
     }
 
 
-    public static DefaultResponse UploadRejectedRecordsFromPacs(AshaWorkEntity data, String regNo) {
+    public static String UploadRejectedRecordsFromPacs(AshaWorkEntity data, String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
-//        request.addProperty("_RequestId", data.getId());
-//        request.addProperty("_RegistrationNo",regNo);
-//        request.addProperty("_Status","R");
-
-        DefaultResponse response;
-        SoapObject res1;
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+        request.addProperty("VerificationStatus","R");
+        request.addProperty("VerificationBy",userid);
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
 
         try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
 
-            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs, envelope);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
 
-            res1 = (SoapObject) envelope.getResponse();
-
-            int TotalProperty = res1.getPropertyCount();
-
-            response = new DefaultResponse(res1);
-
-        }
-        catch (Exception e) {
+            // rest=res2.toString();
+        } catch (Exception e) {
             e.printStackTrace();
-            //return "0";
-            return null;
+
         }
-        return response;
+        return rest;
 
     }
 }

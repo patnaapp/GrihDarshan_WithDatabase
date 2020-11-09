@@ -249,7 +249,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void loadWorkerFascilatorData(){
         if (userRole.equals("ASHA")){
             ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
-            if (ashaworkerList.size()>0){
+
                 ArrayList array = new ArrayList<String>();
                 array.add("-Select-");
 
@@ -260,16 +260,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
                 adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sp_worker.setAdapter(adaptor);
-            }
-            else {
-                new GetAshaWorkersList().execute();
-            }
+
 
         }
         else if (userRole.equals("ASHAFC")){
             facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
 
-            if (facilitatorList.size()>0){
                 ArrayList array = new ArrayList<String>();
                 array.add("-Select-");
                 array.add("ALL");
@@ -285,10 +281,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sp_worker.setAdapter(adaptor);
                 sp_worker.setSelection(1);
-            }
-            else {
-                new GetAshaFacilitatorList().execute();
-            }
 
         }
         sp_worker.setOnItemSelectedListener(this);
@@ -318,7 +310,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if (i > 0) {
                     UserRole role = userRoleList.get(i-1);
                     userRole = role.getRole();
-                    loadWorkerFascilatorData();
+                    facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
+                    ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
+                    if (ashaworkerList.size()>0){
+                        loadWorkerFascilatorData();
+                    }
+                    else {
+                        new GetAshaWorkersList().execute();
+                    }
+                    if (facilitatorList.size()>0){
+                        loadWorkerFascilatorData();
+                    }
+                    else {
+                        new GetAshaFacilitatorList().execute();
+                    }
+
                 }
                 break;
             case R.id.sp_worker:
@@ -475,14 +481,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
                 if (i > 0) {
                     loadWorkerFascilatorData();
-//                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
-//                        new UserHomeActivity.GetAshaFacilitatorList().execute();
-//                    }else{
-                    // displaySelectedFragment(new HomeFragment());
-                    // }
+
                     Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
+
                     Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
@@ -509,9 +512,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-
         }
 
         @Override
@@ -528,17 +529,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 DataBaseHelper helper = new DataBaseHelper(getContext());
 
                 long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
-                if (i > 0) {
-
+                if (i > 0)
+                {
+                    loadWorkerFascilatorData();
+                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
                     loadWorkerFascilatorData();
 
-                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
-
-                } else {
                     Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-               //displaySelectedFragment(new HomeFragment());
+                //displaySelectedFragment(new HomeFragment());
             }
         }
     }

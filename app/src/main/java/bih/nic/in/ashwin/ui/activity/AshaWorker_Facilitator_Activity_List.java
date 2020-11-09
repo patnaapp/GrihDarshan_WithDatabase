@@ -6,17 +6,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
@@ -32,6 +36,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
     Financial_Month fmonth;
     RecyclerView rv_data;
     Button btn_finalize;
+    ArrayList<AshaWorkEntity> ashawork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,109 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         else {
 
         }
+
+        btn_finalize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPendingforfinalie(ashawork)){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder1.setMessage("कार्य सूचि विचाराधीन है, कृपया अंतिम रूप देने से पहले सभी कार्य को स्वीकृत या अस्वीकृत करे |");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+                else if (isPendingandnotfincalisedbyasha(ashawork)){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder1.setMessage("कार्य सूचि विचाराधीन है और आशा द्वारा अंतिम रूप नहीं दिया गया , कृपया अंतिम रूप देने से पहले सभी कार्य को स्वीकृत या अस्वीकृत करे |");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+                else if (isPendingByAsha(ashawork)){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder1.setMessage("आशा द्वारा अंतिम रूप नहीं दिया गया |");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+                }
+                else if (isPendingByAnm(ashawork)){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder1.setMessage("पहले से ही अंतिम रूप दिया गया |");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+                else {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder1.setMessage("क्या आप निश्चित हैं कि आप अंतिम रूप देना चाहते हैं");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder1.setNegativeButton(
+                            "नहीं",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+            }
+        });
     }
 
     public void initialise()
@@ -78,15 +186,19 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_finalize = findViewById(R.id.btn_finalize);
-        btn_finalize.setVisibility(View.GONE);
+       // btn_finalize.setVisibility(View.GONE);
 
     }
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
-        if (!isPendingforfinalie(data))
-        {
-            btn_finalize.setVisibility(View.VISIBLE);
-        }
+//        if (!isPendingByAnm(data))
+//        {
+//
+//            btn_finalize.setVisibility(View.VISIBLE);
+//        }
+//        else if(isPendingByAnm(data)) {
+//
+//        }
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
@@ -121,6 +233,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
             if (result != null)
             {
+                ashawork=result;
                 setupRecuyclerView(result);
 
             }
@@ -130,7 +243,35 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
     public static boolean isPendingforfinalie(ArrayList<AshaWorkEntity> arraylist) {
         for (AshaWorkEntity info : arraylist) {
-            if (info.getVerificationStatus().contains("विचाराधीन") && info.get_IsANMFinalize().equals("N")&& (info.getIsFinalize().equals("Y")||info.getIsFinalize().equals("N"))) {
+            if (info.getVerificationStatus().contains("P") && info.get_IsANMFinalize().equals("N")&& info.getIsFinalize().equals("Y")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isPendingandnotfincalisedbyasha(ArrayList<AshaWorkEntity> arraylist) {
+        for (AshaWorkEntity info : arraylist) {
+            if (info.getVerificationStatus().contains("P") && info.get_IsANMFinalize().equals("N")&& info.getIsFinalize().equals("N")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static boolean isPendingByAsha(ArrayList<AshaWorkEntity> arraylist) {
+        for (AshaWorkEntity info : arraylist) {
+            if ((info.getVerificationStatus().contains("A")||info.getVerificationStatus().contains("R")) && info.get_IsANMFinalize().equals("N")&& info.getIsFinalize().equals("N")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isPendingByAnm(ArrayList<AshaWorkEntity> arraylist) {
+        for (AshaWorkEntity info : arraylist) {
+            if ((info.getVerificationStatus().contains("A")||info.getVerificationStatus().contains("R")) && info.get_IsANMFinalize().equals("Y")&& info.getIsFinalize().equals("Y")) {
                 return true;
             }
         }

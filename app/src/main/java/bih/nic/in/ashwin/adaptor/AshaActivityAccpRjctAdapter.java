@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
@@ -38,6 +41,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
     Activity context;
     Financial_Year fyear;
     Financial_Month fmonth;
+    String version="";
 
     public AshaActivityAccpRjctAdapter(Activity context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
         this.mInflater = LayoutInflater.from(context);
@@ -69,14 +73,14 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
 
-        if ((info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+        if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
-            holder.tv_status.setText(info.getVerificationStatus());
+            holder.tv_status.setText("विचाराधीन");
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.VISIBLE);
 
         }
-        else if ((info.getVerificationStatus().contains("स्वीकृत")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+        else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
 
             holder.tv_status.setText("स्वीकृत");
@@ -84,7 +88,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.GONE);
         }
-        else if ((info.getVerificationStatus().contains("अस्वीकृत")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+        else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
             holder.tv_status.setText("अस्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             holder.btn_rjct.setVisibility(View.GONE);
@@ -257,9 +261,9 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         void onItemClick(View view, int position);
     }
 
-    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, DefaultResponse> {
+    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String> {
         AshaWorkEntity data;
-        String rowid;
+        String result;
         int position;
         private final ProgressDialog dialog = new ProgressDialog(context);
         private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
@@ -282,23 +286,25 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
 
         @Override
-        protected DefaultResponse doInBackground(String... param) {
-            DefaultResponse res = WebServiceHelper.UploadAcceptedRecordsFromPacs(data, "");
+        protected String doInBackground(String... param) {
+            String devicename=getDeviceName();
+            String app_version=getAppVersion();
+            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename);
 
-            return res;
+            return result;
 
         }
 
         @Override
-        protected void onPostExecute(DefaultResponse result) {
+        protected void onPostExecute(String result) {
             if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
 
             Log.d("Responsevalue", "" + result);
             if (result != null) {
-                if(result.getStatus()){
-                    mData.get(position).setVerificationStatus("स्वीकृत");
+                if(result.equals("1")){
+                    mData.get(position).setVerificationStatus("A");
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)
@@ -316,7 +322,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
-                    builder.setMessage(result.getMessage());
+                    builder.setMessage("failed");
                     builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -334,9 +340,9 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
     }
 
 
-    private class RejectRecordsFromPacs extends AsyncTask<String, Void, DefaultResponse> {
+    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String> {
         AshaWorkEntity data;
-        String rowid;
+        String result;
         int position;
         private final ProgressDialog dialog = new ProgressDialog(context);
         private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
@@ -359,15 +365,16 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
 
         @Override
-        protected DefaultResponse doInBackground(String... param) {
-
-            DefaultResponse res = WebServiceHelper.UploadRejectedRecordsFromPacs(data, "");
-            return res;
+        protected String doInBackground(String... param) {
+            String devicename=getDeviceName();
+            String app_version=getAppVersion();
+            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename);
+            return result;
 
         }
 
         @Override
-        protected void onPostExecute(DefaultResponse result)
+        protected void onPostExecute(String result)
         {
             if (this.dialog.isShowing())
             {
@@ -375,8 +382,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             }
             Log.d("Responsevalue", "" + result);
             if (result != null) {
-                if(result.getStatus()){
-                    mData.get(position).setVerificationStatus("अस्वीकृत");
+                if(result.equals("1")){
+                    mData.get(position).setVerificationStatus("R");
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)
@@ -393,7 +400,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
-                    builder.setMessage(result.getMessage());
+                    builder.setMessage("Failed");
                     builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -410,6 +417,27 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
     }
 
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
 
+            return model.toUpperCase();
+        } else {
+
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+    public String getAppVersion(){
+        try {
+            version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
+//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return version;
+    }
 
 }
