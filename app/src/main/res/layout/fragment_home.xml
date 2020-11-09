@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_marginBottom="8dp"
-        android:layout_above="@+id/btn_proceed"
+        android:layout_above="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -326,19 +326,38 @@
 
     </LinearLayout>
 
-    <Button
+    <RelativeLayout
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/btn_proceed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginRight="32dp"
-        android:background="@drawable/buttonshape"
-        android:text="     Proceed     "
-        android:textColor="@color/color_white"
-        android:textSize="15sp" />
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_proceed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/buttonshape"
+            android:text="     Proceed     "
+            android:textColor="@color/color_white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="नोट: यह कार्य सूची पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
+            android:layout_margin="8dp"
+            android:textSize="13sp"
+            android:textColor="@color/holo_green_dark"/>
+    </RelativeLayout>
+
+
 
 
     <LinearLayout
@@ -358,4 +377,6 @@
             app:srcCompat="@drawable/ic_add"
             tools:ignore="VectorDrawableCompat"/>
     </LinearLayout>
+
+
 </RelativeLayout>

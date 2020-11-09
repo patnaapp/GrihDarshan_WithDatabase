@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private HomeViewModel homeViewModel;
 
     FloatingActionButton floating_action_button;
-    TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker;
+    TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker;
     RecyclerView rv_data;
     //Spinner sp_facilitator;
@@ -160,6 +160,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_proceed.setVisibility(View.GONE);
+
+        tv_note = root.findViewById(R.id.tv_note);
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
@@ -352,9 +354,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(isAshaFinalizeWork()){
             btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
+            tv_note.setVisibility(View.VISIBLE);
         }else{
             btn_proceed.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.VISIBLE);
+            tv_note.setVisibility(View.GONE);
         }
 
 

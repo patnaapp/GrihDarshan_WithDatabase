@@ -1241,4 +1241,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return userRoleList;
     }
 
+    public ArrayList<Stateamount_entity> getStateAmountList(String userRole){
+
+        ArrayList<Stateamount_entity> list = new ArrayList<Stateamount_entity>();
+
+        try {
+            String[] whereArgs = new String[]{"Y",userRole};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from State_amount where active=? AND desig=?",whereArgs);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                Stateamount_entity info = new Stateamount_entity();
+
+                info.set_StateAmtDesc(cur.getString(cur.getColumnIndex("state_amt_desc")));
+                info.set_StateAmt(cur.getString(cur.getColumnIndex("state_amt")));
+                info.set_Active(cur.getString(cur.getColumnIndex("active")));
+                info.set_DesigId(cur.getString(cur.getColumnIndex("desig_id")));
+                info.set_Desig(cur.getString(cur.getColumnIndex("desig")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return list;
+    }
+
 }
