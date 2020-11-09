@@ -24,6 +24,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
 
@@ -44,6 +45,7 @@ public class WebServiceHelper {
     public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
     public static final String Block_LIST_METHOD = "getBlock";
     public static final String Register_METHOD = "Registerdetails";
+    public static final String Strate_METHOD = "StateAmount";
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
@@ -402,6 +404,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     RegisterDetailsEntity sm = new RegisterDetailsEntity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<Stateamount_entity> getstateamount() {
+
+        SoapObject res1;
+        res1 = getServerData(Strate_METHOD, Stateamount_entity.Stateamount_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Stateamount_entity> fieldList = new ArrayList<Stateamount_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Stateamount_entity sm = new Stateamount_entity(final_object);
                     fieldList.add(sm);
                 }
             } else

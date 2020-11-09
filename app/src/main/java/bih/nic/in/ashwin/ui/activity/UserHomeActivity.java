@@ -47,6 +47,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -560,11 +561,65 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setregisterDetails_Local(result);
                 if (i > 0) {
 
+
+                        new GetStateAmount().execute();
+
+
+                    Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetStateAmount extends AsyncTask<String, Void, ArrayList<Stateamount_entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading state amount details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<Stateamount_entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getstateamount();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Stateamount_entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setstateamount_Local(result);
+                if (i > 0) {
+
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaWorkersList().execute();
                     }
 
-                    Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();

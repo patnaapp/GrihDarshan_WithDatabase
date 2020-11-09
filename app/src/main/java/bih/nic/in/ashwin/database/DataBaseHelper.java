@@ -26,6 +26,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 
@@ -488,6 +489,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     if (!(c > 0)) {
 
                         c = db.insert("RegisterDetails", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setstateamount_Local(ArrayList<Stateamount_entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Stateamount_entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("ID", info.get(i).get_Id());
+                    values.put("state_amt_desc", info.get(i).get_StateAmtDesc());
+                    values.put("state_amt", info.get(i).get_StateAmt());
+                    values.put("active", info.get(i).get_Active());
+                    values.put("desig_id", info.get(i).get_DesigId());
+                    values.put("desig", info.get(i).get_Desig());
+
+                    String[] whereArgs = new String[]{info.get(i).get_Id()};
+
+                    c = db.update("State_amount", values, "ID=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("State_amount", null, values);
                     }
 
 
