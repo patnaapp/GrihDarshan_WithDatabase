@@ -8,8 +8,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
     RecyclerView rv_data;
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
+    String version="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,10 +160,12 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
                     builder1.setCancelable(true);
 
                     builder1.setPositiveButton(
-                            "ओके",
+                            "हाँ",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
+                                    for (AshaWorkEntity cn : ashawork) {
+                                        new FinalizeAshaActivityByANM(cn).execute();
+                                    }
                                 }
                             });
                     builder1.setNegativeButton(
@@ -277,4 +283,106 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         }
         return false;
     }
+
+
+    private class FinalizeAshaActivityByANM extends AsyncTask<String, Void, String> {
+        AshaWorkEntity data;
+        String result;
+        int position;
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorker_Facilitator_Activity_List.this);
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this).create();
+
+
+        FinalizeAshaActivityByANM(AshaWorkEntity data) {
+            this.data = data;
+         //   this.position = position;
+            //_uid = data.getId();
+            //rowid = data.get_phase1_id();
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String devicename=getDeviceName();
+            String app_version=getAppVersion();
+            result = WebServiceHelper.FinalizeAshaActivityANM(data,CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID(),app_version,devicename);
+            return result;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue", "" + result);
+            if (result != null) {
+                if(result.equals("1")){
+
+
+                    new android.app.AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड को अंतिम रूप दिया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            }).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
+                    builder.setIcon(R.drawable.ashwin_logo);
+                    builder.setTitle("Failed");
+                    // Ask the final question
+                    builder.setMessage("Failed");
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
+            } else {
+
+                Toast.makeText(AshaWorker_Facilitator_Activity_List.this, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+
+            return model.toUpperCase();
+        } else {
+
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+    public String getAppVersion(){
+        try {
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
+//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return version;
+    }
+
 }
