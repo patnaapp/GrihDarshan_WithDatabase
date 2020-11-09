@@ -51,6 +51,7 @@ public class WebServiceHelper {
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
+    public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -754,6 +755,38 @@ public class WebServiceHelper {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(
                     SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
+
+    }
+
+
+    public static String FinalizeAshaActivityANM(AshaWorkEntity data, String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, FinalizeActivityByAnm);
+        request.addProperty("sal_aID", data.get_anm_id());
+        request.addProperty("ANMVerified","Y");
+        request.addProperty("ANMVerifiedBy",userid);
+        request.addProperty("ANMVerifiedRemarks","");
+        request.addProperty("ANMVerifiedIMEI",deviceid);
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + FinalizeActivityByAnm,envelope);
             // res2 = (SoapObject) envelope.getResponse();
             rest = envelope.getResponse().toString();
 
