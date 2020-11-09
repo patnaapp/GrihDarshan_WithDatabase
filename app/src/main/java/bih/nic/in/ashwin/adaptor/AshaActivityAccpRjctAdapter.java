@@ -92,18 +92,18 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
-        holder.sblist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                intent.putExtra("Type", "U");
-                context.startActivity(intent);
-
-            }
-        });
+//        holder.sblist.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+//                intent.putExtra("FYear", fyear);
+//                intent.putExtra("FMonth", fmonth);
+//                intent.putExtra("Type", "U");
+//                context.startActivity(intent);
+//
+//            }
+//        });
 
         holder.btn_accpt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,7 +286,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
                     new android.app.AlertDialog.Builder(context)
                             .setTitle("सूचना")
-                            .setMessage("नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|")
+                            .setMessage("रिकॉर्ड स्वीकृत किया गया")
                             .setCancelable(true)
                             .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
@@ -350,8 +350,10 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
 
         @Override
-        protected void onPostExecute(DefaultResponse result) {
-            if (this.dialog.isShowing()) {
+        protected void onPostExecute(DefaultResponse result)
+        {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
             Log.d("Responsevalue", "" + result);
@@ -362,7 +364,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
                     new android.app.AlertDialog.Builder(context)
                             .setTitle("सूचना")
-                            .setMessage("नौकरी का अनुरोध अपडेट कर दिया गया")
+                            .setMessage("रिकॉर्ड अस्वीकृत किया गया")
                             .setCancelable(true)
                             .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
