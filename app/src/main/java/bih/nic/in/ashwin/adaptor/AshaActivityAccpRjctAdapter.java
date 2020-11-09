@@ -68,7 +68,28 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_volume.setText(info.getVolume());
         holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
-        holder.tv_status.setText(info.getVerificationStatus());
+
+        if (info.getVerificationStatus().contains("विचाराधीन"))
+        {
+            holder.tv_status.setText(info.getVerificationStatus());
+            holder.btn_rjct.setVisibility(View.VISIBLE);
+            holder.btn_accpt.setVisibility(View.VISIBLE);
+
+        }
+        else if (info.getVerificationStatus().contains("स्वीकृत")){
+
+            holder.tv_status.setText("स्वीकृत");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+            holder.btn_rjct.setVisibility(View.VISIBLE);
+            holder.btn_accpt.setVisibility(View.GONE);
+        }
+        else if (info.getVerificationStatus().contains("अस्वीकृत")){
+            holder.tv_status.setText("अस्वीकृत");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+            holder.btn_rjct.setVisibility(View.GONE);
+            holder.btn_accpt.setVisibility(View.VISIBLE);
+        }
+
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
         holder.sblist.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +281,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             Log.d("Responsevalue", "" + result);
             if (result != null) {
                 if(result.getStatus()){
-                  //  mData.get(position).setIsAccepted("Y");
+                    mData.get(position).setVerificationStatus("स्वीकृत");
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)
@@ -336,7 +357,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             Log.d("Responsevalue", "" + result);
             if (result != null) {
                 if(result.getStatus()){
-                   // mData.get(position).setIsAccepted("R");
+                    mData.get(position).setVerificationStatus("अस्वीकृत");
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)
