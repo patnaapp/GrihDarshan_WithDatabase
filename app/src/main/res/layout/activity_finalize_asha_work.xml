@@ -253,7 +253,8 @@
                 android:background="@drawable/buttonshapeaccept"
                 android:text="    अंतिम रूप दें  "
                 android:textColor="#ffff"
-                android:textSize="17sp"/>
+                android:textSize="17sp"
+                android:onClick="finalizeActivity"/>
 
             <Button
                 android:layout_marginLeft="6dp"
@@ -267,7 +268,8 @@
                 android:background="@drawable/buttonshapedecline"
                 android:text="    पीछे जाएँ   "
                 android:textColor="#ffff"
-                android:textSize="17sp"/>
+                android:textSize="17sp"
+                android:onClick="dismissActivity"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
