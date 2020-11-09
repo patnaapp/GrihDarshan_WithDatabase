@@ -419,6 +419,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                 new SyncAshaActivityList().execute();
             }
+        }else{
+            setFYearSpinner();
         }
     }
 
@@ -509,9 +511,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-
         }
 
         @Override
@@ -538,7 +538,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-               //displaySelectedFragment(new HomeFragment());
             }
         }
     }
