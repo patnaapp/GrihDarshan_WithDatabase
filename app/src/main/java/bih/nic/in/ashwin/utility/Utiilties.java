@@ -516,4 +516,17 @@ public class Utiilties {
 
         return imei;
     }
+
+    public static String getAshaWorkActivityStatus(String code){
+        switch (code){
+            case "P":
+                return "विचाराधीन";
+            case "A":
+                return "स्वीकृत";
+            case "R":
+                return "अस्वीकृत";
+            default:
+                return "";
+        }
+    }
 }

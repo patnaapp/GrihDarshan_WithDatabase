@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -60,7 +61,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     Toolbar toolbar;
 
     private ProgressDialog dialog;
-    Fragment homeFrag;
+    HomeFragment homeFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +135,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     public void
     displaySelectedFragment(Fragment fragment){
-        homeFrag = fragment;
+        homeFrag = (HomeFragment) fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
@@ -542,7 +543,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     }else{
                         if(dialog.isShowing())
                             dialog.dismiss();
-
+                        refreshFragment();
                     }
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
@@ -588,7 +589,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
+                refreshFragment();
             }
         }
+    }
+
+    public void refreshFragment(){
+        homeFrag.setFYearSpinner();
+        //f.setFYearSpinner();
     }
 }
