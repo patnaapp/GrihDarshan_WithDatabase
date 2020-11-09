@@ -744,6 +744,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("category_id", info.get(i).get_AcitivtyCategoryId());
                     values.put("category_name", info.get(i).get_AcitivtyCategoryDesc());
                     values.put("category_name_hn", info.get(i).get_AcitivtyCategoryDesc_Hn());
+                    values.put("AcitivtyType", info.get(i).getAcitivtyType());
 
 
                     String[] whereArgs = new String[]{info.get(i).get_AcitivtyCategoryId()};
@@ -882,7 +883,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master",null);
+            String[] whereArgs = new String[]{"D"};
+            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE AcitivtyType=?",whereArgs);
 
             while (cur.moveToNext()) {
 
@@ -891,6 +893,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_AcitivtyCategoryId(cur.getString(cur.getColumnIndex("category_id")));
                 info.set_AcitivtyCategoryDesc(cur.getString(cur.getColumnIndex("category_name")));
                 info.set_AcitivtyCategoryDesc_Hn(cur.getString(cur.getColumnIndex("category_name_hn")));
+                info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
                 list.add(info);
             }
 

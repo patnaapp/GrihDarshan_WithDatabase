@@ -10,12 +10,13 @@ public class ActivityCategory_entity implements KvmSerializable {
 
     public static Class<ActivityCategory_entity> Category_CLASS = ActivityCategory_entity.class;
 
-    private String _AcitivtyCategoryId, _AcitivtyCategoryDesc,_AcitivtyCategoryDesc_Hn;
+    private String _AcitivtyCategoryId, _AcitivtyCategoryDesc,_AcitivtyCategoryDesc_Hn,AcitivtyType;
 
     public ActivityCategory_entity(SoapObject sobj) {
         this._AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
         this._AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
         this._AcitivtyCategoryDesc_Hn = sobj.getProperty("AcitivtyCategoryDesc_Hn").toString();
+        this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
     }
 
     public ActivityCategory_entity() {
@@ -40,6 +41,14 @@ public class ActivityCategory_entity implements KvmSerializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getAcitivtyType() {
+        return AcitivtyType;
+    }
+
+    public void setAcitivtyType(String acitivtyType) {
+        AcitivtyType = acitivtyType;
     }
 
     public String get_AcitivtyCategoryId() {

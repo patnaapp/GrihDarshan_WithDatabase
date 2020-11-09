@@ -196,6 +196,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setFYearSpinner(){
+        Log.e("called", "From");
         fYearArray = dbhelper.getFinancialYearList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -380,7 +381,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.GONE);
         }
 
-
+        if(ashaWorkData.size() == 0){
+            tv_note.setVisibility(View.GONE);
+        }
     }
 
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
@@ -425,8 +428,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                 new SyncAshaActivityList().execute();
             }
-        }else{
-            setFYearSpinner();
         }
     }
 
