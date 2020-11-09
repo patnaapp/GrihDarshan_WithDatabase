@@ -312,18 +312,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     userRole = role.getRole();
                     facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
                     ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
-                    if (ashaworkerList.size()>0){
-                        loadWorkerFascilatorData();
+                    if (userRole.equals("ASHA")){
+                        if (ashaworkerList.size()>0){
+                            loadWorkerFascilatorData();
+                        }
+                        else {
+                            new GetAshaWorkersList().execute();
+                        }
                     }
-                    else {
-                        new GetAshaWorkersList().execute();
+                   if (userRole.equals("ASHAFC")){
+                        if (facilitatorList.size()>0){
+                            loadWorkerFascilatorData();
+                        }
+                        else {
+                            new GetAshaFacilitatorList().execute();
+                        }
                     }
-                    if (facilitatorList.size()>0){
-                        loadWorkerFascilatorData();
-                    }
-                    else {
-                        new GetAshaFacilitatorList().execute();
-                    }
+
 
                 }
                 break;
