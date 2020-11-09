@@ -12,6 +12,8 @@ public class Activity_entity implements KvmSerializable {
 
     private String _ActivityId, _ActivityDesc,_ActivityAmt,_AcitivtyCategoryId,_OrderStatus,_RegisterId,AcitivtyType;
 
+    private Boolean isChecked = false;
+
     public Activity_entity(SoapObject sobj) {
         this._ActivityId = sobj.getProperty("ActivityId").toString();
         this._ActivityDesc = sobj.getProperty("ActivityDesc").toString();
@@ -44,6 +46,14 @@ public class Activity_entity implements KvmSerializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public Boolean getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(Boolean checked) {
+        isChecked = checked;
     }
 
     public String getAcitivtyType() {
