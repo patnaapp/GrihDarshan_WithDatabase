@@ -187,9 +187,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_username.setText(userInfo.getUserName());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
-        tv_district.setText(userInfo.getDistName());
-        tv_block.setText(userInfo.getBlockName());
-        tv_panchayat.setText(userInfo.getPanchayatName());
+        tv_district.setText(userInfo.getDistNameHN());
+        tv_block.setText(userInfo.getBlockNameHN());
+        tv_panchayat.setText(userInfo.getPanchayatNameHN());
 
         facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
         ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
@@ -261,7 +261,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
                 adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 sp_worker.setAdapter(adaptor);
-
 
         }
         else if (userRole.equals("ASHAFC")){

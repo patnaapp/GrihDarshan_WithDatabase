@@ -564,7 +564,8 @@ public class LoginActivity extends Activity {
         return userDetails;
     }
 
-    public void loadUserRoleSpinnerdata() {
+    public void
+    loadUserRoleSpinnerdata() {
         localDBHelper = new DataBaseHelper(getApplicationContext());
         userRoleList = localDBHelper.getUserRoleList();
         String[] typeNameArray = new String[userRoleList.size() + 1];

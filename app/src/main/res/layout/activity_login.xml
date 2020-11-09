@@ -53,7 +53,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Username">
+            android:hint="यूजर का नाम">
 
             <EditText
                 android:id="@+id/et_username"
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="Enter Password">
+            android:hint="पासवर्ड">
 
             <EditText
                 android:id="@+id/et_password"
@@ -91,7 +91,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="User Role"
+                android:text="यूजर रोल"
                 android:textColor="@color/color_footer"
                 android:textSize="12sp"/>
 
@@ -114,7 +114,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/buttonshape"
-            android:text="Login"
+            android:text="लॉगिन करें"
             android:textColor="@color/color_white"
             android:textSize="17sp" />
 
