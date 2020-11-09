@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
 
         setActivityRecycler();
+
+        updateTotalAmount();
     }
 
     public Double getTotalWorkAmount(){
@@ -129,10 +132,15 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         activity.setChecked(isChecked);
         activityArray.set(position, activity);
 
-
+        updateTotalAmount();
     }
 
+    public void updateTotalAmount(){
+        Double monthly = getMonthlyAmount();
 
+        tv_monthly_amnt.setText("\u20B9"+monthly);
+        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount+monthly));
+    }
 
     public Double getMonthlyAmount(){
         Double amount = 0.0;
@@ -144,7 +152,24 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         return amount;
     }
 
-    public Double getTotalAmount(Double monthlyAmount){
-        return  totalWorkAmount+totalStateAmount+monthlyAmount;
+    public void dismissActivity(View view) {
+        finish();
+    }
+
+    public void finalizeActivity(View view) {
+        if(isValidated()){
+            Toast.makeText(this, "Valid", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Please select atleast one activity", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public Boolean isValidated(){
+        for(Activity_entity info: activityArray){
+            if(info.getChecked())
+               return true;
+        }
+
+        return false;
     }
 }

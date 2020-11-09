@@ -425,6 +425,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                 new SyncAshaActivityList().execute();
             }
+        }else{
+            setFYearSpinner();
         }
     }
 

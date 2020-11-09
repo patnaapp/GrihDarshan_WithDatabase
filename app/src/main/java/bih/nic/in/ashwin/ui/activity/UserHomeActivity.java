@@ -59,6 +59,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     DrawerLayout drawer;
     Toolbar toolbar;
 
+    private ProgressDialog dialog;
+    Fragment homeFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
        /* FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +134,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     public void
     displaySelectedFragment(Fragment fragment){
+        homeFrag = fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
@@ -168,39 +174,26 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private void syncData()
     {
-
         new GetFinYear().execute();
     }
 
 
     private class GetFinYear extends AsyncTask<String, Void, ArrayList<Financial_Year>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading financial year...");
-            this.dialog.show();
-           // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading financial year...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Financial_Year> doInBackground(String... param) {
 
-
             return WebServiceHelper.getFinancialYear();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Financial_Year> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
@@ -210,7 +203,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 long i = helper.setFinyr_Local(result);
                 if (i > 0) {
-
                     new GetFinMonth().execute();
                     Toast.makeText(getApplicationContext(), "Financial year loaded", Toast.LENGTH_SHORT).show();
 
@@ -224,38 +216,25 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private class GetFinMonth extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading financial month...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading financial month...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Financial_Month> doInBackground(String... param) {
 
-
             return WebServiceHelper.getFinancialMonth();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Financial_Month> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
-
 
                 long i = helper.setFinMonth_Local(result);
                 if (i > 0) {
@@ -273,38 +252,25 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Activity list...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading Activity list...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Activity_entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getActivityList();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Activity_entity> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
-
 
                 long i = helper.setActivityList_Local(result);
                 if (i > 0) {
@@ -320,41 +286,27 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     private class GetActivityCategoryList extends AsyncTask<String, Void, ArrayList<ActivityCategory_entity>> {
-
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
 
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Category list...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading Category list...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<ActivityCategory_entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getActivityCAtegoryList();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<ActivityCategory_entity> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
-
 
                 long i = helper.setActivityCategoryList_Local(result);
                 if (i > 0) {
@@ -365,45 +317,31 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }
     }
 
     private class GetDistrictList extends AsyncTask<String, Void, ArrayList<District_list>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading District list...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading District list...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<District_list> doInBackground(String... param) {
 
-
             return WebServiceHelper.getDistrictList();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<District_list> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
-
 
                 long i = helper.setDistrictList_Local(result);
                 if (i > 0) {
@@ -419,45 +357,31 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     private class GetBLOCKTDATA extends AsyncTask<String, Void, ArrayList<Block_List>> {
-
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
 
         @Override
         protected void onPreExecute() {
 
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Panchayat...");
-            this.dialog.show();
-
+            dialog.setMessage("Loading Panchayat...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Block_List> doInBackground(String... param) {
 
-
             return WebServiceHelper.getBlockList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode());
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Block_List> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
                 long i = helper.setBlockLocal(result,CommonPref.getUserDetails(getApplicationContext()).getDistrictCode());
                 if (i > 0) {
-                    // setPanchayatData();
                     new GetPANCHAYATDATA().execute();
 
                     Toast.makeText(getApplicationContext(), "Block loaded", Toast.LENGTH_SHORT).show();
@@ -465,50 +389,34 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }
     }
 
     private class GetPANCHAYATDATA extends AsyncTask<String, Void, ArrayList<Panchayat_List>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Panchayat...");
-            this.dialog.show();
-
+            dialog.setMessage("Loading Panchayat...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Panchayat_List> doInBackground(String... param) {
 
-
             return WebServiceHelper.getPanchayatName(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Panchayat_List> result) {
-            if (this.dialog.isShowing()) {
-                this.dialog.dismiss();
-            }
 
             if (result != null) {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
                 long i = helper.setPanchayatName(result,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0) {
-                    // setPanchayatData();
-
                       new GetRegisterDetails().execute();
                     Toast.makeText(getApplicationContext(), "Panchayat loaded", Toast.LENGTH_SHORT).show();
 
@@ -520,36 +428,23 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     private class GetRegisterDetails extends AsyncTask<String, Void, ArrayList<RegisterDetailsEntity>> {
-
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
 
         @Override
         protected void onPreExecute() {
 
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Register details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading Register details...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<RegisterDetailsEntity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getregisterDetails();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
 
             if (result != null)
             {
@@ -557,14 +452,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
                 long i = helper.setregisterDetails_Local(result);
                 if (i > 0) {
-
-
-                        new GetStateAmount().execute();
-
-
+                    new GetStateAmount().execute();
                     Toast.makeText(getApplicationContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -577,33 +467,20 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private class GetStateAmount extends AsyncTask<String, Void, ArrayList<Stateamount_entity>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading state amount details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading state amount details...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<Stateamount_entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getstateamount();
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Stateamount_entity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
 
             if (result != null)
             {
@@ -611,12 +488,14 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
                 long i = helper.setstateamount_Local(result);
                 if (i > 0) {
 
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaWorkersList().execute();
+                    }else{
+                        if(dialog.isShowing())
+                            dialog.dismiss();
                     }
 
                     Toast.makeText(getApplicationContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
@@ -631,33 +510,22 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
 
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Asha details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading Asha details...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
+
 
             if (result != null)
             {
@@ -672,7 +540,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaFacilitatorList().execute();
                     }else{
-                        displaySelectedFragment(new HomeFragment());
+                        if(dialog.isShowing())
+                            dialog.dismiss();
+
                     }
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
@@ -686,33 +556,22 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(UserHomeActivity.this);
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(UserHomeActivity.this).create();
-
         @Override
         protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Facilitator details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
+            dialog.setMessage("Loading Facilitator details...");
+            dialog.show();
         }
 
         @Override
         protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
 
-
             return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
+            if(dialog.isShowing())
+                dialog.dismiss();
 
             if (result != null)
             {
@@ -729,7 +588,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-                displaySelectedFragment(new HomeFragment());
             }
         }
     }
