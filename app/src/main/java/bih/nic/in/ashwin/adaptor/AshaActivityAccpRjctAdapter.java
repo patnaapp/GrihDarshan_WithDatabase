@@ -69,25 +69,42 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
 
-        if (info.getVerificationStatus().contains("विचाराधीन"))
+        if ((info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
             holder.tv_status.setText(info.getVerificationStatus());
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.VISIBLE);
 
         }
-        else if (info.getVerificationStatus().contains("स्वीकृत")){
+        else if ((info.getVerificationStatus().contains("स्वीकृत")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+        {
 
             holder.tv_status.setText("स्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.GONE);
         }
-        else if (info.getVerificationStatus().contains("अस्वीकृत")){
+        else if ((info.getVerificationStatus().contains("अस्वीकृत")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("विचाराधीन") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
             holder.tv_status.setText("अस्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             holder.btn_rjct.setVisibility(View.GONE);
             holder.btn_accpt.setVisibility(View.VISIBLE);
+        }
+        else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+        {
+            holder.btn_rjct.setVisibility(View.GONE);
+            holder.btn_accpt.setVisibility(View.GONE);
+            if (info.getVerificationStatus().equals("P"))
+            {
+                holder.tv_status.setText("विचाराधीन");
+            }
+            else if (info.getVerificationStatus().equals("A")){
+                holder.tv_status.setText("स्वीकृत");
+            }
+            else if (info.getVerificationStatus().equals("R")){
+                holder.tv_status.setText("अस्वीकृत");
+            }
+
         }
 
         holder.tv_count.setText(String.valueOf(position+1)+".");

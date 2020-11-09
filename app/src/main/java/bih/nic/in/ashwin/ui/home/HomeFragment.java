@@ -249,34 +249,47 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void loadWorkerFascilatorData(){
         if (userRole.equals("ASHA")){
             ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
-            ArrayList array = new ArrayList<String>();
-            array.add("-Select-");
+            if (ashaworkerList.size()>0){
+                ArrayList array = new ArrayList<String>();
+                array.add("-Select-");
 
-            for (AshaWoker_Entity info: ashaworkerList){
-                array.add(info.get_Asha_Name_Hn());
+                for (AshaWoker_Entity info: ashaworkerList){
+                    array.add(info.get_Asha_Name_Hn());
+                }
+
+                ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+                adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                sp_worker.setAdapter(adaptor);
+            }
+            else {
+                new GetAshaWorkersList().execute();
             }
 
-            ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
-            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            sp_worker.setAdapter(adaptor);
         }
         else if (userRole.equals("ASHAFC")){
             facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
-            ArrayList array = new ArrayList<String>();
-            array.add("-Select-");
-            array.add("ALL");
 
-            for (AshaFacilitator_Entity info: facilitatorList)
-            {
-                // if(!info.getFinancial_year().equals("anyType{}")){
-                array.add(info.get_Facilitator_Name_Hn());
-                // }
+            if (facilitatorList.size()>0){
+                ArrayList array = new ArrayList<String>();
+                array.add("-Select-");
+                array.add("ALL");
+
+                for (AshaFacilitator_Entity info: facilitatorList)
+                {
+                    // if(!info.getFinancial_year().equals("anyType{}")){
+                    array.add(info.get_Facilitator_Name_Hn());
+                    // }
+                }
+
+                ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+                adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                sp_worker.setAdapter(adaptor);
+                sp_worker.setSelection(1);
+            }
+            else {
+                new GetAshaFacilitatorList().execute();
             }
 
-            ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
-            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            sp_worker.setAdapter(adaptor);
-            sp_worker.setSelection(1);
         }
         sp_worker.setOnItemSelectedListener(this);
     }
@@ -420,5 +433,113 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
 
         return false;
+    }
+
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Asha details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+
+                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
+                if (i > 0) {
+                    loadWorkerFascilatorData();
+//                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
+//                        new UserHomeActivity.GetAshaFacilitatorList().execute();
+//                    }else{
+                    // displaySelectedFragment(new HomeFragment());
+                    // }
+                    Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Facilitator details...");
+            this.dialog.show();
+            // sync.setBackgroundResource(R.drawable.syncr);
+        }
+
+        @Override
+        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
+
+
+            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
+                if (i > 0) {
+
+                    loadWorkerFascilatorData();
+
+                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+               //displaySelectedFragment(new HomeFragment());
+            }
+        }
     }
 }

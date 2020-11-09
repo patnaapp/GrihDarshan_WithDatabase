@@ -130,7 +130,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
     public static boolean isPendingforfinalie(ArrayList<AshaWorkEntity> arraylist) {
         for (AshaWorkEntity info : arraylist) {
-            if (info.getVerificationStatus().contains("विचाराधीन")) {
+            if (info.getVerificationStatus().contains("विचाराधीन") && info.get_IsANMFinalize().equals("N")&& (info.getIsFinalize().equals("Y")||info.getIsFinalize().equals("N"))) {
                 return true;
             }
         }
