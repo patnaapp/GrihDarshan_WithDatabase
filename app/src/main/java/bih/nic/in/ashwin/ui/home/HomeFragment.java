@@ -251,36 +251,36 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if (userRole.equals("ASHA")){
             ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
 
-                ArrayList array = new ArrayList<String>();
-                array.add("-Select-");
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
 
-                for (AshaWoker_Entity info: ashaworkerList){
-                    array.add(info.get_Asha_Name_Hn());
-                }
+            for (AshaWoker_Entity info: ashaworkerList){
+                array.add(info.get_Asha_Name_Hn());
+            }
 
-                ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
-                adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                sp_worker.setAdapter(adaptor);
+            ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sp_worker.setAdapter(adaptor);
 
         }
         else if (userRole.equals("ASHAFC")){
             facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
 
-                ArrayList array = new ArrayList<String>();
-                array.add("-Select-");
-                array.add("ALL");
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
+            array.add("ALL");
 
-                for (AshaFacilitator_Entity info: facilitatorList)
-                {
-                    // if(!info.getFinancial_year().equals("anyType{}")){
-                    array.add(info.get_Facilitator_Name_Hn());
-                    // }
-                }
+            for (AshaFacilitator_Entity info: facilitatorList)
+            {
+                // if(!info.getFinancial_year().equals("anyType{}")){
+                array.add(info.get_Facilitator_Name_Hn());
+                // }
+            }
 
-                ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
-                adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                sp_worker.setAdapter(adaptor);
-                sp_worker.setSelection(1);
+            ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sp_worker.setAdapter(adaptor);
+            sp_worker.setSelection(1);
 
         }
         sp_worker.setOnItemSelectedListener(this);
@@ -320,7 +320,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             new GetAshaWorkersList().execute();
                         }
                     }
-                   if (userRole.equals("ASHAFC")){
+                    if (userRole.equals("ASHAFC")){
                         if (facilitatorList.size()>0){
                             loadWorkerFascilatorData();
                         }

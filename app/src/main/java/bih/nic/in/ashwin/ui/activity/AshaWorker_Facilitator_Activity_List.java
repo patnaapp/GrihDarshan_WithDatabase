@@ -54,14 +54,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-
-        if (user_role.equals("ASHA")){
+        if (user_role.equals("ASHA"))
+        {
             asha_worker_id=getIntent().getStringExtra("ashaid");
             asha_worker_nm=getIntent().getStringExtra("ashanm");
             tv_name.setText(asha_worker_nm);
             tv_role.setText("आशा वर्कर");
         }
-        else if (user_role.equals("ASHAFC")) {
+        else if (user_role.equals("ASHAFC"))
+        {
             faciltator_id=getIntent().getStringExtra("_faciltator_id");
             facilitator_nm=getIntent().getStringExtra("_faciltator_nm");
             tv_name.setText(facilitator_nm);
@@ -192,7 +193,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_finalize = findViewById(R.id.btn_finalize);
-       // btn_finalize.setVisibility(View.GONE);
+        // btn_finalize.setVisibility(View.GONE);
 
     }
 
@@ -295,7 +296,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
 
         FinalizeAshaActivityByANM(AshaWorkEntity data) {
             this.data = data;
-         //   this.position = position;
+            //   this.position = position;
             //_uid = data.getId();
             //rowid = data.get_phase1_id();
 
@@ -335,12 +336,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
                             .setMessage("रिकॉर्ड को अंतिम रूप दिया गया")
                             .setCancelable(true)
                             .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
                                     dialog.dismiss();
                                     finish();
                                 }
                             }).show();
-                }else{
+                }
+                else
+                    {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
@@ -354,8 +358,9 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
                     });
                 }
 
-            } else {
-
+            }
+            else
+            {
                 Toast.makeText(AshaWorker_Facilitator_Activity_List.this, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
             }
 
