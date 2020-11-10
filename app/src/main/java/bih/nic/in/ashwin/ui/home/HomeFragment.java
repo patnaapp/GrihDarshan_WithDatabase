@@ -38,6 +38,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
+import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
@@ -135,7 +136,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
 
-                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                    Intent i = new Intent(getContext(), AshaFacilitatorNoOfDays_Activity.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
                     // i.putExtra("role", userRole);
@@ -331,6 +332,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                         btn_proceed.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.VISIBLE);
+                        ll_floating_btn.setVisibility(View.GONE);
 
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
