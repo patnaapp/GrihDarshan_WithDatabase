@@ -14,7 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,15 +26,18 @@ import java.util.ArrayList;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
+import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
-public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
+public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
     TextView tv_name,tv_year,tv_month,tv_role;
@@ -41,43 +47,49 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
     String version="";
+    Spinner sp_worker;
+    ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
+    DataBaseHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asha_worker__facilitator___list);
 
+        dbhelper=new DataBaseHelper(this);
         initialise();
 
         user_role=getIntent().getStringExtra("role");
-        svrid=getIntent().getStringExtra("svr");
+        //   svrid=getIntent().getStringExtra("svr");
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        if (user_role.equals("ASHA"))
-        {
-            asha_worker_id=getIntent().getStringExtra("ashaid");
-            asha_worker_nm=getIntent().getStringExtra("ashanm");
-            tv_name.setText(asha_worker_nm);
-            tv_role.setText("आशा वर्कर");
-        }
-        else if (user_role.equals("ASHAFC"))
-        {
-            faciltator_id=getIntent().getStringExtra("_faciltator_id");
-            facilitator_nm=getIntent().getStringExtra("_faciltator_nm");
-            tv_name.setText(facilitator_nm);
-            tv_role.setText("आशा फैसिलिटेटर");
-        }
+//        if (user_role.equals("ASHA"))
+//        {
+//            asha_worker_id=getIntent().getStringExtra("ashaid");
+//            asha_worker_nm=getIntent().getStringExtra("ashanm");
+//            tv_name.setText(asha_worker_nm);
+        tv_role.setText("आशा वर्कर");
+//        }
+//        else if (user_role.equals("ASHAFC"))
+//        {
+//            faciltator_id=getIntent().getStringExtra("_faciltator_id");
+//            facilitator_nm=getIntent().getStringExtra("_faciltator_nm");
+//            tv_name.setText(facilitator_nm);
+//            tv_role.setText("आशा फैसिलिटेटर");
+//        }
+
+        loadWorkerFascilatorData();
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
-
-        if (user_role.equals("ASHA")) {
-            new SynchronizeAshaActivityList().execute();
-        }
-        else {
-
-        }
+//
+//        if (user_role.equals("ASHA")) {
+//            new SynchronizeAshaActivityList().execute();
+//        }
+//        else {
+//
+//        }
 
         btn_finalize.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +205,9 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_finalize = findViewById(R.id.btn_finalize);
+        sp_worker = findViewById(R.id.sp_worker);
         // btn_finalize.setVisibility(View.GONE);
+        sp_worker.setOnItemSelectedListener(this);
 
     }
 
@@ -210,6 +224,33 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
     }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+
+            case R.id.sp_worker:
+                if (position > 0) {
+
+
+                    AshaWoker_Entity role = ashaworkerList.get(position - 1);
+                    asha_worker_nm = role.get_Asha_Name_Hn();
+                    asha_worker_id = role.get_ASHAID();
+                    svrid = role.get_svr_id();
+                    tv_name.setText(asha_worker_nm);
+                    new SynchronizeAshaActivityList().execute();
+
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
 
     private class SynchronizeAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
 
@@ -344,7 +385,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
                             }).show();
                 }
                 else
-                    {
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
@@ -389,5 +430,26 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity {
         }
         return version;
     }
+
+    public void loadWorkerFascilatorData(){
+        if (user_role.equals("ASHA")){
+            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode());
+
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
+
+            for (AshaWoker_Entity info: ashaworkerList){
+                array.add(info.get_Asha_Name_Hn());
+            }
+
+            ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sp_worker.setAdapter(adaptor);
+
+        }
+
+
+    }
+
 
 }

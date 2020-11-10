@@ -259,6 +259,7 @@
 
         <LinearLayout
             android:layout_margin="16dp"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll_hsc"
@@ -322,13 +323,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_alignParentBottom="true"
         android:id="@+id/rl_bottom"
+        android:orientation="vertical"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -336,13 +340,27 @@
 
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_proceed"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginRight="32dp"
+            android:layout_above="@+id/btn_ashafc"
+            android:background="@drawable/buttonshape"
+            android:text="     Asha Worker     "
+            android:textColor="@color/color_white"
+            android:textSize="15sp" />
+        <Button
+
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_ashafc"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:layout_marginBottom="12dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/buttonshape"
-            android:text="     Proceed     "
+            android:text="     Asha Facilitator     "
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 
@@ -355,7 +373,7 @@
             android:layout_margin="8dp"
             android:textSize="13sp"
             android:textColor="@color/holo_green_dark"/>
-    </RelativeLayout>
+    </LinearLayout>
 
 
 

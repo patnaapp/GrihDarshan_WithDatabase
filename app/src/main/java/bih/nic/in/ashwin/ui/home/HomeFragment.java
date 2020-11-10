@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
-    Button btn_proceed;
+    Button btn_proceed,btn_ashafc;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> facilitatorAdapter;
     String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
 
+
     ArrayList<AshaWorkEntity> ashaWorkData;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         initializeViews(root);
         btn_proceed.setVisibility(View.GONE);
+        btn_ashafc.setVisibility(View.GONE);
         setUserDetail();
 
         setFYearSpinner();
@@ -116,17 +118,39 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    i.putExtra("role", userRole);
+                   // i.putExtra("role", userRole);
+                    i.putExtra("role", "ASHA");
 
-                    i.putExtra("ashaid", asha_id);
-                    i.putExtra("ashanm", ashaname);
+                   // i.putExtra("ashaid", asha_id);
+                   // i.putExtra("ashanm", ashaname);
 
 
-                    i.putExtra("_faciltator_id", facilator_id);
-                    i.putExtra("_faciltator_nm", facilator_name);
-                    i.putExtra("svr",svri_id);
+                   // i.putExtra("_faciltator_id", facilator_id);
+                   // i.putExtra("_faciltator_nm", facilator_name);
+                 //   i.putExtra("svr",svri_id);
                     startActivity(i);
                 }
+            }
+        });
+        btn_ashafc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    // i.putExtra("role", userRole);
+                    i.putExtra("role", "ASHAFC");
+
+                    // i.putExtra("ashaid", asha_id);
+                    // i.putExtra("ashanm", ashaname);
+
+
+                    // i.putExtra("_faciltator_id", facilator_id);
+                    // i.putExtra("_faciltator_nm", facilator_name);
+                    //   i.putExtra("svr",svri_id);
+                    startActivity(i);
+
             }
         });
 
@@ -159,21 +183,25 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         rv_data = root.findViewById(R.id.rv_data);
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
+        btn_ashafc = root.findViewById(R.id.btn_ashafc);
         btn_proceed.setVisibility(View.GONE);
+        btn_ashafc.setVisibility(View.GONE);
 
         tv_note = root.findViewById(R.id.tv_note);
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
-            ll_hsc.setVisibility(View.VISIBLE);
+           // ll_hsc.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.VISIBLE);
+            btn_ashafc.setVisibility(View.VISIBLE);
         }
         else {
-            ll_hsc.setVisibility(View.GONE);
+         //   ll_hsc.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
+            btn_ashafc.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
             ll_division.setVisibility(View.VISIBLE);
@@ -304,6 +332,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }
+
+                    btn_proceed.setVisibility(View.VISIBLE);
+                    btn_ashafc.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.sp_userrole:
@@ -359,7 +390,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                     }
 
-                    btn_proceed.setVisibility(View.VISIBLE);
+                   // btn_proceed.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -381,6 +412,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.VISIBLE);
         }else{
             btn_proceed.setVisibility(View.VISIBLE);
+            btn_proceed.setText("Proceed");
             ll_floating_btn.setVisibility(View.VISIBLE);
             tv_note.setVisibility(View.GONE);
         }
