@@ -65,6 +65,24 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         return new ViewHolder(view);
     }
 
+    public String calculateAmount(ViewHolder holder){
+        int totalamt = 0;
+        if(holder.edt_no_days.getText().toString().isEmpty()){
+            return "0";
+        }else{
+            totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
+            totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
+            totalamt+=(getIntValue(holder.edt_add_state)-getIntValue(holder.edt_deduct_state));
+            totalamt+=(getIntValue(holder.edt_add_centre)-getIntValue(holder.edt_deduct_centre));
+        }
+
+        return ""+totalamt;
+    }
+
+    public Integer getIntValue(EditText editText){
+        return Integer.parseInt(editText.getText().toString().isEmpty() ? "0" : editText.getText().toString());
+    }
+
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -77,6 +95,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.tv_state_amt.setText(String.valueOf(info.get_state_Amount()));
 
         holder.edt_no_days.setText(info.get_no_ofDays()==0? "":String.valueOf(info.get_no_ofDays()));
+        //holder.edt_no_days.setText(String.valueOf(info.get_no_ofDays()));
         holder.edt_add_centre.setText(String.valueOf(info.get_centre_addition_Amt()));
         holder.edt_deduct_centre.setText(String.valueOf(info.get_centre_deducted_Amt()));
         holder.edt_addremarks_centre.setText(info.get_centre_remarks_add());
@@ -120,6 +139,8 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 else {
                     listener.onNoOfDaysChanged(position,0);
                 }
+
+                holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -142,6 +163,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 if (holder.edt_add_centre.getText().toString().length()>0){
                     listener.onAdditionInCentre(position,Integer.parseInt(holder.edt_add_centre.getText().toString()));
                 }
+                holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -163,6 +185,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 if (holder.edt_deduct_centre.getText().toString().length()>0){
                     listener.onDeductionInCentre(position,Integer.parseInt(holder.edt_deduct_centre.getText().toString()));
                 }
+                holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -184,6 +207,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 if (holder.edt_add_state.getText().toString().length()>0){
                     listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
                 }
+                holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -204,6 +228,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 if (holder.edt_deduct_state.getText().toString().length()>0){
                     listener.onDeductionInStatere(position,Integer.parseInt(holder.edt_deduct_state.getText().toString()));
                 }
+                holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
