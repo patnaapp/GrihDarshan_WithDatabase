@@ -416,7 +416,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.VISIBLE);
         }else{
             btn_proceed.setVisibility(View.VISIBLE);
-            btn_proceed.setText("Proceed");
+            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
             tv_note.setVisibility(View.GONE);
         }

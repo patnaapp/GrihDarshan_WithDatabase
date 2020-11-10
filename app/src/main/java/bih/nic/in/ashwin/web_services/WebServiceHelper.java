@@ -4,19 +4,36 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import org.apache.http.message.BasicHttpResponse;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
+import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
@@ -27,6 +44,7 @@ import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
+import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 
 
 public class WebServiceHelper {
@@ -50,6 +68,7 @@ public class WebServiceHelper {
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
+    public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
 
@@ -796,6 +815,51 @@ public class WebServiceHelper {
 
         }
         return rest;
+    }
 
+    public static String uploadAshaFinalizeWorkDetail(AshaWorkFinalizeEntity data) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, FINALIZEASHAACTIVITY_METHOD);
+
+        request.addProperty("FinalizeBy",data.getFinalizeBy());
+        request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        request.addProperty("FYearID",data.getFYearID());
+        request.addProperty("MonthId",data.getMonthId());
+        request.addProperty("TotalActivities_Asha",data.getTotalActivities_Asha());
+        request.addProperty("TotalAmt_Asha",data.getTotalAmt_Asha());
+        request.addProperty("UpdatedBy", data.getUpdatedBy());
+        request.addProperty("deviceId", data.getDeviceId());
+        request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + FINALIZEASHAACTIVITY_METHOD,envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
+    }
+
+    public static String getMonthlyActivityXML(ArrayList<Activity_entity> list){
+        String param = "<AcitivtyMaster>";
+
+        for(Activity_entity info: list){
+            if(info.getChecked()){
+                param += "<ACTDtl>";
+                param += "<AcitivtyId>"+info.get_ActivityId()+"</AcitivtyId>";
+                param += "<ActivityAmt>"+info.get_ActivityAmt()+"</ActivityAmt>";
+                param += "</ACTDtl>";
+            }
+        }
+        return param+"</AcitivtyMaster>";
     }
 }

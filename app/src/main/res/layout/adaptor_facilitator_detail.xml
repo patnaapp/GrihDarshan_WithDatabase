@@ -100,7 +100,6 @@
                     android:maxLength="2"
                     android:singleLine="true"
                     android:textColor="#222222"
-                    android:focusableInTouchMode="true"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -232,7 +231,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="जोड़े"
                         android:inputType="number"
                         android:maxLength="2"
@@ -248,7 +247,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="घटाए"
                         android:inputType="number"
                         android:maxLength="2"
@@ -275,7 +274,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="रिमार्क्स"
                         android:inputType="number"
                         android:maxLength="2"
@@ -291,7 +290,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="रिमार्क्स"
                         android:inputType="number"
                         android:maxLength="2"
@@ -341,7 +340,7 @@
                         android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="#222222"
-                        android:focusableInTouchMode="true"
+
                         android:textSize="15sp" />
                     <EditText
                         android:layout_margin="2dp"
@@ -356,7 +355,7 @@
                         android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="#222222"
-                        android:focusableInTouchMode="true"
+
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -376,7 +375,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="रिमार्क्स"
                         android:inputType="number"
                         android:maxLength="2"
@@ -392,7 +391,7 @@
                         android:layout_margin="2dp"
                         android:layout_weight="1"
                         android:background="@drawable/textboxshape"
-                        android:focusableInTouchMode="true"
+
                         android:hint="रिमार्क्स"
                         android:inputType="number"
                         android:maxLength="2"
@@ -400,7 +399,6 @@
                         android:singleLine="true"
                         android:textColor="#222222"
                         android:textSize="15sp" />
-
 
                 </LinearLayout>
             </LinearLayout>
