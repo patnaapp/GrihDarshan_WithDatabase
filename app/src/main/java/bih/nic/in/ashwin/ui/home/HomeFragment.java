@@ -85,10 +85,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         initializeViews(root);
         btn_proceed.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
-        setUserDetail();
 
+        setUserDetail();
         setFYearSpinner();
-        //setFMonthSpinner();
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,12 +329,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     fmonth = fMonthArray.get(i-1);
                     if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")) {
                         loadUserRoleSpinnerdata();
+
+                        btn_proceed.setVisibility(View.VISIBLE);
+                        btn_ashafc.setVisibility(View.VISIBLE);
+
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }
 
-                    btn_proceed.setVisibility(View.VISIBLE);
-                    btn_ashafc.setVisibility(View.VISIBLE);
+
                 }
                 break;
             case R.id.sp_userrole:

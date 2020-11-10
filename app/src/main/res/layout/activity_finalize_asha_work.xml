@@ -7,7 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.FinalizeAshaWorkActivity">
 
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header_main"/>
+
     <LinearLayout
+        android:layout_below="@+id/header"
         android:layout_above="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
