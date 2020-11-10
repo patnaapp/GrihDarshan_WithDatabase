@@ -332,6 +332,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                         btn_proceed.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.VISIBLE);
+                        ll_floating_btn.setVisibility(View.GONE);
 
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();

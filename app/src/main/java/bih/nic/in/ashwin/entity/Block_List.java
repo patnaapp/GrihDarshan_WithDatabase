@@ -73,4 +73,7 @@ public class Block_List implements KvmSerializable {
     public void setBlock_NAME_HN(String block_NAME_HN) {
         Block_NAME_HN = block_NAME_HN;
     }
+
+    public static interface CentreAddDeductInterface {
+    }
 }
