@@ -6,8 +6,15 @@
     android:background="@color/holo_gray_bright"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/header_main"/>
 
+    <LinearLayout
+        android:layout_below="@+id/header"
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:background="@color/holo_gray_light"
