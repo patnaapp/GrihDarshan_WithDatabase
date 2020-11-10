@@ -180,7 +180,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         // activity.set_total_Amount(days);
         fcNoOfdays.set(position, calculateAmount(activity));
 //       adapter.notifyDataSetChanged();
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemChanged(position);
 
     }
 

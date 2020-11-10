@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -74,7 +75,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.tv_total_amt.setText(String.valueOf(info.get_total_Amount()));
         holder.tv_center_amt.setText(String.valueOf(info.get_Centre_Amount()));
         holder.tv_state_amt.setText(String.valueOf(info.get_state_Amount()));
-        holder.edt_no_days.setText(String.valueOf(info.get_no_ofDays()));
+        holder.edt_no_days.setText(info.get_no_ofDays() == 0 ? "" : String.valueOf(info.get_no_ofDays()));
         holder.edt_add_centre.setText(String.valueOf(info.get_centre_addition_Amt()));
         holder.edt_deduct_centre.setText(String.valueOf(info.get_centre_deducted_Amt()));
         holder.edt_addremarks_centre.setText(info.get_centre_remarks_add());
@@ -112,14 +113,13 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_no_days.getText().toString()!="" && Integer.parseInt(holder.edt_no_days.getText().toString())>0){
-                    listener.onNoOfDaysChanged(position,Integer.parseInt(holder.edt_no_days.getText().toString()));
-                }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (!holder.edt_no_days.getText().toString().isEmpty() && Integer.parseInt(holder.edt_no_days.getText().toString())>0){
+                    listener.onNoOfDaysChanged(position,Integer.parseInt(holder.edt_no_days.getText().toString()));
+                }
             }
 
         });

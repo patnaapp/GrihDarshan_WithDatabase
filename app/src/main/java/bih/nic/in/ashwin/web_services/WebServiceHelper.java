@@ -831,21 +831,21 @@ public class WebServiceHelper {
         request.addProperty("deviceId", data.getDeviceId());
         request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
 
-//        try {
-//            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-//                    SoapEnvelope.VER11);
-//            envelope.dotNet = true;
-//            envelope.implicitTypes = true;
-//            envelope.setOutputSoapObject(request);
-//
-//            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-//            androidHttpTransport.call(SERVICENAMESPACE + FINALIZEASHAACTIVITY_METHOD,envelope);
-//            rest = envelope.getResponse().toString();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "0";
-//        }
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + FINALIZEASHAACTIVITY_METHOD,envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
         return rest;
     }
 
