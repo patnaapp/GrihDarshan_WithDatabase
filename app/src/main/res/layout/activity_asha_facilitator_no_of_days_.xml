@@ -211,7 +211,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="32dp"
         android:background="@drawable/buttonshape"
-        android:text="FINALIZE"
+        android:text="समर्पित करे"
         android:textColor="@color/color_white"
         android:textSize="17sp" />
 

@@ -21,6 +21,7 @@ import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
@@ -560,6 +561,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public long setcentreamount_Local(ArrayList<Centralamount_entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Centralamount_entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("id", info.get(i).get_Id());
+                    values.put("centreamt_desc", info.get(i).get_CentralAmtDesc());
+                    values.put("centre_amt", info.get(i).get_CentralAmt());
+                    values.put("active", info.get(i).get_Active());
+                    values.put("desig_id", info.get(i).get_DesigId());
+
+
+                    String[] whereArgs = new String[]{info.get(i).get_Id()};
+
+                    c = db.update("centreamount_master", values, "id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("centreamount_master", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
     public long setFinyr_Local(ArrayList<Financial_Year> list) {
 
 
@@ -1264,6 +1319,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_Active(cur.getString(cur.getColumnIndex("active")));
                 info.set_DesigId(cur.getString(cur.getColumnIndex("desig_id")));
                 info.set_Desig(cur.getString(cur.getColumnIndex("desig")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return list;
+    }
+
+
+    public ArrayList<Centralamount_entity> getCentreAmountList(){
+
+        ArrayList<Centralamount_entity> list = new ArrayList<Centralamount_entity>();
+
+        try {
+            String[] whereArgs = new String[]{"Y"};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from centreamount_master where active=? ",whereArgs);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                Centralamount_entity info = new Centralamount_entity();
+
+                info.set_Id(cur.getString(cur.getColumnIndex("id")));
+                info.set_CentralAmt(cur.getString(cur.getColumnIndex("centre_amt")));
+                info.set_CentralAmtDesc(cur.getString(cur.getColumnIndex("centreamt_desc")));
+                info.set_DesigId(cur.getString(cur.getColumnIndex("desig_id")));
+               // info.set_Desig(cur.getString(cur.getColumnIndex("desig")));
 
                 list.add(info);
             }

@@ -346,7 +346,7 @@
             android:layout_marginRight="32dp"
             android:layout_above="@+id/btn_ashafc"
             android:background="@drawable/buttonshape"
-            android:text="     Asha Worker     "
+            android:text="     आशा कार्यकर्ता     "
             android:textColor="@color/color_white"
             android:textSize="15sp" />
         <Button
@@ -359,7 +359,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginRight="32dp"
             android:background="@drawable/buttonshape"
-            android:text="     Asha Facilitator     "
+            android:text="     आशा फैसिलिटेटर     "
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 

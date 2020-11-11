@@ -43,6 +43,7 @@ import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
@@ -492,6 +493,46 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setstateamount_Local(result);
                 if (i > 0) {
 
+                    new GetCentreAmount().execute();
+
+
+                    Toast.makeText(getApplicationContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+
+    private class GetCentreAmount extends AsyncTask<String, Void, ArrayList<Centralamount_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading central amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Centralamount_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getcentralamount();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Centralamount_entity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setcentreamount_Local(result);
+                if (i > 0) {
+
                     if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
                         new GetAshaWorkersList().execute();
                     }else{
@@ -499,7 +540,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                             dialog.dismiss();
                     }
 
-                    Toast.makeText(getApplicationContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "centre amount details loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
@@ -543,7 +584,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     }else{
                         if(dialog.isShowing())
                             dialog.dismiss();
-                        refreshFragment();
+                        //refreshFragment();
                     }
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
@@ -589,13 +630,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-                refreshFragment();
+                //refreshFragment();
             }
         }
     }
 
-    public void refreshFragment(){
-        homeFrag.setFYearSpinner();
-        //f.setFYearSpinner();
-    }
+//    public void refreshFragment(){
+//        homeFrag.setFYearSpinner();
+//        //f.setFYearSpinner();
+//    }
 }

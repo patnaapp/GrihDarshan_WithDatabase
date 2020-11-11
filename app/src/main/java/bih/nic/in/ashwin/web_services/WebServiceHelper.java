@@ -35,6 +35,7 @@ import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
 import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -73,6 +74,7 @@ public class WebServiceHelper {
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
     public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
+    public static final String Centre_METHOD = "CentralAmount";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -478,6 +480,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     Stateamount_entity sm = new Stateamount_entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<Centralamount_entity> getcentralamount() {
+
+        SoapObject res1;
+        res1 = getServerData(Centre_METHOD, Centralamount_entity.Centreamount_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Centralamount_entity> fieldList = new ArrayList<Centralamount_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Centralamount_entity sm = new Centralamount_entity(final_object);
                     fieldList.add(sm);
                 }
             } else
