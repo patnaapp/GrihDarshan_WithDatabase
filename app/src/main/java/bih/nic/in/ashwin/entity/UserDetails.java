@@ -46,7 +46,14 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setUserID(obj.getProperty("UserID").toString());
         this.setPassword(obj.getProperty("Password").toString());
         this.setUserName(obj.getProperty("UserName").toString());
-        this.setMobileNo(obj.getProperty("MobileNo").toString());
+
+        if (obj.getProperty("MobileNo").toString().equals("anyType{}")){
+            this.setMobileNo("NA");
+        }
+        else {
+            this.setMobileNo(obj.getProperty("MobileNo").toString());
+        }
+
         this.setSVRID(obj.getProperty("SVRID").toString());
         this.setDistrictCode(obj.getProperty("DistrictCode").toString());
         this.setDistName(obj.getProperty("DistName").toString());
@@ -59,6 +66,7 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setPanchayatNameHN(obj.getProperty("PanchayatNameHN").toString());
         this.setUserrole(obj.getProperty("Userrole").toString());
         this.setAwcCode(obj.getProperty("AwcCode").toString());
+
         this.setAwcName(obj.getProperty("AwcName").toString());
         this.setHSCName(obj.getProperty("HSCName").toString());
         this.setHSCCode(obj.getProperty("HSCCode").toString());
