@@ -2,8 +2,21 @@ package bih.nic.in.ashwin.entity;
 
 import android.content.Intent;
 
-public class NoOfDays_Entity {
+import org.ksoap2.serialization.KvmSerializable;
+import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
 
+import java.util.Hashtable;
+
+public class NoOfDays_Entity implements KvmSerializable {
+
+    public static Class<Activity_entity> NoOfDays_CLASS = Activity_entity.class;
+    private String _Fc_aId = "";
+    private String DesigId = "";
+    private String facilitator_id = "";
+    private String AshaFacilitatorSalry_aId = "";
+    private String FYearID = "";
+    private String MonthId = "";
     private String _Fc_Name = "";
     private String _Father_NAme = "";
     private int _Centre_Amount = 0;
@@ -18,6 +31,127 @@ public class NoOfDays_Entity {
     private String _state_remarks_deduction = "";
     private String _centre_remarks_deduction = "";
     private String _centre_remarks_add = "";
+
+    public NoOfDays_Entity() {
+
+    }
+    public NoOfDays_Entity(SoapObject sobj) {
+        this._Fc_aId = sobj.getProperty("AshaFacilitator_aId").toString();
+        this._Fc_Name = sobj.getProperty("Name").toString();
+        this._Father_NAme = sobj.getProperty("FHName").toString();
+        this.DesigId = sobj.getProperty("DesigId").toString();
+        this.facilitator_id = sobj.getProperty("AshaFacilitatorId").toString();
+        this.AshaFacilitatorSalry_aId = sobj.getProperty("AshaFacilitatorSalry_aId").toString();
+        this.FYearID = sobj.getProperty("FYearID").toString();
+        this.MonthId = sobj.getProperty("MonthId").toString();
+        if (sobj.getProperty("TotalAmt_Central").toString().equals("NA")){
+            this._Centre_Amount=0;
+        }
+        else {
+            this._Centre_Amount = Integer.parseInt(sobj.getProperty("TotalAmt_Central").toString());
+        }
+        if (sobj.getProperty("TotalAmt_State").toString().equals("NA")){
+            this._state_Amount=0;
+        }
+        else {
+            this._state_Amount = Integer.parseInt(sobj.getProperty("TotalAmt_State").toString());
+        }
+
+        if (sobj.getProperty("FinalAmt").toString().equals("NA")){
+            this._total_Amount=0;
+        }
+        else {
+            this._total_Amount = Integer.parseInt(sobj.getProperty("FinalAmt").toString());
+        }
+        if (sobj.getProperty("AddAmt_Central").toString().equals("NA")){
+            this._centre_addition_Amt=0;
+        }
+        else {
+            this._centre_addition_Amt = Integer.parseInt(sobj.getProperty("AddAmt_Central").toString());
+        }
+        if (sobj.getProperty("DeductAmt_Central").toString().equals("NA")){
+            this._centre_deducted_Amt=0;
+        }
+        else {
+            this._centre_deducted_Amt = Integer.parseInt(sobj.getProperty("DeductAmt_Central").toString());
+        }
+        if (sobj.getProperty("DeductAmt_State").toString().equals("NA")){
+            this._state_deducted_Amt=0;
+        }
+        else {
+            this._state_deducted_Amt = Integer.parseInt(sobj.getProperty("DeductAmt_State").toString());
+        }
+
+        if (sobj.getProperty("AddAmt_State").toString().equals("NA")){
+            this._state_additiond_Amt=0;
+        }
+        else {
+            this._state_additiond_Amt = Integer.parseInt(sobj.getProperty("AddAmt_State").toString());
+        }
+
+//        if (sobj.getProperty("AddAmt_State").toString().equals("NA")){
+//            this._state_additiond_Amt=0;
+//        }
+//        else {
+//            this._state_additiond_Amt = Integer.parseInt(sobj.getProperty("AddAmt_State").toString());
+//        }
+
+
+       // this._no_ofDays = Integer.parseInt(sobj.getProperty("AcitivtyType").toString());
+        this._state_remarks_addition = sobj.getProperty("AddRemarks_State").toString();
+      //  this._state_remarks_deduction = sobj.getProperty("AcitivtyType").toString();
+        this._centre_remarks_deduction = sobj.getProperty("DeductRemarks_Central").toString();
+        this._centre_remarks_add = sobj.getProperty("AddRemarks_Central").toString();
+
+    }
+
+    public String get_Fc_aId() {
+        return _Fc_aId;
+    }
+
+    public void set_Fc_aId(String _Fc_aId) {
+        this._Fc_aId = _Fc_aId;
+    }
+
+    public String getDesigId() {
+        return DesigId;
+    }
+
+    public void setDesigId(String desigId) {
+        DesigId = desigId;
+    }
+
+    public String getFacilitator_id() {
+        return facilitator_id;
+    }
+
+    public void setFacilitator_id(String facilitator_id) {
+        this.facilitator_id = facilitator_id;
+    }
+
+    public String getAshaFacilitatorSalry_aId() {
+        return AshaFacilitatorSalry_aId;
+    }
+
+    public void setAshaFacilitatorSalry_aId(String ashaFacilitatorSalry_aId) {
+        AshaFacilitatorSalry_aId = ashaFacilitatorSalry_aId;
+    }
+
+    public String getFYearID() {
+        return FYearID;
+    }
+
+    public void setFYearID(String FYearID) {
+        this.FYearID = FYearID;
+    }
+
+    public String getMonthId() {
+        return MonthId;
+    }
+
+    public void setMonthId(String monthId) {
+        MonthId = monthId;
+    }
 
     public String get_Fc_Name() {
         return _Fc_Name;
@@ -129,5 +263,25 @@ public class NoOfDays_Entity {
 
     public void set_no_ofDays(int _no_ofDays) {
         this._no_ofDays = _no_ofDays;
+    }
+
+    @Override
+    public Object getProperty(int i) {
+        return null;
+    }
+
+    @Override
+    public int getPropertyCount() {
+        return 0;
+    }
+
+    @Override
+    public void setProperty(int i, Object o) {
+
+    }
+
+    @Override
+    public void getPropertyInfo(int i, Hashtable hashtable, PropertyInfo propertyInfo) {
+
     }
 }

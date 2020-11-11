@@ -39,6 +39,7 @@ import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
@@ -71,6 +72,7 @@ public class WebServiceHelper {
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
+    public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -300,6 +302,34 @@ public class WebServiceHelper {
             request.addProperty(param2,value2);
             request.addProperty(param3,value3);
             request.addProperty(param4,value4);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            envelope.addMapping(SERVICENAMESPACE,bindClass.getSimpleName(),bindClass);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + methodName,envelope);
+            res1 = (SoapObject) envelope.getResponse();
+        }
+        catch (Exception e)
+
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return res1;
+    }
+    public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5, String value1, String value2, String value3, String value4,String value5 )
+    {
+        SoapObject res1;
+        try
+        {
+            SoapObject request = new SoapObject(SERVICENAMESPACE,methodName);
+            request.addProperty(param1,value1);
+            request.addProperty(param2,value2);
+            request.addProperty(param3,value3);
+            request.addProperty(param4,value4);
+            request.addProperty(param5,value5);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
@@ -645,6 +675,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     AshaFacilitator_Entity sm = new AshaFacilitator_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<NoOfDays_Entity> getAshaFcNoOfDays(String fyid, String monthId, String blkcode,String dist,String hsccode) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAFcNoOfDays_LIST_METHOD, NoOfDays_Entity.NoOfDays_CLASS, "FYearId","MonthId","BlockCode","DistrictCode","HSCCode", fyid,monthId,blkcode,dist,hsccode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<NoOfDays_Entity> fieldList = new ArrayList<NoOfDays_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    NoOfDays_Entity sm = new NoOfDays_Entity(final_object);
                     fieldList.add(sm);
                 }
             } else

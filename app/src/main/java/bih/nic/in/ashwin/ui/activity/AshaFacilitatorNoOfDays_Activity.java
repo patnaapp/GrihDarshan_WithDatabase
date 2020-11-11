@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -31,6 +34,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NoOfDaysInterface {
 
@@ -66,12 +70,13 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         tv_month.setText(fmonth.get_MonthName());
         // loadWorkerFascilatorData();
         fcNoOfdays=new ArrayList<>();
-        NoOfDays_Entity nofday=new NoOfDays_Entity();
-        nofday.set_Centre_Amount(100);
-        nofday.set_state_Amount(50);
-        fcNoOfdays.add(nofday);
+//        NoOfDays_Entity nofday=new NoOfDays_Entity();
+//        nofday.set_Centre_Amount(100);
+//        nofday.set_state_Amount(50);
+//        fcNoOfdays.add(nofday);
 
-        setupRecuyclerView(fcNoOfdays);
+        new SynchronizeFcNoOfDays().execute();
+
     }
 
     public void initialise()
@@ -214,4 +219,40 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         return noofdays;
     }
 
+
+    private class SynchronizeFcNoOfDays extends AsyncTask<String, Void, ArrayList<NoOfDays_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaFacilitatorNoOfDays_Activity.this);
+
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading details...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected ArrayList<NoOfDays_Entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaFcNoOfDays(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(AshaFacilitatorNoOfDays_Activity.this).getBlockCode(),CommonPref.getUserDetails(AshaFacilitatorNoOfDays_Activity.this).getDistrictCode(),CommonPref.getUserDetails(AshaFacilitatorNoOfDays_Activity.this).getHSCCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<NoOfDays_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                fcNoOfdays=result;
+                setupRecuyclerView(result);
+
+            }
+        }
+    }
 }
