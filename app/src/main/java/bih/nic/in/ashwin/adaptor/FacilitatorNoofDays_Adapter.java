@@ -136,11 +136,16 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                 if (!holder.edt_no_days.getText().toString().isEmpty() && Integer.parseInt(holder.edt_no_days.getText().toString())>0){
                     listener.onNoOfDaysChanged(position,Integer.parseInt(holder.edt_no_days.getText().toString()));
                 }
+                else if (Integer.parseInt(holder.edt_no_days.getText().toString())>20){
+                    holder.edt_no_days.setText("");
+                    Toast.makeText(context,"no of days should not be more than 20",Toast.LENGTH_LONG).show();
+                }
                 else {
                     listener.onNoOfDaysChanged(position,0);
                 }
 
                 holder.tv_total_amt.setText(calculateAmount(holder));
+
             }
 
             @Override
