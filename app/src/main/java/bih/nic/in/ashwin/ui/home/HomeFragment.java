@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         initializeViews(root);
         btn_proceed.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
+        ll_floating_btn.setVisibility(View.GONE);
 
         setUserDetail();
         setFYearSpinner();

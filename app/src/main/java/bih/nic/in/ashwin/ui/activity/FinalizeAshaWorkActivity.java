@@ -125,6 +125,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         for(AshaWorkEntity info: ashaWorkData){
             amount += Double.parseDouble(info.getActivityAmt());
         }
+
         return amount;
     }
 

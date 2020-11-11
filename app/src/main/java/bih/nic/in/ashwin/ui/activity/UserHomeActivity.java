@@ -101,6 +101,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
+
+        homeFrag = new HomeFragment();
+        displaySelectedFragment(homeFrag);
     }
 
 //    @Override
@@ -121,7 +124,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_home:
-                displaySelectedFragment(new HomeFragment());
+                homeFrag = new HomeFragment();
+                displaySelectedFragment(homeFrag);
                 break;
             case R.id.nav_sync:
                 syncData();
@@ -137,7 +141,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     public void
     displaySelectedFragment(Fragment fragment){
-        homeFrag = (HomeFragment) fragment;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
@@ -539,6 +542,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     }else{
                         if(dialog.isShowing())
                             dialog.dismiss();
+
+                        homeFrag.setFYearSpinner();
                     }
 
                     Toast.makeText(getApplicationContext(), "centre amount details loaded", Toast.LENGTH_SHORT).show();
@@ -631,7 +636,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-                //refreshFragment();
+                homeFrag.setFYearSpinner();
             }
         }
     }

@@ -39,7 +39,6 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         this.listener = listener;
     }
 
-
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
