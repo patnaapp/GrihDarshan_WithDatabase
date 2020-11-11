@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     TextView tv_monthly_amnt,tv_total_amnt;
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
     RecyclerView rv_data,rv_work;
+    CheckBox ch_1,ch_2,ch_3;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -81,6 +83,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         rv_data = findViewById(R.id.rv_data);
         rv_work = findViewById(R.id.rv_work);
+
+        ch_1 = findViewById(R.id.ch_1);
+        ch_2 = findViewById(R.id.ch_2);
+        ch_3 = findViewById(R.id.ch_3);
 
         category = getActivityCategory();
     }
@@ -179,7 +185,6 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             if(info.getChecked())
                 amount += Double.parseDouble(info.get_ActivityAmt());
         }
-
         return amount;
     }
 
@@ -200,17 +205,30 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         if(isValidated()){
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount+getMonthlyAmount()),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this),activityArray);
             new UploadAshaFinalizeData(entity).execute();
-        }else{
-            Toast.makeText(this, "Please select atleast one activity", Toast.LENGTH_SHORT).show();
         }
     }
 
     public Boolean isValidated(){
-        for(Activity_entity info: activityArray){
-            if(info.getChecked())
-               return true;
+        Boolean validate = true;
+
+        if(!isActivityChecked()){
+            validate = false;
+            Toast.makeText(this, "कृपया अपने कार्य का चयन करें", Toast.LENGTH_SHORT).show();
         }
 
+        if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked()){
+            validate = false;
+            Toast.makeText(this, "कृपया सभी घोषणा का चयन करें", Toast.LENGTH_SHORT).show();
+        }
+
+        return validate;
+    }
+
+    public Boolean isActivityChecked(){
+        for(Activity_entity info: activityArray){
+            if(info.getChecked())
+                return true;
+        }
         return false;
     }
 
