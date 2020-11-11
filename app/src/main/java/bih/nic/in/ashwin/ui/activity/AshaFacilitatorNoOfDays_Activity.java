@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data;
-    Button btn_finalize;
+    Button btn_submit;
     ArrayList<NoOfDays_Entity> fcNoOfdays;
     String version="";
     Spinner sp_worker;
@@ -72,12 +74,57 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         tv_month.setText(fmonth.get_MonthName());
         // loadWorkerFascilatorData();
         fcNoOfdays=new ArrayList<>();
-//        NoOfDays_Entity nofday=new NoOfDays_Entity();
-//        nofday.set_Centre_Amount(100);
-//        nofday.set_state_Amount(50);
-//        fcNoOfdays.add(nofday);
-
         new SynchronizeFcNoOfDays().execute();
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isRemarksEmptyForSubmit(fcNoOfdays)){
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
+                    builder1.setMessage("कृपया सभी विवरण सही से भरे");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "ओके",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                }
+                else {
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
+                    builder1.setMessage("क्या आप वाकई डेटा सबमिट करना चाहते हैं");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "हाँ",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder1.setNegativeButton(
+                            "नहीं",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                    Toast.makeText(AshaFacilitatorNoOfDays_Activity.this,"In Development",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -88,7 +135,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
-        btn_finalize = findViewById(R.id.btn_finalize);
+        btn_submit = findViewById(R.id.btn_submit);
         sp_worker = findViewById(R.id.sp_worker);
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
@@ -285,5 +332,39 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         }
 
         return amount;
+    }
+
+    public  boolean isRemarksEmptyForSubmit(ArrayList<NoOfDays_Entity> arraylist) {
+        for (NoOfDays_Entity info : arraylist) {
+            if (info.get_no_ofDays()>0) {
+                if (info.get_centre_addition_Amt()>0 && (info.get_centre_remarks_add().isEmpty()||info.get_centre_remarks_add()=="")){
+                    return true;
+                }
+                else if (info.get_centre_deducted_Amt()>0 && (info.get_centre_remarks_deduction().isEmpty()||info.get_centre_remarks_deduction()==""))
+                {
+                    return true;
+                }
+
+                else if (info.get_centre_deducted_Amt()>0 && (info.get_centre_remarks_deduction().isEmpty()||info.get_centre_remarks_deduction()==""))
+                {
+                    return true;
+                }
+                else if (info.get_state_additiond_Amt()>0 && (info.get_state_remarks_addition().isEmpty()||info.get_state_remarks_addition()==""))
+                {
+                    return true;
+                }
+
+                else if (info.get_state_deducted_Amt()>0 && (info.get_state_remarks_deduction().isEmpty()||info.get_state_remarks_deduction()==""))
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+        return false;
     }
 }

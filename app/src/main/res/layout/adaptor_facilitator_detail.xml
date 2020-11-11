@@ -87,20 +87,33 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"/>
                 </LinearLayout>
-                <EditText
-                    android:layout_margin="2dp"
-                    android:id="@+id/edt_no_days"
+                <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/textboxshape"
-                    android:hint="दिनों की संख्या"
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:singleLine="true"
-                    android:textColor="#222222"
-                    android:textSize="15sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="दिनों की संख्या"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+                    <EditText
+                        android:layout_margin="2dp"
+                        android:id="@+id/edt_no_days"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textboxshape"
+                        android:hint="दिनों की संख्या"
+                        android:padding="6dp"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:textSize="15sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -134,29 +147,6 @@
 
 
                 <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_margin="2dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="कुल राशि"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_total_amt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_margin="2dp"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
@@ -178,6 +168,29 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_margin="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कुल राशि"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_total_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
@@ -190,8 +203,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/tv_close"
-
                 android:visibility="gone"
+
                 android:layout_height="wrap_content"
                 android:text="बंद करे"
                 android:layout_gravity="center_horizontal"
@@ -223,39 +236,62 @@
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
-                    <EditText
-                        android:id="@+id/edt_add_centre"
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="केंद्र में जोड़े"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_add_centre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
+
+                            android:hint="जोड़े"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
-
-                        android:hint="जोड़े"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/edt_deduct_centre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
+                        android:orientation="vertical">
 
-                        android:hint="घटाए"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="केंद्र में घटाए"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_deduct_centre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
 
+                            android:hint="घटाए"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -266,39 +302,63 @@
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
-                    <EditText
-                        android:id="@+id/edt_addremarks_centre"
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="केंद्र में जोड़ने के लिए रिमार्क्स"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_addremarks_centre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
+
+                            android:hint="रिमार्क्स"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
-
-                        android:hint="रिमार्क्स"
-                        android:inputType="text"
-                        android:maxLength="100"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/edt_deductremarks_centre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
+                        android:orientation="vertical">
 
-                        android:hint="रिमार्क्स"
-                        android:inputType="text"
-                        android:maxLength="100"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="केंद्र में कटौती के लिए  रिमार्क्स"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_deductremarks_centre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
 
+                            android:hint="रिमार्क्स"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -327,37 +387,64 @@
                     android:layout_below="@+id/ll_div_zone"
                     android:orientation="horizontal"
                     android:weightSum="2">
-                    <EditText
-                        android:layout_margin="2dp"
-                        android:id="@+id/edt_add_state"
+
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/textboxshape"
-                        android:hint="जोड़े"
-                        android:padding="10dp"
-                        android:layout_weight="1"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:singleLine="true"
-                        android:textColor="#222222"
+                        android:orientation="vertical">
 
-                        android:textSize="15sp" />
-                    <EditText
-                        android:layout_margin="2dp"
-                        android:id="@+id/edt_deduct_state"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="राज्य में जोड़े"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:layout_margin="2dp"
+                            android:id="@+id/edt_add_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="जोड़े"
+                            android:padding="6dp"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/textboxshape"
-                        android:hint="घटाए"
-                        android:padding="10dp"
-                        android:layout_weight="1"
-                        android:inputType="number"
-                        android:maxLength="3"
-                        android:singleLine="true"
-                        android:textColor="#222222"
+                        android:orientation="vertical">
 
-                        android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="राज्य में घटाए"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:layout_margin="2dp"
+                            android:id="@+id/edt_deduct_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="घटाए"
+                            android:padding="6dp"
+                            android:layout_weight="1"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:singleLine="true"
+                            android:textColor="#222222"
 
+                            android:textSize="15sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -367,39 +454,65 @@
                     android:layout_marginTop="6dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
-                    <EditText
-                        android:id="@+id/edt_addremarks_state"
+                    <LinearLayout
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="राज्य में जोड़ने के लिए रिमार्क्स"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_addremarks_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
+
+                            android:hint="रिमार्क्स"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
-
-                        android:hint="रिमार्क्स"
-                        android:inputType="text"
-                        android:maxLength="100"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/edt_deductremarks_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/textboxshape"
+                        android:orientation="vertical">
 
-                        android:hint="रिमार्क्स"
-                        android:inputType="text"
-                        android:maxLength="100"
-                        android:padding="10dp"
-                        android:singleLine="true"
-                        android:textColor="#222222"
-                        android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="राज्य में कटौती के लिए  रिमार्क्स"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+                        <EditText
+                            android:id="@+id/edt_deductremarks_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/textboxshape"
 
+                            android:hint="रिमार्क्स"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:padding="6dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

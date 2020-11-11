@@ -57,7 +57,6 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
     }
 
-
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -79,6 +78,19 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         return ""+totalamt;
     }
 
+
+    public String addinstateAmount(ViewHolder holder){
+        int totalamt = 0;
+        if(holder.edt_add_state.getText().toString().isEmpty()){
+            return "0";
+        }else{
+            totalamt=Integer.parseInt(holder.tv_state_amt.getText().toString())+Integer.parseInt(holder.edt_add_state.getText().toString());
+
+        }
+
+        return ""+totalamt;
+    }
+
     public Integer getIntValue(EditText editText){
         return Integer.parseInt(editText.getText().toString().isEmpty() ? "0" : editText.getText().toString());
     }
@@ -88,6 +100,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final NoOfDays_Entity info = mData.get(position);
 
+        holder.tv_count.setText(String.valueOf(position+1));
         holder.tv_fc_name.setText(info.get_Fc_Name());
         holder.tv_father_name.setText(info.get_Father_NAme());
         holder.tv_total_amt.setText(String.valueOf(info.get_total_Amount()));
@@ -169,6 +182,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                     listener.onAdditionInCentre(position,Integer.parseInt(holder.edt_add_centre.getText().toString()));
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
+
             }
 
             @Override
@@ -213,6 +227,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
                     listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
+//                holder.tv_state_amt.setText(addinstateAmount(holder));
             }
 
             @Override
@@ -342,6 +357,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         EditText edt_no_days,edt_add_centre,edt_deduct_centre,edt_addremarks_centre,edt_deductremarks_centre,edt_add_state,edt_deduct_state,edt_addremarks_state,edt_deductremarks_state;
         RelativeLayout sblist;
         LinearLayout ll_centre,ll_state;
+        TextView tv_count;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -363,6 +379,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
             ll_centre = itemView.findViewById(R.id.ll_centre);
             ll_state = itemView.findViewById(R.id.ll_state);
             tv_close = itemView.findViewById(R.id.tv_close);
+            tv_count = itemView.findViewById(R.id.tv_count);
 
             sblist = itemView.findViewById(R.id.sblist);
 
