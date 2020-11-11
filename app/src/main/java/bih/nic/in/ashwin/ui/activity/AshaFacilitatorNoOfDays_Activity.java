@@ -30,9 +30,11 @@ import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
+import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
@@ -250,9 +252,38 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
             if (result != null)
             {
                 fcNoOfdays=result;
-                setupRecuyclerView(result);
+
+                for(NoOfDays_Entity stateamt:fcNoOfdays){
+                    stateamt.set_state_Amount(getTotalStateAmount());
+                    stateamt.set_Centre_Amount(getTotalCentreAmount());
+                }
+                setupRecuyclerView(fcNoOfdays);
 
             }
         }
+    }
+
+    public int getTotalStateAmount(){
+        ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHAFC");
+
+        int amount = 0;
+
+        for(Stateamount_entity info: list){
+            amount += Integer.parseInt(info.get_StateAmt());
+        }
+
+        return amount;
+    }
+
+    public int getTotalCentreAmount(){
+        ArrayList<Centralamount_entity> list = dbhelper.getCentreAmountList();
+
+        int amount = 0;
+
+        for(Centralamount_entity info: list){
+            amount += Integer.parseInt(info.get_CentralAmt());
+        }
+
+        return amount;
     }
 }
