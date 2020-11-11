@@ -134,10 +134,7 @@ public class SplashActivity extends Activity {
     protected void onResume() {
         // TODO Auto-generated method stub
 
-
         requestRequiredPermission();
-
-
         super.onResume();
 
     }
@@ -198,7 +195,6 @@ public class SplashActivity extends Activity {
     protected void checkOnline() {
         // TODO Auto-generated method stub
         super.onResume();
-
 
         if (Utiilties.isOnline(SplashActivity.this) == false) {
 
@@ -264,7 +260,6 @@ public class SplashActivity extends Activity {
 
         @Override
         protected Versioninfo doInBackground(Void... Params) {
-
 
             String version = Utiilties.getAppVersion(SplashActivity.this);
 
@@ -461,7 +456,6 @@ public class SplashActivity extends Activity {
     }
 
     private void start() {
-
 
         //prefs = PreferenceManager.getDefaultSharedPreferences(this);
         UserDetails userInfo = CommonPref.getUserDetails(getApplicationContext());
