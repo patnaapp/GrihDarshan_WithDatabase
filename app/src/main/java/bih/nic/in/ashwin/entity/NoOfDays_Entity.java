@@ -37,9 +37,28 @@ public class NoOfDays_Entity implements KvmSerializable {
     }
     public NoOfDays_Entity(SoapObject sobj) {
         this._Fc_aId = sobj.getProperty("AshaFacilitator_aId").toString();
-        this._Fc_Name = sobj.getProperty("Name").toString();
-        this._Father_NAme = sobj.getProperty("FHName").toString();
-        this.DesigId = sobj.getProperty("DesigId").toString();
+
+        if (sobj.getProperty("Name").toString().equals("NA")){
+            this._Fc_Name="";
+        }
+        else {
+            this._Fc_Name = sobj.getProperty("Name").toString();
+        }
+
+        if (sobj.getProperty("FHName").toString().equals("NA")){
+            this._Father_NAme="";
+        }
+        else {
+            this._Father_NAme = sobj.getProperty("FHName").toString();
+        }
+        if (sobj.getProperty("DesigId").toString().equals("NA")){
+            this.DesigId="";
+        }
+        else {
+            this.DesigId = sobj.getProperty("DesigId").toString();
+        }
+
+
         this.facilitator_id = sobj.getProperty("AshaFacilitatorId").toString();
         this.AshaFacilitatorSalry_aId = sobj.getProperty("AshaFacilitatorSalry_aId").toString();
         this.FYearID = sobj.getProperty("FYearID").toString();
@@ -98,10 +117,28 @@ public class NoOfDays_Entity implements KvmSerializable {
 
 
        // this._no_ofDays = Integer.parseInt(sobj.getProperty("AcitivtyType").toString());
-        this._state_remarks_addition = sobj.getProperty("AddRemarks_State").toString();
+        if (sobj.getProperty("AddRemarks_State").toString().equals("NA")){
+            this._state_remarks_addition="";
+        }
+        else {
+            this._state_remarks_addition = sobj.getProperty("AddRemarks_State").toString();
+        }
+
       //  this._state_remarks_deduction = sobj.getProperty("AcitivtyType").toString();
-        this._centre_remarks_deduction = sobj.getProperty("DeductRemarks_Central").toString();
-        this._centre_remarks_add = sobj.getProperty("AddRemarks_Central").toString();
+        if (sobj.getProperty("DeductRemarks_Central").toString().equals("NA")){
+            this._centre_remarks_deduction="";
+        }
+        else {
+            this._centre_remarks_deduction = sobj.getProperty("DeductRemarks_Central").toString();
+
+        }
+        if (sobj.getProperty("AddRemarks_Central").toString().equals("NA")){
+            this._centre_remarks_add="";
+        }
+        else {
+            this._centre_remarks_add = sobj.getProperty("AddRemarks_Central").toString();
+        }
+
 
     }
 

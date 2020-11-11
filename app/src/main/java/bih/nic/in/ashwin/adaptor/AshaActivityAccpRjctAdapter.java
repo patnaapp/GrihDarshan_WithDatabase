@@ -78,11 +78,9 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.tv_status.setText("विचाराधीन");
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.VISIBLE);
-
         }
         else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
-
             holder.tv_status.setText("स्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             holder.btn_rjct.setVisibility(View.VISIBLE);
@@ -274,12 +272,10 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             this.position = position;
             //_uid = data.getId();
             //rowid = data.get_phase1_id();
-
         }
 
         @Override
         protected void onPreExecute() {
-
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
@@ -292,7 +288,6 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename);
 
             return result;
-
         }
 
         @Override
