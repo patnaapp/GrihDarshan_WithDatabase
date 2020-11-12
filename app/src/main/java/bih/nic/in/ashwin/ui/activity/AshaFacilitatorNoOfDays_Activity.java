@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +48,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data;
-    Button btn_submit;
+    Button btn_submit,btn_preview;
     ArrayList<NoOfDays_Entity> fcNoOfdays;
     String version="";
     Spinner sp_worker;
@@ -55,6 +56,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     DataBaseHelper dbhelper;
     ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
     FacilitatorNoofDays_Adapter adapter;
+    ArrayList<NoOfDays_Entity> newArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,35 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         // loadWorkerFascilatorData();
         fcNoOfdays=new ArrayList<>();
         new SynchronizeFcNoOfDays().execute();
+
+        btn_preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newArrayList=new ArrayList<>();
+                for(NoOfDays_Entity land : fcNoOfdays)
+                {
+                    if(land.get_no_ofDays()!=0 && land.get_total_Amount()>0)
+                    {
+                        newArrayList.add(land);
+                        Log.d("fhbdhb" ,""+land.get_no_ofDays());
+                        Log.d("qty" ,""+land.get_total_Amount());
+                    }
+                }
+                if (newArrayList.size()>0){
+                    Intent i=new Intent(AshaFacilitatorNoOfDays_Activity.this,PreviewFacilitatorNoOfDays_Activity.class);
+                    i.putExtra("newArray", newArrayList);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+
+                    startActivity(i);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"No Data For Preview",Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +135,17 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                             "हाँ",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    newArrayList=new ArrayList<>();
+                                    for(NoOfDays_Entity land : fcNoOfdays)
+                                    {
+                                        if(land.get_no_ofDays()!=0 && land.get_total_Amount()>0)
+                                        {
+                                            newArrayList.add(land);
+                                            Log.d("fhbdhb" ,""+land.get_no_ofDays());
+                                            Log.d("qty" ,""+land.get_total_Amount());
+                                        }
+                                    }
+
                                     dialog.cancel();
                                 }
                             });
@@ -117,7 +159,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
-                    Toast.makeText(AshaFacilitatorNoOfDays_Activity.this,"In Development",Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -132,6 +174,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_submit = findViewById(R.id.btn_submit);
+        btn_preview = findViewById(R.id.btn_preview);
         sp_worker = findViewById(R.id.sp_worker);
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);

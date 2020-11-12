@@ -199,43 +199,22 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/ll1"
 
-        android:layout_above="@+id/ll_btn"
+        android:layout_above="@+id/btn_submit"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_submit"
+android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_btn"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="8dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <Button
-            android:id="@+id/btn_preview"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="8dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/buttonshape"
-            android:text="प्रीव्यू देखे"
-            android:textColor="@color/color_white"
-            android:textSize="17sp" />
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="8dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/buttonshape"
-            android:text="समर्पित करे"
-            android:textColor="@color/color_white"
-            android:textSize="17sp" />
-    </LinearLayout>
-
+        android:layout_marginRight="32dp"
+        android:background="@drawable/buttonshape"
+        android:text="समर्पित करे"
+        android:textColor="@color/color_white"
+        android:textSize="17sp" />
 
 </RelativeLayout>

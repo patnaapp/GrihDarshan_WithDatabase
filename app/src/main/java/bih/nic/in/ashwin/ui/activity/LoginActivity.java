@@ -19,11 +19,15 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -225,13 +229,103 @@ public class LoginActivity extends Activity {
 
                 //-----------------------------------------Online-------------------------------------
                 if (Utiilties.isOnline(LoginActivity.this)) {
-                 uid = param[0];
+                    uid = param[0];
                     pass = param[1];
 
                     if (result != null && result.isAuthenticated() == true )
                     {
                         data=result;
 
+                        if (result.get_is_passwordChanged().equals("N"))
+                        {
+                            LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+                            // Inflate the custom layout/view
+                            View customView = inflater.inflate(R.layout.dialog_details, null);
+
+                            // Initialize a new instance of popup window
+                            mPopupWindow = new PopupWindow(customView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                            if (Build.VERSION.SDK_INT >= 21)
+                            {
+                                mPopupWindow.setElevation(5.0f);
+                            }
+                            TextView tv_pass = (TextView) customView.findViewById(R.id.tv_pass);
+                            TextView tv_cnfpass = (TextView) customView.findViewById(R.id.tv_cnfpass);
+                            final EditText edt_pass = (EditText) customView.findViewById(R.id.edt_pass);
+                            final EditText edt_cnf_pass = (EditText) customView.findViewById(R.id.edt_cnf_pass);
+                            final EditText edt_mob_no = (EditText) customView.findViewById(R.id.edt_mob_no);
+                            final EditText edt_email_id = (EditText) customView.findViewById(R.id.edt_email_id);
+                            final LinearLayout ll_email = (LinearLayout) customView.findViewById(R.id.ll_email);
+                            Button button = (Button) customView.findViewById(R.id.button);
+
+                            if (result.getUserrole().equals("ASHA")){
+                                ll_email.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                ll_email.setVisibility(View.VISIBLE);
+                            }
+
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    newpass=edt_pass.getText().toString();
+                                    cnf_pass=edt_cnf_pass.getText().toString();
+                                    if (result.getUserrole().equals("ASHA")){
+                                        if (cnf_pass.length()>=4){
+                                            if (edt_mob_no.getText().toString().length()==10){
+                                                if (cnf_pass.equals(newpass))
+                                                {
+                                                    new ChangePassword().execute();
+                                                }
+                                                else {
+                                                    Toast.makeText(LoginActivity.this,"पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else {
+                                                Toast.makeText(LoginActivity.this,"कृपया मोबाइल नंबर डाले",Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this,"पासवर्ड कमसेकम 4 अंको का होना चाहिए",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                    else {
+                                        if (cnf_pass.length()>=4){
+                                            if (edt_mob_no.getText().toString().length()==10){
+                                                if (edt_email_id.getText().toString().length()>0) {
+                                                    if (cnf_pass.equals(newpass)) {
+                                                        new ChangePassword().execute();
+                                                    } else {
+                                                        Toast.makeText(LoginActivity.this, "पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                                else {
+                                                    Toast.makeText(LoginActivity.this,"कृपया ईमेल आईडी डाले ",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else {
+                                                Toast.makeText(LoginActivity.this,"कृपया मोबाइल नंबर डाले",Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this,"पासवर्ड कमसेकम 4 अंको का होना चाहिए",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+
+                                }
+                            });
+
+                            mPopupWindow.showAtLocation(tv_pass, Gravity.CENTER, 0, 0);
+                            mPopupWindow.setFocusable(true);
+                            mPopupWindow.setOutsideTouchable(false);
+                            mPopupWindow.update();
+                        }
+                        else {
                             try {
 
                                 GlobalVariables.LoggedUser = result;
@@ -260,6 +354,9 @@ public class LoginActivity extends Activity {
                                 Toast.makeText(LoginActivity.this, getResources().getString(R.string.authentication_failed),
                                         Toast.LENGTH_SHORT).show();
                             }
+                        }
+
+
 
                     }
                     // offline -------------------------------------------------------------------------
@@ -411,14 +508,14 @@ public class LoginActivity extends Activity {
         protected DefaultResponse doInBackground(String... param)
         {
             //    String res = WebServiceHelper.UploadSingleData(data, devicename, app_version,PreferenceManager.getDefaultSharedPreferences(mContext).getString("USERID", ""));
-           // String res = WebServiceHelper.ChangePassword(uid,cnf_pass);
+            // String res = WebServiceHelper.ChangePassword(uid,cnf_pass);
             return WebServiceHelper.ChangePassword(uid,cnf_pass);
-           // return res;
+            // return res;
         }
 
         @Override
         protected void onPostExecute(DefaultResponse result)
-      //  protected void onPostExecute(String result)
+        //  protected void onPostExecute(String result)
         {
             if (this.dialog.isShowing())
             {
@@ -462,7 +559,7 @@ public class LoginActivity extends Activity {
                                     start();
                                 }
                                 else
-                                    {
+                                {
                                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.authentication_failed), Toast.LENGTH_SHORT).show();
                                 }
 

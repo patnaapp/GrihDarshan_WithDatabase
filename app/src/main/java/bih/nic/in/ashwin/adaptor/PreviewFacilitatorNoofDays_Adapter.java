@@ -1,41 +1,27 @@
 package bih.nic.in.ashwin.adaptor;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.text.Editable;
-import android.text.Selection;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
-import bih.nic.in.ashwin.entity.AshaWorkEntity;
-import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
-import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
-import bih.nic.in.ashwin.utility.Utiilties;
-import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
-public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<FacilitatorNoofDays_Adapter.ViewHolder> {
+public class PreviewFacilitatorNoofDays_Adapter extends RecyclerView.Adapter<PreviewFacilitatorNoofDays_Adapter.ViewHolder> {
 
     private ArrayList<NoOfDays_Entity> mData;
     private LayoutInflater mInflater;
@@ -47,20 +33,19 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
     private StateAddDeductInterface listener2;
     Financial_Month fmonth;
 
-    public FacilitatorNoofDays_Adapter(Activity context, ArrayList<NoOfDays_Entity> data, Financial_Year fyear, Financial_Month fmonth,NoOfDaysInterface listener) {
+    public PreviewFacilitatorNoofDays_Adapter(Activity context, ArrayList<NoOfDays_Entity> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
-        this.fyear = fyear;
-        this.fmonth = fmonth;
+
         this.context = context;
-        this.listener = listener;
+
 
     }
 
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.adaptor_facilitator_detail, parent, false);
+        View view = mInflater.inflate(R.layout.preview_adaptor_facilitator_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -112,34 +97,17 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.edt_add_centre.setText(String.valueOf(info.get_centre_addition_Amt()));
         holder.edt_deduct_centre.setText(String.valueOf(info.get_centre_deducted_Amt()));
         holder.edt_addremarks_centre.setText(info.get_centre_remarks_add());
-        if(info.get_centre_remarks_add()!="")
-        {
-            listener.onAdditionRemarks(position,holder.edt_addremarks_centre.getText().toString(),false);
 
-        }
         holder.edt_deductremarks_centre.setText(info.get_centre_remarks_deduction());
-        if(info.get_centre_remarks_deduction()!="")
-        {
-            listener.onDeductionRemarks(position,holder.edt_deductremarks_centre.getText().toString(),false);
 
-        }
         holder.edt_add_state.setText(String.valueOf(info.get_state_additiond_Amt()));
 
 
         holder.edt_deduct_state.setText(String.valueOf(info.get_state_deducted_Amt()));
         holder.edt_addremarks_state.setText(info.get_state_remarks_addition());
-        if(info.get_state_remarks_addition()!="")
-        {
-            listener.onAdditionRemarks(position,holder.edt_addremarks_state.getText().toString(),true);
 
-        }
         holder.edt_deductremarks_state.setText(info.get_state_remarks_deduction());
 
-        if(info.get_state_remarks_deduction()!="")
-        {
-            listener.onDeductionRemarks(position,holder.edt_deductremarks_state.getText().toString(),true);
-
-        }
 
         holder.tv_add_dedcut.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -34,6 +34,7 @@ public class UserDetails implements KvmSerializable, Serializable {
     private String HSCName = "";
     private String HSCCode = "";
     private String AWCGOICode = "";
+    private String _is_passwordChanged = "";
 
 
 
@@ -71,6 +72,7 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setHSCName(obj.getProperty("HSCName").toString());
         this.setHSCCode(obj.getProperty("HSCCode").toString());
         this.setAWCGOICode(obj.getProperty("AWCGOICode").toString());
+        this.set_is_passwordChanged("Y");
     }
 
     public static Class<UserDetails> getUserClass() {
@@ -257,6 +259,14 @@ public class UserDetails implements KvmSerializable, Serializable {
         UserName = userName;
     }
 
+    public String get_is_passwordChanged() {
+        return _is_passwordChanged;
+    }
+
+    public void set_is_passwordChanged(String _is_passwordChanged) {
+        this._is_passwordChanged = _is_passwordChanged;
+    }
+
     @Override
     public Object getProperty(int i) {
         return null;
@@ -276,5 +286,7 @@ public class UserDetails implements KvmSerializable, Serializable {
     public void getPropertyInfo(int i, Hashtable hashtable, PropertyInfo propertyInfo) {
 
     }
+
+
 }
 
