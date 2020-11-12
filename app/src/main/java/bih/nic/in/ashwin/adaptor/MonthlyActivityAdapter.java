@@ -108,7 +108,4 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }
-
-
-
 }
