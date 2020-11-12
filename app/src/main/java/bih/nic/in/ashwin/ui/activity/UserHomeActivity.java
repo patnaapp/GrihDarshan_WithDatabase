@@ -52,6 +52,7 @@ import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
+import bih.nic.in.ashwin.ui.changePassword.ChangePasswordFragment;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -87,15 +88,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.navUsername);
         TextView navMobileNum = (TextView) headerView.findViewById(R.id.nav_mobile_no);
-        navUsername.setText((CommonPref.getUserDetails(getApplicationContext())).getUserName());
-        //navMobileNum.setText((CommonPref.getUserDetails(getApplicationContext())).getAwcName());
 
-        navMobileNum.setText((CommonPref.getUserDetails(getApplicationContext())).getMobileNo());
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        UserDetails user = CommonPref.getUserDetails(getApplicationContext());
+        navUsername.setText(user.getUserName());
+        navMobileNum.setText(user.getMobileNo().equals("anyType{}")? "NA" : user.getMobileNo());
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_sync, R.id.nav_logOut)
+                R.id.nav_home, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -125,11 +124,16 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_home:
+                toolbar.setTitle("Ashwin Home");
                 homeFrag = new HomeFragment();
                 displaySelectedFragment(homeFrag);
                 break;
             case R.id.nav_sync:
                 syncData();
+                break;
+            case R.id.nav_change_password:
+                toolbar.setTitle("Change Password");
+                displaySelectedFragment(new ChangePasswordFragment());
                 break;
             case R.id.nav_logOut:
                 logout();
