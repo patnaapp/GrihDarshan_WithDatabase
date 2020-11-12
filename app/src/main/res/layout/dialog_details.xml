@@ -33,6 +33,71 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_mob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_weight="0.6"
+            android:id="@+id/edt_mob_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:maxLength="10"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="1"
+        android:id="@+id/ll_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Email ID"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_weight="0.6"
+            android:id="@+id/edt_email_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:inputType="textEmailAddress"
+            android:maxLength="50"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
 
 
     <LinearLayout

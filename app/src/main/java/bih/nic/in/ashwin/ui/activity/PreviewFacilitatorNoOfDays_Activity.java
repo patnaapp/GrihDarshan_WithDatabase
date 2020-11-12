@@ -47,7 +47,6 @@ public class PreviewFacilitatorNoOfDays_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_preview_facilitator_no_of_days_);
         initialise();
 
-
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
         fcNoOfdays = (ArrayList<NoOfDays_Entity>) getIntent().getSerializableExtra("newArray");
