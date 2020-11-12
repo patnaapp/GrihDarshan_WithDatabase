@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
@@ -321,8 +322,43 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setActivityCategoryList_Local(result);
                 if (i > 0) {
 
-                    new GetDistrictList().execute();
+                    new GetActivityTypeList().execute();
                     Toast.makeText(getApplicationContext(), "Activity Category List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetActivityTypeList extends AsyncTask<String, Void, ArrayList<Activity_Type_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Activity Type list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Activity_Type_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityTypeList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_Type_entity> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setActivityType_Local(result);
+                if (i > 0) {
+
+                    new GetDistrictList().execute();
+                    Toast.makeText(getApplicationContext(), "Activity Type List loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();

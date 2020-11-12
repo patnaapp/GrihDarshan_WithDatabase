@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -119,6 +124,17 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                             "ओके",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+
+
+                                    if (newArrayList.size() > 0)
+                                    {
+                                        new UploadFacilitatorSalary(newArrayList).execute();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), "No Data to Upload", Toast.LENGTH_SHORT).show();
+                                    }
+
                                     dialog.cancel();
                                 }
                             });
@@ -395,5 +411,174 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
             return true;
         }
         return false;
+    }
+
+
+    private class UploadFacilitatorSalary extends AsyncTask<String, Void, String>
+    {
+
+        ArrayList<NoOfDays_Entity> data;
+        //SchoolFacultyDetailEntity data;
+        String _id;
+        private final ProgressDialog dialog = new ProgressDialog(AshaFacilitatorNoOfDays_Activity.this);
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this).create();
+
+
+        UploadFacilitatorSalary(ArrayList<NoOfDays_Entity> data)
+        {
+            this.data = data;
+            //  this._id = data.getTeacher_Number();
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("UpLoading...");
+
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+            String devicename = getDeviceName();
+            String app_version = getAppVersion();
+            boolean isTablet = isTablet(AshaFacilitatorNoOfDays_Activity.this);
+            if (isTablet)
+            {
+                devicename = "Tablet::" + devicename;
+                Log.e("DEVICE_TYPE", "Tablet");
+            }
+            else
+            {
+                devicename = "Mobile::" + devicename;
+                Log.e("DEVICE_TYPE", "Mobile");
+            }
+
+            String username =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("uid", "");
+            String res = WebServiceHelper.UploadFacilitatorSalaryDetailByHSC(getApplicationContext(),data, app_version, "",username);
+            return res;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue", "" + result);
+            if (result != null)
+            {
+                String string = result;
+
+                if (result.contains("Success"))
+                {
+
+                   /* long c = databaseHelper.deletePrincipal(diseCode);
+                    long c1;
+                    if (c>0){
+                        c1=databaseHelper.deleteTeachersl(diseCode);
+                        if (c1>0){
+                         updatePrincipalDetail(diseCode,"Y");*/
+
+                    // alterVerifiedData("N");
+                  //  deletebendata();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
+                 //   builder.setIcon(R.drawable.icdslogo);
+                    builder.setTitle("Success!!");
+                    builder.setMessage("Verified Records Uploded Successfully");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+//                            Intent i=new Intent(AshaFacilitatorNoOfDays_Activity.this,DashboardActivity.class);
+//                            i.putExtra("ForActivity",ForActivity);
+//                            startActivity(i);
+                            dialog.dismiss();
+                            finish();
+
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    if (!AshaFacilitatorNoOfDays_Activity.this.isFinishing())
+                    {
+                        dialog.show();
+                    }
+
+                }
+
+                else if (result.equals("0"))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
+                    builder.setMessage(result);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    if (!AshaFacilitatorNoOfDays_Activity.this.isFinishing())
+                    {
+                        dialog.show();
+                    }
+                }
+
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Uploading data failed ", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            else
+            {
+                //chk_msg_OK_networkdata("Result:null..Uploading failed.Please Try Again Later");
+                Toast.makeText(getApplicationContext(), "Result Null:Uploading failed..Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+
+    public static String getDeviceName()
+    {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer))
+        {
+            return model.toUpperCase();
+        }
+        else
+        {
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+
+    public String getAppVersion()
+    {
+        try
+        {
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
+//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return version;
+    }
+
+    public static boolean isTablet(Context context)
+    {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

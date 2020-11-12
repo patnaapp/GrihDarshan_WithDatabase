@@ -1,10 +1,19 @@
 package bih.nic.in.ashwin.web_services;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.protocol.HTTP;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -12,8 +21,16 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -29,6 +46,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
@@ -47,6 +65,8 @@ import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+
+import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 
 public class WebServiceHelper {
@@ -75,6 +95,8 @@ public class WebServiceHelper {
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
     public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
     public static final String Centre_METHOD = "CentralAmount";
+    public static final String FacilitatorSalaryByANM = "CentralAmount";
+    public static final String Activity_Type_LIST_METHOD = "getActType";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -587,6 +609,30 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+    public static ArrayList<Activity_Type_entity> getActivityTypeList() {
+
+        SoapObject res1;
+        res1 = getServerData(Activity_Type_LIST_METHOD, Activity_Type_entity.ActivityType_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Activity_Type_entity> fieldList = new ArrayList<Activity_Type_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Activity_Type_entity sm = new Activity_Type_entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
     public static ArrayList<District_list> getDistrictList() {
 
         SoapObject res1;
@@ -941,5 +987,239 @@ public class WebServiceHelper {
             }
         }
         return param+"</AcitivtyMaster>";
+    }
+
+
+    public static String UploadFacilitatorSalaryDetailByHSC(Context context, ArrayList<NoOfDays_Entity> checkbox, String AppVersion, String Devicet, String UserName)
+    {
+
+        context=context;
+        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+        dbfac.setNamespaceAware(true);
+        DocumentBuilder docBuilder = null;
+        try
+        {
+            docBuilder = dbfac.newDocumentBuilder();
+        }
+        catch (ParserConfigurationException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0";
+        }
+        DOMImplementation domImpl = docBuilder.getDOMImplementation();
+        Document doc = domImpl.createDocument(SERVICENAMESPACE,	FacilitatorSalaryByANM, null);
+        doc.setXmlVersion("1.0");
+        doc.setXmlStandalone(true);
+
+        Element poleElement = doc.getDocumentElement();
+        Element pdlsElement = doc.createElement("TokenApprove");
+        ArrayList<NoOfDays_Entity> poleDetail = checkbox;
+
+        for(int x=0;x<poleDetail.size();x++)
+        {
+            Element pdElement = doc.createElement("MarkTokenVerify");
+            Element fid = doc.createElement("a_Id_");
+            fid.appendChild(doc.createTextNode(poleDetail.get(x).getFacilitator_id()));
+            pdElement.appendChild(fid);
+
+            Element vLebel = doc.createElement("_IsVerifiedchar");
+            vLebel.appendChild(doc.createTextNode(poleDetail.get(x).getDesigId()));
+            pdElement.appendChild(vLebel);
+
+            Element vLebel2 = doc.createElement("_VerifiedBy_");
+            // vLebel2.appendChild(doc.createTextNode(poleDetail.get(x).get_VerifiedBy_()));
+            vLebel2.appendChild(doc.createTextNode(UserName));
+            //vLebel.appendChild(doc.createTextNode("1234"));
+            pdElement.appendChild(vLebel2);
+
+//            Element vLebel3 = doc.createElement("_id");
+//            vLebel3.appendChild(doc.createTextNode(poleDetail.get(x).getId()));
+//            pdElement.appendChild(vLebel3);
+////
+//            Element vLebel4 = doc.createElement("_LsVerifiedDate");
+//            vLebel4.appendChild(doc.createTextNode(poleDetail.get(x).getBenPerDate()));
+//            pdElement.appendChild(vLebel4);
+//
+//            Element vLebel5 = doc.createElement("_App_ver");
+//            vLebel5.appendChild(doc.createTextNode(AppVersion));
+//            pdElement.appendChild(vLebel5);
+
+            pdlsElement.appendChild(pdElement);
+        }
+        poleElement.appendChild(pdlsElement);
+
+        TransformerFactory transfac = TransformerFactory.newInstance();
+        Transformer trans = null;
+        String res = "0";
+        try {
+
+            try
+            {
+                trans = transfac.newTransformer();
+            }
+            catch (TransformerConfigurationException e1)
+            {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "0";
+            }
+
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // create string from xml tree
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            DOMSource source = new DOMSource(doc);
+
+            BasicHttpResponse httpResponse = null;
+
+            try
+            {
+                trans.transform(source, result);
+            }
+            catch (TransformerException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "0";
+            }
+
+            String SOAPRequestXML = sw.toString();
+
+            String startTag = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchem\" "
+                    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"   >  "
+                    + "<soap:Body > ";
+            String endTag = "</soap:Body > " + "</soap:Envelope>";
+
+//			HttpPost httppost = new HttpPost("http://mobapp.bih.nic.in/locationcapturewebservice.asmx");
+
+            HttpPost httppost = new HttpPost(SERVICEURL1);
+
+            // Log.i("Request: ", "XML Request= " + startTag + SOAPRequestXML
+            // + endTag);
+
+            StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML+ endTag, HTTP.UTF_8);
+
+            sEntity.setContentType("text/xml");
+            // httppost.setHeader("Content-Type","application/soap+xml;charset=UTF-8");
+            httppost.setEntity(sEntity);
+
+            HttpClient httpclient = new DefaultHttpClient();
+
+            httpResponse = (BasicHttpResponse) httpclient.execute(httppost);
+            HttpEntity entity = httpResponse.getEntity();
+
+            Log.i("Responddddddddse: ", httpResponse.getStatusLine().toString());
+
+            if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK"))
+            {
+                String output = _getResponseBody(entity);
+                res = parseRespnse1(output);
+                // res = "1";
+            }
+            else
+            {
+                res = "0";
+                // res = "0, Server no reponse";
+//                String output = _getResponseBody(entity);
+//                res = parseRespnse(output);
+            }
+
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0";
+            //return "0, Exception Caught";
+        }
+        // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
+        return res;
+
+    }
+
+
+    public static String parseRespnse1(String xml)
+    {
+        String result = "Failed to parse";
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        InputSource is;
+        try
+        {
+            builder = factory.newDocumentBuilder();
+            is = new InputSource(new StringReader(xml));
+            Document doc = builder.parse(is);
+            NodeList list = doc.getElementsByTagName("BeneficiaryTokenVerifyResult");
+            result = list.item(0).getTextContent();
+            //System.out.println(list.item(0).getTextContent());
+        }
+        catch (ParserConfigurationException e)
+        {
+        }
+        catch (SAXException e)
+        {
+        }
+        catch (IOException e)
+        {
+        }
+
+        return result;
+    }
+
+    public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException
+    {
+
+        if (entity == null)
+        {
+            throw new IllegalArgumentException("HTTP entity may not be null");
+        }
+
+        InputStream instream = entity.getContent();
+
+        if (instream == null)
+        {
+            return "";
+        }
+
+        if (entity.getContentLength() > Integer.MAX_VALUE)
+        {
+            throw new IllegalArgumentException("HTTP entity too large to be buffered in memory");
+        }
+
+        String charset = getContentCharSet(entity);
+
+        if (charset == null)
+        {
+            charset = org.apache.http.protocol.HTTP.DEFAULT_CONTENT_CHARSET;
+        }
+
+        Reader reader = new InputStreamReader(instream, charset);
+
+        StringBuilder buffer = new StringBuilder();
+
+        try
+        {
+
+            char[] tmp = new char[1024];
+
+            int l;
+
+            while ((l = reader.read(tmp)) != -1)
+            {
+                buffer.append(tmp, 0, l);
+            }
+
+        }
+        finally
+        {
+            reader.close();
+        }
+
+        return buffer.toString();
+
     }
 }
