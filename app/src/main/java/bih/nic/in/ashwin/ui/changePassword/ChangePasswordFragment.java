@@ -60,7 +60,6 @@ public class ChangePasswordFragment extends Fragment {
         UserDetails userInfo = CommonPref.getUserDetails(getContext());
 
         tv_username.setText(userInfo.getUserName());
-
     }
 
     public Boolean isDataValidated(){

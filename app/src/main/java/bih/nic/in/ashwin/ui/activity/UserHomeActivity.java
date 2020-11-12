@@ -123,6 +123,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_home:
+                toolbar.setTitle("Ashwin Home");
                 homeFrag = new HomeFragment();
                 displaySelectedFragment(homeFrag);
                 break;
@@ -130,6 +131,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 syncData();
                 break;
             case R.id.nav_change_password:
+                toolbar.setTitle("Change Password");
                 displaySelectedFragment(new ChangePasswordFragment());
                 break;
             case R.id.nav_logOut:
