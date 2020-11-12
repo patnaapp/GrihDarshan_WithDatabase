@@ -272,18 +272,50 @@ public class LoginActivity extends Activity {
                                 public void onClick(View v) {
                                     newpass=edt_pass.getText().toString();
                                     cnf_pass=edt_cnf_pass.getText().toString();
-                                    if (cnf_pass.length()>=4){
-                                        if (cnf_pass.equals(newpass))
-                                        {
-                                            new ChangePassword().execute();
+                                    if (result.getUserrole().equals("ASHA")){
+                                        if (cnf_pass.length()>=4){
+                                            if (edt_mob_no.getText().toString().length()==10){
+                                                if (cnf_pass.equals(newpass))
+                                                {
+                                                    new ChangePassword().execute();
+                                                }
+                                                else {
+                                                    Toast.makeText(LoginActivity.this,"पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else {
+                                                Toast.makeText(LoginActivity.this,"कृपया मोबाइल नंबर डाले",Toast.LENGTH_LONG).show();
+                                            }
+
                                         }
                                         else {
-                                            Toast.makeText(LoginActivity.this,"Password doesnot match",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(LoginActivity.this,"पासवर्ड कमसेकम 4 अंको का होना चाहिए",Toast.LENGTH_LONG).show();
                                         }
                                     }
                                     else {
-                                        Toast.makeText(LoginActivity.this,"Password should be of minimum 4 characters",Toast.LENGTH_LONG).show();
+                                        if (cnf_pass.length()>=4){
+                                            if (edt_mob_no.getText().toString().length()==10){
+                                                if (edt_email_id.getText().toString().length()>0) {
+                                                    if (cnf_pass.equals(newpass)) {
+                                                        new ChangePassword().execute();
+                                                    } else {
+                                                        Toast.makeText(LoginActivity.this, "पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                                else {
+                                                    Toast.makeText(LoginActivity.this,"कृपया ईमेल आईडी डाले ",Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                            else {
+                                                Toast.makeText(LoginActivity.this,"कृपया मोबाइल नंबर डाले",Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this,"पासवर्ड कमसेकम 4 अंको का होना चाहिए",Toast.LENGTH_LONG).show();
+                                        }
                                     }
+
 
                                 }
                             });
