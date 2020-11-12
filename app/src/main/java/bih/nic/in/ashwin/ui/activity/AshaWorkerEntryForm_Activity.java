@@ -41,7 +41,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    Spinner sp_work_categ,sp_work;
+    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
     Button btn_proceed;
@@ -57,6 +57,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     ActivityCategory_entity categoryEntity;
     Activity_entity activityEntity;
     RegisterDetailsEntity registerDetailsEntity;
+
+
 
     int caltype = 0;
     String entryType;
@@ -135,6 +137,25 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             sp_work_categ.setEnabled(false);
             sp_work.setEnabled(false);
         }
+    }
+
+    public void setCategoryTypeSpinner(){
+        categoryArray = dbhelper.getActictivityCategoryList();
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (ActivityCategory_entity info: categoryArray){
+            array.add(info.get_AcitivtyCategoryDesc_Hn());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work_categ.setAdapter(adaptor);
+        sp_work_categ.setOnItemSelectedListener(this);
+
+//        if(entryType.equals("U")){
+//            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+//        }
     }
 
     public void setCategorySpinner(){

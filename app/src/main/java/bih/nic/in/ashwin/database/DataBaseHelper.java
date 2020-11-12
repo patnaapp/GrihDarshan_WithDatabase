@@ -961,6 +961,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+
+
     public ArrayList<Activity_entity> getActictivityList(String catId, String activityType){
 
         ArrayList<Activity_entity> list = new ArrayList<Activity_entity>();
