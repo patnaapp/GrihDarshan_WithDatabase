@@ -219,7 +219,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="32dp"
             android:background="@drawable/buttonshape"
-            android:text="समर्पित करे"
+            android:text="प्रीव्यू देखे"
             android:textColor="@color/color_white"
             android:textSize="17sp" />
         <Button
