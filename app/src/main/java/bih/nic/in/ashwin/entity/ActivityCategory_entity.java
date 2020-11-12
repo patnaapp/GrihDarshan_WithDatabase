@@ -10,13 +10,14 @@ public class ActivityCategory_entity implements KvmSerializable {
 
     public static Class<ActivityCategory_entity> Category_CLASS = ActivityCategory_entity.class;
 
-    private String _AcitivtyCategoryId, _AcitivtyCategoryDesc,_AcitivtyCategoryDesc_Hn,AcitivtyType;
+    private String _AcitivtyCategoryId, _AcitivtyCategoryDesc,_AcitivtyCategoryDesc_Hn,AcitivtyType,_ActTypeId;
 
     public ActivityCategory_entity(SoapObject sobj) {
         this._AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
         this._AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
         this._AcitivtyCategoryDesc_Hn = sobj.getProperty("AcitivtyCategoryDesc_Hn").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+        this._ActTypeId = sobj.getProperty("ActTypeId").toString();
     }
 
     public ActivityCategory_entity() {
@@ -73,5 +74,13 @@ public class ActivityCategory_entity implements KvmSerializable {
 
     public void set_AcitivtyCategoryDesc_Hn(String _AcitivtyCategoryDesc_Hn) {
         this._AcitivtyCategoryDesc_Hn = _AcitivtyCategoryDesc_Hn;
+    }
+
+    public String get_ActTypeId() {
+        return _ActTypeId;
+    }
+
+    public void set_ActTypeId(String _ActTypeId) {
+        this._ActTypeId = _ActTypeId;
     }
 }

@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
@@ -800,6 +801,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("category_name", info.get(i).get_AcitivtyCategoryDesc());
                     values.put("category_name_hn", info.get(i).get_AcitivtyCategoryDesc_Hn());
                     values.put("AcitivtyType", info.get(i).getAcitivtyType());
+                    values.put("ActivityType_id", info.get(i).get_ActTypeId());
 
 
                     String[] whereArgs = new String[]{info.get(i).get_AcitivtyCategoryId()};
@@ -808,6 +810,57 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     if (!(c > 0)) {
 
                         c = db.insert("ActivtiyCategory_Master", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public long setActivityType_Local(ArrayList<Activity_Type_entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Activity_Type_entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("ActType_id", info.get(i).get_ActTypeId());
+                    values.put("ActType_Name", info.get(i).get_Actname());
+                    values.put("ActTypeName_Hn", info.get(i).get_ActnameHN());
+
+                    String[] whereArgs = new String[]{info.get(i).get_ActTypeId()};
+
+                    c = db.update("ActivityTypeMAster", values, "ActType_id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("ActivityTypeMAster", null, values);
                     }
 
 
