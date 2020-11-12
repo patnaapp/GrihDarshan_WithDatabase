@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import java.util.Date;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -41,22 +43,29 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    Spinner sp_work_categ,sp_work;
+    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
     Button btn_proceed;
     ImageView img_date2,img_date1;
+    LinearLayout ll_daily_content;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
     Financial_Month fmonth;
 
+    ArrayList<Activity_Type_entity> activityTypeArray;
     ArrayList<ActivityCategory_entity> categoryArray;
     ArrayList<Activity_entity> activityArray;
 
+    Activity_Type_entity activityTypeEntity;
     ActivityCategory_entity categoryEntity;
     Activity_entity activityEntity;
     RegisterDetailsEntity registerDetailsEntity;
+
+    String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
+
+    String workdmCode,workDmName;
 
     int caltype = 0;
     String entryType;
@@ -71,7 +80,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         initializeViews();
         extractDataFromIntent();
 
-        setCategorySpinner();
+        //setCategorySpinner();
+        setCategoryTypeSpinner();
     }
 
     void initializeViews(){
@@ -93,12 +103,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         sp_work_categ = findViewById(R.id.sp_work_categ);
         sp_work = findViewById(R.id.sp_work);
+        sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
+        sp_md = findViewById(R.id.sp_md);
 
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
         img_date1 = findViewById(R.id.img_date1);
 
         tv_note = findViewById(R.id.tv_note);
+
+        ll_daily_content = findViewById(R.id.ll_daily_content);
     }
 
     public void extractDataFromIntent(){
@@ -137,8 +151,38 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
+    public void setCategoryTypeSpinner(){
+        activityTypeArray = dbhelper.getActictivityTypeList();
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (Activity_Type_entity info: activityTypeArray){
+            array.add(info.get_ActnameHN());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work_categ_type.setAdapter(adaptor);
+        sp_work_categ_type.setOnItemSelectedListener(this);
+
+//        if(entryType.equals("U")){
+//            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+//        }
+    }
+
+    public void setDMWrokSpinner(){
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workDMTypeArray);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_md.setAdapter(adaptor);
+        sp_md.setOnItemSelectedListener(this);
+
+//        if(entryType.equals("U")){
+//            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+//        }
+    }
+
     public void setCategorySpinner(){
-        categoryArray = dbhelper.getActictivityCategoryList();
+        categoryArray = dbhelper.getActictivityCategoryList(workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
@@ -157,7 +201,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setActivitySpinner(){
-        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), "D");
+        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
@@ -267,6 +311,39 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
                     activityEntity = null;
+                }
+                break;
+            case R.id.sp_work_categ_type:
+                if (i > 0) {
+                    activityTypeEntity = activityTypeArray.get(i-1);
+
+                    edt_amount.setText("");
+                    edt_reg_name.setText("");
+                    tv_cat_title.setError(null);
+                    setDMWrokSpinner();
+                }else{
+                    activityTypeEntity = null;
+                }
+                break;
+
+            case R.id.sp_md:
+                if (i > 0) {
+                    switch (workDMTypeArray[i]){
+                        case "Daily":
+                            workdmCode = "D";
+                            workDmName = workDMTypeArray[i];
+                            ll_daily_content.setVisibility(View.VISIBLE);
+                            break;
+                        case "Monthly":
+                            workdmCode = "M";
+                            workDmName = workDMTypeArray[i];
+                            ll_daily_content.setVisibility(View.GONE);
+                            break;
+                    }
+                    setCategorySpinner();
+                }else{
+                    workdmCode = null;
+                    workDmName = null;
                 }
                 break;
         }

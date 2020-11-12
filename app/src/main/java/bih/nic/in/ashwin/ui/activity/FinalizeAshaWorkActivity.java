@@ -156,7 +156,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public ActivityCategory_entity getActivityCategory(){
-        ArrayList<ActivityCategory_entity>  categoryArray = dbhelper.getActictivityCategoryList();
+        ArrayList<ActivityCategory_entity>  categoryArray = dbhelper.getActictivityCategoryList("M");
         for(ActivityCategory_entity info: categoryArray){
             if(info.get_AcitivtyCategoryDesc().equals("Monthly Category")){
                 return info;

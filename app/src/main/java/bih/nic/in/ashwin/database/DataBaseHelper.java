@@ -986,12 +986,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<ActivityCategory_entity> getActictivityCategoryList(){
+    public ArrayList<ActivityCategory_entity> getActictivityCategoryList(String type){
 
         ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{"D"};
+            String[] whereArgs = new String[]{type};
             Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE AcitivtyType=?",whereArgs);
 
             while (cur.moveToNext()) {
@@ -1002,6 +1002,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_AcitivtyCategoryDesc(cur.getString(cur.getColumnIndex("category_name")));
                 info.set_AcitivtyCategoryDesc_Hn(cur.getString(cur.getColumnIndex("category_name_hn")));
                 info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Activity_Type_entity> getActictivityTypeList(){
+
+        ArrayList<Activity_Type_entity> list = new ArrayList<Activity_Type_entity>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            //String[] whereArgs = new String[]{"D"};
+            Cursor cur = db.rawQuery("Select * from ActivityTypeMAster",null);
+
+            while (cur.moveToNext()) {
+
+                Activity_Type_entity info = new Activity_Type_entity();
+
+                info.set_ActTypeId(cur.getString(cur.getColumnIndex("ActType_id")));
+                info.set_Actname(cur.getString(cur.getColumnIndex("ActType_Name")));
+                info.set_ActnameHN(cur.getString(cur.getColumnIndex("ActTypeName_Hn")));
                 list.add(info);
             }
 
