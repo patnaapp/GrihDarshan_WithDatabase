@@ -64,32 +64,12 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-//        if (user_role.equals("ASHA"))
-//        {
-//            asha_worker_id=getIntent().getStringExtra("ashaid");
-//            asha_worker_nm=getIntent().getStringExtra("ashanm");
-//            tv_name.setText(asha_worker_nm);
         tv_role.setText("आशा वर्कर");
-//        }
-//        else if (user_role.equals("ASHAFC"))
-//        {
-//            faciltator_id=getIntent().getStringExtra("_faciltator_id");
-//            facilitator_nm=getIntent().getStringExtra("_faciltator_nm");
-//            tv_name.setText(facilitator_nm);
-//            tv_role.setText("आशा फैसिलिटेटर");
-//        }
 
         loadWorkerFascilatorData();
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
-//
-//        if (user_role.equals("ASHA")) {
-//            new SynchronizeAshaActivityList().execute();
-//        }
-//        else {
-//
-//        }
 
         btn_finalize.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,14 +192,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     }
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
-//        if (!isPendingByAnm(data))
-//        {
-//
-//            btn_finalize.setVisibility(View.VISIBLE);
-//        }
-//        else if(isPendingByAnm(data)) {
-//
-//        }
+
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
@@ -337,9 +310,6 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         FinalizeAshaActivityByANM(AshaWorkEntity data) {
             this.data = data;
-            //   this.position = position;
-            //_uid = data.getId();
-            //rowid = data.get_phase1_id();
 
         }
 
@@ -422,8 +392,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     public String getAppVersion(){
         try {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
-//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+
         } catch (PackageManager.NameNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -112,11 +112,34 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.edt_add_centre.setText(String.valueOf(info.get_centre_addition_Amt()));
         holder.edt_deduct_centre.setText(String.valueOf(info.get_centre_deducted_Amt()));
         holder.edt_addremarks_centre.setText(info.get_centre_remarks_add());
+        if(info.get_centre_remarks_add()!="")
+        {
+            listener.onAdditionRemarks(position,holder.edt_addremarks_centre.getText().toString(),false);
+
+        }
         holder.edt_deductremarks_centre.setText(info.get_centre_remarks_deduction());
+        if(info.get_centre_remarks_deduction()!="")
+        {
+            listener.onDeductionRemarks(position,holder.edt_deductremarks_centre.getText().toString(),false);
+
+        }
         holder.edt_add_state.setText(String.valueOf(info.get_state_additiond_Amt()));
+
+
         holder.edt_deduct_state.setText(String.valueOf(info.get_state_deducted_Amt()));
         holder.edt_addremarks_state.setText(info.get_state_remarks_addition());
+        if(info.get_state_remarks_addition()!="")
+        {
+            listener.onAdditionRemarks(position,holder.edt_addremarks_state.getText().toString(),true);
+
+        }
         holder.edt_deductremarks_state.setText(info.get_state_remarks_deduction());
+
+        if(info.get_state_remarks_deduction()!="")
+        {
+            listener.onDeductionRemarks(position,holder.edt_deductremarks_state.getText().toString(),true);
+
+        }
 
         holder.tv_add_dedcut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,10 +171,6 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!holder.edt_no_days.getText().toString().isEmpty() && Integer.parseInt(holder.edt_no_days.getText().toString())>0){
                     listener.onNoOfDaysChanged(position,Integer.parseInt(holder.edt_no_days.getText().toString()));
-                }
-                else if (Integer.parseInt(holder.edt_no_days.getText().toString())>20){
-                    holder.edt_no_days.setText("");
-                    Toast.makeText(context,"no of days should not be more than 20",Toast.LENGTH_LONG).show();
                 }
                 else {
                     listener.onNoOfDaysChanged(position,0);
@@ -267,7 +286,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_addremarks_centre.getText().toString().length()>0){
+                if (!holder.edt_addremarks_centre.getText().toString().isEmpty()){
                     listener.onAdditionRemarks(position,holder.edt_addremarks_centre.getText().toString(),false);
                 }
             }
@@ -288,7 +307,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_deductremarks_centre.getText().toString().length()>0){
+                if (!holder.edt_deductremarks_centre.getText().toString().isEmpty()){
                     listener.onDeductionRemarks(position,holder.edt_deductremarks_centre.getText().toString(),false);
                 }
             }
@@ -309,7 +328,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_addremarks_state.getText().toString().length()>0){
+                if (!holder.edt_addremarks_state.getText().toString().isEmpty()){
                     listener.onAdditionRemarks(position,holder.edt_addremarks_state.getText().toString(),true);
                 }
             }
@@ -321,7 +340,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
         });
 
-        holder.edt_deductremarks_centre.addTextChangedListener(new TextWatcher() {
+        holder.edt_deductremarks_state.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -330,8 +349,8 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_deductremarks_centre.getText().toString().length()>0){
-                    listener.onDeductionRemarks(position,holder.edt_deductremarks_centre.getText().toString(),true);
+                if (!holder.edt_deductremarks_state.getText().toString().isEmpty()){
+                    listener.onDeductionRemarks(position,holder.edt_deductremarks_state.getText().toString(),true);
                 }
             }
 

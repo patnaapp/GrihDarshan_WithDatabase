@@ -92,8 +92,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                                 }
                             });
 
-
-
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }
@@ -116,8 +114,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                                     dialog.cancel();
                                 }
                             });
-
-
 
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
@@ -188,7 +184,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_centre_addition_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
-//        rv_data.getAdapter().notifyDataSetChanged();
+
     }
 
     @Override
@@ -196,7 +192,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_centre_deducted_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
-//        rv_data.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -210,7 +205,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         }
 
         fcNoOfdays.set(position, activity);
-//        rv_data.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -224,20 +218,14 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         }
 
         fcNoOfdays.set(position, activity);
-//        rv_data.getAdapter().notifyDataSetChanged();
+
     }
 
     @Override
     public void onNoOfDaysChanged(int position, int days) {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_no_ofDays(days);
-        // activity.set_total_Amount(days);
         fcNoOfdays.set(position, calculateAmount(activity));
-//       adapter.notifyDataSetChanged();
-//        if (!rv_data.isComputingLayout()){
-//            adapter.notifyDataSetChanged();
-//        }
-
 
     }
 
@@ -246,7 +234,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_state_additiond_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
-//        rv_data.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -254,7 +241,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_state_deducted_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
-//        rv_data.getAdapter().notifyDataSetChanged();
     }
 
 
@@ -336,7 +322,7 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 
     public  boolean isRemarksEmptyForSubmit(ArrayList<NoOfDays_Entity> arraylist) {
         for (NoOfDays_Entity info : arraylist) {
-            if (info.get_no_ofDays()>0) {
+            if (info.get_no_ofDays()>0 && info.get_no_ofDays()<=20) {
                 if (info.get_centre_addition_Amt()>0 && (info.get_centre_remarks_add().isEmpty()||info.get_centre_remarks_add()=="")){
                     return true;
                 }
