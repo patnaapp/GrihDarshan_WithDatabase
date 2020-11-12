@@ -329,14 +329,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/footer"
         android:id="@+id/rl_bottom"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_proceed"
             android:layout_width="250dp"
@@ -349,8 +348,8 @@
             android:text="     आशा कार्यकर्ता     "
             android:textColor="@color/color_white"
             android:textSize="15sp" />
-        <Button
 
+        <Button
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_ashafc"
             android:layout_width="250dp"
@@ -374,8 +373,12 @@
             android:textColor="@color/holo_green_dark"/>
     </LinearLayout>
 
-
-
+    <include
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/footer"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

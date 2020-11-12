@@ -12,6 +12,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_logOut">LogOut</string>
     <string name="menu_sync">Synchronize</string>
+    <string name="menu_change_password">Change Password</string>
 
     <string name="home_second">Home Second</string>
 
