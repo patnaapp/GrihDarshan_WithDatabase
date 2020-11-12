@@ -6,9 +6,10 @@ import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class NoOfDays_Entity implements KvmSerializable {
+public class NoOfDays_Entity implements KvmSerializable, Serializable {
 
     public static Class<Activity_entity> NoOfDays_CLASS = Activity_entity.class;
     private String _Fc_aId = "";
