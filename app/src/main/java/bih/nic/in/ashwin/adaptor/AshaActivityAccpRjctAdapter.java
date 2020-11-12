@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,26 +77,43 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
             holder.tv_status.setText("विचाराधीन");
+            holder.ll_btn.setVisibility(View.VISIBLE);
             holder.btn_rjct.setVisibility(View.VISIBLE);
             holder.btn_accpt.setVisibility(View.VISIBLE);
+
+            holder.btn_accp_rjct.setVisibility(View.GONE);
         }
         else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
+            holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+            holder.btn_accp_rjct.setText("अस्वीकार करे");
+            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+            holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("स्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-            holder.btn_rjct.setVisibility(View.VISIBLE);
-            holder.btn_accpt.setVisibility(View.GONE);
+           // holder.btn_rjct.setVisibility(View.VISIBLE);
+
+//            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
+//
+//            holder.btn_rjct.setLayoutParams(lp);
+         //   holder.btn_accpt.setVisibility(View.GONE);
         }
         else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+
+            holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+            holder.btn_accp_rjct.setText("स्वीकार करे");
+            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+            holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("अस्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
-            holder.btn_rjct.setVisibility(View.GONE);
-            holder.btn_accpt.setVisibility(View.VISIBLE);
+//            holder.btn_rjct.setVisibility(View.GONE);
+//            holder.btn_accpt.setVisibility(View.VISIBLE);
         }
         else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
         {
             holder.btn_rjct.setVisibility(View.GONE);
             holder.btn_accpt.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setVisibility(View.GONE);
             if (info.getVerificationStatus().equals("P"))
             {
                 holder.tv_status.setText("विचाराधीन");
@@ -123,6 +141,84 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 //
 //            }
 //        });
+        holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (info.getVerificationStatus().contains("R")){
+                    if(Utiilties.isOnline(context)) {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle("स्वीकृति की पुष्टि")
+                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+                                .setCancelable(false)
+                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        new AcceptRecordsFromPacs(info, position).execute();
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                    else {
+                        new AlertDialog.Builder(context)
+                                .setTitle("अलर्ट !!")
+                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                                .setCancelable(false)
+                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                        context.startActivity(I);
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+                    }
+                }
+                else if (info.getVerificationStatus().contains("A")){
+                    if (Utiilties.isOnline(context)) {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle("अस्वीकृति की पुष्टि")
+                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+                                .setCancelable(false)
+                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        new RejectRecordsFromPacs(info, position).execute();
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+
+                    }
+                    else {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle("अलर्ट !!")
+                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                                .setCancelable(false)
+                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                        context.startActivity(I);
+                                        dialog.cancel();
+                                    }
+                                }).show();
+
+
+
+                    }
+                }
+            }
+        });
 
         holder.btn_accpt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +314,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
-        Button btn_accpt,btn_rjct;
+        Button btn_accpt,btn_rjct,btn_accp_rjct;
+        LinearLayout ll_btn;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -235,6 +332,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             sblist = itemView.findViewById(R.id.sblist);
             btn_accpt = itemView.findViewById(R.id.btn_accpt);
             btn_rjct = itemView.findViewById(R.id.btn_rjct);
+            btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
+            ll_btn = itemView.findViewById(R.id.ll_btn);
             //itemView.setOnClickListener(this);
         }
 
