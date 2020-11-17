@@ -51,7 +51,8 @@ public class UserDetails implements KvmSerializable, Serializable {
         if (obj.getProperty("MobileNo").toString().equals("anyType{}")){
             this.setMobileNo("NA");
         }
-        else {
+        else
+            {
             this.setMobileNo(obj.getProperty("MobileNo").toString());
         }
 
@@ -72,6 +73,7 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setHSCName(obj.getProperty("HSCName").toString());
         this.setHSCCode(obj.getProperty("HSCCode").toString());
         this.setAWCGOICode(obj.getProperty("AWCGOICode").toString());
+       // this.set_is_passwordChanged(obj.getProperty("IsChangePassword").toString());
         this.set_is_passwordChanged("Y");
     }
 

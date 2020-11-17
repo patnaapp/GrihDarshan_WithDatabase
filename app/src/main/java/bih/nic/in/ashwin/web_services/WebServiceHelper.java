@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.CheckBox;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -102,7 +103,7 @@ public class WebServiceHelper {
     public static final String ITEM_MASTER = "getItemMasterList";
     public static final String Upload_Asset = "InsertAssetEntry";
     public static final String Get_Asset = "getASSetMasterDetailsList";
-    public static final String ChangePassword = "ChangePassword";
+    public static final String ChangePassword = "UpdateLogin";
 
     private static final String FIELD_METHOD = "getFieldInformation";
     private static final String SPINNER_METHOD = "getSpinnerInformation";
@@ -406,36 +407,36 @@ public class WebServiceHelper {
 
 
 
-    public static DefaultResponse ChangePassword(String uid, String password)
+    public static String ChangePassword(String uid, String password,String email,String mob,String userrole,String device_id,String ver,String username)
     {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, ChangePassword);
-        request.addProperty("_UserId", uid);
-        request.addProperty("_Password", password);
+        request.addProperty("UserID", uid);
+        request.addProperty("UserRole", userrole);
+        request.addProperty("_email", email);
+        request.addProperty("MobileNo", mob);
+        request.addProperty("ActiveUserName", username);
+        request.addProperty("Password", password);
+        request.addProperty("MobVersion", ver);
+        request.addProperty("MobDeviceId", device_id);
         DefaultResponse userDetails;
-        SoapObject res1;
-        try
-        {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
             envelope.dotNet = true;
+            envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
-            envelope.addMapping(SERVICENAMESPACE, DefaultResponse.DefaultResponse_CLASS.getSimpleName(), DefaultResponse.DefaultResponse_CLASS);
+
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + ChangePassword, envelope);
+            androidHttpTransport.call(SERVICENAMESPACE + ChangePassword,envelope);
+            rest = envelope.getResponse().toString();
 
-            res1 = (SoapObject) envelope.getResponse();
-
-            int TotalProperty = res1.getPropertyCount();
-
-            userDetails = new DefaultResponse(res1);
-
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "0";
         }
-        return userDetails;
+        return rest;
 
     }
 

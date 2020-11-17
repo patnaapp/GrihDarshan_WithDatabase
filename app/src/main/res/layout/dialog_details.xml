@@ -33,6 +33,68 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_userId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="User Id"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_weight="0.6"
+            android:id="@+id/tv_user_Id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="User Id"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:id="@+id/tv_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="User Name"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_weight="0.01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_weight="0.6"
+            android:id="@+id/edt_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:maxLength="10"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
     <LinearLayout
         android:weightSum="1"
         android:layout_width="match_parent"

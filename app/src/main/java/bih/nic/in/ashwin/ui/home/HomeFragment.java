@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayAdapter<String> workerAdapter;
     ArrayAdapter<String> facilitatorAdapter;
     String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
+    LinearLayout ll_div_zone;
 
 
     ArrayList<AshaWorkEntity> ashaWorkData;
@@ -181,6 +182,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
 
         rv_data = root.findViewById(R.id.rv_data);
+        ll_div_zone = root.findViewById(R.id.ll_div_zone);
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
@@ -197,6 +199,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_division.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.VISIBLE);
+        }
+        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+            ll_floating_btn.setVisibility(View.GONE);
+            ll_pan.setVisibility(View.GONE);
+            ll_div_zone.setVisibility(View.GONE);
+            ll_division.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.VISIBLE);
+            btn_ashafc.setVisibility(View.GONE);
         }
         else {
          //   ll_hsc.setVisibility(View.GONE);
@@ -220,7 +230,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_panchayat.setText(userInfo.getPanchayatNameHN());
 
         facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
-        ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
+        ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
     }
 
     public void setFYearSpinner(){
@@ -277,7 +287,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void loadWorkerFascilatorData(){
         if (userRole.equals("ASHA")){
-            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
+            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
 
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
@@ -334,7 +344,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_ashafc.setVisibility(View.VISIBLE);
                         ll_floating_btn.setVisibility(View.GONE);
 
-                    }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                    }
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+                        btn_proceed.setVisibility(View.VISIBLE);
+                        btn_ashafc.setVisibility(View.GONE);
+                        ll_floating_btn.setVisibility(View.GONE);
+                    }
+                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }
 
@@ -346,13 +362,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     UserRole role = userRoleList.get(i-1);
                     userRole = role.getRole();
                     facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
-                    ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode());
+                    ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
                     if (userRole.equals("ASHA")){
                         if (ashaworkerList.size()>0){
                             loadWorkerFascilatorData();
                         }
                         else {
-                            new GetAshaWorkersList().execute();
+                         //   new GetAshaWorkersList().execute();
                         }
                     }
                     if (userRole.equals("ASHAFC")){
@@ -360,7 +376,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             loadWorkerFascilatorData();
                         }
                         else {
-                            new GetAshaFacilitatorList().execute();
+                           // new GetAshaFacilitatorList().execute();
                         }
                     }
 
@@ -484,108 +500,108 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return false;
     }
 
-    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+//    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+//
+//        private final ProgressDialog dialog = new ProgressDialog(getContext());
+//
+//        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//            this.dialog.setCanceledOnTouchOutside(false);
+//            this.dialog.setMessage("Loading Asha details...");
+//            this.dialog.show();
+//            // sync.setBackgroundResource(R.drawable.syncr);
+//        }
+//
+//        @Override
+//        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+//
+//
+//            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+//            if (this.dialog.isShowing())
+//            {
+//                this.dialog.dismiss();
+//            }
+//
+//            if (result != null)
+//            {
+//                Log.d("Resultgfg", "" + result);
+//
+//                DataBaseHelper helper = new DataBaseHelper(getContext());
+//
+//
+//                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
+//                if (i > 0) {
+//                    loadWorkerFascilatorData();
+//
+//                    Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
+//
+//                } else {
+//
+//                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        }
+//    }
 
-        private final ProgressDialog dialog = new ProgressDialog(getContext());
 
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
-
-        @Override
-        protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Asha details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
-        }
-
-        @Override
-        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
-
-
-            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
-
-            if (result != null)
-            {
-                Log.d("Resultgfg", "" + result);
-
-                DataBaseHelper helper = new DataBaseHelper(getContext());
-
-
-                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
-                if (i > 0) {
-                    loadWorkerFascilatorData();
-
-                    Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-    }
-
-
-    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
-
-        private final ProgressDialog dialog = new ProgressDialog(getContext());
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
-
-        @Override
-        protected void onPreExecute() {
-
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Facilitator details...");
-            this.dialog.show();
-            // sync.setBackgroundResource(R.drawable.syncr);
-        }
-
-        @Override
-        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
-
-            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
-
-            if (result != null)
-            {
-                Log.d("Resultgfg", "" + result);
-
-                DataBaseHelper helper = new DataBaseHelper(getContext());
-
-                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
-                if (i > 0)
-                {
-                    loadWorkerFascilatorData();
-                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    loadWorkerFascilatorData();
-
-                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-                }
-
-                //displaySelectedFragment(new HomeFragment());
-            }
-        }
-    }
+//    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
+//
+//        private final ProgressDialog dialog = new ProgressDialog(getContext());
+//
+//        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//            this.dialog.setCanceledOnTouchOutside(false);
+//            this.dialog.setMessage("Loading Facilitator details...");
+//            this.dialog.show();
+//            // sync.setBackgroundResource(R.drawable.syncr);
+//        }
+//
+//        @Override
+//        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
+//
+//            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+//        }
+//
+//        @Override
+//        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
+//            if (this.dialog.isShowing())
+//            {
+//                this.dialog.dismiss();
+//            }
+//
+//            if (result != null)
+//            {
+//                Log.d("Resultgfg", "" + result);
+//
+//                DataBaseHelper helper = new DataBaseHelper(getContext());
+//
+//                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
+//                if (i > 0)
+//                {
+//                    loadWorkerFascilatorData();
+//                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    loadWorkerFascilatorData();
+//
+//                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                //displaySelectedFragment(new HomeFragment());
+//            }
+//        }
+//    }
 }

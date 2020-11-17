@@ -402,7 +402,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void loadWorkerFascilatorData(){
         if (user_role.equals("ASHA")){
-            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode());
+            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
 
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
