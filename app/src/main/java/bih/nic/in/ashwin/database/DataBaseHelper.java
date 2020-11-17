@@ -986,13 +986,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<ActivityCategory_entity> getActictivityCategoryList(String type){
+    public ArrayList<ActivityCategory_entity> getActictivityCategoryList(String activityType,String dmType){
 
         ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{type};
-            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE AcitivtyType=?",whereArgs);
+            String[] whereArgs = new String[]{activityType,dmType};
+            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE ActivityType_id=? AND AcitivtyType=?",whereArgs);
 
             while (cur.moveToNext()) {
 

@@ -33,7 +33,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
         this.IsFinalize = sobj.getProperty("IsFinalize").toString();
         this._IsANMFinalize = sobj.getProperty("ANMVerified").toString();
-        this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+        //this._anm_id = sobj.getProperty("Sal_a_Id").toString();
     }
 
     public AshaWorkEntity() {

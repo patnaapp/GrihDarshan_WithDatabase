@@ -88,7 +88,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ch_2 = findViewById(R.id.ch_2);
         ch_3 = findViewById(R.id.ch_3);
 
-        category = getActivityCategory();
+        //category = getActivityCategory();
     }
 
     public void extractDataFromIntent(){
@@ -115,7 +115,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
 
         setWorkRecycler();
-        setActivityRecycler();
+        //setActivityRecycler();
 
         updateTotalAmount();
     }
@@ -156,7 +156,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public ActivityCategory_entity getActivityCategory(){
-        ArrayList<ActivityCategory_entity>  categoryArray = dbhelper.getActictivityCategoryList("M");
+        ArrayList<ActivityCategory_entity>  categoryArray = dbhelper.getActictivityCategoryList("1","M");
         for(ActivityCategory_entity info: categoryArray){
             if(info.get_AcitivtyCategoryDesc().equals("Monthly Category")){
                 return info;
@@ -175,9 +175,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public void updateTotalAmount(){
-        Double monthly = getMonthlyAmount();
-        tv_monthly_amnt.setText("\u20B9"+monthly);
-        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount+monthly));
+        //Double monthly = getMonthlyAmount();
+        //tv_monthly_amnt.setText("\u20B9"+monthly);
+        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
     }
 
     public Double getMonthlyAmount(){
@@ -204,7 +204,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
     public void finalizeActivity(View view) {
         if(isValidated()){
-            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount+getMonthlyAmount()),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this),activityArray);
+            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this),activityArray);
             new UploadAshaFinalizeData(entity).execute();
         }
     }
@@ -212,10 +212,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public Boolean isValidated(){
         Boolean validate = true;
 
-        if(!isActivityChecked()){
-            validate = false;
-            Toast.makeText(this, "कृपया अपने कार्य का चयन करें", Toast.LENGTH_SHORT).show();
-        }
+//        if(!isActivityChecked()){
+//            validate = false;
+//            Toast.makeText(this, "कृपया अपने कार्य का चयन करें", Toast.LENGTH_SHORT).show();
+//        }
 
         if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked()){
             validate = false;
