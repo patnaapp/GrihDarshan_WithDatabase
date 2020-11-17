@@ -182,7 +182,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setCategorySpinner(){
-        categoryArray = dbhelper.getActictivityCategoryList(workdmCode);
+        categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
