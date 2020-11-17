@@ -157,7 +157,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     for (AshaWorkEntity cn : ashawork) {
-                                        new FinalizeAshaActivityByANM(cn).execute();
+                                      //  new FinalizeAshaActivityByANM(cn).execute();
                                     }
                                 }
                             });
