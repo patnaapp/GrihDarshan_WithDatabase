@@ -55,7 +55,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.PreviewFacilitatorNoOfDays_Activity"></activity>
+        <activity android:name=".ui.activity.AshaSalaryByBhm_Activity"></activity>
+        <activity android:name=".ui.activity.PreviewFacilitatorNoOfDays_Activity" />
         <activity android:name=".ui.activity.AshaFacilitatorNoOfDays_Activity" />
         <activity android:name=".ui.activity.FinalizeAshaWorkActivity" />
         <activity android:name=".ui.activity.AshaWorker_Facilitator_Activity_List" />

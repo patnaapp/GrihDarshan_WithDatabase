@@ -53,6 +53,7 @@ import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
+import bih.nic.in.ashwin.entity.AshaWorkerSalary_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
@@ -781,6 +782,32 @@ public class WebServiceHelper {
 
         return fieldList;
     }
+
+
+    public static ArrayList<AshaWorkerSalary_Entity> getAshaSalaryApprovalByBhm(String fyid, String monthId, String blkcode, String dist, String hsccode) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAFcNoOfDays_LIST_METHOD, NoOfDays_Entity.NoOfDays_CLASS, "FYearId","MonthId","BlockCode","DistrictCode","HSCCode", fyid,monthId,blkcode,dist,hsccode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkerSalary_Entity> fieldList = new ArrayList<AshaWorkerSalary_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject)
+                {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkerSalary_Entity sm = new AshaWorkerSalary_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+        return fieldList;
+    }
+
 
     public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId) {
 
