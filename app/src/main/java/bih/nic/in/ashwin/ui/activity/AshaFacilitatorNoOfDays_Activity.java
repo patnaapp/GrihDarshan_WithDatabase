@@ -83,9 +83,11 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         fcNoOfdays=new ArrayList<>();
         new SynchronizeFcNoOfDays().execute();
 
-        btn_preview.setOnClickListener(new View.OnClickListener() {
+        btn_preview.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 newArrayList=new ArrayList<>();
                 for(NoOfDays_Entity land : fcNoOfdays)
                 {
@@ -96,7 +98,8 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                         Log.d("qty" ,""+land.get_total_Amount());
                     }
                 }
-                if (newArrayList.size()>0){
+                if (newArrayList.size()>0)
+                {
                     Intent i=new Intent(AshaFacilitatorNoOfDays_Activity.this,PreviewFacilitatorNoOfDays_Activity.class);
                     i.putExtra("newArray", newArrayList);
                     i.putExtra("fyear", fyear);
@@ -104,27 +107,28 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 
                     startActivity(i);
                 }
-                else {
+                else
+                {
                     Toast.makeText(getApplicationContext(),"No Data For Preview",Toast.LENGTH_LONG).show();
                 }
-
 
             }
         });
 
-        btn_submit.setOnClickListener(new View.OnClickListener() {
+        btn_submit.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (isRemarksEmptyForSubmit(fcNoOfdays)){
+            public void onClick(View view)
+            {
+                if (isRemarksEmptyForSubmit(fcNoOfdays))
+                {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
                     builder1.setMessage("कृपया सभी विवरण सही से भरे");
                     builder1.setCancelable(true);
 
-                    builder1.setPositiveButton(
-                            "ओके",
+                    builder1.setPositiveButton("ओके",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-
 
                                     if (newArrayList.size() > 0)
                                     {
@@ -231,35 +235,40 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         sp_worker.setOnItemSelectedListener(this);
     }
 
-    public void setupRecuyclerView(ArrayList<NoOfDays_Entity> data){
-
+    public void setupRecuyclerView(ArrayList<NoOfDays_Entity> data)
+    {
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new FacilitatorNoofDays_Adapter(AshaFacilitatorNoOfDays_Activity.this, data, fyear, fmonth,this);
         rv_data.setAdapter(adapter);
     }
 
     @Override
-    public void onAdditionInCentre(int position, int value) {
+    public void onAdditionInCentre(int position, int value)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_centre_addition_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
-
     }
 
     @Override
-    public void onDeductionInCentre(int position, int value) {
+    public void onDeductionInCentre(int position, int value)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_centre_deducted_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
     }
 
     @Override
-    public void onAdditionRemarks(int position, String value, Boolean forstate) {
+    public void onAdditionRemarks(int position, String value, Boolean forstate)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
-        if (forstate) {
+        if (forstate)
+        {
             activity.set_state_remarks_addition(value);
 
-        }else {
+        }
+        else
+        {
             activity.set_centre_remarks_add(value);
         }
 
@@ -269,10 +278,13 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     @Override
     public void onDeductionRemarks(int position, String value, Boolean forstate) {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
-        if (forstate) {
+        if (forstate)
+        {
             activity.set_state_remarks_deduction(value);
 
-        }else {
+        }
+        else
+        {
             activity.set_centre_remarks_deduction(value);
         }
 
@@ -281,7 +293,8 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onNoOfDaysChanged(int position, int days) {
+    public void onNoOfDaysChanged(int position, int days)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_no_ofDays(days);
         fcNoOfdays.set(position, calculateAmount(activity));
@@ -289,21 +302,24 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onAdditionInState(int position, int value) {
+    public void onAdditionInState(int position, int value)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_state_additiond_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
     }
 
     @Override
-    public void onDeductionInStatere(int position, int value) {
+    public void onDeductionInStatere(int position, int value)
+    {
         NoOfDays_Entity activity = fcNoOfdays.get(position);
         activity.set_state_deducted_Amt(value);
         fcNoOfdays.set(position, calculateAmount(activity));
     }
 
 
-    public NoOfDays_Entity calculateAmount(NoOfDays_Entity noofdays){
+    public NoOfDays_Entity calculateAmount(NoOfDays_Entity noofdays)
+    {
         int totalamt=noofdays.get_no_ofDays()*noofdays.get_Centre_Amount();
         totalamt+=noofdays.get_state_Amount();
         totalamt+=(noofdays.get_state_additiond_Amt()-noofdays.get_state_deducted_Amt());
@@ -379,9 +395,12 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         return amount;
     }
 
-    public  boolean isRemarksEmptyForSubmit(ArrayList<NoOfDays_Entity> arraylist) {
-        for (NoOfDays_Entity info : arraylist) {
-            if (info.get_no_ofDays()>0 && info.get_no_ofDays()<=20) {
+    public  boolean isRemarksEmptyForSubmit(ArrayList<NoOfDays_Entity> arraylist)
+    {
+        for (NoOfDays_Entity info : arraylist)
+        {
+            if (info.get_no_ofDays()>0 && info.get_no_ofDays()<=20)
+            {
                 if (info.get_centre_addition_Amt()>0 && (info.get_centre_remarks_add().isEmpty()||info.get_centre_remarks_add()=="")){
                     return true;
                 }
@@ -403,7 +422,8 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                 {
                     return true;
                 }
-                else {
+                else
+                {
                     return false;
                 }
 
@@ -435,7 +455,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
         {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("UpLoading...");
-
             this.dialog.show();
         }
 
@@ -459,7 +478,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
             String username =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("uid", "");
             String res = WebServiceHelper.UploadFacilitatorSalaryDetailByHSC(getApplicationContext(),data, app_version, "",username);
             return res;
-
         }
 
         @Override
@@ -476,7 +494,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 
                 if (result.contains("Success"))
                 {
-
                    /* long c = databaseHelper.deletePrincipal(diseCode);
                     long c1;
                     if (c>0){
@@ -485,9 +502,9 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                          updatePrincipalDetail(diseCode,"Y");*/
 
                     // alterVerifiedData("N");
-                  //  deletebendata();
+                    //  deletebendata();
                     AlertDialog.Builder builder = new AlertDialog.Builder(AshaFacilitatorNoOfDays_Activity.this);
-                 //   builder.setIcon(R.drawable.icdslogo);
+                    //   builder.setIcon(R.drawable.icdslogo);
                     builder.setTitle("Success!!");
                     builder.setMessage("Verified Records Uploded Successfully");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
@@ -500,7 +517,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 //                            startActivity(i);
                             dialog.dismiss();
                             finish();
-
                         }
                     });
                     AlertDialog dialog = builder.create();
@@ -508,7 +524,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
                     {
                         dialog.show();
                     }
-
                 }
 
                 else if (result.equals("0"))
@@ -545,7 +560,6 @@ public class AshaFacilitatorNoOfDays_Activity extends AppCompatActivity implemen
 
         }
     }
-
 
     public static String getDeviceName()
     {

@@ -577,7 +577,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setcentreamount_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM")){
                         new GetAshaWorkersList().execute();
                     }else{
                         if(dialog.isShowing())
@@ -622,10 +622,10 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
 
-                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
+                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")){
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM")){
                         new GetAshaFacilitatorList().execute();
                     }else{
                         if(dialog.isShowing())
@@ -667,7 +667,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
+                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0) {
 
                     Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();

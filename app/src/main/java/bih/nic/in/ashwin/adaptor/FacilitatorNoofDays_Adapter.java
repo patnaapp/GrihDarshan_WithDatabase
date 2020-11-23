@@ -169,7 +169,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!holder.edt_no_days.getText().toString().isEmpty() && Integer.parseInt(holder.edt_no_days.getText().toString())>0){
+                if (!holder.edt_no_days.getText().toString().isEmpty() && Integer.parseInt(holder.edt_no_days.getText().toString())>0 &&Integer.parseInt(holder.edt_no_days.getText().toString())<=20){
                     listener.onNoOfDaysChanged(position,Integer.parseInt(holder.edt_no_days.getText().toString()));
                 }
                 else {

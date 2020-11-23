@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
@@ -69,11 +70,12 @@ public class LoginActivity extends Activity {
     TextView app_ver;
     MarshmallowPermission MARSHMALLOW_PERMISSION;
     private PopupWindow mPopupWindow;
-    String newpass="",cnf_pass="";
+    String newpass="",cnf_pass="",email="",mobno="",user_name;
     UserDetails data;
     ArrayAdapter<String> roleAdapter;
     ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
     String userRole = "";
+
 
 
     @Override
@@ -238,7 +240,7 @@ public class LoginActivity extends Activity {
 
                         if (result.get_is_passwordChanged().equals("N"))
                         {
-                            LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+                            final LayoutInflater inflater = (LayoutInflater) LoginActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
                             // Inflate the custom layout/view
                             View customView = inflater.inflate(R.layout.dialog_details, null);
@@ -252,10 +254,12 @@ public class LoginActivity extends Activity {
                             }
                             TextView tv_pass = (TextView) customView.findViewById(R.id.tv_pass);
                             TextView tv_cnfpass = (TextView) customView.findViewById(R.id.tv_cnfpass);
+                            TextView tv_user_Id = (TextView) customView.findViewById(R.id.tv_user_Id);
                             final EditText edt_pass = (EditText) customView.findViewById(R.id.edt_pass);
                             final EditText edt_cnf_pass = (EditText) customView.findViewById(R.id.edt_cnf_pass);
                             final EditText edt_mob_no = (EditText) customView.findViewById(R.id.edt_mob_no);
                             final EditText edt_email_id = (EditText) customView.findViewById(R.id.edt_email_id);
+                            final EditText edt_username = (EditText) customView.findViewById(R.id.edt_username);
                             final LinearLayout ll_email = (LinearLayout) customView.findViewById(R.id.ll_email);
                             Button button = (Button) customView.findViewById(R.id.button);
 
@@ -266,21 +270,31 @@ public class LoginActivity extends Activity {
                             {
                                 ll_email.setVisibility(View.VISIBLE);
                             }
+                            tv_user_Id.setText(result.getUserID());
+                            tv_user_Id.setEnabled(false);
 
                             button.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     newpass=edt_pass.getText().toString();
                                     cnf_pass=edt_cnf_pass.getText().toString();
+                                    email=edt_email_id.getText().toString();
+                                    mobno=edt_mob_no.getText().toString();
+                                    user_name=edt_username.getText().toString();
                                     if (result.getUserrole().equals("ASHA")){
                                         if (cnf_pass.length()>=4){
                                             if (edt_mob_no.getText().toString().length()==10){
+                                                if (!user_name.equals("")){
                                                 if (cnf_pass.equals(newpass))
                                                 {
                                                     new ChangePassword().execute();
                                                 }
                                                 else {
                                                     Toast.makeText(LoginActivity.this,"पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ",Toast.LENGTH_LONG).show();
+                                                }
+                                                }
+                                                else {
+                                                    Toast.makeText(LoginActivity.this,"कृपया यूजर का नाम डाले",Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                             else {
@@ -294,16 +308,21 @@ public class LoginActivity extends Activity {
                                     }
                                     else {
                                         if (cnf_pass.length()>=4){
+
                                             if (edt_mob_no.getText().toString().length()==10){
-                                                if (edt_email_id.getText().toString().length()>0) {
-                                                    if (cnf_pass.equals(newpass)) {
-                                                        new ChangePassword().execute();
+                                                if (!user_name.equals("")) {
+                                                    if (edt_email_id.getText().toString().length() > 0) {
+                                                        if (cnf_pass.equals(newpass)) {
+                                                            new ChangePassword().execute();
+                                                        } else {
+                                                            Toast.makeText(LoginActivity.this, "पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ", Toast.LENGTH_LONG).show();
+                                                        }
                                                     } else {
-                                                        Toast.makeText(LoginActivity.this, "पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(LoginActivity.this, "कृपया ईमेल आईडी डाले ", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                                 else {
-                                                    Toast.makeText(LoginActivity.this,"कृपया ईमेल आईडी डाले ",Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(LoginActivity.this,"कृपया यूजर का नाम डाले",Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                             else {
@@ -489,7 +508,7 @@ public class LoginActivity extends Activity {
     }
 
 
-    private class ChangePassword extends AsyncTask<String, Void, DefaultResponse> {
+    private class ChangePassword extends AsyncTask<String, Void, String> {
 
 
         private final ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
@@ -505,16 +524,18 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected DefaultResponse doInBackground(String... param)
+        protected String doInBackground(String... param)
         {
+            String devicename = getDeviceName();
+            String app_version = getAppVersion();
             //    String res = WebServiceHelper.UploadSingleData(data, devicename, app_version,PreferenceManager.getDefaultSharedPreferences(mContext).getString("USERID", ""));
             // String res = WebServiceHelper.ChangePassword(uid,cnf_pass);
-            return WebServiceHelper.ChangePassword(uid,cnf_pass);
+            return WebServiceHelper.ChangePassword(uid,cnf_pass,email,mobno,userRole,devicename,app_version,user_name);
             // return res;
         }
 
         @Override
-        protected void onPostExecute(DefaultResponse result)
+        protected void onPostExecute(String result)
         //  protected void onPostExecute(String result)
         {
             if (this.dialog.isShowing())
@@ -528,7 +549,7 @@ public class LoginActivity extends Activity {
 //                String[] parts = string.split(",");
 //                String part1 = parts[0]; // 004-
 //                String part2 = parts[1];
-                if (result.getStatus()==true)
+                if (result.equals("1"))
                 {
 //                if (result.equals("1"))
 //                {
@@ -536,7 +557,7 @@ public class LoginActivity extends Activity {
                     // builder.setIcon(R.drawable.logo3);
                     builder.setTitle("Success!!");
                     // Ask the final question
-                    builder.setMessage(result.getMessage());
+                    builder.setMessage("Details Updated");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -588,13 +609,14 @@ public class LoginActivity extends Activity {
                     dialog.show();
 
                 }
-                else  if (result.getStatus()==false)
+                //else  if (result.getStatus()==false)
+                else if (result.contains("0"))
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     //builder.setIcon(R.drawable.uploaderror);
                     builder.setTitle("Alert!!");
                     // Ask the final question
-                    builder.setMessage(result.getMessage());
+                    builder.setMessage("Failed To Update");
 
                     // Set the alert dialog yes button click listener
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -677,5 +699,41 @@ public class LoginActivity extends Activity {
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_userRole.setAdapter(roleAdapter);
 
+    }
+
+
+    public static String getDeviceName()
+    {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer))
+        {
+            return model.toUpperCase();
+        }
+        else
+        {
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+
+    public String getAppVersion()
+    {
+        try
+        {
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
+//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return version;
+    }
+
+    public static boolean isTablet(Context context)
+    {
+        return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
