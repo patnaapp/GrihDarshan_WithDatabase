@@ -476,6 +476,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         if(ashaWorkData.size() == 0){
             tv_note.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.VISIBLE);
         }
 
 

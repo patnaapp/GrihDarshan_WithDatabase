@@ -115,7 +115,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
 
         setWorkRecycler();
-        //setActivityRecycler();
+        setActivityRecycler();
 
         updateTotalAmount();
     }

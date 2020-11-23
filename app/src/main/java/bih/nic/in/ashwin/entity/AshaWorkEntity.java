@@ -12,7 +12,8 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id;
-    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark;
+    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
+    String ActivityRate,ActTypeId;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -58,6 +59,30 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getActivityRate() {
+        return ActivityRate;
+    }
+
+    public void setActivityRate(String activityRate) {
+        ActivityRate = activityRate;
+    }
+
+    public String getActTypeId() {
+        return ActTypeId;
+    }
+
+    public void setActTypeId(String actTypeId) {
+        ActTypeId = actTypeId;
+    }
+
+    public String getWorkdmCode() {
+        return workdmCode;
+    }
+
+    public void setWorkdmCode(String workdmCode) {
+        this.workdmCode = workdmCode;
     }
 
     public String getNoOfBenif() {
