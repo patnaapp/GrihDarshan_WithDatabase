@@ -425,16 +425,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
         rv_data.setAdapter(adapter);
 
-//        if(isAshaFinalizeWork()){
-//            btn_proceed.setVisibility(View.GONE);
-//            ll_floating_btn.setVisibility(View.GONE);
-//            tv_note.setVisibility(View.VISIBLE);
-//        }else{
-//            btn_proceed.setVisibility(View.VISIBLE);
-//            btn_proceed.setText("स्थायी करें");
+        if(isAshaFinalizeWork()){
+            btn_proceed.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.GONE);
+            tv_note.setVisibility(View.VISIBLE);
+        }else{
+            btn_proceed.setVisibility(View.VISIBLE);
+            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
-//            tv_note.setVisibility(View.GONE);
-//        }
+            tv_note.setVisibility(View.GONE);
+        }
 
         if(ashaWorkData.size() == 0){
             tv_note.setVisibility(View.GONE);
