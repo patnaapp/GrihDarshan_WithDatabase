@@ -263,7 +263,8 @@ public class LoginActivity extends Activity {
                             final LinearLayout ll_email = (LinearLayout) customView.findViewById(R.id.ll_email);
                             Button button = (Button) customView.findViewById(R.id.button);
 
-                            if (result.getUserrole().equals("ASHA")){
+                            if (result.getUserrole().equals("ASHA"))
+                            {
                                 ll_email.setVisibility(View.GONE);
                             }
                             else
@@ -281,7 +282,8 @@ public class LoginActivity extends Activity {
                                     email=edt_email_id.getText().toString();
                                     mobno=edt_mob_no.getText().toString();
                                     user_name=edt_username.getText().toString();
-                                    if (result.getUserrole().equals("ASHA")){
+                                    if (result.getUserrole().equals("ASHA"))
+                                    {
                                         if (cnf_pass.length()>=4){
                                             if (edt_mob_no.getText().toString().length()==10){
                                                 if (!user_name.equals("")){
@@ -361,7 +363,8 @@ public class LoginActivity extends Activity {
 
                                 long c = setLoginStatus(GlobalVariables.LoggedUser);
 
-                                if (c > 0) {
+                                if (c > 0)
+                                {
                                     start();
                                 } else {
                                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.authentication_failed),

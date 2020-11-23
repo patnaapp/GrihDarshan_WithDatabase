@@ -809,10 +809,10 @@ public class WebServiceHelper {
     }
 
 
-    public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId) {
+    public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId,String userrole) {
 
         SoapObject res1;
-        res1 = getServerData(ASHAWORK_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId", workId,monthId,yearId);
+        res1 = getServerData(ASHAWORK_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId","Role", workId,monthId,yearId,userrole);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();

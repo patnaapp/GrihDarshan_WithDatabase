@@ -52,10 +52,9 @@ public class UserDetails implements KvmSerializable, Serializable {
             this.setMobileNo("NA");
         }
         else
-            {
+        {
             this.setMobileNo(obj.getProperty("MobileNo").toString());
         }
-
         this.setSVRID(obj.getProperty("SVRID").toString());
         this.setDistrictCode(obj.getProperty("DistrictCode").toString());
         this.setDistName(obj.getProperty("DistName").toString());
@@ -73,7 +72,7 @@ public class UserDetails implements KvmSerializable, Serializable {
         this.setHSCName(obj.getProperty("HSCName").toString());
         this.setHSCCode(obj.getProperty("HSCCode").toString());
         this.setAWCGOICode(obj.getProperty("AWCGOICode").toString());
-       // this.set_is_passwordChanged(obj.getProperty("IsChangePassword").toString());
+        // this.set_is_passwordChanged(obj.getProperty("IsChangePassword").toString());
         this.set_is_passwordChanged("Y");
     }
 

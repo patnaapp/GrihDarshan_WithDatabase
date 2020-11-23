@@ -36,19 +36,20 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
     private StateAddDeductInterface listener2;
     Financial_Month fmonth;
 
-    public BhmAshaWorkerAmount_Adapter(Activity context, ArrayList<AshaWorkerSalary_Entity> data, Financial_Year fyear, Financial_Month fmonth, SalaryOfAshaByBhm listener) {
+    public BhmAshaWorkerAmount_Adapter(Activity context, ArrayList<AshaWorkerSalary_Entity> data, Financial_Year fyear, Financial_Month fmonth, SalaryOfAshaByBhm listener)
+    {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.fyear = fyear;
         this.fmonth = fmonth;
         this.context = context;
         this.listener = listener;
-
     }
 
     // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View view = mInflater.inflate(R.layout.adaptor_bhm_amount_detail, parent, false);
         return new ViewHolder(view);
     }
@@ -96,7 +97,8 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position)
+    {
         final AshaWorkerSalary_Entity info = mData.get(position);
 
         holder.tv_count.setText(String.valueOf(position+1));
@@ -121,21 +123,25 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
         if(info.get_remarks_deduction()!="")
         {
             listener.onDeductionRemarks(position,holder.edt_deductremarks.getText().toString());
-
         }
 
-        holder.tv_add_dedcut.setOnClickListener(new View.OnClickListener() {
+        holder.tv_add_dedcut.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 holder.ll_centre.setVisibility(View.VISIBLE);
               //  holder.ll_state.setVisibility(View.VISIBLE);
                 holder.tv_close.setVisibility(View.VISIBLE);
                 holder.tv_add_dedcut.setVisibility(View.GONE);
             }
         });
-        holder.tv_close.setOnClickListener(new View.OnClickListener() {
+
+        holder.tv_close.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 holder.ll_centre.setVisibility(View.GONE);
               //  holder.ll_state.setVisibility(View.GONE);
                 holder.tv_close.setVisibility(View.GONE);
@@ -143,11 +149,8 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
             }
         });
 
-
-
         holder.edt_deduct.addTextChangedListener(new TextWatcher()
         {
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
@@ -172,7 +175,8 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
 
         });
 
-        holder.edt_deductremarks.addTextChangedListener(new TextWatcher() {
+        holder.edt_deductremarks.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -181,7 +185,8 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!holder.edt_deductremarks.getText().toString().isEmpty()){
+                if (!holder.edt_deductremarks.getText().toString().isEmpty())
+                {
                     listener.onDeductionRemarks(position,holder.edt_deductremarks.getText().toString());
                 }
             }
@@ -196,11 +201,9 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
 
         holder.chk_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                                                        {
-
                                                            @Override
                                                            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked)
                                                            {
-
                                                                listener.onMarkSalary(position, isChecked);
                                                            }
 
@@ -217,7 +220,8 @@ public class BhmAshaWorkerAmount_Adapter extends RecyclerView.Adapter<BhmAshaWor
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView tv_asha_name,tv_father_name,tv_total_amt,tv_dava_amt,tv_dedcut_amt,tv_add_dedcut,tv_close,tv_total_activity;
         EditText edt_no_days,edt_add_centre,edt_deduct,edt_addremarks_centre,edt_deductremarks,edt_add_state,edt_deduct_state,edt_addremarks_state,edt_deductremarks_state;
         RelativeLayout sblist;

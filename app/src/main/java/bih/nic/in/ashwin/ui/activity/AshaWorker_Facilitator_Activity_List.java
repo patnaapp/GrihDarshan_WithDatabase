@@ -242,7 +242,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         @Override
         protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
-            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id());
+            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
         }
 
         @Override
