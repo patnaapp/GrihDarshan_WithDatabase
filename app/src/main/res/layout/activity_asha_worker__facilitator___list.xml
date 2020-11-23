@@ -191,11 +191,17 @@
             <!--                    android:layout_height="36dp" />-->
         </LinearLayout>
     </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_below="@+id/ll1"
+        android:layout_above="@+id/btn_finalize">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll1"
-        android:layout_above="@+id/btn_finalize"
+
         android:weightSum="2"
         android:orientation="vertical">
         <LinearLayout
@@ -222,6 +228,7 @@
                 android:id="@+id/recyclerview_data"
                 android:padding="6dp"
                 android:layout_marginTop="6dp"
+                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"/>
@@ -254,6 +261,7 @@
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false"
                 />
 
             <TextView
@@ -274,6 +282,7 @@
         </LinearLayout>
     </LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
     <Button
         android:id="@+id/btn_finalize"
         android:visibility="gone"

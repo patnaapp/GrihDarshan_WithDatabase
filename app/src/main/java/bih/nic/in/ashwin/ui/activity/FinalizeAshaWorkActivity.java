@@ -166,7 +166,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked) {
+    public void onActivityCheckboxChanged(int position, Boolean isChecked)
+    {
         Activity_entity activity = activityArray.get(position);
         activity.setChecked(isChecked);
         activityArray.set(position, activity);
@@ -174,15 +175,18 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         updateTotalAmount();
     }
 
-    public void updateTotalAmount(){
+    public void updateTotalAmount()
+    {
         //Double monthly = getMonthlyAmount();
         //tv_monthly_amnt.setText("\u20B9"+monthly);
         tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
     }
 
-    public Double getMonthlyAmount(){
+    public Double getMonthlyAmount()
+    {
         Double amount = 0.0;
-        for(Activity_entity info: activityArray){
+        for(Activity_entity info: activityArray)
+        {
             if(info.getChecked())
                 amount += Double.parseDouble(info.get_ActivityAmt());
         }

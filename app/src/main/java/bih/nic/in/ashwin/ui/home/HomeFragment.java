@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     ArrayList<AshaWorkEntity> ashaWorkData;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState)
+    {
 
         homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);

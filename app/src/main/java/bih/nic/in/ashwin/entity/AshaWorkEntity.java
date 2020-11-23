@@ -12,8 +12,8 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id;
-    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    String ActivityRate,ActTypeId;
+    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark;
+    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -34,7 +34,12 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
         this.IsFinalize = sobj.getProperty("IsFinalize").toString();
         this._IsANMFinalize = sobj.getProperty("ANMVerified").toString();
-        //this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+      //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+        this.ActTypeId = sobj.getProperty("ActTypeId").toString();
+        this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
+        this.ActivityRate = sobj.getProperty("ActivityRate").toString();
+        this.Remarks = sobj.getProperty("Remarks").toString();
+        this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
     }
 
     public AshaWorkEntity() {
@@ -59,30 +64,6 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
-    }
-
-    public String getActivityRate() {
-        return ActivityRate;
-    }
-
-    public void setActivityRate(String activityRate) {
-        ActivityRate = activityRate;
-    }
-
-    public String getActTypeId() {
-        return ActTypeId;
-    }
-
-    public void setActTypeId(String actTypeId) {
-        ActTypeId = actTypeId;
-    }
-
-    public String getWorkdmCode() {
-        return workdmCode;
-    }
-
-    public void setWorkdmCode(String workdmCode) {
-        this.workdmCode = workdmCode;
     }
 
     public String getNoOfBenif() {
@@ -315,5 +296,53 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public void set_anm_id(String _anm_id) {
         this._anm_id = _anm_id;
+    }
+
+    public static Class<AshaWorkEntity> getAshaWorkEntity_CLASS() {
+        return AshaWorkEntity_CLASS;
+    }
+
+    public static void setAshaWorkEntity_CLASS(Class<AshaWorkEntity> ashaWorkEntity_CLASS) {
+        AshaWorkEntity_CLASS = ashaWorkEntity_CLASS;
+    }
+
+    public String getActTypeId() {
+        return ActTypeId;
+    }
+
+    public void setActTypeId(String actTypeId) {
+        ActTypeId = actTypeId;
+    }
+
+    public String getNoOfBeneficiary() {
+        return NoOfBeneficiary;
+    }
+
+    public void setNoOfBeneficiary(String noOfBeneficiary) {
+        NoOfBeneficiary = noOfBeneficiary;
+    }
+
+    public String getActivityRate() {
+        return ActivityRate;
+    }
+
+    public void setActivityRate(String activityRate) {
+        ActivityRate = activityRate;
+    }
+
+    public String getRemarks() {
+        return Remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        Remarks = remarks;
+    }
+
+    public String getAcitivtyType() {
+        return AcitivtyType;
+    }
+
+    public void setAcitivtyType(String acitivtyType) {
+        AcitivtyType = acitivtyType;
     }
 }
