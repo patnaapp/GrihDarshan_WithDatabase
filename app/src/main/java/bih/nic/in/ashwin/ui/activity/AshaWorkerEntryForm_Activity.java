@@ -44,7 +44,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type;
-    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date;
+    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date,edt_ben_no,edt_remark;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
     Button btn_proceed;
     ImageView img_date2,img_date1;
@@ -90,10 +90,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_work_complt_date = findViewById(R.id.edt_work_complt_date);
         edt_amount = findViewById(R.id.edt_amount);
         edt_volume = findViewById(R.id.edt_volume);
-        edt_pageno = findViewById(R.id.edt_pageno);
-        edt_slno = findViewById(R.id.edt_slno);
+//        edt_pageno = findViewById(R.id.edt_pageno);
+//        edt_slno = findViewById(R.id.edt_slno);
         edt_reg_name = findViewById(R.id.edt_reg_name);
         edt_reg_date = findViewById(R.id.edt_reg_date);
+
+        edt_ben_no = findViewById(R.id.edt_ben_no);
+        edt_remark = findViewById(R.id.edt_remark);
 
         tv_cat_title = findViewById(R.id.tv_cat_title);
         tv_activity = findViewById(R.id.tv_activity);
@@ -104,7 +107,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ = findViewById(R.id.sp_work_categ);
         sp_work = findViewById(R.id.sp_work);
         sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
-        sp_md = findViewById(R.id.sp_md);
+        //sp_md = findViewById(R.id.sp_md);
 
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
@@ -119,6 +122,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         entryType =  getIntent().getStringExtra("Type");
+
+        workdmCode =  getIntent().getStringExtra("WorkDMType");
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
@@ -320,32 +325,33 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     edt_amount.setText("");
                     edt_reg_name.setText("");
                     tv_cat_title.setError(null);
-                    setDMWrokSpinner();
+                    //setDMWrokSpinner();
+                    setCategorySpinner();
                 }else{
                     activityTypeEntity = null;
                 }
                 break;
 
-            case R.id.sp_md:
-                if (i > 0) {
-                    switch (workDMTypeArray[i]){
-                        case "Daily":
-                            workdmCode = "D";
-                            workDmName = workDMTypeArray[i];
-                            ll_daily_content.setVisibility(View.VISIBLE);
-                            break;
-                        case "Monthly":
-                            workdmCode = "M";
-                            workDmName = workDMTypeArray[i];
-                            ll_daily_content.setVisibility(View.GONE);
-                            break;
-                    }
-                    setCategorySpinner();
-                }else{
-                    workdmCode = null;
-                    workDmName = null;
-                }
-                break;
+//            case R.id.sp_md:
+//                if (i > 0) {
+//                    switch (workDMTypeArray[i]){
+//                        case "Daily":
+//                            workdmCode = "D";
+//                            workDmName = workDMTypeArray[i];
+//                            ll_daily_content.setVisibility(View.VISIBLE);
+//                            break;
+//                        case "Monthly":
+//                            workdmCode = "M";
+//                            workDmName = workDMTypeArray[i];
+//                            ll_daily_content.setVisibility(View.GONE);
+//                            break;
+//                    }
+//                    setCategorySpinner();
+//                }else{
+//                    workdmCode = null;
+//                    workDmName = null;
+//                }
+//                break;
         }
     }
 
@@ -375,6 +381,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setIemi(Utiilties.getDeviceIMEI(this));
             entity.setFinYear(fyear.getYear_Id());
             entity.setMonthName(fmonth.get_MonthId());
+
+            entity.setNoOfBenif(edt_ben_no.getText().toString());
+            entity.setRemark(edt_remark.getText().toString());
 
             entity.setDistrictCode(CommonPref.getUserDetails(this).getDistrictCode());
             entity.setBlockCode(CommonPref.getUserDetails(this).getBlockCode());
@@ -416,17 +425,17 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
-        if (edt_pageno.getText().toString().equals("")) {
-            edt_pageno.setError("कृप्या पेज संख्या डालें");
-            focusView = edt_pageno;
-            validate = false;
-        }
-
-        if (edt_slno.getText().toString().equals("")) {
-             edt_slno.setError("कृप्या क्रमांक डालें");
-            focusView = edt_slno;
-            validate = false;
-        }
+//        if (edt_pageno.getText().toString().equals("")) {
+//            edt_pageno.setError("कृप्या पेज संख्या डालें");
+//            focusView = edt_pageno;
+//            validate = false;
+//        }
+//
+//        if (edt_slno.getText().toString().equals("")) {
+//             edt_slno.setError("कृप्या क्रमांक डालें");
+//            focusView = edt_slno;
+//            validate = false;
+//        }
 
         if (edt_work_complt_date.getText().toString().equals("")) {
             edt_work_complt_date.setError("कृप्या कार्य पूर्ण की तिथि का चयन करें");
@@ -437,6 +446,18 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (edt_reg_date.getText().toString().equals("")) {
             edt_reg_date.setError("कृप्या पंजी का दिनांक का चयन करें");
             focusView = edt_reg_date;
+            validate = false;
+        }
+
+        if (edt_ben_no.getText().toString().equals("")) {
+            edt_ben_no.setError("कृप्या पेज संख्या डालें");
+            focusView = edt_ben_no;
+            validate = false;
+        }
+
+        if (edt_remark.getText().toString().equals("")) {
+            edt_remark.setError("कृप्या क्रमांक डालें");
+            focusView = edt_remark;
             validate = false;
         }
 

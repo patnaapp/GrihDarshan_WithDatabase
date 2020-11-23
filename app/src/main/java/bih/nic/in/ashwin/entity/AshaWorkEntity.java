@@ -12,7 +12,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id;
-    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId;
+    String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -58,6 +58,22 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getNoOfBenif() {
+        return noOfBenif;
+    }
+
+    public void setNoOfBenif(String noOfBenif) {
+        this.noOfBenif = noOfBenif;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getIsFinalize() {

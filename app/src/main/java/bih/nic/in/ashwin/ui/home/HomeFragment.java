@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     intent.putExtra("FYear", fyear);
                     intent.putExtra("FMonth", fmonth);
                     intent.putExtra("Type", "I");
+                    intent.putExtra("WorkDMType", "D");
                     getContext().startActivity(intent);
                 }else{
                     Toast.makeText(getContext(), "Please select Financial Year and Month", Toast.LENGTH_SHORT).show();
@@ -234,7 +235,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setFYearSpinner(){
-        Log.e("called", "From");
         fYearArray = dbhelper.getFinancialYearList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
