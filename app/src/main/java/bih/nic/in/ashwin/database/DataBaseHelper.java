@@ -429,9 +429,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
 
         try {
-            String[] params = new String[]{"HSC", "ASHA"};
+            String[] params = new String[]{"ASHAFC"};
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole=? OR UserRole=?",params);
+            Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole!=?",params);
             int x = cur.getCount();
 
             while (cur.moveToNext()) {

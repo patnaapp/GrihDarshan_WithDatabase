@@ -224,7 +224,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setFYearSpinner(){
-        Log.e("called", "From");
         fYearArray = dbhelper.getFinancialYearList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
