@@ -526,7 +526,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
-            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
         }
 
         @Override
