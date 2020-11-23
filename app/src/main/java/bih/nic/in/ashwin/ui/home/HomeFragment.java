@@ -54,6 +54,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
+    TextView tv_daily,tv_monthly,tv_finalize;
+    LinearLayout ll_dmf_tab;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker;
     RecyclerView rv_data;
     //Spinner sp_facilitator;
@@ -75,6 +77,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     String userRole = "",ashaname="",asha_id="",facilator_name="",facilator_id="",svri_id="";
     LinearLayout ll_div_zone;
 
+    String tabType = "D";
+    Boolean isFinalize = false;
 
     ArrayList<AshaWorkEntity> ashaWorkData;
 
@@ -156,6 +160,30 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
+        tv_daily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "D";
+                handleTabView();
+            }
+        });
+
+        tv_monthly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "M";
+                handleTabView();
+            }
+        });
+
+        tv_finalize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "F";
+                handleTabView();
+            }
+        });
+
         return root;
     }
 
@@ -169,6 +197,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_district = root.findViewById(R.id.tv_district);
         tv_block = root.findViewById(R.id.tv_block);
         tv_panchayat = root.findViewById(R.id.tv_panchayat);
+
+        tv_daily = root.findViewById(R.id.tv_daily);
+        tv_monthly = root.findViewById(R.id.tv_monthly);
+        tv_finalize = root.findViewById(R.id.tv_finalize);
+        ll_dmf_tab = root.findViewById(R.id.ll_dmf_tab);
 
         sp_fn_year = root.findViewById(R.id.sp_fn_year);
 
@@ -422,23 +455,57 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setupRecuyclerView(){
+        handleTabView();
+        ll_dmf_tab.setVisibility(View.VISIBLE);
+
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
         AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
         rv_data.setAdapter(adapter);
 
-        if(isAshaFinalizeWork()){
-            btn_proceed.setVisibility(View.GONE);
+        isFinalize = isAshaFinalizeWork();
+        if(isFinalize){
+            //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
-            tv_note.setVisibility(View.VISIBLE);
+            //tv_note.setVisibility(View.VISIBLE);
         }else{
-            btn_proceed.setVisibility(View.VISIBLE);
-            btn_proceed.setText("स्थायी करें");
+//            btn_proceed.setVisibility(View.VISIBLE);
+//            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
-            tv_note.setVisibility(View.GONE);
+            //tv_note.setVisibility(View.GONE);
         }
 
         if(ashaWorkData.size() == 0){
             tv_note.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    public void handleTabView(){
+        switch (tabType){
+            case "D":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                rv_data.setVisibility(View.VISIBLE);
+                break;
+            case "M":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                rv_data.setVisibility(View.VISIBLE);
+                break;
+            case "F":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_finalize.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                if(isFinalize){
+                    tv_note.setVisibility(View.VISIBLE);
+                    rv_data.setVisibility(View.GONE);
+                }
+
+                break;
         }
     }
 
@@ -459,7 +526,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
-            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(getContext()).getUserrole());
+            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
         }
 
         @Override

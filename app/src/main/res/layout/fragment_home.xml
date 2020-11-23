@@ -320,10 +320,80 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_dmf_tab"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/holo_gray_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_daily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGreyDark"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_monthly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monthly"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGreyDark"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_finalize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Finalize"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGreyDark"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="नोट: यह कार्य सूची पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
+            android:layout_margin="8dp"
+            android:textSize="13sp"
+            android:textColor="@color/holo_green_dark"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_data"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -362,15 +432,7 @@
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/tv_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="नोट: यह कार्य सूची पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
-            android:layout_margin="8dp"
-            android:textSize="13sp"
-            android:textColor="@color/holo_green_dark"/>
+
     </LinearLayout>
 
     <include
