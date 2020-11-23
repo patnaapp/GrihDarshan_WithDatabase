@@ -107,7 +107,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ = findViewById(R.id.sp_work_categ);
         sp_work = findViewById(R.id.sp_work);
         sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
-        sp_md = findViewById(R.id.sp_md);
+        //sp_md = findViewById(R.id.sp_md);
 
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
@@ -122,6 +122,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         entryType =  getIntent().getStringExtra("Type");
+
+        workdmCode =  getIntent().getStringExtra("WorkDMType");
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
@@ -323,32 +325,33 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     edt_amount.setText("");
                     edt_reg_name.setText("");
                     tv_cat_title.setError(null);
-                    setDMWrokSpinner();
+                    //setDMWrokSpinner();
+                    setCategorySpinner();
                 }else{
                     activityTypeEntity = null;
                 }
                 break;
 
-            case R.id.sp_md:
-                if (i > 0) {
-                    switch (workDMTypeArray[i]){
-                        case "Daily":
-                            workdmCode = "D";
-                            workDmName = workDMTypeArray[i];
-                            ll_daily_content.setVisibility(View.VISIBLE);
-                            break;
-                        case "Monthly":
-                            workdmCode = "M";
-                            workDmName = workDMTypeArray[i];
-                            ll_daily_content.setVisibility(View.GONE);
-                            break;
-                    }
-                    setCategorySpinner();
-                }else{
-                    workdmCode = null;
-                    workDmName = null;
-                }
-                break;
+//            case R.id.sp_md:
+//                if (i > 0) {
+//                    switch (workDMTypeArray[i]){
+//                        case "Daily":
+//                            workdmCode = "D";
+//                            workDmName = workDMTypeArray[i];
+//                            ll_daily_content.setVisibility(View.VISIBLE);
+//                            break;
+//                        case "Monthly":
+//                            workdmCode = "M";
+//                            workDmName = workDMTypeArray[i];
+//                            ll_daily_content.setVisibility(View.GONE);
+//                            break;
+//                    }
+//                    setCategorySpinner();
+//                }else{
+//                    workdmCode = null;
+//                    workDmName = null;
+//                }
+//                break;
         }
     }
 
