@@ -139,8 +139,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_amount.setText(info.getActivityAmt());
         edt_reg_name.setText(info.getRegisterDesc());
         edt_volume.setText(info.getVolume());
-        edt_pageno.setText(info.getRegisterPageNo());
-        edt_slno.setText(info.getPageSerialNo());
+       // edt_pageno.setText(info.getRegisterPageNo());
+//        edt_slno.setText(info.getPageSerialNo());
         edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
 
         if(info.getIsFinalize().equals("Y")) {
@@ -149,8 +149,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             img_date1.setVisibility(View.GONE);
             tv_note.setVisibility(View.VISIBLE);
             edt_volume.setEnabled(false);
-            edt_pageno.setEnabled(false);
-            edt_slno.setEnabled(false);
+//            edt_pageno.setEnabled(false);
+      //      edt_slno.setEnabled(false);
             sp_work_categ.setEnabled(false);
             sp_work.setEnabled(false);
         }
@@ -437,36 +437,44 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //            validate = false;
 //        }
 
-        if (edt_work_complt_date.getText().toString().equals("")) {
+        if (edt_work_complt_date.getText().toString().equals(""))
+        {
             edt_work_complt_date.setError("कृप्या कार्य पूर्ण की तिथि का चयन करें");
             focusView = edt_work_complt_date;
             validate = false;
         }
 
-        if (edt_reg_date.getText().toString().equals("")) {
+        if (edt_reg_date.getText().toString().equals(""))
+        {
             edt_reg_date.setError("कृप्या पंजी का दिनांक का चयन करें");
             focusView = edt_reg_date;
             validate = false;
         }
 
-        if (edt_ben_no.getText().toString().equals("")) {
+        if (edt_ben_no.getText().toString().equals(""))
+        {
             edt_ben_no.setError("कृप्या पेज संख्या डालें");
             focusView = edt_ben_no;
             validate = false;
         }
 
-        if (edt_remark.getText().toString().equals("")) {
+        if (edt_remark.getText().toString().equals(""))
+        {
             edt_remark.setError("कृप्या क्रमांक डालें");
             focusView = edt_remark;
             validate = false;
         }
 
-        try{
-            if(isRegDateGreaterThanComplDate()){
+        try
+        {
+            if(isRegDateGreaterThanComplDate())
+            {
                 validate = false;
                 Toast.makeText(this, "कृप्या पंजी का दिनांक कार्य पूर्ण की तिथि के पहले का डालें", Toast.LENGTH_SHORT).show();
             }
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             e.printStackTrace();
             validate = false;
         }
@@ -474,53 +482,62 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         return validate;
     }
 
-    public boolean isRegDateGreaterThanComplDate() throws ParseException {
-
+    public boolean isRegDateGreaterThanComplDate() throws ParseException
+    {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date regDate = sdf.parse(edt_reg_date.getText().toString());
         Date complDate = sdf.parse(edt_work_complt_date.getText().toString());
 
-        if (regDate.after(complDate)) {
+        if (regDate.after(complDate))
+        {
             return true;
         }
+
         return false;
     }
 
-    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String> {
+    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String>
+    {
         AshaWorkEntity data;
 
         private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
 
-        UploadAshaWorkDetail(AshaWorkEntity data) {
+        UploadAshaWorkDetail(AshaWorkEntity data)
+        {
             this.data = data;
         }
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("अपलोड हो राहा है...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
-
+        protected String doInBackground(String... param)
+        {
             return WebServiceHelper.uploadAshaActivityDetail(data);
-
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            if (this.dialog.isShowing()) {
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
             Log.d("Responsevalue",""+result);
 
-            if (result != null) {
-                if(result.contains("0")){
+            if (result != null)
+            {
+                if(result.contains("0"))
+                {
                     Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
-                }else if(result.contains("1")){
+                }
+                else if(result.contains("1"))
+                {
                     onDataUploaded();
                 }else{
                     Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed!!", Toast.LENGTH_SHORT).show();

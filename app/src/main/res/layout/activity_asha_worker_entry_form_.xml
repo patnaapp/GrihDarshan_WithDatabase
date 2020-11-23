@@ -476,7 +476,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="लाभार्थी की संख्या : [*]"
+                            android:text="लाभार्थियों की संख्या : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
@@ -486,7 +486,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/textboxshape"
-                            android:hint="लाभार्थी की संख्या"
+                            android:hint="लाभार्थियों की संख्या"
                             android:padding="10dp"
                             android:inputType="number"
                             android:singleLine="true"
