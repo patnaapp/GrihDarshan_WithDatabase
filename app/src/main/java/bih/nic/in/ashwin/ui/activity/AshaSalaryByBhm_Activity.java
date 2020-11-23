@@ -12,6 +12,8 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,7 +45,7 @@ public class AshaSalaryByBhm_Activity extends AppCompatActivity implements Salar
     String user_role="";
     ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
     BhmAshaWorkerAmount_Adapter adapter;
-    ArrayList<NoOfDays_Entity> newArrayList;
+    ArrayList<AshaWorkerSalary_Entity> newArrayList;
     String version="";
     ArrayList<AshaWorkerSalary_Entity> asha_sal;
 
@@ -60,6 +62,25 @@ public class AshaSalaryByBhm_Activity extends AppCompatActivity implements Salar
         user_role = getIntent().getStringExtra("role");
 
         tv_role_bhm.setText("ब्लॉक स्वास्थ्य प्रबंधक");
+
+        new GetAshaActivityForSalary().execute();
+
+        btn_submit_bhm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newArrayList=new ArrayList<>();
+
+                for(AshaWorkerSalary_Entity land : asha_sal)
+                {
+                    if(land.getChecked())
+                    {
+                        newArrayList.add(land);
+                        Log.d("a_Id" ,""+land.get_asha_aId());
+                        Log.d("asha_name" ,""+land.get_asha_Name());
+                    }
+                }
+            }
+        });
 
     }
 
@@ -138,19 +159,23 @@ public class AshaSalaryByBhm_Activity extends AppCompatActivity implements Salar
             activity.setChecked(isChecked);
             asha_sal.set(position,activity);
         }
-
+        else
+        {
+            AshaWorkerSalary_Entity activity = asha_sal.get(position);
+            activity.setChecked(isChecked);
+            asha_sal.set(position,activity);
+        }
     }
 
     private class GetAshaActivityForSalary extends AsyncTask<String, Void, ArrayList<AshaWorkerSalary_Entity>>
     {
-
         private final ProgressDialog dialog = new ProgressDialog(AshaSalaryByBhm_Activity.this);
 
         private final AlertDialog alertDialog = new AlertDialog.Builder(AshaSalaryByBhm_Activity.this).create();
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Loading details...");
             this.dialog.show();
@@ -184,7 +209,5 @@ public class AshaSalaryByBhm_Activity extends AppCompatActivity implements Salar
         adapter = new BhmAshaWorkerAmount_Adapter(AshaSalaryByBhm_Activity.this, data, fyear, fmonth,this);
         rv_data.setAdapter(adapter);
     }
-
-
 
 }

@@ -130,36 +130,42 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
-//        holder.sblist.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
-//                intent.putExtra("FYear", fyear);
-//                intent.putExtra("FMonth", fmonth);
-//                intent.putExtra("Type", "U");
-//                context.startActivity(intent);
-//
-//            }
-//        });
+        holder.sblist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+                intent.putExtra("FYear", fyear);
+                intent.putExtra("FMonth", fmonth);
+                intent.putExtra("data", info);
+                intent.putExtra("Type", "U");
+                context.startActivity(intent);
+
+            }
+        });
         holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (info.getVerificationStatus().contains("R")){
+                if (info.getVerificationStatus().contains("R"))
+                {
                     if(Utiilties.isOnline(context)) {
 
                         new AlertDialog.Builder(context)
                                 .setTitle("स्वीकृति की पुष्टि")
                                 .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                                 .setCancelable(false)
-                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int id)
+                                    {
                                         new AcceptRecordsFromPacs(info, position).execute();
                                         dialog.dismiss();
                                     }
-                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener()
+                        {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
                                 dialog.dismiss();
                             }
                         }).show();
