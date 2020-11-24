@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
+import bih.nic.in.ashwin.adaptor.AshaActivityMonthlyAdapter;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
@@ -43,13 +45,14 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     TextView tv_name,tv_year,tv_month,tv_role;
     Financial_Year fyear;
     Financial_Month fmonth;
-    RecyclerView rv_data;
+    RecyclerView rv_data,rv_data_monthly;
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
     String version="";
     Spinner sp_worker;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     DataBaseHelper dbhelper;
+    LinearLayout ll_monthly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,29 +187,45 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
+        rv_data_monthly = findViewById(R.id.recyclerview_data_monthly);
         btn_finalize = findViewById(R.id.btn_finalize);
         sp_worker = findViewById(R.id.sp_worker);
+        ll_monthly = findViewById(R.id.ll_monthly);
+
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
 
     }
 
-    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data){
-
+    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data)
+    {
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
     }
 
+    public void setupMonthlyRecuyclerView(ArrayList<AshaWorkEntity> data)
+    {
+        if (data.size()>0)
+        {
+            rv_data_monthly.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            AshaActivityMonthlyAdapter adapter = new AshaActivityMonthlyAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
+            rv_data_monthly.setAdapter(adapter);
+        }
+        else {
+            rv_data_monthly.setVisibility(View.GONE);
+            ll_monthly.setVisibility(View.GONE);
+        }
+
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
 
             case R.id.sp_worker:
-                if (position > 0) {
-
-
+                if (position > 0)
+                {
                     AshaWoker_Entity role = ashaworkerList.get(position - 1);
                     asha_worker_nm = role.get_Asha_Name_Hn();
                     asha_worker_id = role.get_ASHAID();
@@ -220,10 +239,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
-
 
     private class SynchronizeAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
 
@@ -257,6 +276,47 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             {
                 ashawork=result;
                 setupRecuyclerView(result);
+
+                new SynchronizeMonthlyAshaActivityList().execute();
+
+            }
+        }
+    }
+
+    private class SynchronizeMonthlyAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorker_Facilitator_Activity_List.this);
+
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading details...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
+
+            // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
+            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),"ANM");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                ashawork=result;
+                setupMonthlyRecuyclerView(result);
+
+
 
             }
         }
