@@ -45,8 +45,8 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type;
-    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
+    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name;
+    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
     Button btn_proceed;
     ImageView img_date2,img_date1;
@@ -58,6 +58,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     ArrayList<Activity_Type_entity> activityTypeArray;
     ArrayList<ActivityCategory_entity> categoryArray;
+    ArrayList<RegisterDetailsEntity> registerArray;
     ArrayList<Activity_entity> activityArray;
 
     Activity_Type_entity activityTypeEntity;
@@ -70,8 +71,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     String workdmCode,workDmName;
 
     int caltype = 0;
-    String entryType;
-
+    String entryType,role;
+    LinearLayout ll_btn;
     AshaWorkEntity info;
 
     @Override
@@ -84,6 +85,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         //setCategorySpinner();
         setCategoryTypeSpinner();
+        setRegisterSpinner();
 
         edt_ben_no.addTextChangedListener(new TextWatcher() {
 
@@ -124,7 +126,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_volume = findViewById(R.id.edt_volume);
 //        edt_pageno = findViewById(R.id.edt_pageno);
 //        edt_slno = findViewById(R.id.edt_slno);
-        edt_reg_name = findViewById(R.id.edt_reg_name);
+        //edt_reg_name = findViewById(R.id.edt_reg_name);
         edt_reg_date = findViewById(R.id.edt_reg_date);
         edt_amount_total = findViewById(R.id.edt_amount_total);
 
@@ -140,6 +142,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ = findViewById(R.id.sp_work_categ);
         sp_work = findViewById(R.id.sp_work);
         sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
+        sp_reg_name = findViewById(R.id.sp_reg_name);
         //sp_md = findViewById(R.id.sp_md);
 
         btn_proceed = findViewById(R.id.btn_proceed);
@@ -149,6 +152,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_note = findViewById(R.id.tv_note);
 
         ll_daily_content = findViewById(R.id.ll_daily_content);
+        ll_btn = findViewById(R.id.ll_btn);
     }
 
     public void extractDataFromIntent(){
@@ -157,9 +161,20 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         entryType =  getIntent().getStringExtra("Type");
 
         workdmCode =  getIntent().getStringExtra("WorkDMType");
+        role =  getIntent().getStringExtra("role");
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
+
+        if (role.equals("HSC"))
+        {
+            btn_proceed.setVisibility(View.GONE);
+            ll_btn.setVisibility(View.VISIBLE);
+        }
+        else {
+            btn_proceed.setVisibility(View.VISIBLE);
+            ll_btn.setVisibility(View.GONE);
+        }
 
         if (entryType.equals("U")){
             info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
@@ -168,24 +183,60 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     public void setData(){
-        edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
-        edt_amount.setText(info.getActivityAmt());
-        edt_reg_name.setText(info.getRegisterDesc());
-        edt_volume.setText(info.getVolume());
-       // edt_pageno.setText(info.getRegisterPageNo());
-//        edt_slno.setText(info.getPageSerialNo());
-        edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
 
-        if(info.getIsFinalize().equals("Y")) {
-            btn_proceed.setVisibility(View.GONE);
-            img_date2.setVisibility(View.GONE);
+        if (role.equals("HSC"))
+        {
+            edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
+            edt_amount.setText(info.getActivityRate());
+            //edt_reg_name.setText(info.getRegisterDesc());
+            edt_volume.setText(info.getVolume());
+            // edt_pageno.setText(info.getRegisterPageNo());
+//        edt_slno.setText(info.getPageSerialNo());
+            edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
+            edt_ben_no.setText(info.getNoOfBeneficiary());
+            edt_remark.setText(info.getRemarks());
+            edt_amount_total.setText(info.getActivityAmt());
+
             img_date1.setVisibility(View.GONE);
-            tv_note.setVisibility(View.VISIBLE);
-            edt_volume.setEnabled(false);
+            //  tv_note.setVisibility(View.VISIBLE);
+//                edt_volume.setEnabled(false);
 //            edt_pageno.setEnabled(false);
-      //      edt_slno.setEnabled(false);
+            //      edt_slno.setEnabled(false);
+
             sp_work_categ.setEnabled(false);
+
             sp_work.setEnabled(false);
+            sp_work_categ_type.setEnabled(false);
+
+
+        }
+        else
+        {
+
+
+            edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
+            edt_amount.setText(info.getActivityRate());
+            // edt_reg_name.setText(info.getRegisterDesc());
+            edt_volume.setText(info.getVolume());
+            // edt_pageno.setText(info.getRegisterPageNo());
+//        edt_slno.setText(info.getPageSerialNo());
+            edt_ben_no.setText(info.getNoOfBeneficiary());
+            edt_remark.setText(info.getRemarks());
+            edt_amount_total.setText(info.getActivityAmt());
+            edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
+
+            if(info.getIsFinalize().equals("Y")) {
+                btn_proceed.setVisibility(View.GONE);
+                img_date2.setVisibility(View.GONE);
+                img_date1.setVisibility(View.GONE);
+                tv_note.setVisibility(View.VISIBLE);
+                edt_volume.setEnabled(false);
+//            edt_pageno.setEnabled(false);
+                //      edt_slno.setEnabled(false);
+                sp_work_categ.setEnabled(false);
+                sp_work.setEnabled(false);
+
+            }
         }
     }
 
@@ -193,9 +244,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         activityTypeArray = dbhelper.getActictivityTypeList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
+        int pos=0;
 
         for (Activity_Type_entity info: activityTypeArray){
             array.add(info.get_ActnameHN());
+            if (info.get_ActTypeId().equals(this.info.getActTypeId()))
+            {
+                pos=activityTypeArray.indexOf(info);
+                pos+=1;
+            }
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -203,9 +260,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ_type.setAdapter(adaptor);
         sp_work_categ_type.setOnItemSelectedListener(this);
 
-//        if(entryType.equals("U")){
-//            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
-//        }
+        if(entryType.equals("U"))
+        {
+         //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+            sp_work_categ_type.setSelection(pos);
+        }
     }
 
     public void setDMWrokSpinner(){
@@ -237,6 +296,32 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
         }
     }
+
+    public void setRegisterSpinner(){
+        registerArray = dbhelper.getRegisterdescList();
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+        int pos=0;
+
+        for (RegisterDetailsEntity info: registerArray){
+            array.add(info.get_RegisterDesc_Hn());
+            if (info.get_RegisterId().equals(this.info.getRegisterId()))
+            {
+                pos=registerArray.indexOf(info);
+                pos+=1;
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_reg_name.setAdapter(adaptor);
+        sp_reg_name.setOnItemSelectedListener(this);
+
+        if(entryType.equals("U")){
+            sp_reg_name.setSelection(pos);
+        }
+    }
+
 
     public void setActivitySpinner(){
         activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), workdmCode);
@@ -332,7 +417,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     setActivitySpinner();
 
                     edt_amount.setText("");
-                    edt_reg_name.setText("");
+                    //  edt_reg_name.setText("");
                     tv_cat_title.setError(null);
                 }else{
                     categoryEntity = null;
@@ -344,7 +429,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     edt_amount.setText(activityEntity.get_ActivityAmt());
 
                     registerDetailsEntity = dbhelper.getRegisterDetail(activityEntity.get_RegisterId());
-                    edt_reg_name.setText(registerDetailsEntity.get_RegisterDesc_Hn());
+                    // edt_reg_name.setText(registerDetailsEntity.get_RegisterDesc_Hn());
                     tv_activity.setError(null);
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
@@ -356,12 +441,20 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     activityTypeEntity = activityTypeArray.get(i-1);
 
                     edt_amount.setText("");
-                    edt_reg_name.setText("");
+                    // edt_reg_name.setText("");
                     tv_cat_title.setError(null);
                     //setDMWrokSpinner();
                     setCategorySpinner();
                 }else{
                     activityTypeEntity = null;
+                }
+                break;
+            case R.id.sp_reg_name:
+                if (i > 0) {
+                    registerDetailsEntity = registerArray.get(i-1);
+
+                }else{
+                    registerDetailsEntity = null;
                 }
                 break;
 

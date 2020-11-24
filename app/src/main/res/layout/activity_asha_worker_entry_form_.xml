@@ -120,11 +120,11 @@
                             android:textSize="12sp"/>
 
                         <Spinner
-                            android:background="@drawable/spinner_bg1"
-                            android:layout_marginTop="4dp"
                             android:id="@+id/sp_work_categ_type"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp" />
+                            android:layout_height="36dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/spinner_bg1" />
                     </LinearLayout>
 
 <!--                    <View-->
@@ -399,22 +399,27 @@
                             android:text="पंजी का नाम : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
-
-                        <EditText
-                            android:enabled="false"
+                        <Spinner
+                            android:background="@drawable/spinner_bg1"
                             android:layout_marginTop="4dp"
-                            android:id="@+id/edt_reg_name"
+                            android:id="@+id/sp_reg_name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/textboxshape"
-                            android:hint="पंजी का नाम"
-                            android:padding="10dp"
-                            android:inputType="number"
-                            android:maxLength="20"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:focusableInTouchMode="true"
-                            android:textSize="15sp" />
+                            android:layout_height="36dp" />
+<!--                        <EditText-->
+<!--                            android:enabled="false"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:id="@+id/edt_reg_name"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/textboxshape"-->
+<!--                            android:hint="पंजी का नाम"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:inputType="number"-->
+<!--                            android:maxLength="20"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:textColor="#222222"-->
+<!--                            android:focusableInTouchMode="true"-->
+<!--                            android:textSize="15sp" />-->
                     </LinearLayout>
 
 
@@ -627,7 +632,7 @@
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:id="@+id/btn_proceed"
-        android:layout_above="@+id/footer"
+        android:layout_above="@+id/ll_btn"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -637,6 +642,43 @@
         android:textColor="#ffff"
         android:textSize="17sp"
         android:onClick="onSaveData"/>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/ll_btn"
+        android:layout_width="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btn_accpt"
+            android:layout_width="140dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/buttonshapeaccept"
+            android:text="स्वीकार करें" />
+
+        <Button
+            android:id="@+id/btn_rjct"
+            android:layout_width="140dp"
+            android:layout_height="20dp"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="अस्वीकार करें"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/buttonbackshape1"
+            />
+    </LinearLayout>
     <include
         android:id="@+id/footer"
         layout="@layout/footer"

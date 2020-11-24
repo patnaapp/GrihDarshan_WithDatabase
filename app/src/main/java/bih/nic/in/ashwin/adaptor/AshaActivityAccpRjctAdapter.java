@@ -144,6 +144,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                 intent.putExtra("data", info);
                 intent.putExtra("WorkDMType", "D");
                 intent.putExtra("Type", "U");
+                intent.putExtra("role", "HSC");
                 context.startActivity(intent);
 
             }
