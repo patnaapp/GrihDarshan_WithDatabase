@@ -248,7 +248,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         for (Activity_Type_entity info: activityTypeArray){
             array.add(info.get_ActnameHN());
-            if (info.get_ActTypeId().equals(this.info.getActTypeId()))
+
+            if (entryType.equals("U") && info.get_ActTypeId().equals(this.info.getActTypeId()))
             {
                 pos=activityTypeArray.indexOf(info);
                 pos+=1;
@@ -305,7 +306,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         for (RegisterDetailsEntity info: registerArray){
             array.add(info.get_RegisterDesc_Hn());
-            if (info.get_RegisterId().equals(this.info.getRegisterId()))
+            if (entryType.equals("U") && info.get_RegisterId().equals(this.info.getRegisterId()))
             {
                 pos=registerArray.indexOf(info);
                 pos+=1;
