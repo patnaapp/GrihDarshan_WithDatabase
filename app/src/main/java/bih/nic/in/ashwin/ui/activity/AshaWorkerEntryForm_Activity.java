@@ -854,8 +854,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         return false;
     }
 
-    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String>
-    {
+    private class UploadAshaWorkDetail extends AsyncTask<String, Void, String>{
         AshaWorkEntity data;
 
         private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);

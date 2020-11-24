@@ -98,6 +98,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
         ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
+        activityArray = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
 
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
@@ -143,10 +144,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public void setActivityRecycler(){
-        activityArray = dbhelper.getActictivityList("1", "M");
-
+        //activityArray = dbhelper.getActictivityList("1", "M");
         rv_data.setLayoutManager(new LinearLayoutManager(this));
-        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this);
+        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true);
         rv_data.setAdapter(adapter);
     }
 
