@@ -841,6 +841,7 @@ public class WebServiceHelper {
         request.addProperty("BlockCode",data.getBlockCode());
         request.addProperty("PanchayatCode",data.getPanchayatCode());
         request.addProperty("AWCID",data.getAwcId());
+        request.addProperty("HSCCODE",data.getHSCCODE());
         request.addProperty("AshaWorkerId",data.getAshaWorkerId());
         request.addProperty("AcitivtyCategoryId",data.getAcitivtyCategoryId());
         request.addProperty("AcitivtyId", data.getActivityId());
@@ -877,9 +878,12 @@ public class WebServiceHelper {
             androidHttpTransport.call(SERVICENAMESPACE + INSERTASHAWORK_METHOD,envelope);
             rest = envelope.getResponse().toString();
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
+            Log.e("exception",""+e.getLocalizedMessage());
             e.printStackTrace();
             return "0";
+
         }
         return rest;
     }

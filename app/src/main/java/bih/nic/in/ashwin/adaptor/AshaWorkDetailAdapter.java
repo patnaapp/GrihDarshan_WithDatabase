@@ -19,6 +19,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 
 
@@ -49,7 +50,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaWorkEntity info = mData.get(position);
 
         holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
@@ -72,6 +73,8 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
                 intent.putExtra("FMonth", fmonth);
                 intent.putExtra("Type", "U");
                 intent.putExtra("data", info);
+                intent.putExtra("WorkDMType", "D");
+                intent.putExtra("role", CommonPref.getUserDetails(context).getUserrole());
                 context.startActivity(intent);
 
             }
