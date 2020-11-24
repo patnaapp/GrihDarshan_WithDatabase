@@ -41,6 +41,23 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.Remarks = sobj.getProperty("Remarks").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
     }
+    public AshaWorkEntity(SoapObject sobj ,String monthly) {
+        this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
+        this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
+        this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
+        this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
+        this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
+        this.MonthName = sobj.getProperty("MonthName").toString();
+        this.FinYear = sobj.getProperty("FinYear").toString();
+        this.ActivityId = sobj.getProperty("ActivityId").toString();
+        this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+        this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
+       // this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+        this.IsFinalize = "N";
+       // this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
+        this._IsANMFinalize ="N";
+
+    }
 
     public AshaWorkEntity() {
 

@@ -6,7 +6,10 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaActivityMonthlyAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
@@ -48,7 +52,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
-    Button btn_proceed;
+    Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content;
 
@@ -68,7 +72,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
 
-    String workdmCode,workDmName;
+    String workdmCode,workDmName,version="";
 
     int caltype = 0;
     String entryType,role;
@@ -116,6 +120,188 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             }
 
         });
+
+
+        btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isDataValidated()) {
+                    info.setRegisterId(registerDetailsEntity.get_RegisterId());
+                    info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
+                    info.setVolume(edt_volume.getText().toString());
+                    info.setRegisterDate(edt_reg_date.getText().toString());
+                    info.setNoOfBenif(edt_ben_no.getText().toString());
+                    info.setRemark(edt_remark.getText().toString());
+                    if (info.getVerificationStatus().contains("R")) {
+                        if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
+
+                            if (info.getVerificationStatus().contains("R"))
+                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                    .setTitle("स्वीकृति की पुष्टि")
+                                    .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+                                    .setCancelable(false)
+                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            new AcceptRecordsFromPacs(info).execute();
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                        } else {
+                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                    .setTitle("अलर्ट !!")
+                                    .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                                    .setCancelable(false)
+                                    .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                            startActivity(I);
+                                            dialog.cancel();
+                                        }
+                                    }).show();
+
+                        }
+                    } else if (info.getVerificationStatus().contains("A")) {
+                        if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
+
+                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                    .setTitle("अस्वीकृति की पुष्टि")
+                                    .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+                                    .setCancelable(false)
+                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            new RejectRecordsFromPacs(info).execute();
+                                            dialog.dismiss();
+                                        }
+                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+
+                        } else {
+
+                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                    .setTitle("अलर्ट !!")
+                                    .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                                    .setCancelable(false)
+                                    .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                            startActivity(I);
+                                            dialog.cancel();
+                                        }
+                                    }).show();
+
+
+                        }
+                    }
+                }
+            }
+        });
+
+        btn_accpt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
+                    if (isDataValidated()) {
+                        info.setRegisterId(registerDetailsEntity.get_RegisterId());
+                        info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
+                        info.setVolume(edt_volume.getText().toString());
+                        info.setRegisterDate(edt_reg_date.getText().toString());
+                        info.setNoOfBeneficiary(edt_ben_no.getText().toString());
+                        info.setRemark(edt_remark.getText().toString());
+
+                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                .setTitle("स्वीकृति की पुष्टि")
+                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+                                .setCancelable(false)
+                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //new AcceptRecordsFromPacs(info, position).execute();
+                                        new AcceptRecordsFromPacs(info).execute();
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                }
+                else {
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("अलर्ट !!")
+                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                            .setCancelable(false)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                    startActivity(I);
+                                    dialog.cancel();
+                                }
+                            }).show();
+
+                }
+            }
+        });
+
+        btn_rjct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
+                    if (isDataValidated()) {
+                        info.setRegisterId(registerDetailsEntity.get_RegisterId());
+                        info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
+                        info.setVolume(edt_volume.getText().toString());
+                        info.setRegisterDate(edt_reg_date.getText().toString());
+                        info.setNoOfBenif(edt_ben_no.getText().toString());
+                        info.setRemark(edt_remark.getText().toString());
+                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                                .setTitle("अस्वीकृति की पुष्टि")
+                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+                                .setCancelable(false)
+                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // new RejectRecordsFromPacs(info, position).execute();
+                                        new RejectRecordsFromPacs(info).execute();
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+
+                }
+                else {
+
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("अलर्ट !!")
+                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
+                            .setCancelable(false)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                                    startActivity(I);
+                                    dialog.cancel();
+                                }
+                            }).show();
+
+
+
+                }
+            }
+        });
     }
 
     void initializeViews(){
@@ -148,6 +334,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
         img_date1 = findViewById(R.id.img_date1);
+        btn_accpt = findViewById(R.id.btn_accpt);
+        btn_rjct = findViewById(R.id.btn_rjct);
+        btn_accp_rjct = findViewById(R.id.btn_accp_rjct);
 
         tv_note = findViewById(R.id.tv_note);
 
@@ -182,10 +371,42 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setData(){
+    public void setData()
+    {
 
         if (role.equals("HSC"))
         {
+
+            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+            {
+
+                ll_btn.setVisibility(View.VISIBLE);
+                btn_rjct.setVisibility(View.VISIBLE);
+                btn_accpt.setVisibility(View.VISIBLE);
+                ll_btn.setVisibility(View.VISIBLE);
+                btn_accp_rjct.setVisibility(View.GONE);
+//                btn_rjct.setVisibility(View.VISIBLE);
+//                btn_accpt.setVisibility(View.VISIBLE);
+                //  btn_accp_rjct.setVisibility(View.GONE);
+            }
+            else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+            {
+
+                btn_accp_rjct.setVisibility(View.VISIBLE);
+                btn_accp_rjct.setText("अस्वीकार करे");
+                btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+                ll_btn.setVisibility(View.GONE);
+
+            }
+            else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+
+                btn_accp_rjct.setVisibility(View.VISIBLE);
+                btn_accp_rjct.setText("स्वीकार करे");
+                btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                ll_btn.setVisibility(View.GONE);
+
+            }
+
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
             //edt_reg_name.setText(info.getRegisterDesc());
@@ -263,7 +484,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         if(entryType.equals("U"))
         {
-         //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+            //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
             sp_work_categ_type.setSelection(pos);
         }
     }
@@ -698,5 +919,197 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     }
                 })
                 .show();
+    }
+
+
+    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String> {
+        AshaWorkEntity data;
+        String result;
+        int position;
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this).create();
+
+
+        // AcceptRecordsFromPacs(AshaWorkEntity data, int position) {
+        AcceptRecordsFromPacs(AshaWorkEntity data) {
+            this.data = data;
+            // this.position = position;
+            //_uid = data.getId();
+            //rowid = data.get_phase1_id();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String devicename=getDeviceName();
+            String app_version=getAppVersion();
+            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID(),app_version,devicename);
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            Log.d("Responsevalue", "" + result);
+            if (result != null) {
+                if(result.equals("1")){
+                    //mData.get(position).setVerificationStatus("A");
+
+
+                    btn_accp_rjct.setText("अस्वीकार करे");
+                    btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+                    //  notifyDataSetChanged();
+
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड स्वीकृत किया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
+                                    startActivity(intent);
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                    builder.setIcon(R.drawable.ashwin_logo);
+                    builder.setTitle("Failed");
+                    // Ask the final question
+                    builder.setMessage("failed");
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
+            }
+            else{
+                Toast.makeText(AshaWorkerEntryForm_Activity.this, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+
+    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String> {
+        AshaWorkEntity data;
+        String result;
+        int position;
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this).create();
+
+
+        //RejectRecordsFromPacs(AshaWorkEntity data, int position) {
+        RejectRecordsFromPacs(AshaWorkEntity data) {
+            this.data = data;
+            //    this.position = position;
+            //_uid = data.getId();
+            //rowid = data.get_phase1_id();
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+            String devicename=getDeviceName();
+            String app_version=getAppVersion();
+            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID(),app_version,devicename);
+            return result;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue", "" + result);
+            if (result != null) {
+                if(result.equals("1")){
+                    // mData.get(position).setVerificationStatus("R");
+                    info.setVerificationStatus("R");
+                    btn_accp_rjct.setText("स्वीकार करे");
+                    btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                    // notifyDataSetChanged();
+
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड अस्वीकृत किया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
+                                    startActivity(intent);
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                    builder.setIcon(R.drawable.ashwin_logo);
+                    builder.setTitle("Failed");
+                    // Ask the final question
+                    builder.setMessage("Failed");
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
+            } else {
+
+                Toast.makeText(AshaWorkerEntryForm_Activity.this, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+
+            return model.toUpperCase();
+        } else {
+
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+    public String getAppVersion(){
+        try {
+            version = AshaWorkerEntryForm_Activity.this.getPackageManager().getPackageInfo(AshaWorkerEntryForm_Activity.this.getPackageName(), 0).versionName;
+//                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
+//                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return version;
     }
 }

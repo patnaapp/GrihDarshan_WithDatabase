@@ -61,6 +61,7 @@ import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
@@ -91,6 +92,7 @@ public class WebServiceHelper {
     public static final String Strate_METHOD = "StateAmount";
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
+    public static final String Hsc_LIST_METHOD = "getHSCList";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
@@ -101,6 +103,7 @@ public class WebServiceHelper {
     public static final String Centre_METHOD = "CentralAmount";
     public static final String FacilitatorSalaryByANM = "CentralAmount";
     public static final String Activity_Type_LIST_METHOD = "getActType";
+    public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -835,6 +838,32 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+
+    public static ArrayList<AshaWorkEntity> getAshaWorkMonthlyActivityList(String workId, String monthId, String yearId) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORK_Month_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId", workId,monthId,yearId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"1");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+
     public static String uploadAshaActivityDetail(AshaWorkEntity data) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
@@ -1089,6 +1118,10 @@ public class WebServiceHelper {
         request.addProperty("VerificationBy",userid);
         request.addProperty("MobVersion",app_ver);
         request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RegisterId",data.getRegisterId());
+        request.addProperty("VOlume",data.getVolume());
+        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
+        request.addProperty("Remarks",data.getRemarks());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1120,6 +1153,10 @@ public class WebServiceHelper {
         request.addProperty("VerificationBy",userid);
         request.addProperty("MobVersion",app_ver);
         request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RegisterId",data.getRegisterId());
+        request.addProperty("VOlume",data.getVolume());
+        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
+        request.addProperty("Remarks",data.getRemarks());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1453,4 +1490,29 @@ public class WebServiceHelper {
         return buffer.toString();
 
     }
+
+    public static ArrayList<HscList_Entity> getHscList(String blkcode) {
+
+        SoapObject res1;
+        res1 = getServerData(Hsc_LIST_METHOD, HscList_Entity.Hsc_CLASS, "blockcode",blkcode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<HscList_Entity> fieldList = new ArrayList<HscList_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    HscList_Entity sm = new HscList_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
 }
