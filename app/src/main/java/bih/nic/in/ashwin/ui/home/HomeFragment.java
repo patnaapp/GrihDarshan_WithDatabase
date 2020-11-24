@@ -571,6 +571,29 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed.setText("सुरक्षित करें");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(fyear != null && fmonth != null){
+            if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                new SyncAshaActivityList().execute();
+            }
+        }
+    }
+
+    public Boolean isAshaFinalizeWork(){
+        if(ashaWorkData.size()>0){
+            for(AshaWorkEntity info: ashaWorkData){
+                if(info.getIsFinalize().equals("Y"))
+                    return true;
+            }
+        }else{
+            return true;
+        }
+
+        return false;
+    }
+
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
 
 
@@ -595,35 +618,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             {
                 ashaWorkData = result;
                 //setupRecuyclerView();
-                new GetActivityList().execute();
+                new SyncMonthlyActivityList().execute();
             }
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(fyear != null && fmonth != null){
-            if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-                new SyncAshaActivityList().execute();
-            }
-        }
-    }
-
-    public Boolean isAshaFinalizeWork(){
-        if(ashaWorkData.size()>0){
-            for(AshaWorkEntity info: ashaWorkData){
-                if(info.getIsFinalize().equals("Y"))
-                    return true;
-            }
-        }else{
-            return true;
-        }
-
-        return false;
-    }
-
-    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+    private class SyncMonthlyActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
 
         @Override
         protected void onPreExecute() {
