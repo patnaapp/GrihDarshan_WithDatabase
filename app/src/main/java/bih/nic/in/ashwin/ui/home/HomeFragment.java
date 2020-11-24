@@ -543,6 +543,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         Activity_entity activity = mnthlyActList.get(position);
         activity.setChecked(isChecked);
         mnthlyActList.set(position, activity);
+
+        btn_proceed.setVisibility(View.VISIBLE);
+        btn_proceed.setText("सुरक्षित करें");
     }
 
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
