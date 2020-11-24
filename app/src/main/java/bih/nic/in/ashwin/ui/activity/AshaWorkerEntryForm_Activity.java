@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -44,7 +46,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type;
-    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date,edt_ben_no,edt_remark;
+    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_name,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
     TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
     Button btn_proceed;
     ImageView img_date2,img_date1;
@@ -82,6 +84,36 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         //setCategorySpinner();
         setCategoryTypeSpinner();
+
+        edt_ben_no.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0){
+                    try {
+                        edt_amount_total.setText(String.valueOf(Integer.parseInt(edt_ben_no.getText().toString().trim()) * Integer.parseInt(activityEntity.get_ActivityAmt())));
+                    }catch (Exception e){
+                        edt_amount_total.setText("0");
+                        Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else {
+                    edt_amount_total.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
     }
 
     void initializeViews(){
@@ -94,6 +126,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //        edt_slno = findViewById(R.id.edt_slno);
         edt_reg_name = findViewById(R.id.edt_reg_name);
         edt_reg_date = findViewById(R.id.edt_reg_date);
+        edt_amount_total = findViewById(R.id.edt_amount_total);
 
         edt_ben_no = findViewById(R.id.edt_ben_no);
         edt_remark = findViewById(R.id.edt_remark);
@@ -368,12 +401,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setActivityId(activityEntity.get_ActivityId());
             entity.setActivityDesc(activityEntity.get_ActivityDesc());
             entity.setActivityDate(edt_work_complt_date.getText().toString());
-            entity.setActivityAmt(edt_amount.getText().toString());
+            entity.setActivityRate(edt_amount.getText().toString());
+            entity.setActivityAmt(edt_amount_total.getText().toString());
             entity.setRegisterId(registerDetailsEntity.get_RegisterId());
             entity.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
             entity.setVolume(edt_volume.getText().toString());
-            entity.setRegisterPageNo(edt_pageno.getText().toString());
-            entity.setPageSerialNo(edt_slno.getText().toString());
+            //entity.setRegisterPageNo(edt_pageno.getText().toString());
+            //entity.setRegisterPageNo(edt_pageno.getText().toString());
+            //entity.setPageSerialNo(edt_slno.getText().toString());
             entity.setRegisterDate(edt_reg_date.getText().toString());
             entity.setAppVersion(Utiilties.getAppVersion(this));
 
@@ -381,13 +416,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setIemi(Utiilties.getDeviceIMEI(this));
             entity.setFinYear(fyear.getYear_Id());
             entity.setMonthName(fmonth.get_MonthId());
+            entity.setWorkdmCode(workdmCode);
+            entity.setActTypeId(activityTypeEntity.get_ActTypeId());
 
             entity.setNoOfBenif(edt_ben_no.getText().toString());
             entity.setRemark(edt_remark.getText().toString());
 
             entity.setDistrictCode(CommonPref.getUserDetails(this).getDistrictCode());
             entity.setBlockCode(CommonPref.getUserDetails(this).getBlockCode());
-            entity.setPanchayatCode(CommonPref.getUserDetails(this).getDistrictCode());
+            entity.setPanchayatCode(CommonPref.getUserDetails(this).getPanchayatCode());
             entity.setAwcId(CommonPref.getUserDetails(this).getAwcCode());
             entity.setEntryType(entryType);
 

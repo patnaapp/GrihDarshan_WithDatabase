@@ -860,6 +860,12 @@ public class WebServiceHelper {
         request.addProperty("Type", data.getEntryType());
         request.addProperty("AshaActivityId", data.getAshaActivityId());
 
+        request.addProperty("NoOfBeneficiary", data.getNoOfBenif());
+        request.addProperty("ActivityRate", data.getActivityRate());
+        request.addProperty("Remarks", data.getRemark());
+        request.addProperty("AcitivtyType", data.getWorkdmCode());
+        request.addProperty("ActTypeId", data.getActTypeId());
+
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);

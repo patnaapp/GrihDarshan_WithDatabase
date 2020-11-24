@@ -115,7 +115,7 @@
                             android:id="@+id/tv_cat_type_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="कार्य का श्रेणी का प्रकार : [*]"
+                            android:text="श्रेणी का प्रकार : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
@@ -173,7 +173,7 @@
                             android:id="@+id/tv_cat_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="कार्य का श्रेणी : [*]"
+                            android:text="कार्य की श्रेणी : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
@@ -264,48 +264,110 @@
 
                         </RelativeLayout>
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_marginTop="5dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="दावा की गयी राशी : [*]"
-                                    android:textColor="@color/color_black"
-                                    android:textSize="12sp"/>
-
-                                <EditText
-                                    android:enabled="false"
-                                    android:layout_marginTop="4dp"
-                                    android:id="@+id/edt_amount"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/textboxshape"
-                                    android:hint="दावा की गयी राशी "
-                                    android:padding="10dp"
-                                    android:inputType="number"
-                                    android:maxLength="6"
-                                    android:singleLine="true"
-                                    android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
-                                    android:textSize="15sp" />
-                            </LinearLayout>
-
-
-                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginRight="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="लाभार्थियों की संख्या : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <EditText
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/edt_ben_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textboxshape"
+                        android:hint="लाभार्थियों की संख्या"
+                        android:padding="10dp"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_marginRight="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="कार्य की राशी : [*]"
+                            android:textColor="@color/color_black"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:enabled="false"
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/edt_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="कार्य की राशी "
+                            android:padding="10dp"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:focusableInTouchMode="true"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="दावा की गई राशी : [*]"
+                            android:textColor="@color/color_black"
+                            android:textSize="12sp"/>
+
+                        <EditText
+                            android:enabled="false"
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/edt_amount_total"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/textboxshape"
+                            android:hint="दावा की गई राशी "
+                            android:padding="10dp"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:focusableInTouchMode="true"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -466,33 +528,7 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <LinearLayout
-                        android:layout_marginRight="4dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="लाभार्थियों की संख्या : [*]"
-                            android:textColor="@color/color_black"
-                            android:textSize="12sp"/>
-
-                        <EditText
-                            android:layout_marginTop="4dp"
-                            android:id="@+id/edt_ben_no"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/textboxshape"
-                            android:hint="लाभार्थियों की संख्या"
-                            android:padding="10dp"
-                            android:inputType="number"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_marginLeft="4dp"
@@ -507,9 +543,11 @@
                             android:text="पंजी का दिनांक : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <EditText
                                 android:enabled="false"
                                 android:layout_marginTop="4dp"
@@ -549,7 +587,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="टिप्पणी दें : [*]"
+                        android:text="अभियुक्ती : [*]"
                         android:textColor="@color/color_black"
                         android:textSize="12sp"/>
 
@@ -559,7 +597,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/textboxshape"
-                        android:hint="टिप्पणी"
+                        android:hint="अभियुक्ती"
                         android:padding="10dp"
                         android:inputType="textMultiLine"
                         android:lines="8"
