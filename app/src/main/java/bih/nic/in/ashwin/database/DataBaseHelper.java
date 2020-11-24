@@ -26,6 +26,7 @@ import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
@@ -1342,6 +1343,60 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public long setHscList_Local(ArrayList<HscList_Entity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<HscList_Entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //db.delete("Panchayat",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Hsc_Id", info.get(i).get_HSCId());
+                    values.put("Hsc_name", info.get(i).get_HSCName());
+                    values.put("Hsc_name_hn", info.get(i).get_HSCName_Hn());
+                    values.put("Location_type", info.get(i).get_LocationType());
+                    values.put("DistCode",info.get(i).get_DistCode());
+                    values.put("Blk_code",info.get(i).get_BlockCode());
+                    values.put("Hsc_code",info.get(i).get_HSCCode());
+
+                    String[] whereArgs = new String[]{info.get(i).get_HSCId()};
+
+                    c = db.update("HscListMaster", values, "Hsc_Id=?", whereArgs);
+                    if (!(c > 0)) {
+
+                        c = db.insert("HscListMaster", null, values);
+                    }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
     public ArrayList<AshaWoker_Entity> getAshaWorkerList(String hsccode,String blkcode){
 
         ArrayList<AshaWoker_Entity> userRoleList = new ArrayList<AshaWoker_Entity>();
@@ -1361,6 +1416,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 userRole.set_Asha_Name(cur.getString(cur.getColumnIndex("aasha_name")));
                 userRole.set_Asha_Name_Hn(cur.getString(cur.getColumnIndex("aasha_name_hn")));
                 userRole.set_svr_id(cur.getString(cur.getColumnIndex("svr_id")));
+
+                userRoleList.add(userRole);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
+    }
+
+    public ArrayList<HscList_Entity> getHscList(String blkcode){
+
+        ArrayList<HscList_Entity> userRoleList = new ArrayList<HscList_Entity>();
+
+        try {
+            String[] whereArgs = new String[]{blkcode};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from HscListMaster where Blk_code=?",whereArgs);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                HscList_Entity userRole = new HscList_Entity();
+
+                userRole.set_HSCId(cur.getString(cur.getColumnIndex("Hsc_Id")));
+                userRole.set_HSCCode(cur.getString(cur.getColumnIndex("Hsc_code")));
+                userRole.set_HSCName(cur.getString(cur.getColumnIndex("Hsc_name")));
+                userRole.set_HSCName_Hn(cur.getString(cur.getColumnIndex("Hsc_name_hn")));
 
                 userRoleList.add(userRole);
             }

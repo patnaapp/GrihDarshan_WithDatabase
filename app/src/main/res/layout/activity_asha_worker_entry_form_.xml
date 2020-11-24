@@ -614,6 +614,8 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
+
+
             </LinearLayout>
 
             <TextView
@@ -632,7 +634,7 @@
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         android:id="@+id/btn_proceed"
-        android:layout_above="@+id/ll_btn"
+        android:layout_above="@+id/ll_btn1"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -644,41 +646,66 @@
         android:onClick="onSaveData"/>
 
     <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/ll_btn"
-        android:layout_width="fill_parent"
+        android:id="@+id/ll_btn1"
         android:layout_above="@+id/footer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:orientation="horizontal"
-        android:padding="4dp"
-        android:weightSum="2">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_accpt"
+                android:layout_width="140dp"
+                android:layout_height="20dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:textColor="@color/color_white"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/buttonshapeaccept"
+                android:text="स्वीकार करें" />
+
+            <Button
+                android:id="@+id/btn_rjct"
+                android:layout_width="140dp"
+                android:layout_height="20dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="अस्वीकार करें"
+                android:textColor="@color/color_white"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/buttonbackshape1"
+                />
+
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btn_accpt"
+            android:id="@+id/btn_accp_rjct"
             android:layout_width="140dp"
             android:layout_height="20dp"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
-            android:textColor="@color/color_white"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:background="@drawable/buttonshapeaccept"
-            android:text="स्वीकार करें" />
-
-        <Button
-            android:id="@+id/btn_rjct"
-            android:layout_width="140dp"
-            android:layout_height="20dp"
-            android:layout_margin="2dp"
-            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_horizontal"
             android:text="अस्वीकार करें"
+
             android:textColor="@color/color_white"
             android:textStyle="bold"
             android:textSize="15sp"
             android:background="@drawable/buttonbackshape1"
             />
     </LinearLayout>
+
+
     <include
         android:id="@+id/footer"
         layout="@layout/footer"

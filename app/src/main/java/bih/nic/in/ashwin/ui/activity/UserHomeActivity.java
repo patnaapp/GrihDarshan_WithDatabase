@@ -48,6 +48,7 @@ import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
@@ -577,9 +578,15 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setcentreamount_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM")){
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+                    {
                         new GetAshaWorkersList().execute();
-                    }else{
+                    }
+                    else if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+                    {
+                        new GetHScList().execute();
+                    }
+                    else{
                         if(dialog.isShowing())
                             dialog.dismiss();
 
@@ -588,7 +595,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                     Toast.makeText(getApplicationContext(), "centre amount details loaded", Toast.LENGTH_SHORT).show();
 
-                } else {
+                }
+                else
+                    {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
@@ -671,6 +680,45 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 if (i > 0) {
 
                     Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+                homeFrag.setFYearSpinner();
+            }
+        }
+    }
+
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Hsc details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<HscList_Entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getHscList(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HscList_Entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setHscList_Local(result);
+                if (i > 0) {
+
+                    Toast.makeText(getApplicationContext(), "Hsc list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
