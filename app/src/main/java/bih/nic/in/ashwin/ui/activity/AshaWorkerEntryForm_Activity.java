@@ -427,6 +427,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setPanchayatCode(CommonPref.getUserDetails(this).getPanchayatCode());
             entity.setAwcId(CommonPref.getUserDetails(this).getAwcCode());
             entity.setEntryType(entryType);
+            entity.setEntryBy(CommonPref.getUserDetails(this).getUserID());
 
             if(entryType.equals("U")){
                 entity.setAshaActivityId(info.getAshaActivityId());
