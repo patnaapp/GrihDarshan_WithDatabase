@@ -854,7 +854,7 @@ public class WebServiceHelper {
         request.addProperty("RegisterPageNo",data.getRegisterPageNo());
         request.addProperty("PageSerialNo", data.getPageSerialNo());
         request.addProperty("RegisterDate", data.getRegisterDate());
-        request.addProperty("EntryBy", data.getAshaWorkerId());
+        request.addProperty("EntryBy", data.getEntryBy());
         request.addProperty("MobVersion", data.getAppVersion());
         request.addProperty("MobDeviceId", data.getIemi());
         request.addProperty("Type", data.getEntryType());

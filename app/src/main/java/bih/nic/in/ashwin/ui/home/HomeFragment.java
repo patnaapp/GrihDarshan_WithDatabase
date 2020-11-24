@@ -30,7 +30,10 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
+import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
+import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
@@ -48,7 +51,7 @@ import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
-public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener, MonthlyActivityListener {
 
     private HomeViewModel homeViewModel;
 
@@ -64,6 +67,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
+    ArrayList<Activity_entity> mnthlyActList;
 
     Financial_Year fyear;
     Financial_Month fmonth;
@@ -81,6 +85,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Boolean isFinalize = false;
 
     ArrayList<AshaWorkEntity> ashaWorkData;
+
+    private ProgressDialog dialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState)
     {
@@ -191,6 +197,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     void initializeViews(View root)
     {
         dbhelper = new DataBaseHelper(getContext());
+        dialog = new ProgressDialog(getContext());
 
         tv_username = root.findViewById(R.id.tv_username);
         tv_aanganwadi = root.findViewById(R.id.tv_aanganwadi);
@@ -460,9 +467,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         handleTabView();
         ll_dmf_tab.setVisibility(View.VISIBLE);
 
-        rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
-        rv_data.setAdapter(adapter);
+        tabType = "D";
+        handleTabView();
+        //loadDailyRecyclerData();
 
         isFinalize = isAshaFinalizeWork();
         if(isFinalize){
@@ -481,7 +488,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_floating_btn.setVisibility(View.VISIBLE);
         }
 
+    }
 
+    public void loadDailyRecyclerData(){
+        rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
+        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
+        rv_data.setAdapter(adapter);
+    }
+
+    public void loadMonthlyRecyclerData(){
+        rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
+        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this);
+        rv_data.setAdapter(adapter);
     }
 
     public void handleTabView(){
@@ -491,39 +509,52 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
+                ll_floating_btn.setVisibility(View.VISIBLE);
+                loadDailyRecyclerData();
                 break;
             case "M":
                 tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
+                ll_floating_btn.setVisibility(View.GONE);
+                loadMonthlyRecyclerData();
                 break;
             case "F":
-                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
-                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
-                tv_finalize.setTextColor(getResources().getColor(R.color.colorPrimary));
-
-                if(isFinalize){
-                    tv_note.setVisibility(View.VISIBLE);
-                    rv_data.setVisibility(View.GONE);
-                }
+                Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                i.putExtra("workArray", ashaWorkData);
+                startActivity(i);
+//                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
+//                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
+//                tv_finalize.setTextColor(getResources().getColor(R.color.colorPrimary));
+//
+//                if(isFinalize){
+//                    tv_note.setVisibility(View.VISIBLE);
+//                    rv_data.setVisibility(View.GONE);
+//                }
 
                 break;
         }
     }
 
+    @Override
+    public void onActivityCheckboxChanged(int position, Boolean isChecked) {
+        Activity_entity activity = mnthlyActList.get(position);
+        activity.setChecked(isChecked);
+        mnthlyActList.set(position, activity);
+    }
+
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
 
-        private final ProgressDialog dialog = new ProgressDialog(getContext());
-
-        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
 
         @Override
         protected void onPreExecute() {
 
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading details...");
-            this.dialog.show();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
         }
 
         @Override
@@ -534,15 +565,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         @Override
         protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
 
             if (result != null)
             {
                 ashaWorkData = result;
-                setupRecuyclerView();
+                //setupRecuyclerView();
+                new GetActivityList().execute();
             }
         }
     }
@@ -567,6 +595,58 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             return true;
         }
 
+        return false;
+    }
+
+    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("मासिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Activity_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_entity> result) {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+
+            if (result != null) {
+                mnthlyActList = getMonthlyActivity(result);
+                setupRecuyclerView();
+            }
+        }
+    }
+
+    public ArrayList<Activity_entity> getMonthlyActivity(ArrayList<Activity_entity> list){
+        ArrayList<Activity_entity> monthly = new ArrayList<>();
+        for(Activity_entity item: list){
+            if(item.getAcitivtyType().equals("M")){
+                //if(isMonthlyActivityAlreadyChecked(item)){
+                    //item.setChecked(true);
+                //}
+                monthly.add(item);
+            }
+        }
+
+        return monthly;
+    }
+
+    public Boolean isMonthlyActivityAlreadyChecked(Activity_entity activity){
+        if(ashaWorkData.size()>0){
+            for(AshaWorkEntity item: ashaWorkData){
+                if(item.getActivityId().equals(activity.get_ActivityId()))
+                    return true;
+            }
+        }
         return false;
     }
 
