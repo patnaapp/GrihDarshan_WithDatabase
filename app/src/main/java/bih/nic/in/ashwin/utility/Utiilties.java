@@ -118,6 +118,27 @@ public class Utiilties {
         }
     }
 
+    public static void showErrorAlet(final Context context, String title, String message){
+
+            AlertDialog.Builder ab = new AlertDialog.Builder(context);
+            ab.setCancelable(false);
+            ab.setTitle(title);
+            ab.setMessage(message);
+            ab.setPositiveButton("ओके",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog,
+                                            int whichButton) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
+            ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
+
+            ab.show();
+    }
+
 
     public static boolean isOnline(Context context) {
 
