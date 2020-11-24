@@ -71,8 +71,9 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_amount.setText(info.getActivityAmt());
         holder.tv_regname.setText(info.getRegisterDesc());
         holder.tv_volume.setText(info.getVolume());
-        holder.tv_slno.setText(info.getPageSerialNo());
+//        holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
+        holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
 
         if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
@@ -323,7 +324,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-       final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
+       final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn;
@@ -336,7 +337,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
-            tv_slno = itemView.findViewById(R.id.tv_slno);
+           // tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);
@@ -345,6 +346,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             btn_rjct = itemView.findViewById(R.id.btn_rjct);
             btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
             ll_btn = itemView.findViewById(R.id.ll_btn);
+            tv_no_of_benif = itemView.findViewById(R.id.tv_no_of_benif);
             //itemView.setOnClickListener(this);
         }
 

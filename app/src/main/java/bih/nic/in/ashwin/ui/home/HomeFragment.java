@@ -240,7 +240,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.VISIBLE);
-            btn_ashafc.setVisibility(View.VISIBLE);
+            btn_ashafc.setVisibility(View.GONE);
         }
         else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
             ll_floating_btn.setVisibility(View.GONE);

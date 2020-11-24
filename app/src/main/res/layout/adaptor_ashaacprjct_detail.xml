@@ -205,12 +205,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="क्रमांक"
+                        android:text="लाभार्थियों की संख्या"
                         android:textColor="@color/colorGreyDark"
                         android:textSize="12sp"/>
 
                     <TextView
-                        android:id="@+id/tv_slno"
+                        android:id="@+id/tv_no_of_benif"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Text"

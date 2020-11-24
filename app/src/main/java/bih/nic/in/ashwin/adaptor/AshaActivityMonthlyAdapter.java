@@ -67,6 +67,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
 //        holder.tv_work.setText(info.getActivityDesc());
 //        holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_amount.setText(info.getActivityAmt());
+        holder.tv_activity_desc.setText(info.getAcitivtyCategoryDesc());
 //        holder.tv_regname.setText(info.getRegisterDesc());
 //        holder.tv_volume.setText(info.getVolume());
 //        holder.tv_slno.setText(info.getPageSerialNo());
