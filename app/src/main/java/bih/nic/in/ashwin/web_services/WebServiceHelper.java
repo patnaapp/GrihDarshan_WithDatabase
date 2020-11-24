@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -92,6 +93,7 @@ public class WebServiceHelper {
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
+    public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
@@ -923,6 +925,160 @@ public class WebServiceHelper {
 
         }
         return rest;
+    }
+
+    public static String uploadAshaMonthlyActivity(AshaWorkEntity data, ArrayList<Activity_entity> list) {
+
+        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+        dbfac.setNamespaceAware(true);
+        DocumentBuilder docBuilder = null;
+
+        try {
+            docBuilder = dbfac.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0, ParserConfigurationException!!";
+        }
+        DOMImplementation domImpl = docBuilder.getDOMImplementation();
+        Document doc = domImpl.createDocument(SERVICENAMESPACE,    INSERTMONTHWISEASHAACTIVITY, null);
+        doc.setXmlVersion("1.0");
+        doc.setXmlStandalone(true);
+
+        Element poleElement = doc.getDocumentElement();
+
+        poleElement.appendChild(getSoapPropert(doc, "DistrictCode",data.getDistrictCode()));
+        poleElement.appendChild(getSoapPropert(doc, "BlockCode",data.getBlockCode()));
+        poleElement.appendChild(getSoapPropert(doc, "PanchayatCode",data.getPanchayatCode()));
+
+        poleElement.appendChild(getSoapPropert(doc, "HSCCODE",data.getHSCCODE()));
+        poleElement.appendChild(getSoapPropert(doc, "AshaWorkerId",data.getAshaWorkerId()));
+        poleElement.appendChild(getSoapPropert(doc, "MonthId", data.getMonthName()));
+        poleElement.appendChild(getSoapPropert(doc, "FYearId", data.getFinYear()));
+        poleElement.appendChild(getSoapPropert(doc, "EntryBy", data.getEntryBy()));
+        poleElement.appendChild(getSoapPropert(doc, "MobVersion", data.getAppVersion()));
+        poleElement.appendChild(getSoapPropert(doc, "MobDeviceId", data.getIemi()));
+
+        //--------------Array-----------------//
+        Element pdlsElement = doc.createElement("InsertAmountdetails");
+
+        for(int x=0;x<list.size();x++)
+        {
+            Element pdElement = doc.createElement("InsertAmount");
+
+            Element fid = doc.createElement("AcitivtyId");
+            fid.appendChild(doc.createTextNode(list.get(x).get_ActivityId()));
+            pdElement.appendChild(fid);
+
+            Element vLebel = doc.createElement("ActivityAmt");
+            vLebel.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
+            //vLebel.appendChild(doc.createTextNode("1234"));
+            pdElement.appendChild(vLebel);
+
+            pdlsElement.appendChild(pdElement);
+        }
+        poleElement.appendChild(pdlsElement);
+
+        TransformerFactory transfac = TransformerFactory.newInstance();
+        Transformer trans = null;
+        String res = "0";
+        try {
+
+            try {
+                trans = transfac.newTransformer();
+            } catch (TransformerConfigurationException e1) {
+
+                // TODO Auto-generated catch block
+
+                e1.printStackTrace();
+                return "0, TransformerConfigurationException";
+            }
+
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // create string from xml tree
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            DOMSource source = new DOMSource(doc);
+
+            BasicHttpResponse httpResponse = null;
+
+            try {
+                trans.transform(source, result);
+            } catch (TransformerException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "0, TransformerException";
+            }
+
+            String SOAPRequestXML = sw.toString();
+
+            String startTag = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchem\" "
+                    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" >  "
+                    + "<soap:Body > ";
+            String endTag = "</soap:Body > " + "</soap:Envelope>";
+
+            try{
+                HttpPost httppost = new HttpPost(SERVICEURL1);
+
+                StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML+ endTag,HTTP.UTF_8);
+
+                sEntity.setContentType("text/xml;charset=UTF-8");
+                httppost.setEntity(sEntity);
+                HttpClient httpClient = new DefaultHttpClient();
+                httpResponse = (BasicHttpResponse) httpClient.execute(httppost);
+
+                HttpEntity entity = httpResponse.getEntity();
+
+                if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK")) {
+                    String output = _getResponseBody(entity);
+
+                    res = parseRespnse(output);
+                } else {
+                    res = "0, Server no reponse";
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return "0, Exception Caught";
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0, Exception Caught";
+        }
+
+        // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
+        return res;
+    }
+
+    public static String parseRespnse(String xml){
+        String result = "Failed to parse";
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+        InputSource is;
+        try {
+            builder = factory.newDocumentBuilder();
+            is = new InputSource(new StringReader(xml));
+            Document doc = builder.parse(is);
+            NodeList list = doc.getElementsByTagName("InsertMonthWiseAshaActivityResult");
+            result = list.item(0).getTextContent();
+            //System.out.println(list.item(0).getTextContent());
+        } catch (ParserConfigurationException e) {
+        } catch (SAXException e) {
+        } catch (IOException e) {
+        }
+
+        return result;
+    }
+
+    public static Element getSoapPropert(Document doc, String key, String value)
+    {
+        Element eid = doc.createElement(key);
+        eid.appendChild(doc.createTextNode(value));
+        return eid;
     }
 
     public static String UploadAcceptedRecordsFromPacs(AshaWorkEntity data,String userid,String app_ver,String deviceid) {

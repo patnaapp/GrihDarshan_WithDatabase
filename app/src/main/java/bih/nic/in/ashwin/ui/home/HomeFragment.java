@@ -513,7 +513,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void loadMonthlyRecyclerData(){
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this);
+        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this, false);
         rv_data.setAdapter(adapter);
     }
 
@@ -716,7 +716,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected String doInBackground(String... param)
         {
-            return WebServiceHelper.uploadAshaMonthlyActivityDetail(data,monthlyData);
+            return WebServiceHelper.uploadAshaMonthlyActivity(data,monthlyData);
         }
 
         @Override
@@ -737,6 +737,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 else if(result.contains("1"))
                 {
                     //onDataUploaded();
+                    Toast.makeText(getContext(), "मासिक कार्य सूची सफलतापूर्वक संचित कर लिया गया है", Toast.LENGTH_SHORT).show();
+                    btn_proceed.setVisibility(View.GONE);
                 }else{
                     Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
                 }

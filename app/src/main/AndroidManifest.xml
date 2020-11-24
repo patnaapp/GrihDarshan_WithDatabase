@@ -76,6 +76,10 @@
         <activity
             android:name=".ui.activity.UserHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

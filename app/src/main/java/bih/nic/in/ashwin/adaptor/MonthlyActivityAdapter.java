@@ -31,12 +31,14 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
     Context context;
     Financial_Year fyear;
     Financial_Month fmonth;
+    Boolean isPreview;
 
-    public MonthlyActivityAdapter(Context context, ArrayList<Activity_entity> data, MonthlyActivityListener listener) {
+    public MonthlyActivityAdapter(Context context, ArrayList<Activity_entity> data, MonthlyActivityListener listener, Boolean isPreview) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
         this.listener = listener;
+        this.isPreview = isPreview;
     }
 
     // inflates the row layout from xml when needed
@@ -55,7 +57,11 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
-        holder.ch_activity.setChecked(info.getChecked());
+        if(isPreview){
+            holder.ch_activity.setVisibility(View.GONE);
+        }else{
+            holder.ch_activity.setChecked(info.getChecked());
+        }
 
         holder.ch_activity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
