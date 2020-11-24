@@ -888,6 +888,43 @@ public class WebServiceHelper {
         return rest;
     }
 
+    public static String uploadAshaMonthlyActivityDetail(AshaWorkEntity data, ArrayList<Activity_entity> list) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
+
+        request.addProperty("DistrictCode",data.getDistrictCode());
+        request.addProperty("BlockCode",data.getBlockCode());
+        request.addProperty("PanchayatCode",data.getPanchayatCode());
+        request.addProperty("HSCCODE",data.getHSCCODE());
+        request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        request.addProperty("MonthId", data.getMonthName());
+        request.addProperty("FYearId", data.getFinYear());
+        request.addProperty("EntryBy", data.getEntryBy());
+        request.addProperty("MobVersion", data.getAppVersion());
+        request.addProperty("MobDeviceId", data.getIemi());
+        request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(list));
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + INSERTASHAWORK_METHOD,envelope);
+            rest = envelope.getResponse().toString();
+
+        }
+        catch (Exception e) {
+            Log.e("exception",""+e.getLocalizedMessage());
+            e.printStackTrace();
+            return "0";
+
+        }
+        return rest;
+    }
+
     public static String UploadAcceptedRecordsFromPacs(AshaWorkEntity data,String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
@@ -1019,7 +1056,7 @@ public class WebServiceHelper {
         for(Activity_entity info: list){
             if(info.getChecked()){
                 param += "<ACTDtl>";
-                param += "<AcitivtyId>"+info.get_ActivityId()+"</AcitivtyId>";
+                param += "<AcitivtyId>"+info.get_ActivityAmt()+"</AcitivtyId>";
                 param += "<ActivityAmt>"+info.get_ActivityAmt()+"</ActivityAmt>";
                 param += "</ACTDtl>";
             }

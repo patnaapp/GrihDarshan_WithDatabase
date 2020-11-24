@@ -48,6 +48,7 @@ import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
@@ -123,11 +124,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
                 if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-                    Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
-                    i.putExtra("fyear", fyear);
-                    i.putExtra("fmonth", fmonth);
-                    i.putExtra("workArray", ashaWorkData);
-                    startActivity(i);
+
+                    ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
+                    if(list.size()>0){
+                        uploadMonthlyActivty(list);
+                    }else{
+                        Toast.makeText(getContext(), "कृपया मासिक कार्य चुने",Toast.LENGTH_SHORT).show();
+                    }
+
                 }else {
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
@@ -193,6 +197,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         });
 
         return root;
+    }
+
+    public ArrayList<Activity_entity> getSelectedMonthlyActivity(){
+        ArrayList<Activity_entity> list = new ArrayList<>();
+        for(Activity_entity item: mnthlyActList){
+            if(item.getChecked())
+                list.add(item);
+        }
+        return list;
     }
 
     void initializeViews(View root)
@@ -522,11 +535,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 loadMonthlyRecyclerData();
                 break;
             case "F":
-                Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
-                i.putExtra("fyear", fyear);
-                i.putExtra("fmonth", fmonth);
-                i.putExtra("workArray", ashaWorkData);
-                startActivity(i);
+                ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
+                if(list.size()>0){
+                    Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    i.putExtra("workArray", ashaWorkData);
+                    i.putExtra("monthly", list);
+                    startActivity(i);
+                }else{
+                    Toast.makeText(getContext(),"कृपया मासिक कार्य चुने", Toast.LENGTH_SHORT).show();
+                }
+
 //                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
 //                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
 //                tv_finalize.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -652,6 +672,79 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
         return false;
+    }
+
+    public void uploadMonthlyActivty(ArrayList<Activity_entity> list){
+        AshaWorkEntity entity = new AshaWorkEntity();
+
+        entity.setDistrictCode(CommonPref.getUserDetails(getContext()).getDistrictCode());
+        entity.setBlockCode(CommonPref.getUserDetails(getContext()).getBlockCode());
+        entity.setPanchayatCode(CommonPref.getUserDetails(getContext()).getPanchayatCode());
+        entity.setAwcId(CommonPref.getUserDetails(getContext()).getAwcCode());
+        entity.setHSCCODE(CommonPref.getUserDetails(getContext()).getHSCCode());
+
+        entity.setAshaWorkerId(CommonPref.getUserDetails(getContext()).getSVRID());
+        entity.setMonthName(fmonth.get_MonthId());
+        entity.setFinYear(fyear.getYear_Id());
+        entity.setEntryBy(CommonPref.getUserDetails(getContext()).getUserID());
+        entity.setAppVersion(Utiilties.getAppVersion(getContext()));
+        entity.setIemi(Utiilties.getDeviceIMEI(getContext()));
+
+        new UploadAshaMonthlyWorkDetail(entity, list).execute();
+    }
+
+    private class UploadAshaMonthlyWorkDetail extends AsyncTask<String, Void, String>{
+        AshaWorkEntity data;
+        ArrayList<Activity_entity> monthlyData;
+
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        public UploadAshaMonthlyWorkDetail(AshaWorkEntity data, ArrayList<Activity_entity> monthlyData) {
+            this.data = data;
+            this.monthlyData = monthlyData;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("अपलोड हो राहा है...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+            return WebServiceHelper.uploadAshaMonthlyActivityDetail(data,monthlyData);
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue",""+result);
+
+            if (result != null)
+            {
+                if(result.contains("0"))
+                {
+                    Toast.makeText(getContext(), "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+                }
+                else if(result.contains("1"))
+                {
+                    //onDataUploaded();
+                }else{
+                    Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+
+                Toast.makeText(getContext(), "null record", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 //    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
