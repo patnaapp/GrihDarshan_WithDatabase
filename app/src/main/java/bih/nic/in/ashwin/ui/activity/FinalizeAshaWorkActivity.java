@@ -63,7 +63,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         extractDataFromIntent();
     }
 
-    void initializeViews(){
+    void initializeViews()
+    {
         dbhelper = new DataBaseHelper(this);
 
         tv_total_work = findViewById(R.id.tv_total_work);

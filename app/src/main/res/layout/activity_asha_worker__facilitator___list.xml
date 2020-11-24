@@ -190,6 +190,53 @@
             <!--                    android:layout_width="match_parent"-->
             <!--                    android:layout_height="36dp" />-->
         </LinearLayout>
+
+        <LinearLayout
+android:visibility="gone"
+            android:id="@+id/ll_dmf_tab"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/holo_gray_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_daily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="दैनिक"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGreyDark"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_monthly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="मासिक"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGreyDark"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -207,6 +254,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/ll_daily"
             android:layout_weight="1"
             android:orientation="vertical">
             <TextView

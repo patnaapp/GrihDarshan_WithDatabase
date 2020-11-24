@@ -42,7 +42,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
-    TextView tv_name,tv_year,tv_month,tv_role;
+    TextView tv_name,tv_year,tv_month,tv_role,tv_daily,tv_monthly;
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data,rv_data_monthly;
@@ -52,7 +52,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     Spinner sp_worker;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     DataBaseHelper dbhelper;
-    LinearLayout ll_monthly;
+    LinearLayout ll_monthly,ll_daily,ll_dmf_tab;
+    String tabType = "D";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,23 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
+
+        tv_daily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "D";
+                handleTabView();
+            }
+        });
+
+        tv_monthly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "M";
+                handleTabView();
+            }
+        });
+
 
         btn_finalize.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,6 +209,12 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         btn_finalize = findViewById(R.id.btn_finalize);
         sp_worker = findViewById(R.id.sp_worker);
         ll_monthly = findViewById(R.id.ll_monthly);
+        ll_daily = findViewById(R.id.ll_daily);
+        ll_dmf_tab = findViewById(R.id.ll_dmf_tab);
+        tv_daily = findViewById(R.id.tv_daily);
+        tv_monthly = findViewById(R.id.tv_monthly);
+        ll_daily.setVisibility(View.GONE);
+        ll_monthly.setVisibility(View.GONE);
 
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
@@ -199,6 +223,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data)
     {
+        ll_daily.setVisibility(View.VISIBLE);
+        rv_data.setVisibility(View.VISIBLE);
+        ll_monthly.setVisibility(View.GONE);
+        rv_data_monthly.setVisibility(View.GONE);
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
@@ -208,6 +236,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     {
         if (data.size()>0)
         {
+            ll_daily.setVisibility(View.GONE);
+            rv_data.setVisibility(View.GONE);
+            rv_data_monthly.setVisibility(View.VISIBLE);
+            ll_monthly.setVisibility(View.VISIBLE);
             rv_data_monthly.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             AshaActivityMonthlyAdapter adapter = new AshaActivityMonthlyAdapter(AshaWorker_Facilitator_Activity_List.this, data, fyear, fmonth);
             rv_data_monthly.setAdapter(adapter);
@@ -231,6 +263,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     asha_worker_id = role.get_ASHAID();
                     svrid = role.get_svr_id();
                     tv_name.setText(asha_worker_nm);
+                    ll_dmf_tab.setVisibility(View.VISIBLE);
                     new SynchronizeAshaActivityList().execute();
 
                 }
@@ -277,7 +310,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 ashawork=result;
                 setupRecuyclerView(result);
 
-                new SynchronizeMonthlyAshaActivityList().execute();
+              //  new SynchronizeMonthlyAshaActivityList().execute();
 
             }
         }
@@ -481,5 +514,27 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     }
 
+
+    public void handleTabView(){
+        switch (tabType){
+            case "D":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
+
+                rv_data.setVisibility(View.VISIBLE);
+                rv_data_monthly.setVisibility(View.GONE);
+                new SynchronizeAshaActivityList().execute();
+                break;
+            case "M":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                rv_data_monthly.setVisibility(View.VISIBLE);
+                rv_data.setVisibility(View.GONE);
+                new SynchronizeMonthlyAshaActivityList().execute();
+                break;
+
+        }
+    }
 
 }

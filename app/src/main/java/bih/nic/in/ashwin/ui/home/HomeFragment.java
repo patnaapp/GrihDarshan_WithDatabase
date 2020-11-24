@@ -389,6 +389,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }
 
 
+
                 }
                 break;
             case R.id.sp_userrole:

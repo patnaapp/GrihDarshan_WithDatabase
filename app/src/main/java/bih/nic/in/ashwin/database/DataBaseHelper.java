@@ -1015,6 +1015,34 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<RegisterDetailsEntity> getRegisterdescList(){
+
+        ArrayList<RegisterDetailsEntity> list = new ArrayList<RegisterDetailsEntity>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+           // String[] whereArgs = new String[]{activityType,dmType};
+            Cursor cur = db.rawQuery("Select * from RegisterDetails ",null);
+
+            while (cur.moveToNext()) {
+
+                RegisterDetailsEntity info = new RegisterDetailsEntity();
+
+                info.set_RegisterId(cur.getString(cur.getColumnIndex("register_id")));
+                info.set_RegisterDesc(cur.getString(cur.getColumnIndex("register_desc")));
+                info.set_RegisterDesc_Hn(cur.getString(cur.getColumnIndex("register_desc_hn")));
+                info.set_VolNo(cur.getString(cur.getColumnIndex("vol_no")));
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public ArrayList<Activity_Type_entity> getActictivityTypeList(){
 
         ArrayList<Activity_Type_entity> list = new ArrayList<Activity_Type_entity>();
