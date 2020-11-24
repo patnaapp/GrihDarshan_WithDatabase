@@ -382,11 +382,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         loadUserRoleSpinnerdata();
 
                         btn_proceed.setVisibility(View.VISIBLE);
-                        btn_ashafc.setVisibility(View.VISIBLE);
+                        btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                    {
                         btn_proceed.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);

@@ -267,7 +267,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setDMWrokSpinner(){
+    public void setDMWrokSpinner()
+    {
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workDMTypeArray);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_md.setAdapter(adaptor);
@@ -278,12 +279,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //        }
     }
 
-    public void setCategorySpinner(){
+    public void setCategorySpinner()
+    {
         categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (ActivityCategory_entity info: categoryArray){
+        for (ActivityCategory_entity info: categoryArray)
+        {
             array.add(info.get_AcitivtyCategoryDesc_Hn());
         }
 
@@ -292,7 +295,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ.setAdapter(adaptor);
         sp_work_categ.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U")){
+        if(entryType.equals("U"))
+        {
             sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
         }
     }
