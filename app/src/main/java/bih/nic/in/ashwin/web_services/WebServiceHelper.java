@@ -98,6 +98,7 @@ public class WebServiceHelper {
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
+    public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
     public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
@@ -1245,17 +1246,18 @@ public class WebServiceHelper {
 
     public static String uploadAshaFinalizeWorkDetail(AshaWorkFinalizeEntity data) {
 
-        SoapObject request = new SoapObject(SERVICENAMESPACE, FINALIZEASHAACTIVITY_METHOD);
+        SoapObject request = new SoapObject(SERVICENAMESPACE, FINALASHAACTIVITY_METHOD);
 
         request.addProperty("FinalizeBy",data.getFinalizeBy());
         request.addProperty("AshaWorkerId",data.getAshaWorkerId());
         request.addProperty("FYearID",data.getFYearID());
         request.addProperty("MonthId",data.getMonthId());
-        request.addProperty("TotalActivities_Asha",data.getTotalActivities_Asha());
-        request.addProperty("TotalAmt_Asha",data.getTotalAmt_Asha());
+//        request.addProperty("TotalActivities_Asha",data.getTotalActivities_Asha());
+//        request.addProperty("TotalAmt_Asha",data.getTotalAmt_Asha());
         request.addProperty("UpdatedBy", data.getUpdatedBy());
-        request.addProperty("deviceId", data.getDeviceId());
-        request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
+        request.addProperty("MobVersion", data.getUpdatedBy());
+        request.addProperty("MobDeviceId", data.getDeviceId());
+        //request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1265,7 +1267,7 @@ public class WebServiceHelper {
             envelope.setOutputSoapObject(request);
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + FINALIZEASHAACTIVITY_METHOD,envelope);
+            androidHttpTransport.call(SERVICENAMESPACE + FINALASHAACTIVITY_METHOD,envelope);
             rest = envelope.getResponse().toString();
 
         } catch (Exception e) {

@@ -56,6 +56,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_name.setText(info.get_ActivityDesc());
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
+        //setAshaStatus(info.get\(), holder.tv_status);
 
         if(isPreview){
             holder.ch_activity.setVisibility(View.GONE);
@@ -71,6 +72,20 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         });
     }
 
+    public void setAshaStatus(String code, TextView tv){
+        switch (code){
+            case "P":
+                tv.setTextColor(context.getResources().getColor(R.color.colorGreyDark));
+                break;
+            case "A":
+                tv.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                break;
+            case "R":
+                tv.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
+                break;
+        }
+    }
+
     // total number of rows
     @Override
     public int getItemCount() {
@@ -80,7 +95,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_name,tv_amount,tv_count;
+        TextView tv_name,tv_amount,tv_count,tv_status;
         CheckBox ch_activity;
         RelativeLayout sblist;
 
@@ -89,8 +104,10 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
             tv_name = itemView.findViewById(R.id.tv_name);
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_count = itemView.findViewById(R.id.tv_count);
+            tv_status = itemView.findViewById(R.id.tv_status);
             ch_activity = itemView.findViewById(R.id.ch_activity);
             sblist = itemView.findViewById(R.id.sblist);
+
             //itemView.setOnClickListener(this);
         }
 
@@ -99,6 +116,8 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
+
+
 
     // convenience method for getting data at click position
     Activity_entity getItem(int id) {

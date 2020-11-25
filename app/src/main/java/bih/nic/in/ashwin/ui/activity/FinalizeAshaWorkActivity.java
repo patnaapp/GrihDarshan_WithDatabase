@@ -178,9 +178,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public void updateTotalAmount()
     {
-        //Double monthly = getMonthlyAmount();
+        Double monthly = getMonthlyAmount();
         //tv_monthly_amnt.setText("\u20B9"+monthly);
-        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
+        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount+monthly));
     }
 
     public Double getMonthlyAmount()
@@ -188,8 +188,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         Double amount = 0.0;
         for(Activity_entity info: activityArray)
         {
-            if(info.getChecked())
-                amount += Double.parseDouble(info.get_ActivityAmt());
+            amount += Double.parseDouble(info.get_ActivityAmt());
         }
         return amount;
     }
@@ -242,7 +241,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setIcon(R.drawable.asha)
-                .setMessage("Data Uploaded Successfully.")
+                .setMessage("Activity Finalized")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -283,13 +282,25 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             Log.d("Responsevalue",""+result);
 
             if (result != null) {
-                if(result.contains("0")){
-                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
-                }else if(result.contains("1")){
-                    onDataUploaded();
+                if(result.contains(",")){
+                    String[] res = result.split(",");
+                    if(res.length == 2){
+                        Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
+                    }else{
+                        Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
+                    }
                 }else{
-                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+                    Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                 }
+
+
+//                if(result.contains("0")){
+//                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+//                }else if(result.contains("1")){
+//                    onDataUploaded();
+//                }else{
+//                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+//                }
             }
             else {
                 Toast.makeText(FinalizeAshaWorkActivity.this, "null record", Toast.LENGTH_SHORT).show();

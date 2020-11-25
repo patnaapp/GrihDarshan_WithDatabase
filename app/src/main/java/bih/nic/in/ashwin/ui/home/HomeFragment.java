@@ -1,5 +1,6 @@
 package bih.nic.in.ashwin.ui.home;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -613,35 +614,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed.setText("सुरक्षित करें");
     }
 
-    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
-
-
-        @Override
-        protected void onPreExecute() {
-
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
-            dialog.show();
-        }
-
-        @Override
-        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
-
-            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
-
-            if (result != null)
-            {
-                ashaWorkData = result;
-                //setupRecuyclerView();
-                new GetActivityList().execute();
-            }
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -665,7 +637,37 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return false;
     }
 
-    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+
+            if (result != null)
+            {
+                ashaWorkData = result;
+                new SyncMonthlyActivityList().execute();
+            }else{
+                Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
+    }
+
+    private class SyncMonthlyActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
 
         @Override
         protected void onPreExecute() {
@@ -681,14 +683,57 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         @Override
         protected void onPostExecute(ArrayList<Activity_entity> result) {
+
+
+            if (result != null) {
+                mnthlyActList = getMonthlyActivity(result);
+                new SyncSelectedMonthlyActivityList().execute();
+                //setupRecuyclerView();
+            }else{
+                Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
+    }
+
+    private class SyncSelectedMonthlyActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkMonthlyActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
             if (dialog.isShowing())
             {
                 dialog.dismiss();
             }
 
-            if (result != null) {
-                mnthlyActList = getMonthlyActivity(result);
+            if (result != null)
+            {
+                markSelectedMonthlyActivity(result);
                 setupRecuyclerView();
+            }else{
+                Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
+    }
+
+    public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
+        for(Activity_entity item: mnthlyActList){
+            for(AshaWorkEntity mItem: list){
+                if(mItem.getActivityId().equals(item.get_ActivityId())){
+
+                    int position = mnthlyActList.indexOf(item);
+                    item.setChecked(true);
+                    mnthlyActList.set(position,item);
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,10 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.tv_volume.setText(info.getVolume());
         holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
         holder.tv_count.setText(String.valueOf(position+1)+".");
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+        setAshaStatus(info.getVerificationStatus(), holder.tv_status);
 
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +82,20 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
             }
         });
+    }
+
+    public void setAshaStatus(String code, TextView tv){
+        switch (code){
+            case "P":
+                tv.setTextColor(context.getResources().getColor(R.color.colorGreyDark));
+                break;
+            case "A":
+                tv.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                break;
+            case "R":
+                tv.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
+                break;
+        }
     }
 
     // total number of rows
