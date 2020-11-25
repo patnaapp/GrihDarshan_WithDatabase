@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityMonthlyAdapter;
@@ -76,7 +77,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     int caltype = 0;
     String entryType,role;
-    LinearLayout ll_btn;
+    LinearLayout ll_btn1;
     AshaWorkEntity info;
 
     @Override
@@ -341,7 +342,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_note = findViewById(R.id.tv_note);
 
         ll_daily_content = findViewById(R.id.ll_daily_content);
-        ll_btn = findViewById(R.id.ll_btn);
+        ll_btn1 = findViewById(R.id.ll_btn1);
     }
 
     public void extractDataFromIntent(){
@@ -358,11 +359,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (role.equals("HSC"))
         {
             btn_proceed.setVisibility(View.GONE);
-            ll_btn.setVisibility(View.VISIBLE);
+            ll_btn1.setVisibility(View.VISIBLE);
         }
         else {
             btn_proceed.setVisibility(View.VISIBLE);
-            ll_btn.setVisibility(View.GONE);
+            ll_btn1.setVisibility(View.GONE);
         }
 
         if (entryType.equals("U")){
@@ -380,10 +381,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
             {
 
-                ll_btn.setVisibility(View.VISIBLE);
+                ll_btn1.setVisibility(View.VISIBLE);
                 btn_rjct.setVisibility(View.VISIBLE);
                 btn_accpt.setVisibility(View.VISIBLE);
-                ll_btn.setVisibility(View.VISIBLE);
+                ll_btn1.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setVisibility(View.GONE);
 //                btn_rjct.setVisibility(View.VISIBLE);
 //                btn_accpt.setVisibility(View.VISIBLE);
@@ -395,7 +396,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("अस्वीकार करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
-                ll_btn.setVisibility(View.GONE);
+                ll_btn1.setVisibility(View.GONE);
 
             }
             else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
@@ -403,7 +404,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("स्वीकार करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-                ll_btn.setVisibility(View.GONE);
+                ll_btn1.setVisibility(View.GONE);
 
             }
 
@@ -582,20 +583,25 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
+        int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
+//        Log.e("monthID", ""+mnth);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear, mMonth, mDay);
+        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
+
+        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
+        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
 
         if (c.getTimeInMillis() < System.currentTimeMillis()) {
-
-            datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());
+            //datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());\
         } else {
-            datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            //datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         }
 
         datedialog.show();
     }
+
 
 
     DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
