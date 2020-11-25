@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.adaptor.AshaActivityMonthlyAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
@@ -168,21 +169,58 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     } else if (info.getVerificationStatus().contains("A")) {
                         if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
 
-                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                                    .setTitle("अस्वीकृति की पुष्टि")
-                                    .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-                                    .setCancelable(false)
-                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            new RejectRecordsFromPacs(info).execute();
-                                            dialog.dismiss();
-                                        }
-                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                            final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                            alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
+                            alert.setTitle("अस्वीकृति की पुष्टि");
+
+                            alert.setView(edittext);
+
+                            alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int whichButton)
+                                {
+                                    //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                    String YouEditTextValue = edittext.getText().toString();
+                                    if (!YouEditTextValue.equals(""))
+                                    {
+                                        info.set_rejectedRemarks(YouEditTextValue);
+                                        new RejectRecordsFromPacs(info).execute();
+                                        dialog.dismiss();
+                                    }
+                                    else {
+                                        edittext.setError("Required field");
+                                    }
+                                }
+                            });
+
+                            alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int whichButton)
+                                {
                                     dialog.dismiss();
                                 }
-                            }).show();
+                            });
+
+                            alert.show();
+//
+//                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+//                                    .setTitle("अस्वीकृति की पुष्टि")
+//                                    .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+//                                    .setCancelable(false)
+//                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            new RejectRecordsFromPacs(info).execute();
+//                                            dialog.dismiss();
+//                                        }
+//                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).show();
 
 
                         } else {
@@ -264,22 +302,61 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         info.setRegisterDate(edt_reg_date.getText().toString());
                         info.setNoOfBenif(edt_ben_no.getText().toString());
                         info.setRemark(edt_remark.getText().toString());
-                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                                .setTitle("अस्वीकृति की पुष्टि")
-                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-                                .setCancelable(false)
-                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // new RejectRecordsFromPacs(info, position).execute();
-                                        new RejectRecordsFromPacs(info).execute();
-                                        dialog.dismiss();
-                                    }
-                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+
+                        final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                        alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
+                        alert.setTitle("अस्वीकृति की पुष्टि");
+
+                        alert.setView(edittext);
+
+                        alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                String YouEditTextValue = edittext.getText().toString();
+                                if (!YouEditTextValue.equals(""))
+                                {
+                                    info.set_rejectedRemarks(YouEditTextValue);
+                                    new RejectRecordsFromPacs(info).execute();
+                                    dialog.dismiss();
+                                }
+                                else {
+                                    edittext.setError("Required field");
+                                }
+                            }
+                        });
+
+                        alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
                                 dialog.dismiss();
                             }
-                        }).show();
+                        });
+
+                        alert.show();
+
+
+//                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+//                                .setTitle("अस्वीकृति की पुष्टि")
+//                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+//                                .setCancelable(false)
+//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        // new RejectRecordsFromPacs(info, position).execute();
+//                                        new RejectRecordsFromPacs(info).execute();
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).show();
                     }
 
                 }
@@ -363,6 +440,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         else {
             btn_proceed.setVisibility(View.VISIBLE);
             ll_btn.setVisibility(View.GONE);
+            btn_accp_rjct.setVisibility(View.GONE);
         }
 
         if (entryType.equals("U")){

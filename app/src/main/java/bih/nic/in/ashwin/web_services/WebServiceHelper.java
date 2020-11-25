@@ -51,6 +51,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
@@ -104,6 +105,7 @@ public class WebServiceHelper {
     public static final String FacilitatorSalaryByANM = "CentralAmount";
     public static final String Activity_Type_LIST_METHOD = "getActType";
     public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
+    public static final String ASHASalByBhm_LIST_METHOD = "getAshaSallaryListInBHM";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -789,6 +791,30 @@ public class WebServiceHelper {
     }
 
 
+    public static ArrayList<AshaSalByBhm_Entity> getAshaSalByBhm(String fyid, String monthId, String blkcode, String dist) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHASalByBhm_LIST_METHOD, AshaSalByBhm_Entity.AshaSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaSalByBhm_Entity> fieldList = new ArrayList<AshaSalByBhm_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaSalByBhm_Entity sm = new AshaSalByBhm_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
     public static ArrayList<AshaWorkerSalary_Entity> getAshaSalaryApprovalByBhm(String fyid, String monthId, String blkcode, String dist, String hsccode) {
 
         SoapObject res1;
@@ -1122,6 +1148,9 @@ public class WebServiceHelper {
         request.addProperty("VOlume",data.getVolume());
         request.addProperty("NoofBeneficiary",data.getNoOfBenif());
         request.addProperty("Remarks",data.getRemarks());
+        request.addProperty("RegisterDate",data.getRegisterDate());
+        request.addProperty("ActivityAmt",data.getActivityAmt());
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1157,6 +1186,9 @@ public class WebServiceHelper {
         request.addProperty("VOlume",data.getVolume());
         request.addProperty("NoofBeneficiary",data.getNoOfBenif());
         request.addProperty("Remarks",data.getRemarks());
+        request.addProperty("RegisterDate",data.getRegisterDate());
+        request.addProperty("ActivityAmt",data.getActivityAmt());
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(

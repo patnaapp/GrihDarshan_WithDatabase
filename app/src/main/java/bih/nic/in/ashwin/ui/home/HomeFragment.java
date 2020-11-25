@@ -42,6 +42,8 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
+import bih.nic.in.ashwin.ui.activity.AshaSalaryByBhm_Activity;
+import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
@@ -133,6 +135,36 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }
 
                 }else {
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                    {
+                        Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                        i.putExtra("fyear", fyear);
+                        i.putExtra("fmonth", fmonth);
+                        // i.putExtra("role", userRole);
+                        i.putExtra("role", "BLKBCM");
+
+                        // i.putExtra("ashaid", asha_id);
+                        // i.putExtra("ashanm", ashaname);
+
+
+                        // i.putExtra("_faciltator_id", facilator_id);
+                        // i.putExtra("_faciltator_nm", facilator_name);
+                        //   i.putExtra("svr",svri_id);
+                        startActivity(i);
+                    }
+                   else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+                    {
+                        Intent i = new Intent(getContext(), AshaSalary_ByBhm_Activity.class);
+                        i.putExtra("fyear", fyear);
+                        i.putExtra("fmonth", fmonth);
+                        // i.putExtra("role", userRole);
+                        i.putExtra("role", "BLKBHM");
+
+                        startActivity(i);
+                    }
+                    else {
+
+
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
@@ -147,6 +179,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                    // i.putExtra("_faciltator_nm", facilator_name);
                  //   i.putExtra("svr",svri_id);
                     startActivity(i);
+                    }
                 }
             }
         });
@@ -256,7 +289,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_proceed.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
-        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+        {
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_div_zone.setVisibility(View.GONE);
@@ -264,7 +298,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_proceed.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
-        else {
+        else
+            {
          //   ll_hsc.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
@@ -281,7 +316,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_username.setText(userInfo.getUserName());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
-        tv_district.setText(userInfo.getDistNameHN());
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+        {
+            tv_district.setText(userInfo.getDistName());
+        }
+        else {
+            tv_district.setText(userInfo.getDistNameHN());
+        }
+
         tv_block.setText(userInfo.getBlockNameHN());
         tv_panchayat.setText(userInfo.getPanchayatNameHN());
 
@@ -400,7 +442,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
                     {
                         btn_proceed.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);

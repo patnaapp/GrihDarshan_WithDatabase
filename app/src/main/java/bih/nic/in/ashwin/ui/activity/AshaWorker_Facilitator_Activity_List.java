@@ -57,20 +57,22 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     LinearLayout ll_monthly,ll_daily,ll_dmf_tab,ll_hsc;
     String tabType = "D";
     String hscname="",hsccode="";
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asha_worker__facilitator___list);
-
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
         dbhelper=new DataBaseHelper(this);
 
         initialise();
-        if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode().equals("BLKBCM"))
+        if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("BLKBCM"))
         {
             ll_hsc.setVisibility(View.VISIBLE);
         }
-        else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode().equals("HSC"))
+        else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
         {
             ll_hsc.setVisibility(View.GONE);
         }
@@ -83,6 +85,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         tv_role.setText("आशा वर्कर");
 
         loadWorkerFascilatorData();
+        loadHscList();
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
@@ -233,6 +236,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
+        sp_hsc_list.setOnItemSelectedListener(this);
 
     }
 
@@ -290,7 +294,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
-                    loadWorkerFascilatorData();
+                    ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+                    if (ashaworkerList.size()>0){
+                        loadWorkerFascilatorData();
+                    }
+                    else {
+                        new GetAshaWorkersList().execute();
+                    }
+                   // loadWorkerFascilatorData();
+
                 }
                 break;
         }
@@ -551,7 +563,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void loadHscList(){
 
-        hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
+        hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
 
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -592,4 +604,45 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         }
     }
 
+
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Asha details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+                if(dialog.isShowing())
+                    dialog.dismiss();
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+
+                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+                if (i > 0) {
+
+                  loadWorkerFascilatorData();
+                    Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
 }
