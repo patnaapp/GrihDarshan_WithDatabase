@@ -95,54 +95,69 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_ben_no.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0){
-                    try {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0)
+                {
+                    try
+                    {
                         edt_amount_total.setText(String.valueOf(Integer.parseInt(edt_ben_no.getText().toString().trim()) * Integer.parseInt(activityEntity.get_ActivityAmt())));
-                    }catch (Exception e){
+                    }
+                    catch (Exception e)
+                    {
                         edt_amount_total.setText("0");
                         Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
                     }
 
                 }
-                else {
+                else
+                    {
                     edt_amount_total.setText("0");
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
         });
 
 
-        btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
+        btn_accp_rjct.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                if (isDataValidated()) {
+            public void onClick(View view)
+            {
+                if (isDataValidated())
+                {
                     info.setRegisterId(registerDetailsEntity.get_RegisterId());
                     info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
                     info.setVolume(edt_volume.getText().toString());
                     info.setRegisterDate(edt_reg_date.getText().toString());
                     info.setNoOfBenif(edt_ben_no.getText().toString());
                     info.setRemark(edt_remark.getText().toString());
-                    if (info.getVerificationStatus().contains("R")) {
-                        if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
+                    if (info.getVerificationStatus().contains("R"))
+                    {
+                        if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this))
+                        {
 
                             if (info.getVerificationStatus().contains("R"))
                             new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
                                     .setTitle("स्वीकृति की पुष्टि")
                                     .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                                     .setCancelable(false)
-                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                                    {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
                                             new AcceptRecordsFromPacs(info).execute();
                                             dialog.dismiss();
                                         }
@@ -170,12 +185,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
 
                             final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
+
                             AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
                             alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
                             alert.setTitle("अस्वीकृति की पुष्टि");
 
                             alert.setView(edittext);
-
+                            edittext.setHint("रिजेक्शन रिमार्क्स डाले");
                             alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
                             {
                                 public void onClick(DialogInterface dialog, int whichButton)
@@ -309,7 +325,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         alert.setTitle("अस्वीकृति की पुष्टि");
 
                         alert.setView(edittext);
-
+                        edittext.setHint("रिजेक्शन रिमार्क्स डाले");
                         alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
                         {
                             public void onClick(DialogInterface dialog, int whichButton)
@@ -421,7 +437,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         ll_btn = findViewById(R.id.ll_btn);
     }
 
-    public void extractDataFromIntent(){
+    public void extractDataFromIntent()
+    {
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         entryType =  getIntent().getStringExtra("Type");
@@ -1147,17 +1164,30 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                                 }
                             }).show();
                 }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("Failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("Failed")
+                            .setMessage("Failed")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
+                                    startActivity(intent);
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+//                    builder.setIcon(R.drawable.ashwin_logo);
+//                    builder.setTitle("Failed");
+//                    // Ask the final question
+//                    builder.setMessage("Failed");
+//                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
                 }
 
             } else {

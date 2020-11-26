@@ -31,6 +31,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
     private String AddRemarks_Central = "";
     private int DeductAmt_Central = 0;
     private String DeductRemarks_Central = "";
+    private String VerificationStatus = "";
     private int FinalAmt =0;
 
     public AshaSalByBhm_Entity() {
@@ -158,7 +159,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
             this.FinalAmt = Integer.parseInt(sobj.getProperty("FinalAmt").toString());
         }
 
-
+        this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
     }
 
     public String get_DistrictCode() {
@@ -319,6 +320,14 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
 
     public void setDeductRemarks_Central(String deductRemarks_Central) {
         DeductRemarks_Central = deductRemarks_Central;
+    }
+
+    public String getVerificationStatus() {
+        return VerificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        VerificationStatus = verificationStatus;
     }
 
     public int getFinalAmt() {

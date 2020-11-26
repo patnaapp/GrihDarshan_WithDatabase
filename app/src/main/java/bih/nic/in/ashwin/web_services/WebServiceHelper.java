@@ -118,6 +118,7 @@ public class WebServiceHelper {
     private static final String SPINNER_METHOD = "getSpinnerInformation";
     //private static final String UPLOAD_METHOD = "InsertData";
     private static final String REGISTER_USER = "RegisterUser";
+    private static final String Modify_Password = "ChangePassword";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -157,6 +158,8 @@ public class WebServiceHelper {
             return null;
         }
     }
+
+
 
 
     /*public static String completeSignup(SignUp data, String imei, String version) {
@@ -1205,7 +1208,9 @@ public class WebServiceHelper {
             rest = envelope.getResponse().toString();
 
             // rest=res2.toString();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
 
         }
@@ -1547,6 +1552,34 @@ public class WebServiceHelper {
 
 
         return fieldList;
+    }
+
+    public static String ChangePassword(String role,String userid,String old_pass,String new_pass)
+    {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Modify_Password);
+        request.addProperty("_userRole",role);
+        request.addProperty("_UserID",userid);
+        request.addProperty("_OldPwd",old_pass);
+        request.addProperty("_NewPwd",new_pass);
+
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Modify_Password,envelope);
+            rest = envelope.getResponse().toString();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
     }
 
 }

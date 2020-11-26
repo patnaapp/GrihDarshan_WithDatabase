@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -47,7 +48,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.adaptor_facilitator_detail, parent, false);
+        View view = mInflater.inflate(R.layout.adaptor_ashasal_bhm_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -100,6 +101,62 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.edt_add_centre.setText(String.valueOf(info.get_AddAmt_Central()));
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
+
+        if (info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA"))
+        {
+            holder.tv_status.setText("विचाराधीन");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+            holder.ll_btn.setVisibility(View.GONE);
+            holder.btn_rjct.setVisibility(View.GONE);
+            holder.btn_accpt.setVisibility(View.GONE);
+
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+        }
+        else if (info.getVerificationStatus().contains("A"))
+        {
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setText("अस्वीकार करे");
+            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+            holder.ll_btn.setVisibility(View.GONE);
+            holder.tv_status.setText("स्वीकृत");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+            // holder.btn_rjct.setVisibility(View.VISIBLE);
+
+//            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
+//
+//            holder.btn_rjct.setLayoutParams(lp);
+            //   holder.btn_accpt.setVisibility(View.GONE);
+        }
+        else if (info.getVerificationStatus().contains("R")){
+
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setText("अनुसंसित करे");
+            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+            holder.ll_btn.setVisibility(View.GONE);
+            holder.tv_status.setText("अस्वीकृत");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+//            holder.btn_rjct.setVisibility(View.GONE);
+//            holder.btn_accpt.setVisibility(View.VISIBLE);
+        }
+//        else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+//        {
+//            holder.btn_rjct.setVisibility(View.GONE);
+//            holder.btn_accpt.setVisibility(View.GONE);
+//            holder.btn_accp_rjct.setVisibility(View.GONE);
+//            if (info.getVerificationStatus().equals("P"))
+//            {
+//                holder.tv_status.setText("विचाराधीन");
+//            }
+//            else if (info.getVerificationStatus().equals("A")){
+//                holder.tv_status.setText("अनुसंसित");
+//            }
+//            else if (info.getVerificationStatus().equals("R"))
+//            {
+//                holder.tv_status.setText("अस्वीकृत");
+//            }
+//
+//        }
+//
         if(info.getAddRemarks_Central()!="")
         {
             listener.onAdditionRemarks(position,holder.edt_addremarks_centre.getText().toString(),false);
@@ -366,7 +423,9 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         EditText edt_no_days,edt_add_centre,edt_deduct_centre,edt_addremarks_centre,edt_deductremarks_centre,edt_add_state,edt_deduct_state,edt_addremarks_state,edt_deductremarks_state;
         RelativeLayout sblist;
         LinearLayout ll_centre,ll_state;
-        TextView tv_count;
+        TextView tv_count,tv_status;
+        Button btn_accpt,btn_rjct,btn_accp_rjct;
+        LinearLayout ll_btn;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -390,6 +449,11 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             tv_close = itemView.findViewById(R.id.tv_close);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_dava_amt = itemView.findViewById(R.id.tv_dava_amt);
+            btn_accpt = itemView.findViewById(R.id.btn_accpt);
+            btn_rjct = itemView.findViewById(R.id.btn_rjct);
+            btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
+            ll_btn = itemView.findViewById(R.id.ll_btn);
+            tv_status = itemView.findViewById(R.id.tv_status);
 
             sblist = itemView.findViewById(R.id.sblist);
 
