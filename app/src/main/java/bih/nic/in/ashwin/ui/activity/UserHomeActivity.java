@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -750,4 +751,42 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 //        homeFrag.setFYearSpinner();
 //        //f.setFYearSpinner();
 //    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            // do something on back.
+            // Display alert message when back button has been pressed
+            //moveTaskToBack(true);
+            backButtonHandler();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void backButtonHandler() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(UserHomeActivity.this);
+        alertDialog.setTitle("Exit?");
+        alertDialog.setMessage("Do you want to exit the app ?");
+        alertDialog.setPositiveButton("[NO]", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        alertDialog.setNegativeButton("[YES]", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+//                Intent i=new Intent(HomeActivity.this,PreLoginActivity.class);
+//                startActivity(i);
+
+                finish();
+
+            }
+        });
+        alertDialog.show();
+    }
+
 }

@@ -59,6 +59,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     String hscname="",hsccode="";
     private ProgressDialog dialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +129,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }
-                else if (isPendingandnotfincalisedbyasha(ashawork)){
+                else if (isPendingandnotfincalisedbyasha(ashawork))
+                {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
                     builder1.setMessage("कार्य सूचि विचाराधीन है और आशा द्वारा अंतिम रूप नहीं दिया गया , कृपया अंतिम रूप देने से पहले सभी कार्य को स्वीकृत या अस्वीकृत करे |");
                     builder1.setCancelable(true);
@@ -146,7 +148,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     AlertDialog alert11 = builder1.create();
                     alert11.show();
                 }
-                else if (isPendingByAsha(ashawork)){
+                else if (isPendingByAsha(ashawork))
+                {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
                     builder1.setMessage("आशा द्वारा अंतिम रूप नहीं दिया गया |");
                     builder1.setCancelable(true);
@@ -295,13 +298,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
                     ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-                    if (ashaworkerList.size()>0){
+                    if (ashaworkerList.size()>0)
+                    {
                         loadWorkerFascilatorData();
                     }
-                    else {
+                    else
+                    {
                         new GetAshaWorkersList().execute();
                     }
-                   // loadWorkerFascilatorData();
+                    // loadWorkerFascilatorData();
 
                 }
                 break;
@@ -615,34 +620,51 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         }
 
         @Override
-        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param)
+        {
+            String hsc_code="";
+            if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+            {
+                hsc_code=hsccode;
 
-            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
+            }
+            else {
+                hsc_code=CommonPref.getUserDetails(getApplicationContext()).getHSCCode();
+            }
+
+
+            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code);
         }
 
         @Override
         protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
 
-
-            if (result != null)
+            if (result != null && result.size()>0)
             {
                 Log.d("Resultgfg", "" + result);
-                if(dialog.isShowing())
-                    dialog.dismiss();
+
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
 
                 long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0) {
 
-                  loadWorkerFascilatorData();
+                    loadWorkerFascilatorData();
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
+
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
             }
+            else {
+
+                Toast.makeText(getApplicationContext(), "No Asha Worker List In This Hsc", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

@@ -144,7 +144,7 @@ public class ChangePasswordFragment extends Fragment {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
                     // Ask the final question
-                    builder.setMessage("The Password has been sent to your registerd mobile number !");
+                    builder.setMessage("The Password has been changed successfully!");
 
                     // Set the alert dialog yes button click listener
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -155,6 +155,7 @@ public class ChangePasswordFragment extends Fragment {
                             Intent iUserHome = new Intent(getContext(), UserHomeActivity.class);
                             iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(iUserHome);
+
                            // finish();
 //                            Intent intent = new Intent(getContext(), HomeFragment.class);
 //                            startActivity(intent);
