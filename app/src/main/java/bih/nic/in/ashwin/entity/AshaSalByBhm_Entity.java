@@ -159,7 +159,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
             this.FinalAmt = Integer.parseInt(sobj.getProperty("FinalAmt").toString());
         }
 
-        this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
+        this.VerificationStatus = sobj.getProperty("BLKBHMVerified").toString();
     }
 
     public String get_DistrictCode() {
