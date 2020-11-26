@@ -70,7 +70,7 @@
                     android:id="@+id/tv_amount"/>
 
                 <CheckBox
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="8dp"
                     android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:text="विचारधिन"
                     android:textStyle="bold"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="@color/holo_green_dark"
                     android:id="@+id/tv_status"/>
             </LinearLayout>

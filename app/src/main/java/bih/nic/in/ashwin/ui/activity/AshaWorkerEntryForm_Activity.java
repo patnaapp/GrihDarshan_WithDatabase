@@ -55,7 +55,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content;
@@ -418,6 +418,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         tv_cat_title = findViewById(R.id.tv_cat_title);
         tv_activity = findViewById(R.id.tv_activity);
+        tv_volume = findViewById(R.id.tv_volume);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -539,7 +540,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
             // edt_reg_name.setText(info.getRegisterDesc());
-            edt_volume.setText(info.getVolume());
+           // edt_volume.setText(info.getVolume());
             // edt_pageno.setText(info.getRegisterPageNo());
 //        edt_slno.setText(info.getPageSerialNo());
             edt_ben_no.setText(info.getNoOfBeneficiary());
@@ -793,6 +794,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     registerDetailsEntity = null;
                 }
                 break;
+            case R.id.sp_volume:
+                if (i > 0) {
+                    volume = volumeArray[i];
+                    tv_volume.setError(null);
+                }else{
+                    volume = null;
+                }
+                break;
 
 //            case R.id.sp_md:
 //                if (i > 0) {
@@ -834,7 +843,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setActivityAmt(edt_amount_total.getText().toString());
             entity.setRegisterId(registerDetailsEntity.get_RegisterId());
             entity.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
-            entity.setVolume(edt_volume.getText().toString());
+            entity.setVolume(volume);
             //entity.setRegisterPageNo(edt_pageno.getText().toString());
             //entity.setRegisterPageNo(edt_pageno.getText().toString());
             //entity.setPageSerialNo(edt_slno.getText().toString());
@@ -888,8 +897,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
 
         if (volume == null) {
-//            edt_volume.setError("कृप्या खंड डालें");
-            focusView = tv_activity;
+            tv_volume.setError("कृप्या खंड का चयन करें");
+            focusView = tv_volume;
             validate = false;
         }
 

@@ -57,11 +57,12 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_name.setText(info.get_ActivityDesc());
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
-        //holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-        //setAshaStatus(info.getVerificationStatus(), holder.tv_status);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+        setAshaStatus(info.getVerificationStatus(), holder.tv_status);
 
         if(isPreview){
             holder.ch_activity.setVisibility(View.GONE);
+            holder.tv_status.setVisibility(View.VISIBLE);
         }else{
             holder.ch_activity.setChecked(info.getChecked());
         }
