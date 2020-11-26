@@ -79,7 +79,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
 
-        tv_role.setText("आशा फैसिलिटेटर");
+        tv_role.setText(CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole());
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
         // loadWorkerFascilatorData();
@@ -90,8 +90,10 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         }
         else if (CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole().equals("BLKMO"))
         {
-            ll_blk.setVisibility(View.VISIBLE);
-            loadBlockData();
+            ll_blk.setVisibility(View.GONE);
+            new SynchronizeFcNoOfDays().execute();
+//            ll_blk.setVisibility(View.VISIBLE);
+//            loadBlockData();
 
 //            blockList = dbhelper.getBlockList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode());
 //            if (blockList.size()>0){

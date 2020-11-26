@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         //   i.putExtra("svr",svri_id);
                         startActivity(i);
                     }
-                   else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+                   else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
                     {
                         Intent i = new Intent(getContext(), AshaSalary_ByBhm_Activity.class);
                         i.putExtra("fyear", fyear);
@@ -290,7 +290,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_proceed.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
-        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
         {
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
@@ -317,7 +317,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_username.setText(userInfo.getUserName());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
         {
             tv_district.setText(userInfo.getDistName());
         }
@@ -443,7 +443,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM"))
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
                     {
                         btn_proceed.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
