@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
@@ -677,17 +678,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
+        int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
+        //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear, mMonth, mDay);
+        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
 
-        if (c.getTimeInMillis() < System.currentTimeMillis()) {
-
-            datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());
-        } else {
-            datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        }
+        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
+        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
 
         datedialog.show();
     }

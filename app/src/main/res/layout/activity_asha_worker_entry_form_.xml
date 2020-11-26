@@ -313,7 +313,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="कार्य की राशी : [*]"
+                            android:text="कार्य दर : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
