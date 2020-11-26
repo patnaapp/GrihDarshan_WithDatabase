@@ -201,7 +201,17 @@
 
         android:layout_above="@+id/ll_btn"
         android:layout_height="wrap_content"/>
-
+    <TextView
+        android:id="@+id/tv_Norecord1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF4B4B"
+        android:text="No Record Found"
+        android:visibility="visible"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

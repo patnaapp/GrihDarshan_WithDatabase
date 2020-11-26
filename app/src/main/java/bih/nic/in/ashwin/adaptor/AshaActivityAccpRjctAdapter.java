@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -93,17 +95,17 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("स्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-           // holder.btn_rjct.setVisibility(View.VISIBLE);
+            // holder.btn_rjct.setVisibility(View.VISIBLE);
 
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
-         //   holder.btn_accpt.setVisibility(View.GONE);
+            //   holder.btn_accpt.setVisibility(View.GONE);
         }
         else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
 
             holder.btn_accp_rjct.setVisibility(View.GONE);
-            holder.btn_accp_rjct.setText("स्वीकार करे");
+            holder.btn_accp_rjct.setText("अनुसंसित करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
             holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("अस्वीकृत");
@@ -121,7 +123,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                 holder.tv_status.setText("विचाराधीन");
             }
             else if (info.getVerificationStatus().equals("A")){
-                holder.tv_status.setText("स्वीकृत");
+                holder.tv_status.setText("अनुसंसित");
             }
             else if (info.getVerificationStatus().equals("R"))
             {
@@ -194,39 +196,78 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                 else if (info.getVerificationStatus().contains("A")){
                     if (Utiilties.isOnline(context)) {
 
-                        new AlertDialog.Builder(context)
-                                .setTitle("अस्वीकृति की पुष्टि")
-                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-                                .setCancelable(false)
-                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        new RejectRecordsFromPacs(info, position).execute();
-                                        dialog.dismiss();
-                                    }
-                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        final EditText edittext = new EditText(context);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
+                        alert.setTitle("अस्वीकृति की पुष्टि");
+
+                        alert.setView(edittext);
+
+                        alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                String YouEditTextValue = edittext.getText().toString();
+                                if (!YouEditTextValue.equals(""))
+                                {
+                                    info.set_rejectedRemarks(YouEditTextValue);
+                                    new RejectRecordsFromPacs(info, position).execute();
+                                    dialog.dismiss();
+                                }
+                                else {
+                                    edittext.setError("Required field");
+                                }
+                            }
+                        });
+
+                        alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
                                 dialog.dismiss();
                             }
-                        }).show();
+                        });
+
+                        alert.show();
+//
+//                        new AlertDialog.Builder(context)
+//
+//                                .setTitle("अस्वीकृति की पुष्टि")
+//                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+//                                .setCancelable(false)
+//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        new RejectRecordsFromPacs(info, position).execute();
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).show();
 
 
                     }
-                    else {
+                    else
+                        {
 
                         new AlertDialog.Builder(context)
                                 .setTitle("अलर्ट !!")
                                 .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
                                 .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                .setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int id)
+                                    {
                                         Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                                         context.startActivity(I);
                                         dialog.cancel();
                                     }
                                 }).show();
-
-
 
                     }
                 }
@@ -277,21 +318,58 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             public void onClick(View v) {
                 if (Utiilties.isOnline(context)) {
 
-                    new AlertDialog.Builder(context)
-                            .setTitle("अस्वीकृति की पुष्टि")
-                            .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-                            .setCancelable(false)
-                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    new RejectRecordsFromPacs(info, position).execute();
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    final EditText edittext = new EditText(context);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
+                    alert.setTitle("अस्वीकृति की पुष्टि");
+
+                    alert.setView(edittext);
+
+                    alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int whichButton)
+                        {
+                            //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                            String YouEditTextValue = edittext.getText().toString();
+                            if (!YouEditTextValue.equals(""))
+                            {
+                                info.set_rejectedRemarks(YouEditTextValue);
+                                new RejectRecordsFromPacs(info, position).execute();
+                                dialog.dismiss();
+                            }
+                            else {
+                                edittext.setError("Required field");
+                            }
+                        }
+                    });
+
+                    alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int whichButton)
+                        {
                             dialog.dismiss();
                         }
-                    }).show();
+                    });
+
+                    alert.show();
+
+//                    new AlertDialog.Builder(context)
+//                            .setTitle("अस्वीकृति की पुष्टि")
+//                            .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
+//                            .setCancelable(false)
+//                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    new RejectRecordsFromPacs(info, position).execute();
+//                                    dialog.dismiss();
+//                                }
+//                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).show();
 
 
                 }
@@ -325,7 +403,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-       final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
+        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn;
@@ -338,7 +416,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
-           // tv_slno = itemView.findViewById(R.id.tv_slno);
+            // tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);

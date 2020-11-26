@@ -455,20 +455,25 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Panchayat_List> result) {
+        protected void onPostExecute(ArrayList<Panchayat_List> result)
+        {
 
-            if (result != null) {
+            if (result != null)
+            {
                 Log.d("Resultgfg", "" + result);
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
                 long i = helper.setPanchayatName(result,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-                if (i > 0) {
-                      new GetRegisterDetails().execute();
+                if (i > 0)
+                {
+                    new GetRegisterDetails().execute();
                     Toast.makeText(getApplicationContext(), "Panchayat loaded", Toast.LENGTH_SHORT).show();
-
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    new GetRegisterDetails().execute();
                 }
 
             }
@@ -578,7 +583,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setcentreamount_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC"))
                     {
                         new GetAshaWorkersList().execute();
                     }
@@ -597,7 +602,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 }
                 else
-                    {
+                {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
@@ -644,6 +649,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM")){
+                        new GetAshaFacilitatorList().execute();
+                    }else{
+                        if(dialog.isShowing())
+                            dialog.dismiss();
+                        //refreshFragment();
+                    }
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
@@ -654,7 +666,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             dialog.setMessage("Loading Facilitator details...");
             dialog.show();
         }
@@ -690,22 +703,25 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>> {
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>
+    {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             dialog.setMessage("Loading Hsc details...");
             dialog.show();
         }
 
         @Override
-        protected ArrayList<HscList_Entity> doInBackground(String... param) {
-
+        protected ArrayList<HscList_Entity> doInBackground(String... param)
+        {
             return WebServiceHelper.getHscList(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
         }
 
         @Override
-        protected void onPostExecute(ArrayList<HscList_Entity> result) {
+        protected void onPostExecute(ArrayList<HscList_Entity> result)
+        {
             if(dialog.isShowing())
                 dialog.dismiss();
 
@@ -715,12 +731,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-                long i = helper.setHscList_Local(result);
-                if (i > 0) {
-
+                long i = helper.setHscList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getUserID());
+                if (i > 0)
+                {
                     Toast.makeText(getApplicationContext(), "Hsc list loaded", Toast.LENGTH_SHORT).show();
-
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 

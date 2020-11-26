@@ -11,7 +11,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
-    private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id;
+    private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
     private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE;
 
@@ -385,5 +385,13 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public void setAcitivtyType(String acitivtyType) {
         AcitivtyType = acitivtyType;
+    }
+
+    public String get_rejectedRemarks() {
+        return _rejectedRemarks;
+    }
+
+    public void set_rejectedRemarks(String _rejectedRemarks) {
+        this._rejectedRemarks = _rejectedRemarks;
     }
 }

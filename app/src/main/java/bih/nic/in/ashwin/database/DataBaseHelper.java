@@ -1163,8 +1163,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     String[] whereArgs = new String[]{info.get(i).getPanchayat_code()};
 
                     c = db.update("Panchayat", values, "PanchayatCode=?", whereArgs);
-                    if (!(c > 0)) {
-
+                    if (!(c > 0))
+                    {
                         c = db.insert("Panchayat", null, values);
                     }
 
@@ -1173,7 +1173,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 db.close();
 
 
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
                 return c;
             }
@@ -1343,7 +1344,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long setHscList_Local(ArrayList<HscList_Entity> list) {
+    public long setHscList_Local(ArrayList<HscList_Entity> list,String userid) {
 
 
         long c = -1;
@@ -1374,6 +1375,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("DistCode",info.get(i).get_DistCode());
                     values.put("Blk_code",info.get(i).get_BlockCode());
                     values.put("Hsc_code",info.get(i).get_HSCCode());
+                    values.put("userid",userid);
 
                     String[] whereArgs = new String[]{info.get(i).get_HSCId()};
 
@@ -1431,14 +1433,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return userRoleList;
     }
 
-    public ArrayList<HscList_Entity> getHscList(String blkcode){
+    public ArrayList<HscList_Entity> getHscList(String blkcode,String userid){
 
         ArrayList<HscList_Entity> userRoleList = new ArrayList<HscList_Entity>();
 
         try {
-            String[] whereArgs = new String[]{blkcode};
+            String[] whereArgs = new String[]{blkcode,userid};
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from HscListMaster where Blk_code=?",whereArgs);
+            Cursor cur = db.rawQuery("Select * from HscListMaster where Blk_code=? and userid=?",whereArgs);
             int x = cur.getCount();
 
             while (cur.moveToNext()) {
