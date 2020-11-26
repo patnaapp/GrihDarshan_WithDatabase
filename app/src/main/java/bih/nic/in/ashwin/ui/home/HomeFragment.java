@@ -569,6 +569,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
+                btn_proceed.setVisibility(View.GONE);
                 if(!isFinalize)
                     ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
@@ -743,7 +744,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public ArrayList<Activity_entity> getMonthlyActivity(ArrayList<Activity_entity> list){
         ArrayList<Activity_entity> monthly = new ArrayList<>();
         for(Activity_entity item: list){
-            if(item.getAcitivtyType().equals("M")){
+            if(item.getAcitivtyType().equals("P")){
                 //if(isMonthlyActivityAlreadyChecked(item)){
                     //item.setChecked(true);
                 //}

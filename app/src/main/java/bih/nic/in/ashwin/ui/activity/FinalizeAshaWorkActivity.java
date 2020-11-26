@@ -143,15 +143,15 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             return false;
         }
 
-        if(activityArray.size()> 0){
-            for(Activity_entity work: activityArray){
-                if(work.getVerificationStatus().equals("P")){
-                    return false;
-                }
-            }
-        }else{
-            return false;
-        }
+//        if(activityArray.size()> 0){
+//            for(Activity_entity work: activityArray){
+//                if(work.getVerificationStatus().equals("P")){
+//                    return false;
+//                }
+//            }
+//        }else{
+//            return false;
+//        }
 
 
         return true;
