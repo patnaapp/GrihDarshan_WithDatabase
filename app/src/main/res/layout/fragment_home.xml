@@ -9,7 +9,7 @@
     android:background="@color/holo_gray_bright">
 
     <LinearLayout
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_above="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -382,16 +382,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/tv_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="नोट: यह कार्य सूची पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
-            android:layout_margin="8dp"
-            android:textSize="13sp"
-            android:textColor="@color/holo_green_dark"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_data"
             android:layout_width="match_parent"
@@ -433,6 +423,15 @@
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="नोट: इस कार्य सूची को अंतिम रूप दें दिया गया है और इसलिए इसमें संसोधन नहीं किया जा सकता"
+            android:layout_margin="8dp"
+            android:textSize="13sp"
+            android:textColor="@color/holo_green_dark"/>
 
     </LinearLayout>
 
@@ -442,6 +441,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         layout="@layout/footer"/>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"

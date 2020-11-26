@@ -528,21 +528,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         handleTabView();
         //loadDailyRecyclerData();
 
+        if(ashaWorkData.size() == 0){
+            tv_note.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.VISIBLE);
+        }
+
         isFinalize = isAshaFinalizeWork();
+
         if(isFinalize){
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
-            //tv_note.setVisibility(View.VISIBLE);
+            tv_note.setVisibility(View.VISIBLE);
+            tv_finalize.setVisibility(View.GONE);
         }else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
-            //tv_note.setVisibility(View.GONE);
-        }
-
-        if(ashaWorkData.size() == 0){
             tv_note.setVisibility(View.GONE);
-            ll_floating_btn.setVisibility(View.VISIBLE);
+            tv_finalize.setVisibility(View.VISIBLE);
         }
 
     }
@@ -566,7 +569,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
-                ll_floating_btn.setVisibility(View.VISIBLE);
+                if(!isFinalize)
+                    ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
                 break;
             case "M":
@@ -629,8 +633,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if(info.getIsFinalize().equals("Y"))
                     return true;
             }
-        }else{
-            return true;
         }
 
         return false;
