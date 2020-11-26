@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
     RecyclerView rv_data,rv_work;
     CheckBox ch_1,ch_2,ch_3;
+    LinearLayout ll_btn_bottom,ll_declaration;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -89,6 +91,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ch_2 = findViewById(R.id.ch_2);
         ch_3 = findViewById(R.id.ch_3);
 
+        ll_btn_bottom = findViewById(R.id.ll_btn_bottom);
+        ll_declaration = findViewById(R.id.ll_declaration);
+
         //category = getActivityCategory();
     }
 
@@ -120,6 +125,36 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         setActivityRecycler();
 
         updateTotalAmount();
+
+        if(!isReadyForFinalize()){
+            ll_btn_bottom.setVisibility(View.GONE);
+            ll_declaration.setVisibility(View.GONE);
+        }
+    }
+
+    public Boolean isReadyForFinalize(){
+        if(ashaWorkData.size()> 0){
+            for(AshaWorkEntity work: ashaWorkData){
+                if(work.getVerificationStatus().equals("P")){
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        if(activityArray.size()> 0){
+            for(Activity_entity work: activityArray){
+                if(work.getVerificationStatus().equals("P")){
+                    return false;
+                }
+            }
+        }else{
+            return false;
+        }
+
+
+        return true;
     }
 
     public Double getTotalWorkAmount(){
