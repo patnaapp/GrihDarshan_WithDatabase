@@ -850,7 +850,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             new UploadAshaWorkDetail(entity).execute();
         }else{
-            Toast.makeText(this, "Please check all field", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Please check all field", Toast.LENGTH_SHORT).show();
         }
     }
 
