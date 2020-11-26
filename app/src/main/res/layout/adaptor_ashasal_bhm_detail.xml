@@ -215,7 +215,32 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="स्थिति"
+                    android:textColor="@color/colorGreyDark"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="17sp" />
+            </LinearLayout>
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:id="@+id/tv_add_dedcut"
                 android:layout_height="wrap_content"
@@ -536,8 +561,63 @@
                             android:textSize="15sp" />
 
                     </LinearLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/ll_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_accpt"
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonshapeaccept"
+                    android:text="स्वीकार करें" />
+
+                <Button
+                    android:id="@+id/btn_rjct"
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:text="अस्वीकार करें"
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonbackshape1"
+                    />
+            </LinearLayout>
+
+
+
+
+
+            <Button
+                android:id="@+id/btn_accp_rjct"
+                android:layout_width="140dp"
+                android:layout_height="20dp"
+                android:layout_margin="8dp"
+                android:layout_gravity="right"
+                android:text="अस्वीकार करें"
+                android:textColor="@color/color_white"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/buttonbackshape1"
+                />
         </LinearLayout>
 
 

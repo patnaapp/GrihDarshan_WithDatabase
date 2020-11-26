@@ -1,6 +1,12 @@
 package bih.nic.in.ashwin.ui.changePassword;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +25,11 @@ import java.text.ParseException;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.UserDetails;
+import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
+import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
 public class ChangePasswordFragment extends Fragment {
@@ -40,6 +50,7 @@ public class ChangePasswordFragment extends Fragment {
             public void onClick(View view) {
                 if(isDataValidated()){
                     Toast.makeText(getContext(), "Validated", Toast.LENGTH_SHORT).show();
+                    new ChangePassword().execute();
                 }
             }
         });
@@ -89,5 +100,81 @@ public class ChangePasswordFragment extends Fragment {
         }
 
         return validate;
+    }
+
+
+    private class ChangePassword extends AsyncTask<String, Void, String> {
+        String data;
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+
+//        ChangePassword(String data) {
+//            this.data = data;
+//
+//        }
+
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+
+            String res = WebServiceHelper.ChangePassword(CommonPref.getUserDetails(getContext()).getUserrole(),CommonPref.getUserDetails(getContext()).getUserID(),et_old_pass.getText().toString(),et_confirm_pass.getText().toString());
+            return res;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+            Log.d("Responseval", "" + result);
+            if (result != null) {
+                if (result.equals("1")) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                    // Ask the final question
+                    builder.setMessage("The Password has been sent to your registerd mobile number !");
+
+                    // Set the alert dialog yes button click listener
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do something when user clicked the Yes button
+                            // Set the TextView visibility GONE
+                            Intent iUserHome = new Intent(getContext(), UserHomeActivity.class);
+                            iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(iUserHome);
+                           // finish();
+//                            Intent intent = new Intent(getContext(), HomeFragment.class);
+//                            startActivity(intent);
+
+
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    // Display the alert dialog on interface
+                    dialog.show();
+               /* Toast.makeText(getApplicationContext(), "The Password has been sent to your registerd mobile number", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(Custom_forgot_password.this, Home.class);
+                startActivity(intent);*/
+
+                } else {
+                    Toast.makeText(getContext(), "Failed to change password, try later", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
     }
 }
