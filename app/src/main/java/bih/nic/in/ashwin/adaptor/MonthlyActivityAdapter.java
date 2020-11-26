@@ -20,6 +20,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.utility.Utiilties;
 
 
 public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivityAdapter.ViewHolder> {
@@ -56,7 +57,8 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_name.setText(info.get_ActivityDesc());
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
-        //setAshaStatus(info.get\(), holder.tv_status);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+        setAshaStatus(info.getVerificationStatus(), holder.tv_status);
 
         if(isPreview){
             holder.ch_activity.setVisibility(View.GONE);

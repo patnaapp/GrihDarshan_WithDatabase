@@ -522,7 +522,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setupRecuyclerView(){
-        handleTabView();
         ll_dmf_tab.setVisibility(View.VISIBLE);
 
         tabType = "D";
@@ -732,6 +731,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                     int position = mnthlyActList.indexOf(item);
                     item.setChecked(true);
+                    item.setVerificationStatus(mItem.getVerificationStatus());
                     mnthlyActList.set(position,item);
                 }
             }
