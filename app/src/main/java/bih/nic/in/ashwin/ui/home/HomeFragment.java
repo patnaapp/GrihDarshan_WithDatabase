@@ -580,16 +580,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 break;
             case "F":
                 ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
-                if(list.size()>0){
+                //if(list.size()>0){
                     Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
                     i.putExtra("workArray", ashaWorkData);
                     i.putExtra("monthly", list);
                     startActivity(i);
-                }else{
-                    Toast.makeText(getContext(),"कृपया मासिक कार्य चुने", Toast.LENGTH_SHORT).show();
-                }
+//                }else{
+//                    Toast.makeText(getContext(),"कृपया मासिक कार्य चुने", Toast.LENGTH_SHORT).show();
+//                }
 
 //                tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
 //                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
