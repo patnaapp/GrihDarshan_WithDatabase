@@ -1466,7 +1466,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return userRoleList;
     }
+    public ArrayList<Block_List> getBlockList(String dist_code){
 
+        ArrayList<Block_List> userRoleList = new ArrayList<Block_List>();
+
+        try {
+            String[] whereArgs = new String[]{dist_code};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from Block_Master where DistCode=?",whereArgs);
+            int x = cur.getCount();
+
+            while (cur.moveToNext()) {
+
+
+                Block_List userRole = new Block_List();
+
+                userRole.setBlk_Code(cur.getString(cur.getColumnIndex("BlockCode")));
+                userRole.setBlk_Name(cur.getString(cur.getColumnIndex("BlockName")));
+                userRole.setBlock_NAME_HN(cur.getString(cur.getColumnIndex("BlockNameHN")));
+
+
+                userRoleList.add(userRole);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
+    }
     public ArrayList<AshaFacilitator_Entity> getAshaFacilitatorList(String hsccode){
 
         ArrayList<AshaFacilitator_Entity> userRoleList = new ArrayList<AshaFacilitator_Entity>();

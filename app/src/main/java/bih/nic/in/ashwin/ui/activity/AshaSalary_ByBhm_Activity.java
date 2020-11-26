@@ -35,9 +35,11 @@ import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
+import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -52,15 +54,17 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
     RecyclerView rv_data;
     Button btn_submit,btn_preview;
     ArrayList<AshaSalByBhm_Entity> fcNoOfdays;
-    String version="";
+    String version="",blk_name="",blk_code="";
     Spinner sp_worker;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     DataBaseHelper dbhelper;
     ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
+    ArrayList<Block_List> blockList = new ArrayList<Block_List>();
     AshaSalaryByBhm_Adapter adapter;
     ArrayList<AshaSalByBhm_Entity> newArrayList;
     TextView tv_Norecord1;
-    LinearLayout ll_btn;
+    LinearLayout ll_btn,ll_blk;
+    Spinner sp_block;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +83,27 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
         // loadWorkerFascilatorData();
+        if (CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole().equals("BLKBHM"))
+        {
+            ll_blk.setVisibility(View.GONE);
+            new SynchronizeFcNoOfDays().execute();
+        }
+        else if (CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole().equals("BLKMO"))
+        {
+            ll_blk.setVisibility(View.VISIBLE);
+            loadBlockData();
+
+//            blockList = dbhelper.getBlockList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode());
+//            if (blockList.size()>0){
+//                loadBlockData();
+//            }
+//            else {
+//
+//            }
+        }
+
         fcNoOfdays=new ArrayList<>();
-        new SynchronizeFcNoOfDays().execute();
+
 
         btn_preview.setOnClickListener(new View.OnClickListener()
         {
@@ -197,16 +220,33 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         btn_submit = findViewById(R.id.btn_submit);
         btn_preview = findViewById(R.id.btn_preview);
         sp_worker = findViewById(R.id.sp_worker);
+        sp_block = findViewById(R.id.sp_block);
         tv_Norecord1 = findViewById(R.id.tv_Norecord1);
         ll_btn = findViewById(R.id.ll_btn);
+        ll_blk = findViewById(R.id.ll_blk);
         // btn_finalize.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
+        sp_block.setOnItemSelectedListener(this);
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (adapterView.getId()) {
+            case R.id.sp_hsc_list:
+                if (i > 0)
+                {
+                    Block_List role = blockList.get(i - 1);
+                    blk_name = role.getBlock_NAME_HN();
+                    blk_code = role.getBlk_Code();
+                    new SynchronizeFcNoOfDays().execute();
 
+
+                    // loadWorkerFascilatorData();
+
+                }
+                break;
+        }
     }
 
     @Override
@@ -237,6 +277,31 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         }
         sp_worker.setOnItemSelectedListener(this);
     }
+
+    public void loadBlockData(){
+
+        blockList = dbhelper.getBlockList(CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getDistrictCode());
+
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
+            array.add("ALL");
+
+            for (AshaFacilitator_Entity info: facilitatorList)
+            {
+                // if(!info.getFinancial_year().equals("anyType{}")){
+                array.add(info.get_Facilitator_Name_Hn());
+                // }
+            }
+
+            ArrayAdapter adaptor = new ArrayAdapter(AshaSalary_ByBhm_Activity.this, android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_block.setAdapter(adaptor);
+        sp_block.setSelection(1);
+
+
+        sp_block.setOnItemSelectedListener(this);
+    }
+
 
     public void setupRecuyclerView(ArrayList<AshaSalByBhm_Entity> data)
     {
@@ -384,6 +449,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
                     stateamt.set_TotalAmt_State(getTotalStateAmount());
                     stateamt.set_TotalAmt_Central(getTotalCentreAmount());
                 }
+
                 setupRecuyclerView(fcNoOfdays);
 
             }

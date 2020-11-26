@@ -1177,6 +1177,43 @@ public class WebServiceHelper {
         return rest;
     }
 
+    public static String AcceptAshaSalaryByBhm(AshaSalByBhm_Entity data,String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+//        request.addProperty("AshaActivityId", data.getasha());
+//        request.addProperty("VerificationStatus","A");
+//        request.addProperty("VerificationBy",userid);
+//        request.addProperty("MobVersion",app_ver);
+//        request.addProperty("MobDeviceId",deviceid);
+//        request.addProperty("RegisterId",data.getRegisterId());
+//        request.addProperty("VOlume",data.getVolume());
+//        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
+//        request.addProperty("Remarks",data.getRemarks());
+//        request.addProperty("RegisterDate",data.getRegisterDate());
+//        request.addProperty("ActivityAmt",data.getActivityAmt());
+//        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
+    }
+
 
     public static String UploadRejectedRecordsFromPacs(AshaWorkEntity data, String userid,String app_ver,String deviceid) {
 
@@ -1193,6 +1230,46 @@ public class WebServiceHelper {
         request.addProperty("RegisterDate",data.getRegisterDate());
         request.addProperty("ActivityAmt",data.getActivityAmt());
         request.addProperty("RejectedReason",data.get_rejectedRemarks());
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+        return rest;
+
+    }
+
+    public static String RejectAshaSalaryByBhm(AshaSalByBhm_Entity data, String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+//        request.addProperty("AshaActivityId", data.getAshaActivityId());
+//        request.addProperty("VerificationStatus","R");
+//        request.addProperty("VerificationBy",userid);
+//        request.addProperty("MobVersion",app_ver);
+//        request.addProperty("MobDeviceId",deviceid);
+//        request.addProperty("RegisterId",data.getRegisterId());
+//        request.addProperty("VOlume",data.getVolume());
+//        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
+//        request.addProperty("Remarks",data.getRemarks());
+//        request.addProperty("RegisterDate",data.getRegisterDate());
+//        request.addProperty("ActivityAmt",data.getActivityAmt());
+//        request.addProperty("RejectedReason",data.get_rejectedRemarks());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
