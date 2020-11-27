@@ -539,15 +539,20 @@ public class Utiilties {
     }
 
     public static String getAshaWorkActivityStatus(String code){
-        switch (code){
-            case "P":
-                return "विचाराधीन";
-            case "A":
-                return "अनुशंषित";
-            case "R":
-                return "अस्वीकृत";
-            default:
-                return "";
+        try{
+            switch (code){
+                case "P":
+                    return "विचाराधीन";
+                case "A":
+                    return "अनुशंषित";
+                case "R":
+                    return "अस्वीकृत";
+                default:
+                    return "";
+            }
+        }catch (Exception e){
+            return "";
         }
+
     }
 }
