@@ -1207,7 +1207,7 @@ public class WebServiceHelper {
         return rest;
     }
 
-    public static String AcceptAshaSalaryByBhm(AshaSalByBhm_Entity data,String userid,String app_ver,String deviceid) {
+    public static String AcceptAshaSalaryByBhm(AshaSalByBhm_Entity data,String userid,String app_ver,String deviceid,String role) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
         request.addProperty("AshaWorkid", data.get_AshaWorkerId());
@@ -1218,6 +1218,7 @@ public class WebServiceHelper {
         request.addProperty("VerifiedBy",userid.toUpperCase());
         request.addProperty("VersionUpdate",app_ver);
         request.addProperty("DeviceIdUpdate",deviceid);
+        request.addProperty("Userrolle",role);
 
 
         try {
@@ -1229,7 +1230,7 @@ public class WebServiceHelper {
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(
                     SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctAshaSalByBHM,envelope);
             // res2 = (SoapObject) envelope.getResponse();
             rest = envelope.getResponse().toString();
 
@@ -1282,17 +1283,18 @@ public class WebServiceHelper {
 
     }
 
-    public static String RejectAshaSalaryByBhm(AshaSalByBhm_Entity data, String userid,String app_ver,String deviceid) {
+    public static String RejectAshaSalaryByBhm(AshaSalByBhm_Entity data, String userid,String app_ver,String deviceid,String role) {
 
-        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
         request.addProperty("AshaWorkid", data.get_AshaWorkerId());
         request.addProperty("MonthId",data.get_MonthId());
         request.addProperty("FYearId",data.get_MonthId());
-        request.addProperty("VerificationStatus","A");
+        request.addProperty("VerificationStatus","R");
         request.addProperty("RejectionRemarks",data.get_rejected_remarks());
         request.addProperty("VerifiedBy",userid.toUpperCase());
         request.addProperty("VersionUpdate",app_ver);
         request.addProperty("DeviceIdUpdate",deviceid);
+        request.addProperty("Userrolle",role);
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1303,7 +1305,7 @@ public class WebServiceHelper {
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(
                     SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctAshaSalByBHM,envelope);
             // res2 = (SoapObject) envelope.getResponse();
             rest = envelope.getResponse().toString();
 
