@@ -77,7 +77,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
 
-        if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+      //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+        if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") ))
         {
             holder.tv_status.setText("विचाराधीन");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -87,7 +88,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
             holder.btn_accp_rjct.setVisibility(View.GONE);
         }
-        else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+      //  else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+        else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") ))
         {
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.btn_accp_rjct.setText("पुनः जाँच करे");
@@ -102,7 +104,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 //            holder.btn_rjct.setLayoutParams(lp);
             //   holder.btn_accpt.setVisibility(View.GONE);
         }
-        else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+     //   else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+        else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
 
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.btn_accp_rjct.setText("अनुसंसित करे");
@@ -113,7 +116,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
         }
-        else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+       // else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+        else if (info.getIsFinalize().equals("Y") )
         {
             holder.btn_rjct.setVisibility(View.GONE);
             holder.btn_accpt.setVisibility(View.GONE);
