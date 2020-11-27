@@ -160,25 +160,63 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
                 {
                     if(Utiilties.isOnline(context)) {
 
-                        new AlertDialog.Builder(context)
-                                .setTitle("अनुशंसित करे")
-                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-                                .setCancelable(false)
-                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int id)
-                                    {
-                                        new AcceptRecordsFromPacs(info, position).execute();
-                                        dialog.dismiss();
-                                    }
-                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener()
+                        final EditText edittext = new EditText(context);
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
+                        alert.setTitle("अनुशंसित करे");
+
+                        alert.setView(edittext);
+                        edittext.setHint("रिमार्क्स डाले");
+                        alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
                         {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                String YouEditTextValue = edittext.getText().toString();
+//                                        if (!YouEditTextValue.equals(""))
+//                                        {
+                                info.set_rejectedRemarks(YouEditTextValue);
+                                new AcceptRecordsFromPacs(info, position).execute();
+                                dialog.dismiss();
+//                                        }
+//                                        else {
+//                                            edittext.setError("Required field");
+//                                        }
+                            }
+                        });
+
+                        alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
                             {
                                 dialog.dismiss();
                             }
-                        }).show();
+                        });
+
+                        alert.show();
+
+//                        new AlertDialog.Builder(context)
+//                                .setTitle("अनुशंसित करे")
+//                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+//                                .setCancelable(false)
+//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+//                                {
+//                                    public void onClick(DialogInterface dialog, int id)
+//                                    {
+//                                        new AcceptRecordsFromPacs(info, position).execute();
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener()
+//                        {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which)
+//                            {
+//                                dialog.dismiss();
+//                            }
+//                        }).show();
                     }
                     else {
                         new AlertDialog.Builder(context)
@@ -280,21 +318,59 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             public void onClick(View v) {
                 if(Utiilties.isOnline(context)) {
 
-                    new AlertDialog.Builder(context)
-                            .setTitle("अनुशंसित करे")
-                            .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-                            .setCancelable(false)
-                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    new AcceptRecordsFromPacs(info, position).execute();
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    final EditText edittext = new EditText(context);
+
+                    AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                    alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
+                    alert.setTitle("अनुशंसित करे");
+
+                    alert.setView(edittext);
+                    edittext.setHint("रिमार्क्स डाले");
+                    alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int whichButton)
+                        {
+                            //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                            String YouEditTextValue = edittext.getText().toString();
+//                                        if (!YouEditTextValue.equals(""))
+//                                        {
+                            info.set_rejectedRemarks(YouEditTextValue);
+                            new AcceptRecordsFromPacs(info, position).execute();
+                            dialog.dismiss();
+//                                        }
+//                                        else {
+//                                            edittext.setError("Required field");
+//                                        }
+                        }
+                    });
+
+                    alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int whichButton)
+                        {
                             dialog.dismiss();
                         }
-                    }).show();
+                    });
+
+                    alert.show();
+
+//                    new AlertDialog.Builder(context)
+//                            .setTitle("अनुशंसित करे")
+//                            .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+//                            .setCancelable(false)
+//                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    new AcceptRecordsFromPacs(info, position).execute();
+//                                    dialog.dismiss();
+//                                }
+//                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).show();
                 }
                 else {
                     new AlertDialog.Builder(context)

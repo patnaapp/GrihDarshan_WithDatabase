@@ -129,13 +129,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
 
                     ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
-                    if(list.size()>0){
+                    if(list.size()>0)
+                    {
                         uploadMonthlyActivty(list);
-                    }else{
+                    }
+                    else
+                    {
                         Toast.makeText(getContext(), "कृपया मासिक कार्य चुने",Toast.LENGTH_SHORT).show();
                     }
 
-                }else {
+                }
+                else
+                    {
                     if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
                     {
                         Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
@@ -153,7 +158,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         //   i.putExtra("svr",svri_id);
                         startActivity(i);
                     }
-                   else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
                     {
                         Intent i = new Intent(getContext(), AshaSalary_ByBhm_Activity.class);
                         i.putExtra("fyear", fyear);
@@ -166,20 +171,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     else {
 
 
-                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
-                    i.putExtra("fyear", fyear);
-                    i.putExtra("fmonth", fmonth);
-                   // i.putExtra("role", userRole);
-                    i.putExtra("role", "ASHA");
+                        Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                        i.putExtra("fyear", fyear);
+                        i.putExtra("fmonth", fmonth);
+                        // i.putExtra("role", userRole);
+                        i.putExtra("role", "ASHA");
 
-                   // i.putExtra("ashaid", asha_id);
-                   // i.putExtra("ashanm", ashaname);
+                        // i.putExtra("ashaid", asha_id);
+                        // i.putExtra("ashanm", ashaname);
 
 
-                   // i.putExtra("_faciltator_id", facilator_id);
-                   // i.putExtra("_faciltator_nm", facilator_name);
-                 //   i.putExtra("svr",svri_id);
-                    startActivity(i);
+                        // i.putExtra("_faciltator_id", facilator_id);
+                        // i.putExtra("_faciltator_nm", facilator_name);
+                        //   i.putExtra("svr",svri_id);
+                        startActivity(i);
                     }
                 }
             }
@@ -188,20 +193,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
 
-                    Intent i = new Intent(getContext(), AshaFacilitatorNoOfDays_Activity.class);
-                    i.putExtra("fyear", fyear);
-                    i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
-                    i.putExtra("role", "ASHAFC");
+                Intent i = new Intent(getContext(), AshaFacilitatorNoOfDays_Activity.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                // i.putExtra("role", userRole);
+                i.putExtra("role", "ASHAFC");
 
-                    // i.putExtra("ashaid", asha_id);
-                    // i.putExtra("ashanm", ashaname);
+                // i.putExtra("ashaid", asha_id);
+                // i.putExtra("ashanm", ashaname);
 
 
-                    // i.putExtra("_faciltator_id", facilator_id);
-                    // i.putExtra("_faciltator_nm", facilator_name);
-                    //   i.putExtra("svr",svri_id);
-                    startActivity(i);
+                // i.putExtra("_faciltator_id", facilator_id);
+                // i.putExtra("_faciltator_nm", facilator_name);
+                //   i.putExtra("svr",svri_id);
+                startActivity(i);
 
             }
         });
@@ -283,7 +288,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
-           // ll_hsc.setVisibility(View.VISIBLE);
+            // ll_hsc.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
@@ -300,8 +305,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_ashafc.setVisibility(View.GONE);
         }
         else
-            {
-         //   ll_hsc.setVisibility(View.GONE);
+        {
+            //   ll_hsc.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
@@ -468,7 +473,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             loadWorkerFascilatorData();
                         }
                         else {
-                         //   new GetAshaWorkersList().execute();
+                            //   new GetAshaWorkersList().execute();
                         }
                     }
                     if (userRole.equals("ASHAFC")){
@@ -476,7 +481,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             loadWorkerFascilatorData();
                         }
                         else {
-                           // new GetAshaFacilitatorList().execute();
+                            // new GetAshaFacilitatorList().execute();
                         }
                     }
 
@@ -510,7 +515,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                     }
 
-                   // btn_proceed.setVisibility(View.VISIBLE);
+                    // btn_proceed.setVisibility(View.VISIBLE);
                 }
                 break;
         }
@@ -584,12 +589,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             case "F":
                 ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
                 //if(list.size()>0){
-                    Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
-                    i.putExtra("fyear", fyear);
-                    i.putExtra("fmonth", fmonth);
-                    i.putExtra("workArray", ashaWorkData);
-                    i.putExtra("monthly", list);
-                    startActivity(i);
+                Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                i.putExtra("workArray", ashaWorkData);
+                i.putExtra("monthly", list);
+                startActivity(i);
 //                }else{
 //                    Toast.makeText(getContext(),"कृपया मासिक कार्य चुने", Toast.LENGTH_SHORT).show();
 //                }
@@ -706,7 +711,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
-            return WebServiceHelper.getAshaWorkMonthlyActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+            return WebServiceHelper.getAshaWorkMonthlyActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(getContext()).getUserrole());
         }
 
         @Override
@@ -748,7 +753,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         for(Activity_entity item: list){
             if(item.getAcitivtyType().equals("P")){
                 //if(isMonthlyActivityAlreadyChecked(item)){
-                    //item.setChecked(true);
+                //item.setChecked(true);
                 //}
                 monthly.add(item);
             }
