@@ -694,7 +694,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if (result != null) {
                 mnthlyActList = getMonthlyActivity(result);
                 new SyncSelectedMonthlyActivityList().execute();
-                //setupRecuyclerView();
             }else{
                 Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
