@@ -1002,7 +1002,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setIemi(Utiilties.getDeviceIMEI(this));
             entity.setFinYear(fyear.getYear_Id());
             entity.setMonthName(fmonth.get_MonthId());
-            entity.setWorkdmCode(workdmCode);
+            entity.setWorkdmCode(activityEntity.getAcitivtyType());
             entity.setActTypeId(activityTypeEntity.get_ActTypeId());
 
             entity.setNoOfBenif(edt_ben_no.getText().toString());
