@@ -124,7 +124,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.ll_asha_final.setVisibility(View.VISIBLE);
             holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
-            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+            holder.tv_asha_final.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             if (info.getVerificationStatus().equals("P"))
             {
                 holder.tv_status.setText("विचाराधीन");
