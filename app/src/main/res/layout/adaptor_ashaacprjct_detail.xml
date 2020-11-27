@@ -270,23 +270,28 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/ll_asha_final"
+
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="रिमार्क्स"
-                    android:textColor="@color/colorGreyDark"
-                    android:textSize="12sp"/>
-
-                <EditText
-                    android:id="@+id/edt_remarks"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="रिमार्क्स"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="17sp" />
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_asha_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="17sp" />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:visibility="visible"

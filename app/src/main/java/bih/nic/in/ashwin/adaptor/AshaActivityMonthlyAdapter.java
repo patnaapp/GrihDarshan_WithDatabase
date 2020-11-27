@@ -89,7 +89,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             holder.btn_accp_rjct.setText("अस्वीकार करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("स्वीकृत");
+            holder.tv_status.setText("अनुशंसित");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
            // holder.btn_rjct.setVisibility(View.VISIBLE);
 
@@ -101,7 +101,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
         else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
 
             holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-            holder.btn_accp_rjct.setText("स्वीकार करे");
+            holder.btn_accp_rjct.setText("अनुशंसित करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
             holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("अस्वीकृत");
@@ -114,20 +114,27 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             holder.btn_rjct.setVisibility(View.GONE);
             holder.btn_accpt.setVisibility(View.GONE);
             holder.btn_accp_rjct.setVisibility(View.GONE);
+            holder.ll_asha_final.setVisibility(View.VISIBLE);
+            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
             if (info.getVerificationStatus().equals("P"))
             {
                 holder.tv_status.setText("विचाराधीन");
+                holder.tv_status.setText("विचाराधीन");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
             }
             else if (info.getVerificationStatus().equals("A")){
-                holder.tv_status.setText("स्वीकृत");
+                holder.tv_status.setText("अनुसंसित");
+                holder.tv_status.setText("अनुसंसित");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             }
             else if (info.getVerificationStatus().equals("R"))
             {
                 holder.tv_status.setText("अस्वीकृत");
+                holder.tv_status.setText("अस्वीकृत");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             }
 
         }
-
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
         holder.sblist.setOnClickListener(new View.OnClickListener()
@@ -154,7 +161,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
                     if(Utiilties.isOnline(context)) {
 
                         new AlertDialog.Builder(context)
-                                .setTitle("स्वीकृति की पुष्टि")
+                                .setTitle("अनुशंसित करे")
                                 .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                                 .setCancelable(false)
                                 .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
@@ -274,7 +281,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
                 if(Utiilties.isOnline(context)) {
 
                     new AlertDialog.Builder(context)
-                            .setTitle("स्वीकृति की पुष्टि")
+                            .setTitle("अनुशंसित करे")
                             .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                             .setCancelable(false)
                             .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
@@ -402,9 +409,9 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
       // final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
-        LinearLayout ll_btn;
+        LinearLayout ll_btn,ll_asha_final;
 
-        final TextView tv_activity_desc,tv_count,tv_amount,tv_status;
+        final TextView tv_activity_desc,tv_count,tv_amount,tv_status,tv_asha_final;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -425,6 +432,8 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             ll_btn = itemView.findViewById(R.id.ll_btn);
             tv_activity_desc = itemView.findViewById(R.id.tv_activity_desc);
             tv_amount = itemView.findViewById(R.id.tv_amount);
+            tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
+            ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
             //itemView.setOnClickListener(this);
         }
 

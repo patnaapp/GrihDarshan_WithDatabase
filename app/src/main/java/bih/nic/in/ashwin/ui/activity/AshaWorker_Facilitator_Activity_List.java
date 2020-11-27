@@ -337,7 +337,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
 
             // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
-            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),"ANM");
+            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
         }
 
         @Override
@@ -536,7 +536,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         return version;
     }
 
-    public void loadWorkerFascilatorData(){
+    public void loadWorkerFascilatorData()
+    {
         //   if (user_role.equals("ASHA")){
 
         if (!hsccode.equals(""))
@@ -566,8 +567,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     }
 
-    public void loadHscList(){
-
+    public void loadHscList()
+    {
         hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
 
         ArrayList array = new ArrayList<String>();
@@ -580,41 +581,41 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_hsc_list.setAdapter(adaptor);
-
-
-
-
     }
 
 
-    public void handleTabView(){
-        switch (tabType){
+    public void handleTabView()
+    {
+        switch (tabType)
+        {
             case "D":
                 tv_daily.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
-
                 rv_data.setVisibility(View.VISIBLE);
                 rv_data_monthly.setVisibility(View.GONE);
-                new SynchronizeAshaActivityList().execute();
+                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
+                {
+                    new SynchronizeAshaActivityList().execute();
+                }
+
                 break;
+
             case "M":
                 tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorPrimary));
-
                 rv_data_monthly.setVisibility(View.VISIBLE);
                 rv_data.setVisibility(View.GONE);
                 new SynchronizeMonthlyAshaActivityList().execute();
                 break;
-
         }
     }
 
 
-    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
-
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>>
+    {
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             dialog.setMessage("Loading Asha details...");
             dialog.show();
         }
