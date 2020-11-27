@@ -731,19 +731,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
-        for(Activity_entity item: mnthlyActList){
-            for(AshaWorkEntity mItem: list){
-
-                int position = mnthlyActList.indexOf(item);
-                item.setVerificationStatus(mItem.getVerificationStatus());
-                item.setIsFinalize(mItem.getIsFinalize());
+        for(AshaWorkEntity mItem: list){
+            for(Activity_entity item: mnthlyActList){
 
                 if(mItem.getActivityId().equals(item.get_ActivityId())){
+                    int position = mnthlyActList.indexOf(item);
+                    item.setVerificationStatus(mItem.getVerificationStatus());
+                    item.setIsFinalize(mItem.getIsFinalize());
                     item.setChecked(true);
-
+                    mnthlyActList.set(position,item);
                 }
-
-                mnthlyActList.set(position,item);
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -247,7 +248,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         Double amount = 0.0;
         for(Activity_entity info: activityArray)
         {
-            amount += Double.parseDouble(info.get_ActivityAmt());
+            if(info.getVerificationStatus().equals("A"))
+                amount += Double.parseDouble(info.get_ActivityAmt());
         }
         return amount;
     }
@@ -274,11 +276,6 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public Boolean isValidated(){
         Boolean validate = true;
-
-//        if(!isActivityChecked()){
-//            validate = false;
-//            Toast.makeText(this, "कृपया अपने कार्य का चयन करें", Toast.LENGTH_SHORT).show();
-//        }
 
         if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked()){
             validate = false;
@@ -344,26 +341,39 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 if(result.contains(",")){
                     String[] res = result.split(",");
                     if(res.length == 2){
-                        Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
+                        showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
                     }else{
-                        Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
+                        showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                     }
                 }else{
-                    Utiilties.showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
+                    showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                 }
-
-
-//                if(result.contains("0")){
-//                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
-//                }else if(result.contains("1")){
-//                    onDataUploaded();
-//                }else{
-//                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed!!", Toast.LENGTH_SHORT).show();
-//                }
             }
             else {
                 Toast.makeText(FinalizeAshaWorkActivity.this, "null record", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void showErrorAlet(final Context context, String title, String message){
+
+        AlertDialog.Builder ab = new AlertDialog.Builder(context);
+        ab.setCancelable(false);
+        ab.setTitle(title);
+        ab.setMessage(message);
+        ab.setPositiveButton("ओके",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int whichButton) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+
+
+        ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
+
+        ab.show();
     }
 }

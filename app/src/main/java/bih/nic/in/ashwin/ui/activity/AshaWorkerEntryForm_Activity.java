@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -54,8 +55,8 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume;
-    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname;
+    EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total,edt_abbr;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname,tv_activity_type;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content;
@@ -99,39 +100,51 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         edt_ben_no.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-            {
-                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0)
-                {
-                    try
-                    {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){
+                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0){
+                    try{
                         edt_amount_total.setText(String.valueOf(Integer.parseInt(edt_ben_no.getText().toString().trim()) * Integer.parseInt(activityEntity.get_ActivityAmt())));
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e){
                         edt_amount_total.setText("0");
                         Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
                     }
-
                 }
-                else
-                    {
+                else{
                     edt_amount_total.setText("0");
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable editable)
-            {
+            public void afterTextChanged(Editable editable){}
+        });
 
+        edt_abbr.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+
+            @Override
+            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2){
+                if (!charSequence.toString().isEmpty() && charSequence.length()>0){
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setFieldAbbrWise(charSequence.toString());
+                        }
+                    }, 1000);
+                }
+                else{
+                    edt_amount_total.setText("0");
+                }
             }
 
+            @Override
+            public void afterTextChanged(Editable editable){}
         });
 
 
@@ -213,17 +226,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //                                }
 //                            }).show();
                         } else {
-                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                                    .setTitle("अलर्ट !!")
-                                    .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                                    .setCancelable(false)
-                                    .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                            startActivity(I);
-                                            dialog.cancel();
-                                        }
-                                    }).show();
+                            Utiilties.showAlet(AshaWorkerEntryForm_Activity.this);
 
                         }
                     } else if (info.getVerificationStatus().contains("A")) {
@@ -482,6 +485,51 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         });
     }
 
+    public void setFieldAbbrWise(String abbr){
+        try{
+            String actCatType = abbr.substring(0);
+            setActCatTypeAbbrPosition(actCatType);
+
+            if(abbr.length()> 1){
+                setActCategoryAbbrPosition(abbr);
+
+                if(abbr.length()> 3)
+                    setActivityAbbrPosition(abbr);
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Invalid Abbreviaion Code!!",Toast.LENGTH_SHORT).show();
+            //Log.e("Exception", "Failed Setting Abbreviation");
+        }
+
+    }
+
+    public void setActCatTypeAbbrPosition(String abbr){
+        for(Activity_Type_entity entity: activityTypeArray){
+            if(entity.getAbbr().equals(abbr)){
+                int position = activityTypeArray.indexOf(entity);
+                sp_work_categ_type.setSelection(position+1);
+            }
+        }
+    }
+
+    public void setActCategoryAbbrPosition(String abbr){
+        for(ActivityCategory_entity entity: categoryArray){
+            if(entity.getAbbr().equals(abbr)){
+                int position = categoryArray.indexOf(entity);
+                sp_work_categ.setSelection(position+1);
+            }
+        }
+    }
+
+    public void setActivityAbbrPosition(String abbr){
+        for(Activity_entity entity: activityArray){
+            if(entity.getAbbr().equals(abbr)){
+                int position = activityArray.indexOf(entity);
+                sp_work.setSelection(position+1);
+            }
+        }
+    }
+
     void initializeViews(){
         dbhelper = new DataBaseHelper(this);
 
@@ -496,11 +544,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         edt_ben_no = findViewById(R.id.edt_ben_no);
         edt_remark = findViewById(R.id.edt_remark);
+        edt_abbr = findViewById(R.id.edt_abbr);
 
         tv_cat_title = findViewById(R.id.tv_cat_title);
         tv_activity = findViewById(R.id.tv_activity);
         tv_volume = findViewById(R.id.tv_volume);
         tv_regname = findViewById(R.id.tv_regname);
+        tv_activity_type = findViewById(R.id.tv_activity_type);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -861,23 +911,28 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     setActivitySpinner();
 
                     edt_amount.setText("");
-                    //  edt_reg_name.setText("");
                     tv_cat_title.setError(null);
+                    tv_activity_type.setVisibility(View.GONE);
+
+                    sp_work.setSelection(0);
                 }else{
                     categoryEntity = null;
+                    sp_work.setSelection(0);
+                    tv_activity_type.setVisibility(View.GONE);
                 }
                 break;
             case R.id.sp_work:
                 if (i > 0) {
                     activityEntity = activityArray.get(i-1);
                     edt_amount.setText(activityEntity.get_ActivityAmt());
-
-                    //registerDetailsEntity = dbhelper.getRegisterDetail(activityEntity.get_RegisterId());
-                    // edt_reg_name.setText(registerDetailsEntity.get_RegisterDesc_Hn());
+                    tv_activity_type.setText(Utiilties.getActivityTypeStatus(activityEntity.getAcitivtyType()));
+                    tv_activity_type.setVisibility(View.VISIBLE);
                     tv_activity.setError(null);
+                    edt_abbr.setText(activityEntity.getAbbr());
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
                     activityEntity = null;
+                    tv_activity_type.setVisibility(View.GONE);
                 }
                 break;
             case R.id.sp_work_categ_type:
@@ -885,12 +940,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     activityTypeEntity = activityTypeArray.get(i-1);
 
                     edt_amount.setText("");
-                    // edt_reg_name.setText("");
                     tv_cat_title.setError(null);
-                    //setDMWrokSpinner();
                     setCategorySpinner();
+                    tv_activity_type.setVisibility(View.GONE);
+                    sp_work.setSelection(0);
+                    sp_work_categ.setSelection(0);
                 }else{
                     activityTypeEntity = null;
+                    sp_work.setSelection(0);
+                    sp_work_categ.setSelection(0);
+                    tv_activity_type.setVisibility(View.GONE);
                 }
                 break;
             case R.id.sp_reg_name:
@@ -909,27 +968,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     volume = null;
                 }
                 break;
-
-//            case R.id.sp_md:
-//                if (i > 0) {
-//                    switch (workDMTypeArray[i]){
-//                        case "Daily":
-//                            workdmCode = "D";
-//                            workDmName = workDMTypeArray[i];
-//                            ll_daily_content.setVisibility(View.VISIBLE);
-//                            break;
-//                        case "Monthly":
-//                            workdmCode = "M";
-//                            workDmName = workDMTypeArray[i];
-//                            ll_daily_content.setVisibility(View.GONE);
-//                            break;
-//                    }
-//                    setCategorySpinner();
-//                }else{
-//                    workdmCode = null;
-//                    workDmName = null;
-//                }
-//                break;
         }
     }
 
@@ -979,9 +1017,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 entity.setAshaActivityId(info.getAshaActivityId());
             }
 
-            new UploadAshaWorkDetail(entity).execute();
-        }else{
-            //Toast.makeText(this, "Please check all field", Toast.LENGTH_SHORT).show();
+            if (Utiilties.isOnline(this)){
+                new UploadAshaWorkDetail(entity).execute();
+            }else{
+                Utiilties.showAlet(this);
+            }
         }
     }
 

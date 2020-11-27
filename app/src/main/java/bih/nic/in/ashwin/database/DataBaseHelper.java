@@ -806,6 +806,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("category_name_hn", info.get(i).get_AcitivtyCategoryDesc_Hn());
                     values.put("AcitivtyType", info.get(i).getAcitivtyType());
                     values.put("ActivityType_id", info.get(i).get_ActTypeId());
+                    values.put("abbr", info.get(i).getAbbr());
 
 
                     String[] whereArgs = new String[]{info.get(i).get_AcitivtyCategoryId()};
@@ -858,6 +859,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("ActType_id", info.get(i).get_ActTypeId());
                     values.put("ActType_Name", info.get(i).get_Actname());
                     values.put("ActTypeName_Hn", info.get(i).get_ActnameHN());
+                    values.put("abbr", info.get(i).getAbbr());
 
                     String[] whereArgs = new String[]{info.get(i).get_ActTypeId()};
 
@@ -995,8 +997,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{activityType,dmType};
-            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE ActivityType_id=? AND AcitivtyType=?",whereArgs);
+            String[] whereArgs = new String[]{activityType};
+            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE ActivityType_id=?",whereArgs);
 
             while (cur.moveToNext()) {
 
@@ -1006,6 +1008,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_AcitivtyCategoryDesc(cur.getString(cur.getColumnIndex("category_name")));
                 info.set_AcitivtyCategoryDesc_Hn(cur.getString(cur.getColumnIndex("category_name_hn")));
                 info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
+                info.set_ActTypeId(cur.getString(cur.getColumnIndex("ActivityType_id")));
+                info.setAbbr(cur.getString(cur.getColumnIndex("abbr")));
                 list.add(info);
             }
 
@@ -1061,6 +1065,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_ActTypeId(cur.getString(cur.getColumnIndex("ActType_id")));
                 info.set_Actname(cur.getString(cur.getColumnIndex("ActType_Name")));
                 info.set_ActnameHN(cur.getString(cur.getColumnIndex("ActTypeName_Hn")));
+                info.setAbbr(cur.getString(cur.getColumnIndex("abbr")));
                 list.add(info);
             }
 
@@ -1079,9 +1084,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = this.getReadableDatabase();
 
-            String[] whereArgs = new String[]{catId,activityType};
+            String[] whereArgs = new String[]{catId};
 
-            Cursor cur = db.rawQuery("Select * from ActivityList_Master WHERE Activity_categ_Id=? AND AcitivtyType=?",whereArgs);
+            Cursor cur = db.rawQuery("Select * from ActivityList_Master WHERE Activity_categ_Id=?",whereArgs);
 
             while (cur.moveToNext()) {
 
@@ -1094,6 +1099,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_OrderStatus(cur.getString(cur.getColumnIndex("Order_Status")));
                 info.set_RegisterId(cur.getString(cur.getColumnIndex("Register_Id")));
                 info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
+                info.setAbbr(cur.getString(cur.getColumnIndex("Abbr")));
+                info.setActTypeId(cur.getString(cur.getColumnIndex("ActTypeId")));
                 list.add(info);
             }
 

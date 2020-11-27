@@ -81,41 +81,24 @@ public class Utiilties {
 
 
     public static void showAlet(final Context context){
+        AlertDialog.Builder ab = new AlertDialog.Builder(context);
+        ab.setCancelable(false);
+        ab.setTitle("अलर्ट !!");
+        ab.setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें");
+        ab.setPositiveButton("ओके",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int whichButton) {
+                        GlobalVariables.isOffline = false;
+                        Intent I = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                        context.startActivity(I);
+                    }
+                });
 
-        if (Utiilties.isOnline(context) == false) {
-            AlertDialog.Builder ab = new AlertDialog.Builder(context);
-            ab.setCancelable(false);
-            ab.setTitle("Internet Connnection Error!!!");
-            ab.setMessage("Please turn on your mobile data or wifi connection");
-            ab.setPositiveButton("Turn On",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int whichButton) {
-                            GlobalVariables.isOffline = false;
-                            Intent I = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                            context.startActivity(I);
-                        }
-                    });
-            ab.setNegativeButton("Cancel",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int whichButton) {
+        ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
 
-                            GlobalVariables.isOffline = true;
-
-                        }
-                    });
-
-            ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
-
-            ab.show();
-        }else {
-
-            GlobalVariables.isOffline = false;
-            // new CheckUpdate().execute();
-        }
+        ab.show();
     }
 
     public static void showErrorAlet(final Context context, String title, String message){
@@ -547,6 +530,28 @@ public class Utiilties {
                     return "अनुशंषित";
                 case "R":
                     return "अस्वीकृत";
+                default:
+                    return "";
+            }
+        }catch (Exception e){
+            return "";
+        }
+
+    }
+
+    public static String getActivityTypeStatus(String code){
+        try{
+            switch (code){
+                case "D":
+                    return "दैनिक";
+                case "M":
+                    return "मासिक";
+                case "Q":
+                    return "त्रैमासिक";
+                case "H":
+                    return "अर्धवार्षिक";
+                case "Y":
+                    return "वार्षिक";
                 default:
                     return "";
             }
