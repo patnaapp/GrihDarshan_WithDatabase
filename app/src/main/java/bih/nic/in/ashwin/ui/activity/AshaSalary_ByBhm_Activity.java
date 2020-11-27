@@ -91,7 +91,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         else if (CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole().equals("BLKMO"))
         {
             ll_blk.setVisibility(View.GONE);
-            new SynchronizeFcNoOfDays().execute();
+            new GetAshaSalForMo().execute();
 //            ll_blk.setVisibility(View.VISIBLE);
 //            loadBlockData();
 
@@ -432,6 +432,51 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         protected ArrayList<AshaSalByBhm_Entity> doInBackground(String... param)
         {
             return WebServiceHelper.getAshaSalByBhm(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getBlockCode(),CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getDistrictCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaSalByBhm_Entity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+
+
+            if (result != null)
+            {
+                fcNoOfdays=result;
+
+                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
+                    stateamt.set_TotalAmt_State(getTotalStateAmount());
+                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
+                }
+
+                setupRecuyclerView(fcNoOfdays);
+
+            }
+        }
+    }
+
+
+    private class GetAshaSalForMo extends AsyncTask<String, Void, ArrayList<AshaSalByBhm_Entity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaSalary_ByBhm_Activity.this);
+
+        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaSalary_ByBhm_Activity.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading Asha Salary details...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaSalByBhm_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getAshaSalByMO(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getBlockCode(),CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getDistrictCode());
         }
 
         @Override

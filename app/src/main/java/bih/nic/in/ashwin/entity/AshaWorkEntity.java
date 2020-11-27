@@ -51,12 +51,12 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.FinYear = sobj.getProperty("FinYear").toString();
         this.ActivityId = sobj.getProperty("ActivityId").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
-      //  this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
-        this.VerificationStatus ="P";
-       // this.IsFinalize = sobj.getProperty("IsFinalize").toString();
-        this.IsFinalize = "N";
-       // this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
-        this._IsANMFinalize ="N";
+        this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
+      //  this.VerificationStatus ="P";
+        this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+        //this.IsFinalize = "N";
+        this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
+       // this._IsANMFinalize ="N";
 
     }
 
