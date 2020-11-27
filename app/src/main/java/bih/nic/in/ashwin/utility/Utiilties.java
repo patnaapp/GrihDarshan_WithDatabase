@@ -573,4 +573,26 @@ public class Utiilties {
         }
 
     }
+
+    public static String getActivityTypeStatus(String code){
+        try{
+            switch (code){
+                case "D":
+                    return "दैनिक";
+                case "M":
+                    return "मासिक";
+                case "Q":
+                    return "त्रैमासिक";
+                case "H":
+                    return "अर्धवार्षिक";
+                case "Y":
+                    return "वार्षिक";
+                default:
+                    return "";
+            }
+        }catch (Exception e){
+            return "";
+        }
+
+    }
 }
