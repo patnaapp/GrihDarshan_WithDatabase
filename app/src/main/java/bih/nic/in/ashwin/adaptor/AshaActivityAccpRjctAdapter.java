@@ -93,7 +93,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accp_rjct.setText("अस्वीकार करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("स्वीकृत");
+            holder.tv_status.setText("अनुसंसित");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             // holder.btn_rjct.setVisibility(View.VISIBLE);
 
@@ -118,16 +118,24 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_rjct.setVisibility(View.GONE);
             holder.btn_accpt.setVisibility(View.GONE);
             holder.btn_accp_rjct.setVisibility(View.GONE);
+            holder.ll_asha_final.setVisibility(View.VISIBLE);
+            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
             if (info.getVerificationStatus().equals("P"))
             {
                 holder.tv_status.setText("विचाराधीन");
+                holder.tv_status.setText("विचाराधीन");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
             }
             else if (info.getVerificationStatus().equals("A")){
                 holder.tv_status.setText("अनुसंसित");
+                holder.tv_status.setText("अनुसंसित");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             }
             else if (info.getVerificationStatus().equals("R"))
             {
                 holder.tv_status.setText("अस्वीकृत");
+                holder.tv_status.setText("अस्वीकृत");
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             }
 
         }
@@ -403,10 +411,10 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
+        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif,tv_asha_final;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
-        LinearLayout ll_btn;
+        LinearLayout ll_btn,ll_asha_final;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -426,6 +434,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
             ll_btn = itemView.findViewById(R.id.ll_btn);
             tv_no_of_benif = itemView.findViewById(R.id.tv_no_of_benif);
+            tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
+            ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
             //itemView.setOnClickListener(this);
         }
 

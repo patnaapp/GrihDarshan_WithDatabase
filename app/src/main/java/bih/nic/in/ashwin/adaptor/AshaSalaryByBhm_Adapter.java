@@ -132,7 +132,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             holder.btn_accp_rjct.setText("अस्वीकार करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("स्वीकृत");
+            holder.tv_status.setText("अनुशंसित");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             // holder.btn_rjct.setVisibility(View.VISIBLE);
 
@@ -179,7 +179,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 if(Utiilties.isOnline(context)) {
 
                     new AlertDialog.Builder(context)
-                            .setTitle("स्वीकृति की पुष्टि")
+                            .setTitle("अनुशंसित करे")
                             .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                             .setCancelable(false)
                             .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
@@ -300,7 +300,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                     if(Utiilties.isOnline(context)) {
 
                         new AlertDialog.Builder(context)
-                                .setTitle("स्वीकृति की पुष्टि")
+                                .setTitle("अनुशंसित करे")
                                 .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
                                 .setCancelable(false)
                                 .setPositiveButton("हाँ", new DialogInterface.OnClickListener()

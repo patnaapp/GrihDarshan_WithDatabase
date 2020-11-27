@@ -269,11 +269,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             public void onClick(View v) {
                 if(Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
                     if (isDataValidated()) {
+                       // info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
                         info.setVolume(edt_volume.getText().toString());
                         info.setRegisterDate(edt_reg_date.getText().toString());
-                        info.setNoOfBeneficiary(edt_ben_no.getText().toString());
+                        info.setNoOfBenif(edt_ben_no.getText().toString());
                         info.setRemark(edt_remark.getText().toString());
 
                         new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
@@ -506,6 +507,31 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 btn_accp_rjct.setText("स्वीकार करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 ll_btn.setVisibility(View.GONE);
+
+            }
+            else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+            {
+                ll_btn.setVisibility(View.GONE);
+                btn_rjct.setVisibility(View.GONE);
+                btn_accpt.setVisibility(View.GONE);
+                btn_accp_rjct.setVisibility(View.GONE);
+//                if (info.getVerificationStatus().equals("P"))
+//                {
+//                    holder.tv_status.setText("विचाराधीन");
+//                    holder.tv_status.setText("विचाराधीन");
+//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+//                }
+//                else if (info.getVerificationStatus().equals("A")){
+//                    holder.tv_status.setText("अनुसंसित");
+//                    holder.tv_status.setText("अनुसंसित");
+//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+//                }
+//                else if (info.getVerificationStatus().equals("R"))
+//                {
+//                    holder.tv_status.setText("अस्वीकृत");
+//                    holder.tv_status.setText("अस्वीकृत");
+//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+//                }
 
             }
 
