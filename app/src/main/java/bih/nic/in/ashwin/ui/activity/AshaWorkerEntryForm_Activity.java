@@ -635,7 +635,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
-                btn_accp_rjct.setText("अनुसंसित करे");
+                btn_accp_rjct.setText("अनुशंषित करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 ll_btn.setVisibility(View.GONE);
 

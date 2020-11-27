@@ -226,7 +226,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         tv_Norecord1 = findViewById(R.id.tv_Norecord1);
         ll_btn = findViewById(R.id.ll_btn);
         ll_blk = findViewById(R.id.ll_blk);
-        // btn_finalize.setVisibility(View.GONE);
+        ll_btn.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
         sp_block.setOnItemSelectedListener(this);
 
@@ -310,7 +310,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         if (data.size()>0)
         {
             rv_data.setVisibility(View.VISIBLE);
-            ll_btn.setVisibility(View.VISIBLE);
+            ll_btn.setVisibility(View.GONE);
             tv_Norecord1.setVisibility(View.GONE);
             rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             adapter = new AshaSalaryByBhm_Adapter(AshaSalary_ByBhm_Activity.this, data, fyear, fmonth,this);
@@ -446,11 +446,11 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
             if (result != null)
             {
                 fcNoOfdays=result;
-
-                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
-                    stateamt.set_TotalAmt_State(getTotalStateAmount());
-                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
-                }
+//
+//                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
+//                    stateamt.set_TotalAmt_State(getTotalStateAmount());
+//                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
+//                }
 
                 setupRecuyclerView(fcNoOfdays);
 
@@ -492,10 +492,10 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
             {
                 fcNoOfdays=result;
 
-                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
-                    stateamt.set_TotalAmt_State(getTotalStateAmount());
-                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
-                }
+//                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
+//                    stateamt.set_TotalAmt_State(getTotalStateAmount());
+//                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
+//                }
 
                 setupRecuyclerView(fcNoOfdays);
 

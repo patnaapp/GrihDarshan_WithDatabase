@@ -108,7 +108,7 @@ public class WebServiceHelper {
     public static final String Activity_Type_LIST_METHOD = "getActType";
     public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
     public static final String ASHASalByBhm_LIST_METHOD = "getAshaSallaryListInBHM";
-    public static final String ASHASalByMO_LIST_METHOD = "AshaSalaryVerificationByMOCI";
+    public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -1212,8 +1212,8 @@ public class WebServiceHelper {
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
         request.addProperty("AshaWorkid", data.get_AshaWorkerId());
         request.addProperty("MonthId",data.get_MonthId());
-        request.addProperty("FYearId",data.get_MonthId());
-        request.addProperty("VerificationStatus","A");
+        request.addProperty("FYearId",data.get_FYearID());
+        request.addProperty("VerificationStatus","Y");
         request.addProperty("RejectionRemarks",data.get_rejected_remarks());
         request.addProperty("VerifiedBy",userid.toUpperCase());
         request.addProperty("VersionUpdate",app_ver);
@@ -1235,7 +1235,8 @@ public class WebServiceHelper {
             rest = envelope.getResponse().toString();
 
             // rest=res2.toString();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -1288,7 +1289,7 @@ public class WebServiceHelper {
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
         request.addProperty("AshaWorkid", data.get_AshaWorkerId());
         request.addProperty("MonthId",data.get_MonthId());
-        request.addProperty("FYearId",data.get_MonthId());
+        request.addProperty("FYearId",data.get_FYearID());
         request.addProperty("VerificationStatus","R");
         request.addProperty("RejectionRemarks",data.get_rejected_remarks());
         request.addProperty("VerifiedBy",userid.toUpperCase());

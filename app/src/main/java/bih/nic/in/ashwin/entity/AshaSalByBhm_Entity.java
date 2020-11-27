@@ -34,6 +34,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
     private String VerificationStatus = "";
     private int FinalAmt =0;
     private String _rejected_remarks = "";
+    private String _MO_Verified = "";
 
 
     public AshaSalByBhm_Entity() {
@@ -162,6 +163,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
         }
 
         this.VerificationStatus = sobj.getProperty("BLKBHMVerified").toString();
+        this._MO_Verified = sobj.getProperty("BLKMOVerified").toString();
       //  this._rejected_remarks = sobj.getProperty("BLKBHMVerified").toString();
     }
 
@@ -347,6 +349,15 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
 
     public void set_rejected_remarks(String _rejected_remarks) {
         this._rejected_remarks = _rejected_remarks;
+    }
+
+
+    public String get_MO_Verified() {
+        return _MO_Verified;
+    }
+
+    public void set_MO_Verified(String _MO_Verified) {
+        this._MO_Verified = _MO_Verified;
     }
 
     @Override
