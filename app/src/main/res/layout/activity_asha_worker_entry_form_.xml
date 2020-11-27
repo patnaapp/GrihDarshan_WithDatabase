@@ -313,7 +313,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="कार्य की राशी : [*]"
+                            android:text="कार्य दर : [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
@@ -435,26 +435,33 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_volume"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="खंड:"
+                            android:text="खंड: [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
-                        <EditText
-                            android:enabled="true"
+<!--                        <EditText-->
+<!--                            android:enabled="true"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:id="@+id/edt_volume"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/textboxshape"-->
+<!--                            android:hint="खंड"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:inputType="number"-->
+<!--                            android:maxLength="20"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:textColor="#222222"-->
+<!--                            android:textSize="15sp" />-->
+                        <Spinner
+                            android:background="@drawable/spinner_bg1"
                             android:layout_marginTop="4dp"
-                            android:id="@+id/edt_volume"
+                            android:id="@+id/sp_volume"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/textboxshape"
-                            android:hint="खंड"
-                            android:padding="10dp"
-                            android:inputType="number"
-                            android:maxLength="20"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
+                            android:layout_height="36dp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -592,7 +599,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="अभियुक्ती : [*]"
+                        android:text="अभियुक्ती"
                         android:textColor="@color/color_black"
                         android:textSize="12sp"/>
 

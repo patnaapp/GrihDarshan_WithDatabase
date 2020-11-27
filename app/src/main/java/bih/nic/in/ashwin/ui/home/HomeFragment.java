@@ -528,21 +528,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         handleTabView();
         //loadDailyRecyclerData();
 
+        if(ashaWorkData.size() == 0){
+            tv_note.setVisibility(View.GONE);
+            ll_floating_btn.setVisibility(View.VISIBLE);
+        }
+
         isFinalize = isAshaFinalizeWork();
+
         if(isFinalize){
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
-            //tv_note.setVisibility(View.VISIBLE);
+            tv_note.setVisibility(View.VISIBLE);
+            tv_finalize.setVisibility(View.GONE);
         }else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
-            //tv_note.setVisibility(View.GONE);
-        }
-
-        if(ashaWorkData.size() == 0){
             tv_note.setVisibility(View.GONE);
-            ll_floating_btn.setVisibility(View.VISIBLE);
+            tv_finalize.setVisibility(View.VISIBLE);
         }
 
     }
@@ -566,7 +569,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
-                ll_floating_btn.setVisibility(View.VISIBLE);
+                btn_proceed.setVisibility(View.GONE);
+                if(!isFinalize)
+                    ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
                 break;
             case "M":
@@ -629,8 +634,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if(info.getIsFinalize().equals("Y"))
                     return true;
             }
-        }else{
-            return true;
         }
 
         return false;
@@ -727,13 +730,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
         for(Activity_entity item: mnthlyActList){
             for(AshaWorkEntity mItem: list){
-                if(mItem.getActivityId().equals(item.get_ActivityId())){
 
-                    int position = mnthlyActList.indexOf(item);
+                int position = mnthlyActList.indexOf(item);
+                item.setVerificationStatus(mItem.getVerificationStatus());
+
+                if(mItem.getActivityId().equals(item.get_ActivityId())){
                     item.setChecked(true);
-                    item.setVerificationStatus(mItem.getVerificationStatus());
-                    mnthlyActList.set(position,item);
+
                 }
+
+                mnthlyActList.set(position,item);
             }
         }
     }
@@ -741,7 +747,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public ArrayList<Activity_entity> getMonthlyActivity(ArrayList<Activity_entity> list){
         ArrayList<Activity_entity> monthly = new ArrayList<>();
         for(Activity_entity item: list){
-            if(item.getAcitivtyType().equals("M")){
+            if(item.getAcitivtyType().equals("P")){
                 //if(isMonthlyActivityAlreadyChecked(item)){
                     //item.setChecked(true);
                 //}

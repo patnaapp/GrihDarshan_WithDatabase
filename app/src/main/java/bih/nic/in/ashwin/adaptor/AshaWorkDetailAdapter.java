@@ -54,13 +54,14 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaWorkEntity info = mData.get(position);
 
+       // holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
         holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
         holder.tv_work.setText(info.getActivityDesc());
         holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_amount.setText(info.getActivityAmt());
         holder.tv_regname.setText(info.getRegisterDesc());
         holder.tv_volume.setText(info.getVolume());
-        holder.tv_slno.setText(info.getPageSerialNo());
+        //holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_count.setText(String.valueOf(position+1)+".");
         holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
@@ -107,7 +108,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
+        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
 
         ViewHolder(View itemView) {
@@ -118,7 +119,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
-            tv_slno = itemView.findViewById(R.id.tv_slno);
+            //tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);

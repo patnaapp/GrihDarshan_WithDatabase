@@ -1017,6 +1017,8 @@ public class WebServiceHelper {
         poleElement.appendChild(getSoapPropert(doc, "EntryBy", data.getEntryBy()));
         poleElement.appendChild(getSoapPropert(doc, "MobVersion", data.getAppVersion()));
         poleElement.appendChild(getSoapPropert(doc, "MobDeviceId", data.getIemi()));
+        poleElement.appendChild(getSoapPropert(doc, "AcitivtyType", list.get(0).getAcitivtyType()));
+        poleElement.appendChild(getSoapPropert(doc, "ActTypeId", list.get(0).getAcitivtyType()));
 
         //--------------Array-----------------//
         Element pdlsElement = doc.createElement("InsertAmountdetails");

@@ -543,7 +543,7 @@ public class Utiilties {
             case "P":
                 return "विचाराधीन";
             case "A":
-                return "स्वीकृत";
+                return "अनुशंषित";
             case "R":
                 return "अस्वीकृत";
             default:

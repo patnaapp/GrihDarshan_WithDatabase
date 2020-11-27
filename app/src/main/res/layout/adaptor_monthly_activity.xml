@@ -38,6 +38,7 @@
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv_count"
+                android:layout_toLeftOf="@+id/ll_check"
                 android:layout_margin="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,12 +49,12 @@
                 android:id="@+id/tv_name"/>
 
             <LinearLayout
+                android:id="@+id/ll_check"
                 android:layout_centerVertical="true"
                 android:gravity="right"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@+id/tv_name"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal">
@@ -69,18 +70,19 @@
                     android:id="@+id/tv_amount"/>
 
                 <CheckBox
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="8dp"
                     android:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ch_activity"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="विचारधिन"
                     android:textStyle="bold"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="@color/holo_green_dark"
                     android:id="@+id/tv_status"/>
             </LinearLayout>

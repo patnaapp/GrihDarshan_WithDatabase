@@ -27,11 +27,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
@@ -50,9 +53,9 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name;
+    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content;
@@ -72,11 +75,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     RegisterDetailsEntity registerDetailsEntity;
 
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
+    String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
     String workdmCode,workDmName,version="";
 
     int caltype = 0;
-    String entryType,role;
+    String entryType,role,volume;
     LinearLayout ll_btn;
     AshaWorkEntity info;
 
@@ -403,7 +407,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         edt_work_complt_date = findViewById(R.id.edt_work_complt_date);
         edt_amount = findViewById(R.id.edt_amount);
-        edt_volume = findViewById(R.id.edt_volume);
+        //edt_volume = findViewById(R.id.edt_volume);
 //        edt_pageno = findViewById(R.id.edt_pageno);
 //        edt_slno = findViewById(R.id.edt_slno);
         //edt_reg_name = findViewById(R.id.edt_reg_name);
@@ -415,6 +419,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         tv_cat_title = findViewById(R.id.tv_cat_title);
         tv_activity = findViewById(R.id.tv_activity);
+        tv_volume = findViewById(R.id.tv_volume);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -423,7 +428,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work = findViewById(R.id.sp_work);
         sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
         sp_reg_name = findViewById(R.id.sp_reg_name);
-        //sp_md = findViewById(R.id.sp_md);
+        sp_volume = findViewById(R.id.sp_volume);
 
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
@@ -465,6 +470,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
             setData();
         }
+
+        setVolumeArraySpinner();
     }
 
     public void setData()
@@ -559,7 +566,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
             // edt_reg_name.setText(info.getRegisterDesc());
-            edt_volume.setText(info.getVolume());
+           // edt_volume.setText(info.getVolume());
             // edt_pageno.setText(info.getRegisterPageNo());
 //        edt_slno.setText(info.getPageSerialNo());
             edt_ben_no.setText(info.getNoOfBeneficiary());
@@ -620,6 +627,18 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //        if(entryType.equals("U")){
 //            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
 //        }
+    }
+
+    public void setVolumeArraySpinner()
+    {
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, volumeArray);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_volume.setAdapter(adaptor);
+        sp_volume.setOnItemSelectedListener(this);
+
+        if(entryType.equals("U")){
+            sp_volume.setSelection(Arrays.asList(volumeArray).indexOf(info.getVolume()));
+        }
     }
 
     public void setCategorySpinner()
@@ -703,17 +722,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
+        int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
+        //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear, mMonth, mDay);
+        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
 
-        if (c.getTimeInMillis() < System.currentTimeMillis()) {
-
-            datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());
-        } else {
-            datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        }
+        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
+        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
 
         datedialog.show();
     }
@@ -804,6 +820,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     registerDetailsEntity = null;
                 }
                 break;
+            case R.id.sp_volume:
+                if (i > 0) {
+                    volume = volumeArray[i];
+                    tv_volume.setError(null);
+                }else{
+                    volume = null;
+                }
+                break;
 
 //            case R.id.sp_md:
 //                if (i > 0) {
@@ -845,7 +869,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setActivityAmt(edt_amount_total.getText().toString());
             entity.setRegisterId(registerDetailsEntity.get_RegisterId());
             entity.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
-            entity.setVolume(edt_volume.getText().toString());
+            entity.setVolume(volume);
             //entity.setRegisterPageNo(edt_pageno.getText().toString());
             //entity.setRegisterPageNo(edt_pageno.getText().toString());
             //entity.setPageSerialNo(edt_slno.getText().toString());
@@ -898,9 +922,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
-        if (edt_volume.getText().toString().equals("")) {
-            edt_volume.setError("कृप्या खंड डालें");
-            focusView = edt_volume;
+        if (volume == null) {
+            tv_volume.setError("कृप्या खंड का चयन करें");
+            focusView = tv_volume;
             validate = false;
         }
 
@@ -937,12 +961,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
-        if (edt_remark.getText().toString().equals(""))
-        {
-            edt_remark.setError("कृप्या क्रमांक डालें");
-            focusView = edt_remark;
-            validate = false;
-        }
+//        if (edt_remark.getText().toString().equals(""))
+//        {
+//            edt_remark.setError("कृप्या क्रमांक डालें");
+//            focusView = edt_remark;
+//            validate = false;
+//        }
 
         try
         {
@@ -1010,7 +1034,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             if (result != null)
             {
-                if(result.contains("0"))
+                if(result.contains("0") || result.contains("2"))
                 {
                     Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
                 }

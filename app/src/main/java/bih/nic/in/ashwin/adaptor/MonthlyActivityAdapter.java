@@ -62,6 +62,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 
         if(isPreview){
             holder.ch_activity.setVisibility(View.GONE);
+            holder.tv_status.setVisibility(View.VISIBLE);
         }else{
             holder.ch_activity.setChecked(info.getChecked());
         }
