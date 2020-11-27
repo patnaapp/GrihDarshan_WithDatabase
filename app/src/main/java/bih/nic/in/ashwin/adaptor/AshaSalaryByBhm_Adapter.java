@@ -31,6 +31,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
+import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -108,7 +109,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_count.setText(String.valueOf(position+1));
         holder.tv_asha_name.setText(info.get_Name());
         holder.tv_father_name.setText(info.get_FHName());
-        holder.tv_total_amt.setText(String.valueOf(info.get_TotalAmt_Asha()));
+        holder.tv_dava_amt.setText(String.valueOf(info.get_TotalAmt_Asha()));
+        holder.tv_total_amt.setText(String.valueOf(info.getFinalAmt()));
         holder.tv_center_amt.setText(String.valueOf(info.get_TotalAmt_Central()));
         holder.tv_state_amt.setText(String.valueOf(info.get_TotalAmt_State()));
 
@@ -117,61 +119,107 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.edt_add_centre.setText(String.valueOf(info.get_AddAmt_Central()));
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
+if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+    if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) {
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+        holder.ll_btn.setVisibility(View.VISIBLE);
+        holder.btn_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accpt.setVisibility(View.VISIBLE);
 
-        if (info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA"))
-        {
-            holder.tv_status.setText("विचाराधीन");
-            holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-            holder.ll_btn.setVisibility(View.GONE);
-            holder.btn_rjct.setVisibility(View.GONE);
-            holder.btn_accpt.setVisibility(View.GONE);
-
-            holder.btn_accp_rjct.setVisibility(View.GONE);
-        }
-        else if (info.getVerificationStatus().contains("A"))
-        {
-            holder.btn_accp_rjct.setVisibility(View.GONE);
-            holder.btn_accp_rjct.setText("अस्वीकार करे");
-            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
-            holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("अनुशंसित");
-            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-            // holder.btn_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setVisibility(View.GONE);
+    } else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA"))) {
+        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setText("पुनः जाँच करे");
+        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+        holder.ll_btn.setVisibility(View.GONE);
+        holder.tv_status.setVisibility(View.VISIBLE);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+        // holder.btn_rjct.setVisibility(View.VISIBLE);
 
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
-            //   holder.btn_accpt.setVisibility(View.GONE);
-        }
-        else if (info.getVerificationStatus().contains("R")){
+        //   holder.btn_accpt.setVisibility(View.GONE);
+    } else if (info.getVerificationStatus().contains("R")) {
 
-            holder.btn_accp_rjct.setVisibility(View.GONE);
-            holder.btn_accp_rjct.setText("अनुसंसित करे");
-            holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-            holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("अस्वीकृत");
-            holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setText("अनुशंषित करे");
+        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+        holder.ll_btn.setVisibility(View.GONE);
+        holder.tv_status.setVisibility(View.VISIBLE);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
+    } else if (info.get_MO_Verified().equals("Y")) {
+        holder.ll_btn.setVisibility(View.GONE);
+        holder.btn_accpt.setVisibility(View.GONE);
+        holder.btn_rjct.setVisibility(View.GONE);
+        holder.btn_accp_rjct.setVisibility(View.GONE);
+        if (info.getVerificationStatus().equals("P")) {
+            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        } else if (info.getVerificationStatus().equals("Y")) {
+            holder.tv_status.setText("MO द्वारा "+Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+        } else if (info.getVerificationStatus().equals("R")) {
+            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
         }
-//        else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
-//        {
-//            holder.btn_rjct.setVisibility(View.GONE);
-//            holder.btn_accpt.setVisibility(View.GONE);
-//            holder.btn_accp_rjct.setVisibility(View.GONE);
-//            if (info.getVerificationStatus().equals("P"))
-//            {
-//                holder.tv_status.setText("विचाराधीन");
-//            }
-//            else if (info.getVerificationStatus().equals("A")){
-//                holder.tv_status.setText("अनुसंसित");
-//            }
-//            else if (info.getVerificationStatus().equals("R"))
-//            {
-//                holder.tv_status.setText("अस्वीकृत");
-//            }
+
+    }
+}
+
+else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
+    if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA")) {
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+        holder.ll_btn.setVisibility(View.VISIBLE);
+      //  holder.btn_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setVisibility(View.GONE);
+
+        holder.btn_accp_rjct.setVisibility(View.GONE);
+    }
+    else if (info.get_MO_Verified().contains("Y")) {
+        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setText("पुनः जाँच करे");
+        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+        holder.ll_btn.setVisibility(View.GONE);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+        // holder.btn_rjct.setVisibility(View.VISIBLE);
+
+//            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
+//            holder.btn_rjct.setLayoutParams(lp);
+        //   holder.btn_accpt.setVisibility(View.GONE);
+    } else if (info.get_MO_Verified().contains("R")) {
+
+        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+        holder.btn_accp_rjct.setText("अनुशंषित करे");
+        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+        holder.ll_btn.setVisibility(View.GONE);
+        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+//            holder.btn_rjct.setVisibility(View.GONE);
+//            holder.btn_accpt.setVisibility(View.VISIBLE);
+    }
+//    else if (info.get_MO_Verified().equals("Y")) {
+//        holder.ll_btn.setVisibility(View.GONE);
+//        holder.btn_accpt.setVisibility(View.GONE);
+//        holder.btn_rjct.setVisibility(View.GONE);
+//        holder.btn_accp_rjct.setVisibility(View.GONE);
+//        if (info.getVerificationStatus().equals("P")) {
+//            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+//        } else if (info.getVerificationStatus().equals("A")) {
+//            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+//        } else if (info.getVerificationStatus().equals("R")) {
+//            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
 //        }
+//
+//    }
+
+}
 
 //----------------
 
@@ -409,7 +457,7 @@ edittext.setHint("रिमार्क्स");
 
                     }
                 }
-                else if (info.getVerificationStatus().contains("A")){
+                else if (info.getVerificationStatus().contains("Y")){
                     if (Utiilties.isOnline(context)) {
 
                         final EditText edittext = new EditText(context);
@@ -868,7 +916,12 @@ edittext.setHint("रिमार्क्स");
             Log.d("Responsevalue", "" + result);
             if (result != null) {
                 if(result.equals("1")){
-                    mData.get(position).setVerificationStatus("A");
+                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+                        mData.get(position).setVerificationStatus("Y");
+                    }
+                    else {
+                        mData.get(position).set_MO_Verified("Y");
+                    }
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)
@@ -947,7 +1000,13 @@ edittext.setHint("रिमार्क्स");
             Log.d("Responsevalue", "" + result);
             if (result != null) {
                 if(result.equals("1")){
-                    mData.get(position).setVerificationStatus("R");
+                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+                        mData.get(position).setVerificationStatus("R");
+                    }
+                    else {
+                        mData.get(position).set_MO_Verified("R");
+                    }
+
                     notifyDataSetChanged();
 
                     new android.app.AlertDialog.Builder(context)

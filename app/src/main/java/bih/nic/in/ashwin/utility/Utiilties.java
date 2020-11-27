@@ -555,4 +555,22 @@ public class Utiilties {
         }
 
     }
+
+    public static String getAshaWorkActivityStatusBHM(String code){
+        try{
+            switch (code){
+                case "P":
+                    return "विचाराधीन";
+                case "Y":
+                    return "अनुशंषित";
+                case "R":
+                    return "अस्वीकृत";
+                default:
+                    return "";
+            }
+        }catch (Exception e){
+            return "";
+        }
+
+    }
 }

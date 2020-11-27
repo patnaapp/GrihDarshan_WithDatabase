@@ -12,7 +12,8 @@
         android:layout_marginBottom="4dp"
         android:layout_above="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -258,6 +259,19 @@
             </LinearLayout>
         </LinearLayout>
 
+        <Button
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_proceed1"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/buttonshape"
+            android:text="     आशा कार्यकर्ता     "
+            android:textStyle="bold"
+            android:textColor="@color/color_white"
+            android:textSize="15sp" />
+
         <LinearLayout
             android:layout_margin="16dp"
             android:visibility="gone"
@@ -311,13 +325,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp" />
 
-<!--                <Spinner-->
-<!--                    android:background="@drawable/spinner_bg1"-->
-<!--                    android:layout_marginTop="4dp"-->
-<!--                    android:id="@+id/sp_facilitator"-->
-<!--                    android:visibility="gone"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="36dp" />-->
+                <!--                <Spinner-->
+                <!--                    android:background="@drawable/spinner_bg1"-->
+                <!--                    android:layout_marginTop="4dp"-->
+                <!--                    android:id="@+id/sp_facilitator"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="36dp" />-->
             </LinearLayout>
         </LinearLayout>
 
@@ -381,12 +395,10 @@
             </RelativeLayout>
 
         </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
     <LinearLayout

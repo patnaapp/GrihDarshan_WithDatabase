@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
-    Button btn_proceed,btn_ashafc;
+    Button btn_proceed,btn_ashafc,btn_proceed1;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -100,6 +100,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         initializeViews(root);
         btn_proceed.setVisibility(View.GONE);
+        btn_proceed1.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
         ll_floating_btn.setVisibility(View.GONE);
 
@@ -139,8 +140,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }
 
                 }
-                else
-                    {
+
+            }
+        });
+
+        btn_proceed1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                     if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
                     {
                         Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
@@ -186,7 +193,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         //   i.putExtra("svr",svri_id);
                         startActivity(i);
                     }
-                }
+
             }
         });
         btn_ashafc.setOnClickListener(new View.OnClickListener() {
@@ -281,8 +288,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
+        btn_proceed1 = root.findViewById(R.id.btn_proceed1);
         btn_proceed.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
+        btn_proceed1.setVisibility(View.GONE);
 
         tv_note = root.findViewById(R.id.tv_note);
 
@@ -292,7 +301,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-            btn_proceed.setVisibility(View.VISIBLE);
+            btn_proceed1.setVisibility(View.VISIBLE);
+            btn_proceed.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
         }
         else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
@@ -301,13 +311,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_pan.setVisibility(View.GONE);
             ll_div_zone.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-            btn_proceed.setVisibility(View.VISIBLE);
+            btn_proceed.setVisibility(View.GONE);
+            btn_proceed1.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
         else
         {
             //   ll_hsc.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
+            btn_proceed1.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
@@ -443,14 +455,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")) {
                         loadUserRoleSpinnerdata();
 
-                        btn_proceed.setVisibility(View.VISIBLE);
+                        btn_proceed.setVisibility(View.GONE);
+                        btn_proceed1.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
                     else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
                     {
-                        btn_proceed.setVisibility(View.VISIBLE);
+                        btn_proceed.setVisibility(View.GONE);
+                        btn_proceed1.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
                     }
