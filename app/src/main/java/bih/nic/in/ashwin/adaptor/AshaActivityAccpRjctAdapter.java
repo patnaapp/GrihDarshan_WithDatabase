@@ -90,7 +90,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         {
             holder.btn_accp_rjct.setVisibility(View.GONE);
-            holder.btn_accp_rjct.setText("अस्वीकार करे");
+            holder.btn_accp_rjct.setText("पुनः जाँच करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
             holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("अनुसंसित");
@@ -108,7 +108,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accp_rjct.setText("अनुसंसित करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("अस्वीकृत");
+            holder.tv_status.setText("पुनः जाँच करे");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
@@ -133,8 +133,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             }
             else if (info.getVerificationStatus().equals("R"))
             {
-                holder.tv_status.setText("अस्वीकृत");
-                holder.tv_status.setText("अस्वीकृत");
+                holder.tv_status.setText("पुनः जाँच करे");
+                holder.tv_status.setText("पुनः जाँच करे");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             }
 

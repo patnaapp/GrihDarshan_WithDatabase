@@ -144,33 +144,74 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 {
                     info.setRegisterId(registerDetailsEntity.get_RegisterId());
                     info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
-                    info.setVolume(edt_volume.getText().toString());
+                    info.setVolume(volume);
                     info.setRegisterDate(edt_reg_date.getText().toString());
                     info.setNoOfBenif(edt_ben_no.getText().toString());
                     info.setRemark(edt_remark.getText().toString());
+                    info.setActivityAmt(edt_amount_total.getText().toString());
                     if (info.getVerificationStatus().contains("R"))
                     {
                         if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this))
                         {
+//
+//                            if (info.getVerificationStatus().contains("R"))
+//                            {
+                                final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
 
-                            if (info.getVerificationStatus().contains("R"))
-                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                                    .setTitle("स्वीकृति की पुष्टि")
-                                    .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-                                    .setCancelable(false)
-                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                                AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                                alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
+                                alert.setTitle("स्वीकृति की पुष्टि");
+
+                                alert.setView(edittext);
+                                edittext.setHint("रिमार्क्स डाले");
+                                alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int whichButton)
                                     {
-                                        public void onClick(DialogInterface dialog, int id)
-                                        {
+                                        //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                        String YouEditTextValue = edittext.getText().toString();
+//                                        if (!YouEditTextValue.equals(""))
+//                                        {
+                                            info.set_rejectedRemarks(YouEditTextValue);
                                             new AcceptRecordsFromPacs(info).execute();
                                             dialog.dismiss();
-                                        }
-                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+//                                        }
+//                                        else {
+//                                            edittext.setError("Required field");
+//                                        }
+                                    }
+                                });
+
+                                alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int whichButton)
+                                    {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                alert.show();
+                           // }
+
+//                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+//                                    .setTitle("स्वीकृति की पुष्टि")
+//                                    .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+//                                    .setCancelable(false)
+//                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+//                                    {
+//                                        public void onClick(DialogInterface dialog, int id)
+//                                        {
+//                                            new AcceptRecordsFromPacs(info).execute();
+//                                            dialog.dismiss();
+//                                        }
+//                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).show();
                         } else {
                             new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
                                     .setTitle("अलर्ट !!")
@@ -272,27 +313,66 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                        // info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
-                        info.setVolume(edt_volume.getText().toString());
+                        info.setVolume(volume);
                         info.setRegisterDate(edt_reg_date.getText().toString());
                         info.setNoOfBenif(edt_ben_no.getText().toString());
                         info.setRemark(edt_remark.getText().toString());
+                        info.setActivityAmt(edt_amount_total.getText().toString());
 
-                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                                .setTitle("स्वीकृति की पुष्टि")
-                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-                                .setCancelable(false)
-                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //new AcceptRecordsFromPacs(info, position).execute();
-                                        new AcceptRecordsFromPacs(info).execute();
-                                        dialog.dismiss();
-                                    }
-                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                        alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
+                        alert.setTitle("स्वीकृति की पुष्टि");
+
+                        alert.setView(edittext);
+                        edittext.setHint("रिमार्क्स डाले");
+                        alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //What ever you want to do with the value
+//                                Editable YouEditTextValue = edittext.getText();
+//                                //OR
+                                String YouEditTextValue = edittext.getText().toString();
+//                                        if (!YouEditTextValue.equals(""))
+//                                        {
+                                info.set_rejectedRemarks(YouEditTextValue);
+                                new AcceptRecordsFromPacs(info).execute();
+                                dialog.dismiss();
+//                                        }
+//                                        else {
+//                                            edittext.setError("Required field");
+//                                        }
+                            }
+                        });
+
+                        alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
                                 dialog.dismiss();
                             }
-                        }).show();
+                        });
+
+                        alert.show();
+
+//                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+//                                .setTitle("स्वीकृति की पुष्टि")
+//                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
+//                                .setCancelable(false)
+//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        //new AcceptRecordsFromPacs(info, position).execute();
+//                                        new AcceptRecordsFromPacs(info).execute();
+//                                        dialog.dismiss();
+//                                    }
+//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        }).show();
                     }
                 }
                 else {
@@ -319,11 +399,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     if (isDataValidated()) {
                         info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
-                        info.setVolume(edt_volume.getText().toString());
+                        info.setVolume(volume);
                         info.setRegisterDate(edt_reg_date.getText().toString());
                         info.setNoOfBenif(edt_ben_no.getText().toString());
                         info.setRemark(edt_remark.getText().toString());
-
+                        info.setActivityAmt(edt_amount_total.getText().toString());
                         final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
                         AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
                         alert.setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?");
@@ -496,7 +576,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             {
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
-                btn_accp_rjct.setText("अस्वीकार करे");
+                btn_accp_rjct.setText("पुनः जाँच करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                 ll_btn.setVisibility(View.GONE);
 
@@ -504,7 +584,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
-                btn_accp_rjct.setText("स्वीकार करे");
+                btn_accp_rjct.setText("अनुसंसित करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 ll_btn.setVisibility(View.GONE);
 
@@ -538,7 +618,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
             //edt_reg_name.setText(info.getRegisterDesc());
-            edt_volume.setText(info.getVolume());
+//            edt_volume.setText(info.getVolume());
             // edt_pageno.setText(info.getRegisterPageNo());
 //        edt_slno.setText(info.getPageSerialNo());
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
@@ -579,7 +659,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 img_date2.setVisibility(View.GONE);
                 img_date1.setVisibility(View.GONE);
                 tv_note.setVisibility(View.VISIBLE);
-                edt_volume.setEnabled(false);
+            //    edt_volume.setEnabled(false);
 //            edt_pageno.setEnabled(false);
                 //      edt_slno.setEnabled(false);
                 sp_work_categ.setEnabled(false);
@@ -791,7 +871,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     activityEntity = activityArray.get(i-1);
                     edt_amount.setText(activityEntity.get_ActivityAmt());
 
-                    registerDetailsEntity = dbhelper.getRegisterDetail(activityEntity.get_RegisterId());
+                    //registerDetailsEntity = dbhelper.getRegisterDetail(activityEntity.get_RegisterId());
                     // edt_reg_name.setText(registerDetailsEntity.get_RegisterDesc_Hn());
                     tv_activity.setError(null);
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
@@ -1094,7 +1174,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID(),app_version,devicename);
+            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
 
             return result;
         }
@@ -1111,7 +1191,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     //mData.get(position).setVerificationStatus("A");
 
 
-                    btn_accp_rjct.setText("अस्वीकार करे");
+                    btn_accp_rjct.setText("पुनः जाँच करे");
                     btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                     //  notifyDataSetChanged();
 
@@ -1180,7 +1260,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID(),app_version,devicename);
+            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
             return result;
 
         }

@@ -328,6 +328,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Activity Category List loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    new GetActivityTypeList().execute();
+
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
             }

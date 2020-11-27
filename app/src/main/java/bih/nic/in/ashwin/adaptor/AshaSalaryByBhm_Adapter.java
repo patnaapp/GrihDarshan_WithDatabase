@@ -540,16 +540,20 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
         });
 
-        holder.edt_add_state.addTextChangedListener(new TextWatcher() {
+        holder.edt_add_state.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_add_state.getText().toString().length()>0){
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (holder.edt_add_state.getText().toString().length()>0)
+                {
                     listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
@@ -557,28 +561,34 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
         });
-        holder.edt_deduct_state.addTextChangedListener(new TextWatcher() {
+        holder.edt_deduct_state.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (holder.edt_deduct_state.getText().toString().length()>0){
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (holder.edt_deduct_state.getText().toString().length()>0)
+                {
                     listener.onDeductionInStatere(position,Integer.parseInt(holder.edt_deduct_state.getText().toString()));
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
