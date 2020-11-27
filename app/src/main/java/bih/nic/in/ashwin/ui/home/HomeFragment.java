@@ -543,13 +543,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
             tv_note.setVisibility(View.VISIBLE);
-            tv_finalize.setVisibility(View.GONE);
+           // tv_finalize.setVisibility(View.GONE);
         }else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
             tv_note.setVisibility(View.GONE);
-            tv_finalize.setVisibility(View.VISIBLE);
+            //tv_finalize.setVisibility(View.VISIBLE);
         }
 
     }
@@ -736,6 +736,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 int position = mnthlyActList.indexOf(item);
                 item.setVerificationStatus(mItem.getVerificationStatus());
+                item.setIsFinalize(mItem.getIsFinalize());
 
                 if(mItem.getActivityId().equals(item.get_ActivityId())){
                     item.setChecked(true);

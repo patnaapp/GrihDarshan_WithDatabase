@@ -126,7 +126,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         updateTotalAmount();
 
-        if(!isReadyForFinalize()){
+        if(isDataFinalize() || !isReadyForFinalize()){
             ll_btn_bottom.setVisibility(View.GONE);
             ll_declaration.setVisibility(View.GONE);
         }
@@ -153,14 +153,38 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             return false;
         }
 
-
         return true;
+    }
+
+    public Boolean isDataFinalize(){
+        if(ashaWorkData.size()> 0){
+            for(AshaWorkEntity work: ashaWorkData){
+                if(work.getIsFinalize().equals("Y")){
+                    return true;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        if(activityArray.size()> 0){
+            for(Activity_entity work: activityArray){
+                if(work.getIsFinalize().equals("Y")){
+                    return true;
+                }
+            }
+        }else{
+            return false;
+        }
+
+        return false;
     }
 
     public Double getTotalWorkAmount(){
         Double amount = 0.0;
         for(AshaWorkEntity info: ashaWorkData){
-            amount += Double.parseDouble(info.getActivityAmt());
+            if(info.getVerificationStatus().equals("A"))
+                amount += Double.parseDouble(info.getActivityAmt());
         }
 
         return amount;
@@ -243,7 +267,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
     public void finalizeActivity(View view) {
         if(isValidated()){
-            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this),activityArray);
+            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             new UploadAshaFinalizeData(entity).execute();
         }
     }

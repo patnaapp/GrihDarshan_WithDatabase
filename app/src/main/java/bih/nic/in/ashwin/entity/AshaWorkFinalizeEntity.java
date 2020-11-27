@@ -12,7 +12,7 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkFinalizeEntity> AshaWorkEntity_CLASS = AshaWorkFinalizeEntity.class;
 
-    private String FinalizeBy,AshaWorkerId,FYearID,MonthId,TotalActivities_Asha,TotalAmt_Asha,UpdatedBy,deviceId;
+    private String FinalizeBy,AshaWorkerId,FYearID,MonthId,TotalActivities_Asha,TotalAmt_Asha,UpdatedBy,deviceId,appVersion;
     private ArrayList<Activity_entity> activityArray;
 
     public AshaWorkFinalizeEntity(SoapObject sobj) {
@@ -23,7 +23,7 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
 
     }
 
-    public AshaWorkFinalizeEntity(String finalizeBy, String ashaWorkerId, String FYearID, String monthId, String totalActivities_Asha, String totalAmt_Asha, String updatedBy, String deviceId, ArrayList<Activity_entity> activityArray) {
+    public AshaWorkFinalizeEntity(String finalizeBy, String ashaWorkerId, String FYearID, String monthId, String totalActivities_Asha, String totalAmt_Asha, String updatedBy, String deviceId, String appVersion, ArrayList<Activity_entity> activityArray) {
         FinalizeBy = finalizeBy;
         AshaWorkerId = ashaWorkerId;
         this.FYearID = FYearID;
@@ -32,6 +32,7 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
         TotalAmt_Asha = totalAmt_Asha;
         UpdatedBy = updatedBy;
         this.deviceId = deviceId;
+        this.appVersion = appVersion;
         this.activityArray = activityArray;
     }
 
@@ -41,6 +42,14 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
 
     public static void setAshaWorkEntity_CLASS(Class<AshaWorkFinalizeEntity> ashaWorkEntity_CLASS) {
         AshaWorkEntity_CLASS = ashaWorkEntity_CLASS;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String imei) {
+        this.appVersion = imei;
     }
 
     public String getFinalizeBy() {
