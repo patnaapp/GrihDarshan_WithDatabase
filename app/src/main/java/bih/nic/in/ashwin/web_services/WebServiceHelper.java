@@ -100,6 +100,7 @@ public class WebServiceHelper {
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
+    public static final String AcceptRjctAshaSalByBHM = "AshaSalaryVerificationByBHM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
     public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
     public static final String Centre_METHOD = "CentralAmount";
@@ -107,6 +108,7 @@ public class WebServiceHelper {
     public static final String Activity_Type_LIST_METHOD = "getActType";
     public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
     public static final String ASHASalByBhm_LIST_METHOD = "getAshaSallaryListInBHM";
+    public static final String ASHASalByMO_LIST_METHOD = "AshaSalaryVerificationByMOCI";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -819,6 +821,30 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+
+    public static ArrayList<AshaSalByBhm_Entity> getAshaSalByMO(String fyid, String monthId, String blkcode, String dist) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHASalByMO_LIST_METHOD, AshaSalByBhm_Entity.AshaSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaSalByBhm_Entity> fieldList = new ArrayList<AshaSalByBhm_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaSalByBhm_Entity sm = new AshaSalByBhm_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
     public static ArrayList<AshaWorkerSalary_Entity> getAshaSalaryApprovalByBhm(String fyid, String monthId, String blkcode, String dist, String hsccode) {
 
         SoapObject res1;
@@ -1183,19 +1209,16 @@ public class WebServiceHelper {
 
     public static String AcceptAshaSalaryByBhm(AshaSalByBhm_Entity data,String userid,String app_ver,String deviceid) {
 
-        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
-//        request.addProperty("AshaActivityId", data.getasha());
-//        request.addProperty("VerificationStatus","A");
-//        request.addProperty("VerificationBy",userid);
-//        request.addProperty("MobVersion",app_ver);
-//        request.addProperty("MobDeviceId",deviceid);
-//        request.addProperty("RegisterId",data.getRegisterId());
-//        request.addProperty("VOlume",data.getVolume());
-//        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
-//        request.addProperty("Remarks",data.getRemarks());
-//        request.addProperty("RegisterDate",data.getRegisterDate());
-//        request.addProperty("ActivityAmt",data.getActivityAmt());
-//        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
+        request.addProperty("AshaWorkid", data.get_AshaWorkerId());
+        request.addProperty("MonthId",data.get_MonthId());
+        request.addProperty("FYearId",data.get_MonthId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("RejectionRemarks",data.get_rejected_remarks());
+        request.addProperty("VerifiedBy",userid.toUpperCase());
+        request.addProperty("VersionUpdate",app_ver);
+        request.addProperty("DeviceIdUpdate",deviceid);
+
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -1262,18 +1285,14 @@ public class WebServiceHelper {
     public static String RejectAshaSalaryByBhm(AshaSalByBhm_Entity data, String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
-//        request.addProperty("AshaActivityId", data.getAshaActivityId());
-//        request.addProperty("VerificationStatus","R");
-//        request.addProperty("VerificationBy",userid);
-//        request.addProperty("MobVersion",app_ver);
-//        request.addProperty("MobDeviceId",deviceid);
-//        request.addProperty("RegisterId",data.getRegisterId());
-//        request.addProperty("VOlume",data.getVolume());
-//        request.addProperty("NoofBeneficiary",data.getNoOfBenif());
-//        request.addProperty("Remarks",data.getRemarks());
-//        request.addProperty("RegisterDate",data.getRegisterDate());
-//        request.addProperty("ActivityAmt",data.getActivityAmt());
-//        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+        request.addProperty("AshaWorkid", data.get_AshaWorkerId());
+        request.addProperty("MonthId",data.get_MonthId());
+        request.addProperty("FYearId",data.get_MonthId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("RejectionRemarks",data.get_rejected_remarks());
+        request.addProperty("VerifiedBy",userid.toUpperCase());
+        request.addProperty("VersionUpdate",app_ver);
+        request.addProperty("DeviceIdUpdate",deviceid);
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
