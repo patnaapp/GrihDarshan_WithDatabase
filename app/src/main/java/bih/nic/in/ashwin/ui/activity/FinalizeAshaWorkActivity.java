@@ -181,7 +181,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void setActivityRecycler(){
         //activityArray = dbhelper.getActictivityList("1", "M");
         rv_data.setLayoutManager(new LinearLayoutManager(this));
-        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true);
+        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true, true);
         rv_data.setAdapter(adapter);
     }
 

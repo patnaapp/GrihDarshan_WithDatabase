@@ -524,6 +524,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void setupRecuyclerView(){
         ll_dmf_tab.setVisibility(View.VISIBLE);
 
+        isFinalize = isAshaFinalizeWork();
         tabType = "D";
         handleTabView();
         //loadDailyRecyclerData();
@@ -532,8 +533,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
         }
-
-        isFinalize = isAshaFinalizeWork();
 
         if(isFinalize){
             //btn_proceed.setVisibility(View.GONE);
@@ -558,7 +557,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void loadMonthlyRecyclerData(){
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this, false);
+        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this, false, isFinalize);
         rv_data.setAdapter(adapter);
     }
 

@@ -32,14 +32,15 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
     Context context;
     Financial_Year fyear;
     Financial_Month fmonth;
-    Boolean isPreview;
+    Boolean isPreview,isFinalize;
 
-    public MonthlyActivityAdapter(Context context, ArrayList<Activity_entity> data, MonthlyActivityListener listener, Boolean isPreview) {
+    public MonthlyActivityAdapter(Context context, ArrayList<Activity_entity> data, MonthlyActivityListener listener, Boolean isPreview, Boolean isFinalize) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.context = context;
         this.listener = listener;
         this.isPreview = isPreview;
+        this.isFinalize = isFinalize;
     }
 
     // inflates the row layout from xml when needed
@@ -58,6 +59,9 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
+        if(isFinalize){
+            holder.ch_activity.setEnabled(false);
+        }
 
         if(isPreview){
             holder.ch_activity.setVisibility(View.GONE);
