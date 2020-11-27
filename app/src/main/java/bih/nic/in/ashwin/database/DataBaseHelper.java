@@ -751,6 +751,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("Order_Status", info.get(i).get_OrderStatus());
                     values.put("Register_Id", info.get(i).get_RegisterId());
                     values.put("AcitivtyType", info.get(i).getAcitivtyType());
+                    values.put("ActTypeId", info.get(i).getActTypeId());
+                    values.put("Abbr", info.get(i).getAbbr());
 
                     String[] whereArgs = new String[]{info.get(i).get_ActivityId()};
 

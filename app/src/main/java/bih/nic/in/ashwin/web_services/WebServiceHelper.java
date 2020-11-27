@@ -1359,8 +1359,8 @@ public class WebServiceHelper {
         request.addProperty("MonthId",data.getMonthId());
 //        request.addProperty("TotalActivities_Asha",data.getTotalActivities_Asha());
 //        request.addProperty("TotalAmt_Asha",data.getTotalAmt_Asha());
-        request.addProperty("UpdatedBy", data.getUpdatedBy());
-        request.addProperty("MobVersion", data.getUpdatedBy());
+        request.addProperty("UpdatedBy", data.getFinalizeBy());
+        request.addProperty("MobVersion", data.getAppVersion());
         request.addProperty("MobDeviceId", data.getDeviceId());
         //request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
 

@@ -11,7 +11,7 @@ public class Activity_entity implements KvmSerializable, Serializable {
 
     public static Class<Activity_entity> Activity_CLASS = Activity_entity.class;
 
-    private String _ActivityId, _ActivityDesc,_ActivityAmt,_AcitivtyCategoryId,_OrderStatus,_RegisterId,AcitivtyType,VerificationStatus,ActTypeId;
+    private String _ActivityId, _ActivityDesc,_ActivityAmt,_AcitivtyCategoryId,_OrderStatus,_RegisterId,AcitivtyType,VerificationStatus,IsFinalize,ActTypeId,Abbr;
 
     private Boolean isChecked = false;
 
@@ -24,6 +24,7 @@ public class Activity_entity implements KvmSerializable, Serializable {
         this._RegisterId = sobj.getProperty("RegisterId").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
         this.ActTypeId = sobj.getProperty("ActTypeId").toString();
+        this.Abbr = sobj.getProperty("Abbr").toString();
     }
 
     public Activity_entity() {
@@ -48,6 +49,22 @@ public class Activity_entity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getAbbr() {
+        return Abbr;
+    }
+
+    public void setAbbr(String abbr) {
+        Abbr = abbr;
+    }
+
+    public String getIsFinalize() {
+        return IsFinalize;
+    }
+
+    public void setIsFinalize(String isFinalize) {
+        IsFinalize = isFinalize;
     }
 
     public String getActTypeId() {
