@@ -593,10 +593,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 rv_data.setVisibility(View.VISIBLE);
                 rv_data_monthly.setVisibility(View.GONE);
-                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
-                {
+//                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
+//                {
                     new SynchronizeAshaActivityList().execute();
-                }
+               // }
 
                 break;
 
@@ -667,5 +667,11 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             }
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleTabView();
     }
 }

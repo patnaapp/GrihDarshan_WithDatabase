@@ -78,7 +78,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
 
       //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") ))
+        if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") ))
         {
             holder.tv_status.setText("विचाराधीन");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -89,7 +89,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accp_rjct.setVisibility(View.GONE);
         }
       //  else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") ))
+        else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") ))
         {
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.btn_accp_rjct.setText("पुनः जाँच करे");
@@ -105,13 +105,13 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             //   holder.btn_accpt.setVisibility(View.GONE);
         }
      //   else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
-        else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") )||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
+        else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
 
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.btn_accp_rjct.setText("अनुसंसित करे");
             holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("पुनः जाँच करे");
+            holder.tv_status.setText("अस्वीकृत");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
@@ -124,6 +124,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.ll_asha_final.setVisibility(View.VISIBLE);
             holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
+            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             if (info.getVerificationStatus().equals("P"))
             {
                 holder.tv_status.setText("विचाराधीन");
@@ -137,8 +138,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             }
             else if (info.getVerificationStatus().equals("R"))
             {
-                holder.tv_status.setText("पुनः जाँच करे");
-                holder.tv_status.setText("पुनः जाँच करे");
+                holder.tv_status.setText("अस्वीकृत");
+               // holder.tv_status.setText("पुनः जाँच करे");
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             }
 
