@@ -31,6 +31,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
+import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -48,6 +49,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
     private StateAddDeductInterface listener2;
     Financial_Month fmonth;
     String version="";
+
 
     public AshaSalaryByBhm_Adapter(Activity context, ArrayList<AshaSalByBhm_Entity> data, Financial_Year fyear, Financial_Month fmonth, NoOfDaysInterface listener) {
         this.mInflater = LayoutInflater.from(context);
@@ -852,7 +854,7 @@ edittext.setHint("रिमार्क्स");
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.AcceptAshaSalaryByBhm(data, CommonPref.getUserDetails(context).getUserID(),app_version,devicename);
+            result = WebServiceHelper.AcceptAshaSalaryByBhm(data, CommonPref.getUserDetails(context).getUserID(),app_version,devicename,CommonPref.getUserDetails(context).getUserrole());
 
             return result;
         }
@@ -930,7 +932,7 @@ edittext.setHint("रिमार्क्स");
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.RejectAshaSalaryByBhm(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename);
+            result = WebServiceHelper.RejectAshaSalaryByBhm(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename,CommonPref.getUserDetails(context).getUserrole());
             return result;
 
         }

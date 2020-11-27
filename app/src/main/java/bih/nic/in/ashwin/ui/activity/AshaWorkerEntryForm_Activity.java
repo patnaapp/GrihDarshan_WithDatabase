@@ -561,7 +561,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (role.equals("HSC"))
         {
 
-            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N")))
+            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N")))
             {
 
                 ll_btn.setVisibility(View.VISIBLE);
@@ -573,7 +573,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //                btn_accpt.setVisibility(View.VISIBLE);
                 //  btn_accp_rjct.setVisibility(View.GONE);
             }
-            else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N")))
+            else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N")))
             {
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
@@ -582,7 +582,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 ll_btn.setVisibility(View.GONE);
 
             }
-            else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
+            else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("अनुसंसित करे");
@@ -1206,8 +1206,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             .setCancelable(true)
                             .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
-                                    startActivity(intent);
+//                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
+//                                    startActivity(intent);
                                     finish();
                                     dialog.dismiss();
                                 }
@@ -1292,9 +1292,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             .setCancelable(true)
                             .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
-                                    startActivity(intent);
-                                    finish();
+//                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
+//                                    startActivity(intent);
+                                   finish();
                                     dialog.dismiss();
                                 }
                             }).show();

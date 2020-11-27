@@ -55,7 +55,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
       //  this.VerificationStatus ="P";
         this.IsFinalize = sobj.getProperty("IsFinalize").toString();
         //this.IsFinalize = "N";
-       // this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
+    //    this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
        // this._IsANMFinalize ="N";
 
     }
