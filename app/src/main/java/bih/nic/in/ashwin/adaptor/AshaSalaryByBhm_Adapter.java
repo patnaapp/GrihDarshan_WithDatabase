@@ -49,6 +49,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
     Financial_Month fmonth;
     String version="";
 
+
     public AshaSalaryByBhm_Adapter(Activity context, ArrayList<AshaSalByBhm_Entity> data, Financial_Year fyear, Financial_Month fmonth, NoOfDaysInterface listener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
