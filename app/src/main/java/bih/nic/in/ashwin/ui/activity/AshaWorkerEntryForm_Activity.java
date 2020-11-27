@@ -55,7 +55,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content;
@@ -500,6 +500,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_cat_title = findViewById(R.id.tv_cat_title);
         tv_activity = findViewById(R.id.tv_activity);
         tv_volume = findViewById(R.id.tv_volume);
+        tv_regname = findViewById(R.id.tv_regname);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -560,7 +561,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (role.equals("HSC"))
         {
 
-            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N")))
             {
 
                 ll_btn.setVisibility(View.VISIBLE);
@@ -572,7 +573,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //                btn_accpt.setVisibility(View.VISIBLE);
                 //  btn_accp_rjct.setVisibility(View.GONE);
             }
-            else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
+            else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N")))
             {
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
@@ -581,7 +582,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 ll_btn.setVisibility(View.GONE);
 
             }
-            else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
+            else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("अनुसंसित करे");
@@ -589,7 +590,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 ll_btn.setVisibility(View.GONE);
 
             }
-            else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+            else if (info.getIsFinalize().equals("Y"))
             {
                 ll_btn.setVisibility(View.GONE);
                 btn_rjct.setVisibility(View.GONE);
@@ -989,14 +990,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         boolean validate = true;
 
         if(categoryEntity == null){
-            //Toast.makeText(this, "कृप्या कार्य का श्रेणी का चयन करें ", Toast.LENGTH_SHORT).show();
             tv_cat_title.setError("कृप्या कार्य का श्रेणी का चयन करें ");
             focusView = tv_cat_title;
             validate = false;
         }
 
         if(activityEntity == null){
-            //Toast.makeText(this, "कृप्या कार्य का चयन करें", Toast.LENGTH_SHORT).show();
             tv_activity.setError("कृप्या कार्य का चयन करें");
             focusView = tv_activity;
             validate = false;
@@ -1005,6 +1004,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (volume == null) {
             tv_volume.setError("कृप्या खंड का चयन करें");
             focusView = tv_volume;
+            validate = false;
+        }
+
+        if(registerDetailsEntity == null){
+            tv_regname.setError("कृप्या पंजी का नाम का चयन करें");
+            focusView = tv_regname;
             validate = false;
         }
 
