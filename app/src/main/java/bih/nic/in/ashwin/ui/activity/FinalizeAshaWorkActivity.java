@@ -170,7 +170,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(activityArray.size()> 0){
             for(Activity_entity work: activityArray){
-                if(work.getIsFinalize().equals("Y")){
+                if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y")){
                     return true;
                 }
             }

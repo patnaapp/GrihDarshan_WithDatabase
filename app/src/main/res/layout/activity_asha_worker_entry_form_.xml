@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:text="संक्षिप्त कोड करें"
                     android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
+                    android:textSize="14sp"/>
 
                 <EditText
                     android:layout_weight="1"

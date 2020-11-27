@@ -616,6 +616,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void onActivityCheckboxChanged(int position, Boolean isChecked) {
         Activity_entity activity = mnthlyActList.get(position);
         activity.setChecked(isChecked);
+        if(activity.getVerificationStatus() == null){
+            activity.setVerificationStatus("P");
+        }
         mnthlyActList.set(position, activity);
 
         btn_proceed.setVisibility(View.VISIBLE);
@@ -625,11 +628,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onResume() {
         super.onResume();
-        if(fyear != null && fmonth != null){
-            if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-                new SyncAshaActivityList().execute();
+        if(Utiilties.isOnline(getContext())){
+            if(fyear != null && fmonth != null){
+                if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                    new SyncAshaActivityList().execute();
+                }
             }
+        }else{
+            Utiilties.showAlet(getContext());
         }
+
     }
 
     public Boolean isAshaFinalizeWork(){

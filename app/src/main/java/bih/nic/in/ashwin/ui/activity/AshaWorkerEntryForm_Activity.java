@@ -136,7 +136,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         public void run() {
                             setFieldAbbrWise(charSequence.toString());
                         }
-                    }, 1000);
+                    }, 500);
                 }
                 else{
                     edt_amount_total.setText("0");
@@ -710,11 +710,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 img_date2.setVisibility(View.GONE);
                 img_date1.setVisibility(View.GONE);
                 tv_note.setVisibility(View.VISIBLE);
-            //    edt_volume.setEnabled(false);
-//            edt_pageno.setEnabled(false);
-                //      edt_slno.setEnabled(false);
+                sp_work_categ_type.setEnabled(false);
                 sp_work_categ.setEnabled(false);
                 sp_work.setEnabled(false);
+                sp_reg_name.setEnabled(false);
+                sp_volume.setEnabled(false);
+                edt_ben_no.setEnabled(false);
+                edt_remark.setEnabled(false);
 
             }
         }
@@ -727,7 +729,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         int pos=0;
 
         for (Activity_Type_entity info: activityTypeArray){
-            array.add(info.get_ActnameHN());
+            array.add(info.getAbbr()+" - "+info.get_ActnameHN());
 
             if (entryType.equals("U") && info.get_ActTypeId().equals(this.info.getActTypeId()))
             {
@@ -748,18 +750,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setDMWrokSpinner()
-    {
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, workDMTypeArray);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_md.setAdapter(adaptor);
-        sp_md.setOnItemSelectedListener(this);
-
-//        if(entryType.equals("U")){
-//            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
-//        }
-    }
-
     public void setVolumeArraySpinner()
     {
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, volumeArray);
@@ -778,9 +768,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
+        int pos=0;
+
         for (ActivityCategory_entity info: categoryArray)
         {
-            array.add(info.get_AcitivtyCategoryDesc_Hn());
+            array.add(info.getAbbr()+" - "+info.get_AcitivtyCategoryDesc_Hn());
+
+            if (entryType.equals("U") && info.get_AcitivtyCategoryId().equals(this.info.getAcitivtyCategoryId()))
+            {
+                pos=activityTypeArray.indexOf(info);
+            }
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -790,7 +787,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         if(entryType.equals("U"))
         {
-            sp_work_categ.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+            sp_work_categ.setSelection(pos+1);
         }
     }
 
@@ -825,8 +822,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
+        int pos=0;
         for (Activity_entity info: activityArray){
-            array.add(info.get_ActivityDesc());
+            array.add(info.getAbbr()+" - "+info.get_ActivityDesc());
+
+            if (entryType.equals("U") && info.get_ActivityId().equals(this.info.getActivityId()))
+            {
+                pos=activityTypeArray.indexOf(info);
+            }
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -835,7 +838,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work.setOnItemSelectedListener(this);
 
         if(entryType.equals("U")){
-            sp_work.setSelection(array.indexOf(info.getActivityDesc()));
+            sp_work.setSelection(pos+1);
         }
     }
 
@@ -914,7 +917,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     tv_cat_title.setError(null);
                     tv_activity_type.setVisibility(View.GONE);
 
-                    sp_work.setSelection(0);
+                    //sp_work.setSelection(0);
                 }else{
                     categoryEntity = null;
                     sp_work.setSelection(0);
@@ -943,8 +946,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     tv_cat_title.setError(null);
                     setCategorySpinner();
                     tv_activity_type.setVisibility(View.GONE);
-                    sp_work.setSelection(0);
-                    sp_work_categ.setSelection(0);
+                    //sp_work.setSelection(0);
+                    //sp_work_categ.setSelection(0);
                 }else{
                     activityTypeEntity = null;
                     sp_work.setSelection(0);
