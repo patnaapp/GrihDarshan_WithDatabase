@@ -916,7 +916,7 @@ public class WebServiceHelper {
         request.addProperty("RegisterPageNo",data.getRegisterPageNo());
         request.addProperty("PageSerialNo", data.getPageSerialNo());
         request.addProperty("RegisterDate", data.getRegisterDate());
-        request.addProperty("EntryBy", data.getEntryBy());
+        request.addProperty("EntryBy", data.getEntryBy().toUpperCase());
         request.addProperty("MobVersion", data.getAppVersion());
         request.addProperty("MobDeviceId", data.getIemi());
         request.addProperty("Type", data.getEntryType());
@@ -1018,7 +1018,6 @@ public class WebServiceHelper {
         poleElement.appendChild(getSoapPropert(doc, "MobVersion", data.getAppVersion()));
         poleElement.appendChild(getSoapPropert(doc, "MobDeviceId", data.getIemi()));
         poleElement.appendChild(getSoapPropert(doc, "AcitivtyType", list.get(0).getAcitivtyType()));
-        poleElement.appendChild(getSoapPropert(doc, "ActTypeId", list.get(0).getAcitivtyType()));
 
         //--------------Array-----------------//
         Element pdlsElement = doc.createElement("InsertAmountdetails");
@@ -1033,8 +1032,11 @@ public class WebServiceHelper {
 
             Element vLebel = doc.createElement("ActivityAmt");
             vLebel.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
-            //vLebel.appendChild(doc.createTextNode("1234"));
             pdElement.appendChild(vLebel);
+
+            Element vLebel1 = doc.createElement("ActTypeId");
+            vLebel1.appendChild(doc.createTextNode(list.get(x).getActTypeId()));
+            pdElement.appendChild(vLebel1);
 
             pdlsElement.appendChild(pdElement);
         }
