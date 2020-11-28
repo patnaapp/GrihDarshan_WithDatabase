@@ -543,6 +543,8 @@ public class Utiilties {
             switch (code){
                 case "P":
                     return "विचाराधीन";
+                case "NA":
+                    return "विचाराधीन";
                 case "A":
                     return "अनुशंषित";
                 case "R":
@@ -556,10 +558,15 @@ public class Utiilties {
 
     }
 
-    public static String getAshaWorkActivityStatusBHM(String code){
-        try{
-            switch (code){
+    public static String getAshaWorkActivityStatusBHM(String code)
+    {
+        try
+        {
+            switch (code)
+            {
                 case "P":
+                    return "विचाराधीन";
+                case "NA":
                     return "विचाराधीन";
                 case "Y":
                     return "अनुशंषित";
@@ -568,15 +575,20 @@ public class Utiilties {
                 default:
                     return "";
             }
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             return "";
         }
 
     }
 
-    public static String getActivityTypeStatus(String code){
-        try{
-            switch (code){
+    public static String getActivityTypeStatus(String code)
+    {
+        try
+        {
+            switch (code)
+            {
                 case "D":
                     return "दैनिक";
                 case "M":
@@ -590,7 +602,9 @@ public class Utiilties {
                 default:
                     return "";
             }
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             return "";
         }
 

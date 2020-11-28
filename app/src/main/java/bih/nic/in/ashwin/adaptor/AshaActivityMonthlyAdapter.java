@@ -119,7 +119,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             holder.btn_accpt.setVisibility(View.GONE);
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.ll_asha_final.setVisibility(View.VISIBLE);
-            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
+            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया जा चूका है");
             holder.tv_asha_final.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
 
             if (info.getVerificationStatus().equals("P"))

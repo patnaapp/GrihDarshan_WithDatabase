@@ -267,17 +267,21 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         return String.valueOf(count+ashaWorkData.size());
     }
-    public void finalizeActivity(View view) {
-        if(isValidated()){
+    public void finalizeActivity(View view)
+    {
+        if(isValidated())
+        {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             new UploadAshaFinalizeData(entity).execute();
         }
     }
 
-    public Boolean isValidated(){
+    public Boolean isValidated()
+    {
         Boolean validate = true;
 
-        if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked()){
+        if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked())
+        {
             validate = false;
             Toast.makeText(this, "कृपया सभी घोषणा का चयन करें", Toast.LENGTH_SHORT).show();
         }
@@ -285,62 +289,73 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         return validate;
     }
 
-    public Boolean isActivityChecked(){
-        for(Activity_entity info: activityArray){
+    public Boolean isActivityChecked()
+    {
+        for(Activity_entity info: activityArray)
+        {
             if(info.getChecked())
                 return true;
         }
         return false;
     }
 
-    public void onDataUploaded(){
+    public void onDataUploaded()
+    {
         new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setIcon(R.drawable.asha)
                 .setMessage("Activity Finalized")
                 .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
                         finish();
                     }
                 })
                 .show();
     }
 
-    private class UploadAshaFinalizeData extends AsyncTask<String, Void, String> {
+    private class UploadAshaFinalizeData extends AsyncTask<String, Void, String>
+    {
         AshaWorkFinalizeEntity data;
 
         private final ProgressDialog dialog = new ProgressDialog(FinalizeAshaWorkActivity.this);
 
-        UploadAshaFinalizeData(AshaWorkFinalizeEntity data) {
+        UploadAshaFinalizeData(AshaWorkFinalizeEntity data)
+        {
             this.data = data;
         }
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("अपलोड हो राहा है...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
-
+        protected String doInBackground(String... param)
+        {
             return WebServiceHelper.uploadAshaFinalizeWorkDetail(data);
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            if (this.dialog.isShowing()) {
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
             Log.d("Responsevalue",""+result);
 
             if (result != null) {
-                if(result.contains(",")){
+                if(result.contains(","))
+                {
                     String[] res = result.split(",");
-                    if(res.length == 2){
+                    if(res.length == 2)
+                    {
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
                     }else{
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
