@@ -543,6 +543,8 @@ public class Utiilties {
             switch (code){
                 case "P":
                     return "विचाराधीन";
+                case "NA":
+                    return "विचाराधीन";
                 case "A":
                     return "अनुशंषित";
                 case "R":
@@ -560,6 +562,8 @@ public class Utiilties {
         try{
             switch (code){
                 case "P":
+                    return "विचाराधीन";
+                case "NA":
                     return "विचाराधीन";
                 case "Y":
                     return "अनुशंषित";
