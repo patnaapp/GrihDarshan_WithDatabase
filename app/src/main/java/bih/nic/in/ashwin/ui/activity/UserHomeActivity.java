@@ -140,6 +140,10 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_logOut:
                 logout();
                 break;
+            case R.id.nav_profile:
+//                Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
+//                startActivity(i);
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -98,7 +98,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         setCategoryTypeSpinner();
         setRegisterSpinner();
 
-        edt_ben_no.addTextChangedListener(new TextWatcher() {
+        edt_ben_no.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}

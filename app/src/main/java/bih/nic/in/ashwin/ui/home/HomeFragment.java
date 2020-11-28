@@ -295,7 +295,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_note = root.findViewById(R.id.tv_note);
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")){
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+        {
             // ll_hsc.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
@@ -348,13 +349,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
     }
 
-    public void setFYearSpinner(){
+    public void setFYearSpinner()
+    {
         fYearArray = dbhelper.getFinancialYearList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
         for (Financial_Year info: fYearArray){
-            if(!info.getFinancial_year().equals("anyType{}")){
+            if(!info.getFinancial_year().equals("anyType{}"))
+            {
                 array.add(info.getFinancial_year());
             }
         }
@@ -365,13 +368,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_year.setOnItemSelectedListener(this);
     }
 
-    public void setFMonthSpinner(){
+    public void setFMonthSpinner()
+    {
         fMonthArray = dbhelper.getFinancialMonthList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (Financial_Month info: fMonthArray){
-            if(!info.get_MonthName().equals("anyType{}")){
+        for (Financial_Month info: fMonthArray)
+        {
+            if(!info.get_MonthName().equals("anyType{}"))
+            {
                 array.add(info.get_MonthName());
             }
         }
@@ -382,7 +388,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_month.setOnItemSelectedListener(this);
     }
 
-    public void loadUserRoleSpinnerdata() {
+    public void loadUserRoleSpinnerdata()
+    {
         dbhelper = new DataBaseHelper(getContext());
         userRoleList = dbhelper.getUserTypeList();
         String[] typeNameArray = new String[userRoleList.size() + 1];
@@ -399,14 +406,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_userrole.setOnItemSelectedListener(this);
     }
 
-    public void loadWorkerFascilatorData(){
-        if (userRole.equals("ASHA")){
+    public void loadWorkerFascilatorData()
+    {
+        if (userRole.equals("ASHA"))
+        {
             ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
 
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
 
-            for (AshaWoker_Entity info: ashaworkerList){
+            for (AshaWoker_Entity info: ashaworkerList)
+            {
                 array.add(info.get_Asha_Name_Hn());
             }
 
@@ -415,20 +425,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             sp_worker.setAdapter(adaptor);
 
         }
-        else if (userRole.equals("ASHAFC")){
+        else if (userRole.equals("ASHAFC"))
+        {
             facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
-
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
             array.add("ALL");
-
             for (AshaFacilitator_Entity info: facilitatorList)
             {
                 // if(!info.getFinancial_year().equals("anyType{}")){
                 array.add(info.get_Facilitator_Name_Hn());
                 // }
             }
-
             ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
             adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_worker.setAdapter(adaptor);
