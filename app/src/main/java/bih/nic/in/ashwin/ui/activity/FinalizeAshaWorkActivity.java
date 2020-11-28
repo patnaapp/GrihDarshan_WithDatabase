@@ -98,7 +98,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         //category = getActivityCategory();
     }
 
-    public void extractDataFromIntent(){
+    public void extractDataFromIntent()
+    {
         UserDetails userInfo = CommonPref.getUserDetails(this);
 
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
@@ -127,63 +128,88 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         updateTotalAmount();
 
-        if(isDataFinalize() || !isReadyForFinalize()){
+        if(isDataFinalize() || !isReadyForFinalize())
+        {
             ll_btn_bottom.setVisibility(View.GONE);
             ll_declaration.setVisibility(View.GONE);
         }
     }
 
-    public Boolean isReadyForFinalize(){
-        if(ashaWorkData.size()> 0){
-            for(AshaWorkEntity work: ashaWorkData){
-                if(work.getVerificationStatus().equals("P")){
+    public Boolean isReadyForFinalize()
+    {
+        if(ashaWorkData.size()> 0)
+        {
+            for(AshaWorkEntity work: ashaWorkData)
+            {
+                if(work.getVerificationStatus().equals("P"))
+                {
                     return false;
                 }
             }
-        }else{
+        }
+        else
+        {
             return false;
         }
 
-        if(activityArray.size()> 0){
-            for(Activity_entity work: activityArray){
-                if(work.getVerificationStatus().equals("P")){
+        if(activityArray.size()> 0)
+        {
+            for(Activity_entity work: activityArray)
+            {
+                if(work.getVerificationStatus().equals("P"))
+                {
                     return false;
                 }
             }
-        }else{
+        }
+        else
+        {
             return false;
         }
 
         return true;
     }
 
-    public Boolean isDataFinalize(){
-        if(ashaWorkData.size()> 0){
-            for(AshaWorkEntity work: ashaWorkData){
-                if(work.getIsFinalize().equals("Y")){
+    public Boolean isDataFinalize()
+    {
+        if(ashaWorkData.size()> 0)
+        {
+            for(AshaWorkEntity work: ashaWorkData)
+            {
+                if(work.getIsFinalize().equals("Y"))
+                {
                     return true;
                 }
             }
-        }else{
+        }
+        else
+        {
             return false;
         }
 
-        if(activityArray.size()> 0){
-            for(Activity_entity work: activityArray){
-                if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y")){
+        if(activityArray.size()> 0)
+        {
+            for(Activity_entity work: activityArray)
+            {
+                if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y"))
+                {
                     return true;
                 }
             }
-        }else{
+        }
+        else
+        {
             return false;
         }
 
         return false;
     }
 
-    public Double getTotalWorkAmount(){
+    public Double getTotalWorkAmount()
+    {
         Double amount = 0.0;
-        for(AshaWorkEntity info: ashaWorkData){
+        for(AshaWorkEntity info: ashaWorkData)
+        {
             if(info.getVerificationStatus().equals("A"))
                 amount += Double.parseDouble(info.getActivityAmt());
         }
@@ -191,35 +217,42 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         return amount;
     }
 
-    public Double getTotalStateAmount(){
+    public Double getTotalStateAmount()
+    {
         ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList(CommonPref.getUserDetails(this).getUserrole());
 
         Double amount = 0.0;
 
-        for(Stateamount_entity info: list){
+        for(Stateamount_entity info: list)
+        {
             amount += Double.parseDouble(info.get_StateAmt());
         }
 
         return amount;
     }
 
-    public void setActivityRecycler(){
+    public void setActivityRecycler()
+    {
         //activityArray = dbhelper.getActictivityList("1", "M");
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true, true);
         rv_data.setAdapter(adapter);
     }
 
-    public void setWorkRecycler(){
+    public void setWorkRecycler()
+    {
         rv_work.setLayoutManager(new LinearLayoutManager(this));
         AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(this, ashaWorkData, fyear, fmonth);
         rv_work.setAdapter(adapter);
     }
 
-    public ActivityCategory_entity getActivityCategory(){
+    public ActivityCategory_entity getActivityCategory()
+    {
         ArrayList<ActivityCategory_entity>  categoryArray = dbhelper.getActictivityCategoryList("1","M");
-        for(ActivityCategory_entity info: categoryArray){
-            if(info.get_AcitivtyCategoryDesc().equals("Monthly Category")){
+        for(ActivityCategory_entity info: categoryArray)
+        {
+            if(info.get_AcitivtyCategoryDesc().equals("Monthly Category"))
+            {
                 return info;
             }
         }
@@ -254,13 +287,16 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         return amount;
     }
 
-    public void dismissActivity(View view) {
+    public void dismissActivity(View view)
+    {
         finish();
     }
 
-    public String getTotalActivitiesWorkCount(){
+    public String getTotalActivitiesWorkCount()
+    {
         Integer count = 0;
-        for(Activity_entity info: activityArray){
+        for(Activity_entity info: activityArray)
+        {
             if(info.getChecked())
                 count += 1;
         }
@@ -279,13 +315,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public Boolean isValidated()
     {
         Boolean validate = true;
-
         if(!ch_1.isChecked() || !ch_2.isChecked() || !ch_3.isChecked())
         {
             validate = false;
             Toast.makeText(this, "कृपया सभी घोषणा का चयन करें", Toast.LENGTH_SHORT).show();
         }
-
         return validate;
     }
 
@@ -350,27 +384,34 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             }
             Log.d("Responsevalue",""+result);
 
-            if (result != null) {
+            if (result != null)
+            {
                 if(result.contains(","))
                 {
                     String[] res = result.split(",");
                     if(res.length == 2)
                     {
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
-                    }else{
+                    }
+                    else
+                    {
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                     }
-                }else{
+                }
+                else
+                {
                     showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                 }
             }
-            else {
+            else
+            {
                 Toast.makeText(FinalizeAshaWorkActivity.this, "null record", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void showErrorAlet(final Context context, String title, String message){
+    public void showErrorAlet(final Context context, String title, String message)
+    {
 
         AlertDialog.Builder ab = new AlertDialog.Builder(context);
         ab.setCancelable(false);
