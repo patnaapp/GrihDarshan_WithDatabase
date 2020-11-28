@@ -36,7 +36,8 @@ import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
-public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivityAccpRjctAdapter.ViewHolder> {
+public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivityAccpRjctAdapter.ViewHolder>
+{
 
     private ArrayList<AshaWorkEntity> mData;
     private LayoutInflater mInflater;
@@ -46,7 +47,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
     Financial_Month fmonth;
     String version="";
 
-    public AshaActivityAccpRjctAdapter(Activity context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
+    public AshaActivityAccpRjctAdapter(Activity context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth)
+    {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.fyear = fyear;
@@ -57,14 +59,16 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
     // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View view = mInflater.inflate(R.layout.adaptor_ashaacprjct_detail, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position)
+    {
         final AshaWorkEntity info = mData.get(position);
 
         holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
@@ -105,7 +109,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             //   holder.btn_accpt.setVisibility(View.GONE);
         }
      //   else if ((info.getVerificationStatus().contains("R")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N"))){
-        else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
+        else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") ))
+        {
 
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.btn_accp_rjct.setText("अनुशंषित करे");
@@ -123,7 +128,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             holder.btn_accpt.setVisibility(View.GONE);
             holder.btn_accp_rjct.setVisibility(View.GONE);
             holder.ll_asha_final.setVisibility(View.VISIBLE);
-            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया गया है");
+            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया जा चूका है");
             holder.tv_asha_final.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             if (info.getVerificationStatus().equals("P"))
             {
@@ -164,6 +169,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
             }
         });
+
         holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

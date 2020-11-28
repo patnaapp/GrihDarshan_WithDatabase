@@ -485,8 +485,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         });
     }
 
-    public void setFieldAbbrWise(String abbr){
-        try{
+    public void setFieldAbbrWise(String abbr)
+    {
+        try
+        {
             String actCatType = abbr.substring(0);
             setActCatTypeAbbrPosition(actCatType);
 
@@ -496,23 +498,29 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 if(abbr.length()> 3)
                     setActivityAbbrPosition(abbr);
             }
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             Toast.makeText(this, "Invalid Abbreviaion Code!!",Toast.LENGTH_SHORT).show();
             //Log.e("Exception", "Failed Setting Abbreviation");
         }
 
     }
 
-    public void setActCatTypeAbbrPosition(String abbr){
-        for(Activity_Type_entity entity: activityTypeArray){
-            if(entity.getAbbr().equals(abbr)){
+    public void setActCatTypeAbbrPosition(String abbr)
+    {
+        for(Activity_Type_entity entity: activityTypeArray)
+        {
+            if(entity.getAbbr().equals(abbr))
+            {
                 int position = activityTypeArray.indexOf(entity);
                 sp_work_categ_type.setSelection(position+1);
             }
         }
     }
 
-    public void setActCategoryAbbrPosition(String abbr){
+    public void setActCategoryAbbrPosition(String abbr)
+    {
         for(ActivityCategory_entity entity: categoryArray){
             if(entity.getAbbr().equals(abbr)){
                 int position = categoryArray.indexOf(entity);
