@@ -109,8 +109,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if(fyear != null && fmonth != null) {
+            public void onClick(View view)
+            {
+                if(fyear != null && fmonth != null)
+                {
                     Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
                     intent.putExtra("FYear", fyear);
                     intent.putExtra("FMonth", fmonth);
@@ -118,7 +120,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     intent.putExtra("WorkDMType", "D");
                     intent.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
                     getContext().startActivity(intent);
-                }else{
+                }
+                else
+                {
                     Toast.makeText(getContext(), "Please select Financial Year and Month", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -127,8 +131,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-
+                if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
+                {
                     ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
                     if(list.size()>0)
                     {
@@ -148,51 +152,47 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
 
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
-                    {
-                        Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
-                        i.putExtra("fyear", fyear);
-                        i.putExtra("fmonth", fmonth);
-                        // i.putExtra("role", userRole);
-                        i.putExtra("role", "BLKBCM");
+                if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                {
+                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    // i.putExtra("role", userRole);
+                    i.putExtra("role", "BLKBCM");
 
-                        // i.putExtra("ashaid", asha_id);
-                        // i.putExtra("ashanm", ashaname);
-
-
-                        // i.putExtra("_faciltator_id", facilator_id);
-                        // i.putExtra("_faciltator_nm", facilator_name);
-                        //   i.putExtra("svr",svri_id);
-                        startActivity(i);
-                    }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
-                    {
-                        Intent i = new Intent(getContext(), AshaSalary_ByBhm_Activity.class);
-                        i.putExtra("fyear", fyear);
-                        i.putExtra("fmonth", fmonth);
-                        // i.putExtra("role", userRole);
-                        i.putExtra("role", "BLKBHM");
-
-                        startActivity(i);
-                    }
-                    else {
+                    // i.putExtra("ashaid", asha_id);
+                    // i.putExtra("ashanm", ashaname);
 
 
-                        Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
-                        i.putExtra("fyear", fyear);
-                        i.putExtra("fmonth", fmonth);
-                        // i.putExtra("role", userRole);
-                        i.putExtra("role", "ASHA");
+                    // i.putExtra("_faciltator_id", facilator_id);
+                    // i.putExtra("_faciltator_nm", facilator_name);
+                    //   i.putExtra("svr",svri_id);
+                    startActivity(i);
+                }
+                else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+                {
+                    Intent i = new Intent(getContext(), AshaSalary_ByBhm_Activity.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    // i.putExtra("role", userRole);
+                    i.putExtra("role", "BLKBHM");
 
-                        // i.putExtra("ashaid", asha_id);
-                        // i.putExtra("ashanm", ashaname);
-
-
-                        // i.putExtra("_faciltator_id", facilator_id);
-                        // i.putExtra("_faciltator_nm", facilator_name);
-                        //   i.putExtra("svr",svri_id);
-                        startActivity(i);
-                    }
+                    startActivity(i);
+                }
+                else
+                {
+                    Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                    i.putExtra("fyear", fyear);
+                    i.putExtra("fmonth", fmonth);
+                    // i.putExtra("role", userRole);
+                    i.putExtra("role", "ASHA");
+                    // i.putExtra("ashaid", asha_id);
+                    // i.putExtra("ashanm", ashaname);
+                    // i.putExtra("_faciltator_id", facilator_id);
+                    // i.putExtra("_faciltator_nm", facilator_name);
+                    //   i.putExtra("svr",svri_id);
+                    startActivity(i);
+                }
 
             }
         });
@@ -205,11 +205,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 i.putExtra("fmonth", fmonth);
                 // i.putExtra("role", userRole);
                 i.putExtra("role", "ASHAFC");
-
                 // i.putExtra("ashaid", asha_id);
                 // i.putExtra("ashanm", ashaname);
-
-
                 // i.putExtra("_faciltator_id", facilator_id);
                 // i.putExtra("_faciltator_nm", facilator_name);
                 //   i.putExtra("svr",svri_id);
@@ -245,9 +242,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return root;
     }
 
-    public ArrayList<Activity_entity> getSelectedMonthlyActivity(){
+    public ArrayList<Activity_entity> getSelectedMonthlyActivity()
+    {
         ArrayList<Activity_entity> list = new ArrayList<>();
-        for(Activity_entity item: mnthlyActList){
+        for(Activity_entity item: mnthlyActList)
+        {
             if(item.getChecked())
                 list.add(item);
         }
@@ -557,7 +556,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
             tv_note.setVisibility(View.VISIBLE);
-           // tv_finalize.setVisibility(View.GONE);
+            // tv_finalize.setVisibility(View.GONE);
         }else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");

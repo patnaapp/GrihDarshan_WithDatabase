@@ -1230,7 +1230,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
+            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
 
             return result;
         }
@@ -1316,7 +1316,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
+            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
             return result;
 
         }
