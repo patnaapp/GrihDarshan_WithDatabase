@@ -464,18 +464,16 @@ public class CameraActivity extends Activity {
         return true;
     }
 
-    private boolean hasLocationPermission() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+    private boolean hasLocationPermission()
+    {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
     }
 
     private final static int REQUEST_PERMISSION_RESULT_CODE = 42;
 
-    private void requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-                CameraActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                REQUEST_PERMISSION_RESULT_CODE);
+    private void requestLocationPermission()
+    {
+        ActivityCompat.requestPermissions(CameraActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_PERMISSION_RESULT_CODE);
     }
 
     Handler mHandler = new Handler() {
@@ -502,7 +500,8 @@ public class CameraActivity extends Activity {
         }
     };
 
-    private void updateUILocation(Location location) {
+    private void updateUILocation(Location location)
+    {
 
         Message.obtain(
                 mHandler,
@@ -591,4 +590,6 @@ public class CameraActivity extends Activity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
                 matrix, true);
     }
+
+
 }

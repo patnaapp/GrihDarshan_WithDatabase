@@ -6,6 +6,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.utility.Utiilties;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
@@ -90,5 +93,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode)
+        {
+            case CAMERA_PIC:
+                if (resultCode == RESULT_OK)
+                {
+                    byte[] imgData = data.getByteArrayExtra("CapturedImage");
+
+                    str_img1= org.kobjects.base64.Base64.encode(imgData);
+                    imageData1=data;
+                    Bitmap bmp = BitmapFactory.decodeByteArray(imgData,0,imgData.length);
+                    //img_studphoto.setScaleType(ImageView.ScaleType.FIT_XY);
+                    img_ash_selfie.setImageBitmap(Utiilties.GenerateThumbnail(bmp,500, 500));
+
+                    break;
+                }
+        }
+
     }
 }
