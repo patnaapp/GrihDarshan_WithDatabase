@@ -632,6 +632,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(activity.getVerificationStatus() == null){
             activity.setVerificationStatus("P");
         }
+
         mnthlyActList.set(position, activity);
 
         btn_proceed.setVisibility(View.VISIBLE);
@@ -802,7 +803,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         entity.setAshaWorkerId(CommonPref.getUserDetails(getContext()).getSVRID());
         entity.setMonthName(fmonth.get_MonthId());
         entity.setFinYear(fyear.getYear_Id());
-        entity.setEntryBy(CommonPref.getUserDetails(getContext()).getUserID());
+        entity.setEntryBy(CommonPref.getUserDetails(getContext()).getUserID().toUpperCase());
         entity.setAppVersion(Utiilties.getAppVersion(getContext()));
         entity.setIemi(Utiilties.getDeviceIMEI(getContext()));
 

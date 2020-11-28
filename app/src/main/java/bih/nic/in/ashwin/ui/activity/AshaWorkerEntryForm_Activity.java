@@ -485,46 +485,47 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         });
     }
 
-    public void setFieldAbbrWise(String abbr)
-    {
-        try
-        {
-            String actCatType = abbr.substring(0);
-            setActCatTypeAbbrPosition(actCatType);
+    public void setFieldAbbrWise(String abbr){
+        try{
+            //String actCatType = String.valueOf(abbr.charAt(0));
+            setActCatTypeAbbrPosition(String.valueOf(abbr.charAt(0)));
 
             if(abbr.length()> 1){
-                setActCategoryAbbrPosition(abbr);
+                if(abbr.contains(".")){
+                    String[] arr = abbr.split("\\.");
+                    String abrr1 = arr[0];
+                    setActCategoryAbbrPosition(abrr1);
 
-                if(abbr.length()> 3)
-                    setActivityAbbrPosition(abbr);
+                    if(abbr.length()> 3)
+                        setActivityAbbrPosition(abbr);
+                }else{
+                    setActCategoryAbbrPosition(abbr);
+                }
+
             }
-        }
-        catch (Exception e)
-        {
+        }catch (Exception e){
             Toast.makeText(this, "Invalid Abbreviaion Code!!",Toast.LENGTH_SHORT).show();
-            //Log.e("Exception", "Failed Setting Abbreviation");
+            Log.e("Exception", e.getLocalizedMessage());
         }
 
     }
 
-    public void setActCatTypeAbbrPosition(String abbr)
-    {
-        for(Activity_Type_entity entity: activityTypeArray)
-        {
-            if(entity.getAbbr().equals(abbr))
-            {
+    public void setActCatTypeAbbrPosition(String abbr){
+        for(Activity_Type_entity entity: activityTypeArray){
+            if(entity.getAbbr().equals(abbr)){
                 int position = activityTypeArray.indexOf(entity);
                 sp_work_categ_type.setSelection(position+1);
+                break;
             }
         }
     }
 
-    public void setActCategoryAbbrPosition(String abbr)
-    {
+    public void setActCategoryAbbrPosition(String abbr){
         for(ActivityCategory_entity entity: categoryArray){
             if(entity.getAbbr().equals(abbr)){
                 int position = categoryArray.indexOf(entity);
                 sp_work_categ.setSelection(position+1);
+                break;
             }
         }
     }
@@ -534,6 +535,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             if(entity.getAbbr().equals(abbr)){
                 int position = activityArray.indexOf(entity);
                 sp_work.setSelection(position+1);
+                break;
             }
         }
     }
