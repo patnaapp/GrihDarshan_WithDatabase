@@ -64,6 +64,7 @@
         <activity android:name=".ui.activity.AshaSalary_ByBhm_Activity" />
         <activity android:name=".ui.activity.entryform.HealthSubCentreEntryActivity" />
         <activity android:name=".ui.activity.AshaWorkerEntryForm_Activity" />
+        <activity android:name=".ui.activity.AshaFacilitatorEntry"></activity>
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
