@@ -51,6 +51,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
@@ -81,6 +82,10 @@ public class WebServiceHelper {
     public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
     //public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
     public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
+    public static final String SERVICENAMESPACE = "http://10.133.20.159/";
+    //public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
+    public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
+    //public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
 
 
     public static final String APPVERSION_METHOD = "getAppLatest";
@@ -100,6 +105,7 @@ public class WebServiceHelper {
     public static final String Hsc_LIST_METHOD = "getHSCList";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
+    public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
@@ -125,6 +131,8 @@ public class WebServiceHelper {
     //private static final String UPLOAD_METHOD = "InsertData";
     private static final String REGISTER_USER = "RegisterUser";
     private static final String Modify_Password = "ChangePassword";
+    public static final String FCActivityList = "FCActivityList";
+    public static final String FCActivityDescList = "getFCAcitivtyCategoryList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -977,8 +985,7 @@ public class WebServiceHelper {
     }
 
 
-    public static String uploadAshaActivityDetail(AshaWorkEntity data)
-    {
+    public static String uploadAshaActivityDetail(AshaWorkEntity data){
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
 
@@ -1026,6 +1033,47 @@ public class WebServiceHelper {
         }
         catch (Exception e)
         {
+            Log.e("exception",""+e.getLocalizedMessage());
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
+    }
+
+    public static String uploadAshaFCActivityDetail(AshaFascilitatorWorkEntity data){
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTFCASHAWORK_METHOD);
+
+        request.addProperty("DistrictCode",data.getDistrictCode());
+        request.addProperty("BlockCode",data.getBlockCode());
+        request.addProperty("HSCCODE",data.getHSCCODE());
+        request.addProperty("PanchayatCode",data.getPanchayatCode());
+        request.addProperty("AshaFacilitatorId",data.getAshaFacilitatorId());
+        request.addProperty("FCAcitivtyId",data.getFCAcitivtyId());
+        request.addProperty("NumberOfBen",data.getNumberOfBen());
+        request.addProperty("FCAcitivtyCategoryId",data.getFCAcitivtyCategoryId());
+        request.addProperty("ActivityDate", data.getActivityDate());
+        request.addProperty("MonthId", data.getMonthId());
+        request.addProperty("FYearId", data.getFYearId());
+        request.addProperty("Remarks", data.getRemarks());
+        request.addProperty("EntryBy", data.getEntryBy());
+        request.addProperty("FCAshaActivityId", data.getFCAshaActivityId());
+
+        request.addProperty("MobVersion", data.getMobVersion());
+        request.addProperty("MobDeviceId",data.getMobDeviceId());
+
+        try{
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + INSERTFCASHAWORK_METHOD,envelope);
+            rest = envelope.getResponse().toString();
+
+        }
+        catch (Exception e){
             Log.e("exception",""+e.getLocalizedMessage());
             e.printStackTrace();
             return "0";
@@ -1760,6 +1808,30 @@ public class WebServiceHelper {
             return "0";
         }
         return rest;
+    }
+
+    public static ArrayList<Activity_entity> getAshaFacilatatotActivityList(String catId) {
+
+        SoapObject res1;
+        res1 = getServerData(FCActivityDescList, Activity_entity.Activity_CLASS, "FCAcitivtyCategoryId", catId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Activity_entity> fieldList = new ArrayList<Activity_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Activity_entity sm = new Activity_entity(final_object,2);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
     }
 
 }

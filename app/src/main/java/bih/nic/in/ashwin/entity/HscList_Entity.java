@@ -4,9 +4,10 @@ import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class HscList_Entity implements KvmSerializable {
+public class HscList_Entity implements KvmSerializable, Serializable {
 
     public static Class<HscList_Entity> Hsc_CLASS = HscList_Entity.class;
 

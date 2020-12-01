@@ -1706,4 +1706,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<Panchayat_List> getPanchayatList(String distCode, String blockCode){
+
+        ArrayList<Panchayat_List> list = new ArrayList<Panchayat_List>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String[] whereArgs = new String[]{distCode,blockCode};
+
+            Cursor cur = db.rawQuery("Select * from Panchayat WHERE DistrictCode=? AND BlockCode=?",whereArgs);
+
+            while (cur.moveToNext()) {
+
+                Panchayat_List info = new Panchayat_List();
+
+                info.setPanchayat_code(cur.getString(cur.getColumnIndex("PanchayatCode")));
+                info.setPanchayat_Name(cur.getString(cur.getColumnIndex("PanchayatName")));
+                //info.setDistricCode(cur.getString(cur.getColumnIndex("DistrictCode")));
+                //info.setBlockCode(cur.getString(cur.getColumnIndex("BlockCode")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

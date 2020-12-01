@@ -633,7 +633,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     {
                         new GetAshaWorkersList().execute();
                     }
-                    else if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+                    else if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC"))
                     {
                         new GetHScList().execute();
                     }
@@ -750,8 +750,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>
-    {
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>{
 
         @Override
         protected void onPreExecute()
@@ -792,6 +791,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             }
         }
     }
+
+
 
 //    public void refreshFragment(){
 //        homeFrag.setFYearSpinner();

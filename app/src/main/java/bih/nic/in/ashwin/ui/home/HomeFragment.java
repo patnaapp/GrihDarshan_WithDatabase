@@ -40,8 +40,10 @@ import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
+import bih.nic.in.ashwin.ui.activity.AshaFacilitatorEntry;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaFcAccpRjct_ActivityList;
 import bih.nic.in.ashwin.ui.activity.AshaSalaryByBhm_Activity;
@@ -64,16 +66,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
     TextView tv_daily,tv_monthly,tv_finalize;
     LinearLayout ll_dmf_tab;
-    Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker;
+    Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_hsc;
     RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc;
+    LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division,ll_hsc_list;
+    Button btn_proceed,btn_ashafc,btn_proceed1;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
+    ArrayList<HscList_Entity> hscListArray;
     ArrayList<Activity_entity> mnthlyActList;
 
+    HscList_Entity hscEntity;
     Financial_Year fyear;
     Financial_Month fmonth;
     ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
@@ -115,13 +121,26 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             {
                 if(fyear != null && fmonth != null)
                 {
-                    Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
-                    intent.putExtra("FYear", fyear);
-                    intent.putExtra("FMonth", fmonth);
-                    intent.putExtra("Type", "I");
-                    intent.putExtra("WorkDMType", "D");
-                    intent.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
-                    getContext().startActivity(intent);
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")) {
+                        Intent intent = new Intent(getContext(), AshaFacilitatorEntry.class);
+                        UserDetails userInfo = CommonPref.getUserDetails(getContext());
+
+                        // Log.d("jvjbvj",fyear+""+fmonth);
+                        intent.putExtra("FYear", fyear);
+                        intent.putExtra("FMonth", fmonth);
+                        intent.putExtra("HSC",hscEntity);
+                        //intent.putExtra("BlockCode",userInfo.getBlockCode());
+                        getContext().startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
+                        intent.putExtra("FYear", fyear);
+                        intent.putExtra("FMonth", fmonth);
+                        intent.putExtra("Type", "I");
+                        intent.putExtra("WorkDMType", "D");
+                        intent.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
+                        getContext().startActivity(intent);
+                    }
                 }
                 else
                 {
@@ -302,12 +321,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_month = root.findViewById(R.id.sp_fn_month);
         sp_userrole = root.findViewById(R.id.sp_userrole);
         sp_worker = root.findViewById(R.id.sp_worker);
+        sp_hsc = root.findViewById(R.id.sp_hsc);
 
         tv_spworker = root.findViewById(R.id.tv_spworker);
         ll_hsc = root.findViewById(R.id.ll_hsc);
         ll_pan = root.findViewById(R.id.ll_pan);
         ll_division = root.findViewById(R.id.ll_division);
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
+        ll_hsc_list = root.findViewById(R.id.ll_hsc_list);
 
         rv_data = root.findViewById(R.id.rv_data);
         ll_div_zone = root.findViewById(R.id.ll_div_zone);
@@ -373,6 +394,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_district.setText(userInfo.getDistNameHN());
         }
 
+        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+            ll_pan.setVisibility(View.GONE);
+            ll_division.setVisibility(View.GONE);
+            ll_hsc_list.setVisibility(View.VISIBLE);
+        }
+
         tv_block.setText(userInfo.getBlockNameHN());
         tv_panchayat.setText(userInfo.getPanchayatNameHN());
 
@@ -399,8 +426,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_year.setOnItemSelectedListener(this);
     }
 
-    public void setFMonthSpinner()
-    {
+    public void setFMonthSpinner(){
         fMonthArray = dbhelper.getFinancialMonthList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -417,6 +443,25 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_fn_month.setAdapter(adaptor);
         sp_fn_month.setOnItemSelectedListener(this);
+    }
+
+    public void setHSCSpinner(){
+        hscListArray = dbhelper.getHscList(CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getUserID());
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (HscList_Entity info: hscListArray)
+        {
+            if(!info.get_HSCName().equals("anyType{}"))
+            {
+                array.add(info.get_HSCName());
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_hsc.setAdapter(adaptor);
+        sp_hsc.setOnItemSelectedListener(this);
     }
 
     public void loadUserRoleSpinnerdata()
@@ -519,10 +564,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                     else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
+                    }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+                        setHSCSpinner();
                     }
+                }
+                break;
 
-
-
+            case R.id.sp_hsc:
+                if (i > 0) {
+                    hscEntity = hscListArray.get(i-1);
+                    ll_floating_btn.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.sp_userrole:

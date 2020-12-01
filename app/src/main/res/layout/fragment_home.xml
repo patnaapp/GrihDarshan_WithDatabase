@@ -208,7 +208,9 @@
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -257,6 +259,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/ll_hsc_list"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="स्वास्थ्य उप केंद्र"
+                android:textColor="@color/color_black"
+                android:textSize="12sp"/>
+
+            <Spinner
+                android:background="@drawable/spinner_bg1"
+                android:layout_marginTop="4dp"
+                android:id="@+id/sp_hsc"
+                android:layout_width="match_parent"
+                android:layout_height="36dp" />
         </LinearLayout>
 
         <Button
