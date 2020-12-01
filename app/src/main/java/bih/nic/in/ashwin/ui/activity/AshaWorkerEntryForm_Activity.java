@@ -86,7 +86,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     AshaWorkEntity info;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asha_worker_entry_form_);
 
@@ -97,23 +98,29 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         setCategoryTypeSpinner();
         setRegisterSpinner();
 
-        edt_ben_no.addTextChangedListener(new TextWatcher() {
+        edt_ben_no.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){
-                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0){
-                    try{
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0)
+                {
+                    try
+                    {
                         edt_amount_total.setText(String.valueOf(Integer.parseInt(edt_ben_no.getText().toString().trim()) * Integer.parseInt(activityEntity.get_ActivityAmt())));
                     }
-                    catch (Exception e){
+                    catch (Exception e)
+                    {
                         edt_amount_total.setText("0");
                         Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else{
+                else
+                {
                     edt_amount_total.setText("0");
                 }
             }
@@ -169,44 +176,44 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //
 //                            if (info.getVerificationStatus().contains("R"))
 //                            {
-                                final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
+                            final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
 
-                                AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
-                                alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
-                                alert.setTitle("स्वीकृति की पुष्टि");
+                            AlertDialog.Builder alert = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
+                            alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
+                            alert.setTitle("स्वीकृति की पुष्टि");
 
-                                alert.setView(edittext);
-                                edittext.setHint("रिमार्क्स डाले");
-                                alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                            alert.setView(edittext);
+                            edittext.setHint("रिमार्क्स डाले");
+                            alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int whichButton)
                                 {
-                                    public void onClick(DialogInterface dialog, int whichButton)
-                                    {
-                                        //What ever you want to do with the value
+                                    //What ever you want to do with the value
 //                                Editable YouEditTextValue = edittext.getText();
 //                                //OR
-                                        String YouEditTextValue = edittext.getText().toString();
+                                    String YouEditTextValue = edittext.getText().toString();
 //                                        if (!YouEditTextValue.equals(""))
 //                                        {
-                                            info.set_rejectedRemarks(YouEditTextValue);
-                                            new AcceptRecordsFromPacs(info).execute();
-                                            dialog.dismiss();
+                                    info.set_rejectedRemarks(YouEditTextValue);
+                                    new AcceptRecordsFromPacs(info).execute();
+                                    dialog.dismiss();
 //                                        }
 //                                        else {
 //                                            edittext.setError("Required field");
 //                                        }
-                                    }
-                                });
+                                }
+                            });
 
-                                alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                            alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int whichButton)
                                 {
-                                    public void onClick(DialogInterface dialog, int whichButton)
-                                    {
-                                        dialog.dismiss();
-                                    }
-                                });
+                                    dialog.dismiss();
+                                }
+                            });
 
-                                alert.show();
-                           // }
+                            alert.show();
+                            // }
 
 //                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
 //                                    .setTitle("स्वीकृति की पुष्टि")
@@ -313,7 +320,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             public void onClick(View v) {
                 if(Utiilties.isOnline(AshaWorkerEntryForm_Activity.this)) {
                     if (isDataValidated()) {
-                       // info.setRegisterId(registerDetailsEntity.get_RegisterId());
+                        // info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterId(registerDetailsEntity.get_RegisterId());
                         info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
                         info.setVolume(volume);
@@ -707,7 +714,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
             // edt_reg_name.setText(info.getRegisterDesc());
-           // edt_volume.setText(info.getVolume());
+            // edt_volume.setText(info.getVolume());
             // edt_pageno.setText(info.getRegisterPageNo());
 //        edt_slno.setText(info.getPageSerialNo());
             edt_ben_no.setText(info.getNoOfBeneficiary());
@@ -1232,7 +1239,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
+            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
 
             return result;
         }
@@ -1318,7 +1325,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,devicename);
+            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
             return result;
 
         }
@@ -1347,7 +1354,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                                 public void onClick(DialogInterface dialog, int id) {
 //                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
 //                                    startActivity(intent);
-                                   finish();
+                                    finish();
                                     dialog.dismiss();
                                 }
                             }).show();

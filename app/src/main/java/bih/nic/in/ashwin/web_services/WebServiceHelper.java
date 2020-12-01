@@ -352,13 +352,13 @@ public class WebServiceHelper {
             res1 = (SoapObject) envelope.getResponse();
         }
         catch (Exception e)
-
         {
             e.printStackTrace();
             return null;
         }
         return res1;
     }
+
     public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5, String value1, String value2, String value3, String value4,String value5 )
     {
         SoapObject res1;
@@ -420,11 +420,8 @@ public class WebServiceHelper {
         return res1;
     }
 
-
-
     public static String ChangePassword(String uid, String password,String email,String mob,String userrole,String device_id,String ver,String username)
     {
-
         SoapObject request = new SoapObject(SERVICENAMESPACE, ChangePassword);
         request.addProperty("UserID", uid);
         request.addProperty("UserRole", userrole);
@@ -436,9 +433,9 @@ public class WebServiceHelper {
         request.addProperty("MobDeviceId", device_id);
         DefaultResponse userDetails;
 
-        try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
@@ -446,8 +443,9 @@ public class WebServiceHelper {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + ChangePassword,envelope);
             rest = envelope.getResponse().toString();
-
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return "0";
         }
@@ -456,24 +454,31 @@ public class WebServiceHelper {
     }
 
 
-    public static ArrayList<Financial_Year> getFinancialYear() {
-
+    public static ArrayList<Financial_Year> getFinancialYear()
+    {
         SoapObject res1;
         res1 = getServerData(FinYear_LIST_METHOD, Financial_Year.Financial_Year_CLASS);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<Financial_Year> fieldList = new ArrayList<Financial_Year>();
 
-        for (int i = 0; i < TotalProperty; i++) {
-            if (res1.getProperty(i) != null) {
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
                 Object property = res1.getProperty(i);
-                if (property instanceof SoapObject) {
+                if (property instanceof SoapObject)
+                {
                     SoapObject final_object = (SoapObject) property;
                     Financial_Year sm = new Financial_Year(final_object);
                     fieldList.add(sm);
                 }
-            } else
+            }
+            else
+            {
                 return fieldList;
+            }
+
         }
 
 
@@ -921,7 +926,8 @@ public class WebServiceHelper {
     }
 
 
-    public static String uploadAshaActivityDetail(AshaWorkEntity data) {
+    public static String uploadAshaActivityDetail(AshaWorkEntity data)
+    {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
 
@@ -955,9 +961,9 @@ public class WebServiceHelper {
         request.addProperty("AcitivtyType", data.getWorkdmCode());
         request.addProperty("ActTypeId", data.getActTypeId());
 
-        try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
@@ -967,16 +973,17 @@ public class WebServiceHelper {
             rest = envelope.getResponse().toString();
 
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             Log.e("exception",""+e.getLocalizedMessage());
             e.printStackTrace();
             return "0";
-
         }
         return rest;
     }
 
-    public static String uploadAshaMonthlyActivityDetail(AshaWorkEntity data, ArrayList<Activity_entity> list) {
+    public static String uploadAshaMonthlyActivityDetail(AshaWorkEntity data, ArrayList<Activity_entity> list)
+    {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERTASHAWORK_METHOD);
 
@@ -992,9 +999,9 @@ public class WebServiceHelper {
         request.addProperty("MobDeviceId", data.getIemi());
         request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(list));
 
-        try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
@@ -1004,24 +1011,27 @@ public class WebServiceHelper {
             rest = envelope.getResponse().toString();
 
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             Log.e("exception",""+e.getLocalizedMessage());
             e.printStackTrace();
             return "0";
-
         }
         return rest;
     }
 
-    public static String uploadAshaMonthlyActivity(AshaWorkEntity data, ArrayList<Activity_entity> list) {
+    public static String uploadAshaMonthlyActivity(AshaWorkEntity data, ArrayList<Activity_entity> list)
+    {
 
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         dbfac.setNamespaceAware(true);
         DocumentBuilder docBuilder = null;
-
-        try {
+        try
+        {
             docBuilder = dbfac.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
+        }
+        catch (ParserConfigurationException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return "0, ParserConfigurationException!!";
@@ -1045,26 +1055,21 @@ public class WebServiceHelper {
         poleElement.appendChild(getSoapPropert(doc, "MobVersion", data.getAppVersion()));
         poleElement.appendChild(getSoapPropert(doc, "MobDeviceId", data.getIemi()));
         poleElement.appendChild(getSoapPropert(doc, "AcitivtyType", list.get(0).getAcitivtyType()));
-
         //--------------Array-----------------//
         Element pdlsElement = doc.createElement("InsertAmountdetails");
 
         for(int x=0;x<list.size();x++)
         {
             Element pdElement = doc.createElement("InsertAmount");
-
             Element fid = doc.createElement("AcitivtyId");
             fid.appendChild(doc.createTextNode(list.get(x).get_ActivityId()));
             pdElement.appendChild(fid);
-
             Element vLebel = doc.createElement("ActivityAmt");
             vLebel.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
             pdElement.appendChild(vLebel);
-
             Element vLebel1 = doc.createElement("ActTypeId");
             vLebel1.appendChild(doc.createTextNode(list.get(x).getActTypeId()));
             pdElement.appendChild(vLebel1);
-
             pdlsElement.appendChild(pdElement);
         }
         poleElement.appendChild(pdlsElement);
@@ -1072,14 +1077,15 @@ public class WebServiceHelper {
         TransformerFactory transfac = TransformerFactory.newInstance();
         Transformer trans = null;
         String res = "0";
-        try {
-
-            try {
+        try
+        {
+            try
+            {
                 trans = transfac.newTransformer();
-            } catch (TransformerConfigurationException e1) {
-
+            }
+            catch (TransformerConfigurationException e1)
+            {
                 // TODO Auto-generated catch block
-
                 e1.printStackTrace();
                 return "0, TransformerConfigurationException";
             }
@@ -1093,10 +1099,12 @@ public class WebServiceHelper {
             DOMSource source = new DOMSource(doc);
 
             BasicHttpResponse httpResponse = null;
-
-            try {
+            try
+            {
                 trans.transform(source, result);
-            } catch (TransformerException e) {
+            }
+            catch (TransformerException e)
+            {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return "0, TransformerException";
@@ -1110,7 +1118,8 @@ public class WebServiceHelper {
                     + "<soap:Body > ";
             String endTag = "</soap:Body > " + "</soap:Envelope>";
 
-            try{
+            try
+            {
                 HttpPost httppost = new HttpPost(SERVICEURL1);
 
                 StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML+ endTag,HTTP.UTF_8);
@@ -1122,43 +1131,59 @@ public class WebServiceHelper {
 
                 HttpEntity entity = httpResponse.getEntity();
 
-                if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK")) {
+                if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK"))
+                {
                     String output = _getResponseBody(entity);
 
                     res = parseRespnse(output);
-                } else {
+                }
+                else
+                    {
                     res = "0, Server no reponse";
                 }
-            }catch (Exception e){
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
                 return "0, Exception Caught";
             }
-
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return "0, Exception Caught";
         }
-
         // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
         return res;
     }
 
-    public static String parseRespnse(String xml){
+    public static String parseRespnse(String xml)
+    {
         String result = "Failed to parse";
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         InputSource is;
-        try {
+        try
+        {
             builder = factory.newDocumentBuilder();
             is = new InputSource(new StringReader(xml));
             Document doc = builder.parse(is);
             NodeList list = doc.getElementsByTagName("InsertMonthWiseAshaActivityResult");
             result = list.item(0).getTextContent();
             //System.out.println(list.item(0).getTextContent());
-        } catch (ParserConfigurationException e) {
-        } catch (SAXException e) {
-        } catch (IOException e) {
+        }
+        catch (ParserConfigurationException e)
+        {
+
+        }
+        catch (SAXException e)
+        {
+
+        }
+        catch (IOException e)
+        {
+
         }
 
         return result;

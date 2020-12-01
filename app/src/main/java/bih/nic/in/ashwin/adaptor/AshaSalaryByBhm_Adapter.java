@@ -74,7 +74,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         if(holder.tv_dava_amt.getText().toString().isEmpty()){
             return "0";
         }else{
-           // totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
+            // totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
             totalamt=Integer.parseInt(holder.tv_dava_amt.getText().toString());
             totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
             totalamt+=(getIntValue(holder.edt_add_state)-getIntValue(holder.edt_deduct_state));
@@ -114,96 +114,96 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_center_amt.setText(String.valueOf(info.get_TotalAmt_Central()));
         holder.tv_state_amt.setText(String.valueOf(info.get_TotalAmt_State()));
 
-      //  holder.edt_no_days.setText(info.get_no_ofDays()==0? "":String.valueOf(info.get_no_ofDays()));
+        //  holder.edt_no_days.setText(info.get_no_ofDays()==0? "":String.valueOf(info.get_no_ofDays()));
         //holder.edt_no_days.setText(String.valueOf(info.get_no_ofDays()));
         holder.edt_add_centre.setText(String.valueOf(info.get_AddAmt_Central()));
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
-if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
-    if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) {
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-        holder.ll_btn.setVisibility(View.VISIBLE);
-        holder.btn_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accpt.setVisibility(View.VISIBLE);
+        if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+            if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+                holder.ll_btn.setVisibility(View.VISIBLE);
+                holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accpt.setVisibility(View.VISIBLE);
 
-        holder.btn_accp_rjct.setVisibility(View.GONE);
-    } else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA"))) {
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("पुनः जाँच करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setVisibility(View.VISIBLE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-        // holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+            } else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA"))) {
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("पुनः जाँच करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                // holder.btn_rjct.setVisibility(View.VISIBLE);
 
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
-        //   holder.btn_accpt.setVisibility(View.GONE);
-    } else if (info.getVerificationStatus().contains("R")) {
+                //   holder.btn_accpt.setVisibility(View.GONE);
+            } else if (info.getVerificationStatus().contains("R")) {
 
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("अनुशंषित करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setVisibility(View.VISIBLE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("अनुशंषित करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.tv_status.setVisibility(View.VISIBLE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-    } else if (info.get_MO_Verified().equals("Y")) {
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.btn_accpt.setVisibility(View.GONE);
-        holder.btn_rjct.setVisibility(View.GONE);
-        holder.btn_accp_rjct.setVisibility(View.GONE);
-        if (info.getVerificationStatus().equals("P")) {
-            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-        } else if (info.getVerificationStatus().equals("Y")) {
-            holder.tv_status.setText("MO द्वारा "+Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-            holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-        } else if (info.getVerificationStatus().equals("R")) {
-            holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+            } else if (info.get_MO_Verified().equals("Y")) {
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.btn_accpt.setVisibility(View.GONE);
+                holder.btn_rjct.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+                if (info.getVerificationStatus().equals("P")) {
+                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                } else if (info.getVerificationStatus().equals("Y")) {
+                    holder.tv_status.setText("MO द्वारा "+Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                } else if (info.getVerificationStatus().equals("R")) {
+                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                }
+
+            }
         }
 
-    }
-}
+        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
+            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA")) {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+                holder.ll_btn.setVisibility(View.VISIBLE);
+                //  holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
 
-else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
-    if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA")) {
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-        holder.ll_btn.setVisibility(View.VISIBLE);
-      //  holder.btn_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setVisibility(View.GONE);
-
-        holder.btn_accp_rjct.setVisibility(View.GONE);
-    }
-    else if (info.get_MO_Verified().contains("Y")) {
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("पुनः जाँच करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-        // holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+            }
+            else if (info.get_MO_Verified().contains("Y")) {
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("पुनः जाँच करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                // holder.btn_rjct.setVisibility(View.VISIBLE);
 
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
-        //   holder.btn_accpt.setVisibility(View.GONE);
-    } else if (info.get_MO_Verified().contains("R")) {
+                //   holder.btn_accpt.setVisibility(View.GONE);
+            } else if (info.get_MO_Verified().contains("R")) {
 
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("अनुशंषित करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("अनुशंषित करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-    }
+            }
 //    else if (info.get_MO_Verified().equals("Y")) {
 //        holder.ll_btn.setVisibility(View.GONE);
 //        holder.btn_accpt.setVisibility(View.GONE);
@@ -219,7 +219,7 @@ else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
 //
 //    }
 
-}
+        }
 
 //----------------
 
@@ -232,7 +232,7 @@ else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?");
                     alert.setTitle("अनुशंसित करे");
-edittext.setHint("रिमार्क्स");
+                    edittext.setHint("रिमार्क्स");
                     alert.setView(edittext);
 
                     alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
@@ -245,9 +245,9 @@ edittext.setHint("रिमार्क्स");
                             String YouEditTextValue = edittext.getText().toString();
 //                            if (!YouEditTextValue.equals(""))
 //                            {
-                                info.set_rejected_remarks(YouEditTextValue);
-                                new AcceptRecordsFromPacs(info, position).execute();
-                                dialog.dismiss();
+                            info.set_rejected_remarks(YouEditTextValue);
+                            new AcceptRecordsFromPacs(info, position).execute();
+                            dialog.dismiss();
 //                            }
 //                            else {
 //                                edittext.setError("Required field");
@@ -795,7 +795,8 @@ edittext.setHint("रिमार्क्स");
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
@@ -814,7 +815,8 @@ edittext.setHint("रिमार्क्स");
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView tv_asha_name,tv_father_name,tv_total_amt,tv_center_amt,tv_state_amt,tv_add_dedcut,tv_close,tv_dava_amt;
         EditText edt_no_days,edt_add_centre,edt_deduct_centre,edt_addremarks_centre,edt_deductremarks_centre,edt_add_state,edt_deduct_state,edt_addremarks_state,edt_deductremarks_state;
         RelativeLayout sblist;
@@ -823,7 +825,8 @@ edittext.setHint("रिमार्क्स");
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView)
+        {
             super(itemView);
             tv_asha_name = itemView.findViewById(R.id.tv_asha_name);
             tv_father_name = itemView.findViewById(R.id.tv_father_name);
@@ -852,39 +855,43 @@ edittext.setHint("रिमार्क्स");
             tv_status = itemView.findViewById(R.id.tv_status);
 
             sblist = itemView.findViewById(R.id.sblist);
-
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
 
     // convenience method for getting data at click position
-    AshaSalByBhm_Entity getItem(int id) {
+    AshaSalByBhm_Entity getItem(int id)
+    {
         return mData.get(id);
     }
 
     // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
+    void setClickListener(ItemClickListener itemClickListener)
+    {
         this.mClickListener = itemClickListener;
     }
 
     // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
+    public interface ItemClickListener
+    {
         void onItemClick(View view, int position);
     }
 
-    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String> {
+    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String>
+    {
         AshaSalByBhm_Entity data;
         String result;
         int position;
         private final ProgressDialog dialog = new ProgressDialog(context);
         private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 
-
-        AcceptRecordsFromPacs(AshaSalByBhm_Entity data, int position) {
+        AcceptRecordsFromPacs(AshaSalByBhm_Entity data, int position)
+        {
             this.data = data;
             this.position = position;
             //_uid = data.getId();
@@ -892,34 +899,42 @@ edittext.setHint("रिमार्क्स");
         }
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
+        protected String doInBackground(String... param)
+        {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.AcceptAshaSalaryByBhm(data, CommonPref.getUserDetails(context).getUserID(),app_version,devicename,CommonPref.getUserDetails(context).getUserrole());
+            result = WebServiceHelper.AcceptAshaSalaryByBhm(data, CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context),CommonPref.getUserDetails(context).getUserrole());
 
             return result;
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            if (this.dialog.isShowing()) {
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
 
             Log.d("Responsevalue", "" + result);
-            if (result != null) {
-                if(result.equals("1")){
-                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+            if (result != null)
+            {
+                if(result.equals("1"))
+                {
+                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM"))
+                    {
                         mData.get(position).setVerificationStatus("Y");
                     }
-                    else {
+                    else
+                    {
                         mData.get(position).set_MO_Verified("Y");
                     }
                     notifyDataSetChanged();
@@ -934,22 +949,27 @@ edittext.setHint("रिमार्क्स");
                                 }
                             }).show();
                     //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
                     builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.dismiss();
                         }
                     });
                 }
 
             }
-            else{
+            else
+            {
                 Toast.makeText(context, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
             }
 
@@ -957,7 +977,8 @@ edittext.setHint("रिमार्क्स");
     }
 
 
-    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String> {
+    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String>
+    {
         AshaSalByBhm_Entity data;
         String result;
         int position;
@@ -965,29 +986,29 @@ edittext.setHint("रिमार्क्स");
         private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
 
 
-        RejectRecordsFromPacs(AshaSalByBhm_Entity data, int position) {
+        RejectRecordsFromPacs(AshaSalByBhm_Entity data, int position)
+        {
             this.data = data;
             this.position = position;
             //_uid = data.getId();
             //rowid = data.get_phase1_id();
-
         }
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
+        protected String doInBackground(String... param)
+        {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.RejectAshaSalaryByBhm(data,CommonPref.getUserDetails(context).getUserID(),app_version,devicename,CommonPref.getUserDetails(context).getUserrole());
+            result = WebServiceHelper.RejectAshaSalaryByBhm(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context),CommonPref.getUserDetails(context).getUserrole());
             return result;
-
         }
 
         @Override
@@ -998,12 +1019,16 @@ edittext.setHint("रिमार्क्स");
                 this.dialog.dismiss();
             }
             Log.d("Responsevalue", "" + result);
-            if (result != null) {
-                if(result.equals("1")){
-                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")) {
+            if (result != null)
+            {
+                if(result.equals("1"))
+                {
+                    if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM"))
+                    {
                         mData.get(position).setVerificationStatus("R");
                     }
-                    else {
+                    else
+                    {
                         mData.get(position).set_MO_Verified("R");
                     }
 
@@ -1013,27 +1038,34 @@ edittext.setHint("रिमार्क्स");
                             .setTitle("सूचना")
                             .setMessage("रिकॉर्ड अस्वीकृत किया गया")
                             .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
                                     dialog.dismiss();
                                 }
                             }).show();
-                }else{
+                }
+                else
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
                     builder.setMessage("Failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.dismiss();
                         }
                     });
                 }
 
-            } else {
-
+            }
+            else
+            {
                 Toast.makeText(context, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
             }
 
@@ -1041,23 +1073,29 @@ edittext.setHint("रिमार्क्स");
     }
 
 
-    public static String getDeviceName() {
+    public static String getDeviceName()
+    {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
-
+        if (model.startsWith(manufacturer))
+        {
             return model.toUpperCase();
-        } else {
-
+        }
+        else
+        {
             return manufacturer.toUpperCase() + " " + model;
         }
     }
-    public String getAppVersion(){
-        try {
+    public String getAppVersion()
+    {
+        try
+        {
             version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
 //                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
 //                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

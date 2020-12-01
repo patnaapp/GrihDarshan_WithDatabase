@@ -538,9 +538,12 @@ public class Utiilties {
         return imei;
     }
 
-    public static String getAshaWorkActivityStatus(String code){
-        try{
-            switch (code){
+    public static String getAshaWorkActivityStatus(String code)
+    {
+        try
+        {
+            switch (code)
+            {
                 case "P":
                     return "विचाराधीन";
                 case "NA":
@@ -552,7 +555,9 @@ public class Utiilties {
                 default:
                     return "";
             }
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             return "";
         }
 
