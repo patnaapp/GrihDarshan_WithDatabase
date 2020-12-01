@@ -429,7 +429,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<UserRole> getUserRoleList(){
-
         ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
 
         try {
