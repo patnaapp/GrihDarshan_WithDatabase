@@ -43,7 +43,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     ImageView img_date1;
     EditText edt_date,edt_ben_no,edt_remark;
     Spinner sp_panchayt_type,sp_work_categ,sp_work;
-    TextView tv_cat_title,tv_activity,tv_panchayt;
+    TextView tv_cat_title,tv_activity,tv_panchayt,tv_hsc_name;
 
     ArrayList<Panchayat_List> panchayatEntitylist;
     Panchayat_List panchayatTypeEntity;
@@ -60,6 +60,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String workCategory,workCategoryId;
+    String entryType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         tv_cat_title=findViewById(R.id.tv_cat_title);
         tv_activity=findViewById(R.id.tv_activity);
         tv_panchayt=findViewById(R.id.tv_panchayt);
+        tv_hsc_name=findViewById(R.id.tv_hsc_name);
 
         edt_ben_no=findViewById(R.id.edt_ben_no);
         edt_remark=findViewById(R.id.edt_remark);
@@ -101,9 +103,11 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         hscEntity = (HscList_Entity) getIntent().getSerializableExtra("HSC");
+        entryType =  getIntent().getStringExtra("entryType");
 
-        tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
-        fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
+        tv_fn_yr.setText(fyear.getFinancial_year());
+        fn_mnth.setText(fmonth.get_MonthName());
+        //tv_hsc_name.setText(hscEntity.get_HSCName());
     }
 
     public void setWorkCategorySpinner(){
@@ -288,7 +292,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             AshaFascilitatorWorkEntity entity = new AshaFascilitatorWorkEntity();
             entity.setDistrictCode(userDetails.getDistrictCode());
             entity.setBlockCode(userDetails.getBlockCode());
-            entity.setHSCCODE(hscEntity.get_HSCCode());
+            //entity.setHSCCODE(hscEntity.get_HSCCode());
             entity.setPanchayatCode(panchayatTypeEntity.getPanchayat_code());
             entity.setAshaFacilitatorId(userDetails.getSVRID());
             entity.setFCAcitivtyId(activityEntity.get_ActivityId());

@@ -11,33 +11,26 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     public static Class<AshaFascilitatorWorkEntity> AshaFascilitatorWorkEntity_CLASS = AshaFascilitatorWorkEntity.class;
 
-    private String DistrictCode,BlockCode,HSCCODE,PanchayatCode,AshaFacilitatorId,FCAcitivtyId,NumberOfBen,FCAcitivtyCategoryId,ActivityDate,MonthId,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
-
+    private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
+    private String Verification,VerificationStatus;
     public AshaFascilitatorWorkEntity(SoapObject sobj) {
-//        this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
-//        this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
-//        //this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
-//        this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
-//        this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
-//        this.MonthName = sobj.getProperty("MonthName").toString();
-//        this.FinYear = sobj.getProperty("FinYear").toString();
-//        this.ActivityDate = sobj.getProperty("ActivityDate").toString();
-//        this.RegisterId = sobj.getProperty("RegisterId").toString();
-//        this.Volume = sobj.getProperty("Volume").toString();
-//        this.RegisterPageNo = sobj.getProperty("RegisterPageNo").toString();
-//        this.RegisterDesc = sobj.getProperty("RegisterDesc").toString();
-//        this.PageSerialNo = sobj.getProperty("PageSerialNo").toString();
-//        this.RegisterDate = sobj.getProperty("RegisterDate").toString();
-//        this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
-//        this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
-//        this.IsFinalize = sobj.getProperty("IsFinalize").toString();
-//        this._IsANMFinalize = sobj.getProperty("ANMVerified").toString();
-//      //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
-//        this.ActTypeId = sobj.getProperty("ActTypeId").toString();
-//        this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
-//        this.ActivityRate = sobj.getProperty("ActivityRate").toString();
-//        this.Remarks = sobj.getProperty("Remarks").toString();
-//        this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+        this.FYearId = sobj.getProperty("FinYear").toString();
+        this.Remarks = sobj.getProperty("Remarks").toString();
+        this.FCAshaActivityId = sobj.getProperty("FCAshaActivityId").toString();
+        this.PanchayatName = sobj.getProperty("PanchayatName").toString();
+        this.PanchayatCode = sobj.getProperty("PanchayatCode").toString();
+        this.HSCName = sobj.getProperty("HSCName").toString();
+        this.HSCCODE = sobj.getProperty("HSCCode").toString();
+        this.MonthName = sobj.getProperty("MonthName").toString();
+        this.MonthId = sobj.getProperty("MonthId").toString();
+        this.FCAcitivtyCategoryDesc = sobj.getProperty("FCAcitivtyCategoryDesc").toString();
+        this.FCActivityDesc = sobj.getProperty("FCActivityDesc").toString();
+        this.FCAcitivtyCategoryId = sobj.getProperty("FCAcitivtyCategoryId").toString();
+        this.FCAcitivtyId = sobj.getProperty("FCActivityId").toString();
+        this.ActivityDate = sobj.getProperty("ActivityDate").toString();
+        this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
+        this.Verification = sobj.getProperty("Verification").toString();
+        this.NumberOfBen = sobj.getProperty("NumberOfBen").toString();
     }
 
     public AshaFascilitatorWorkEntity() {
@@ -62,6 +55,62 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getHSCName() {
+        return HSCName;
+    }
+
+    public void setHSCName(String HSCName) {
+        this.HSCName = HSCName;
+    }
+
+    public String getPanchayatName() {
+        return PanchayatName;
+    }
+
+    public void setPanchayatName(String panchayatName) {
+        PanchayatName = panchayatName;
+    }
+
+    public String getFCActivityDesc() {
+        return FCActivityDesc;
+    }
+
+    public void setFCActivityDesc(String FCActivityDesc) {
+        this.FCActivityDesc = FCActivityDesc;
+    }
+
+    public String getFCAcitivtyCategoryDesc() {
+        return FCAcitivtyCategoryDesc;
+    }
+
+    public void setFCAcitivtyCategoryDesc(String FCAcitivtyCategoryDesc) {
+        this.FCAcitivtyCategoryDesc = FCAcitivtyCategoryDesc;
+    }
+
+    public String getMonthName() {
+        return MonthName;
+    }
+
+    public void setMonthName(String monthName) {
+        MonthName = monthName;
+    }
+
+    public String getVerification() {
+        return Verification;
+    }
+
+    public void setVerification(String verification) {
+        Verification = verification;
+    }
+
+    public String getVerificationStatus() {
+        return VerificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        VerificationStatus = verificationStatus;
     }
 
     public String getDistrictCode() {

@@ -30,12 +30,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -74,6 +76,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     LinearLayout ll_hsc_list;
     //Button btn_proceed,btn_ashafc,btn_proceed1;
 
+
+
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
     ArrayList<HscList_Entity> hscListArray;
@@ -96,6 +100,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Boolean isFinalize = false;
 
     ArrayList<AshaWorkEntity> ashaWorkData;
+    ArrayList<AshaFascilitatorWorkEntity> ashaFcWorkData;
 
     private ProgressDialog dialog;
 
@@ -128,7 +133,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         // Log.d("jvjbvj",fyear+""+fmonth);
                         intent.putExtra("FYear", fyear);
                         intent.putExtra("FMonth", fmonth);
-                        intent.putExtra("HSC",hscEntity);
+                        //intent.putExtra("HSC",hscEntity);
+                        intent.putExtra("entryType","I");
                         //intent.putExtra("BlockCode",userInfo.getBlockCode());
                         getContext().startActivity(intent);
                     }
@@ -397,7 +403,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-            ll_hsc_list.setVisibility(View.VISIBLE);
+            //ll_hsc_list.setVisibility(View.VISIBLE);
         }
 
         tv_block.setText(userInfo.getBlockNameHN());
@@ -565,7 +571,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
-                        setHSCSpinner();
+                        //ll_floating_btn.setVisibility(View.VISIBLE);
+                        new SyncFCAshaActivityList().execute();
                     }
                 }
                 break;
@@ -640,6 +647,35 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
+    public void setupFCAshaRecyclerView(){
+        ll_dmf_tab.setVisibility(View.VISIBLE);
+        tv_monthly.setVisibility(View.GONE);
+
+        //isFinalize = isAshaFinalizeWork();
+        tabType = "D";
+        handleTabView();
+        //loadDailyRecyclerData();
+
+//        if(ashaWorkData.size() == 0){
+//            tv_note.setVisibility(View.GONE);
+//            ll_floating_btn.setVisibility(View.VISIBLE);
+//        }
+//
+//        if(isFinalize){
+//            //btn_proceed.setVisibility(View.GONE);
+//            ll_floating_btn.setVisibility(View.GONE);
+//            tv_note.setVisibility(View.VISIBLE);
+//            // tv_finalize.setVisibility(View.GONE);
+//        }else{
+////            btn_proceed.setVisibility(View.VISIBLE);
+////            btn_proceed.setText("स्थायी करें");
+//            ll_floating_btn.setVisibility(View.VISIBLE);
+//            tv_note.setVisibility(View.GONE);
+//            //tv_finalize.setVisibility(View.VISIBLE);
+//        }
+
+    }
+
     public void setupRecuyclerView(){
         ll_dmf_tab.setVisibility(View.VISIBLE);
 
@@ -669,9 +705,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void loadDailyRecyclerData(){
-        rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
-        rv_data.setAdapter(adapter);
+        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+            rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
+            AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
+            rv_data.setAdapter(adapter);
+        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+            rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
+            AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(getContext(), ashaFcWorkData, fyear, fmonth);
+            rv_data.setAdapter(adapter);
+        }
+
     }
 
     public void loadMonthlyRecyclerData(){
@@ -765,6 +808,39 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
 
         return false;
+    }
+
+    private class SyncFCAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaFascilitatorWorkEntity>> {
+
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaFascilitatorWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaFCWorkActivityList(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFascilitatorWorkEntity> result) {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+            if (result != null)
+            {
+                ashaFcWorkData = result;
+                setupFCAshaRecyclerView();
+            }else{
+                Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
     }
 
     private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
