@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,7 +48,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
     DataBaseHelper dbhelper;
     LinearLayout ll_monthly,ll_daily,ll_dmf_tab,ll_hsc;
     String tabType = "D";
-    String hscname="",hsccode="";
+    String hscname="",hsccode="",facilator_name="",facilator_id="",svri_id="";
     private ProgressDialog dialog;
     ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
 
@@ -66,7 +68,10 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
         tv_role.setText("आशा फैसिलिटेटर");
-        loadWorkerFascilatorData();
+        tv_year.setText(fyear.getFinancial_year());
+        tv_month.setText(fmonth.get_MonthName());
+        loadHscList();
+        //loadWorkerFascilatorData();
 
     }
 
@@ -89,7 +94,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         ll_hsc = findViewById(R.id.ll_hsc);
         ll_daily.setVisibility(View.GONE);
         ll_monthly.setVisibility(View.GONE);
-        ll_hsc.setVisibility(View.GONE);
+        //ll_hsc.setVisibility(View.GONE);
 
         // btn_finalize.setVisibility(View.GONE);
         sp_asha_fc.setOnItemSelectedListener(this);
@@ -100,16 +105,33 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
         switch (parent.getId()) {
-
-            case R.id.sp_worker:
+            case R.id.sp_hsc_list:
                 if (position > 0)
                 {
-                    AshaWoker_Entity role = ashaworkerList.get(position - 1);
-                    asha_worker_nm = role.get_Asha_Name_Hn();
-                    asha_worker_id = role.get_ASHAID();
-                    svrid = role.get_svr_id();
-                    tv_name.setText(asha_worker_nm);
-                    ll_dmf_tab.setVisibility(View.VISIBLE);
+                    HscList_Entity role = hscList.get(position - 1);
+                    hscname = role.get_HSCName_Hn();
+                    hsccode = role.get_HSCCode();
+                    facilitatorList = dbhelper.getAshaFacilitatorList(hsccode);
+                    if (facilitatorList.size()>0)
+                    {
+                        loadWorkerFascilatorData();
+                    }
+                    else
+                    {
+                        new GetAshaFacilitatorList().execute();
+                    }
+                    // loadWorkerFascilatorData();
+
+                }
+                break;
+
+            case R.id.sp_asha_fc:
+                if (position > 0)
+                {
+                    AshaFacilitator_Entity role = facilitatorList.get(position-1);
+                    facilator_name = role.get_Facilitator_Name_Hn();
+                    facilator_id = role.get_Facilitator_ID();
+                    svri_id = role.get_svr_id();
                     new SynchronizeFCActivityList().execute();
 
                 }
@@ -124,49 +146,47 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
     public void loadWorkerFascilatorData()
     {
-
-
-            facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
-            ArrayList array = new ArrayList<String>();
-            array.add("-Select-");
-            array.add("ALL");
-            for (AshaFacilitator_Entity info: facilitatorList)
-            {
-                // if(!info.getFinancial_year().equals("anyType{}")){
-                array.add(info.get_Facilitator_Name_Hn());
-                // }
-            }
-            ArrayAdapter adaptor = new ArrayAdapter(AshaFcAccpRjct_ActivityList.this, android.R.layout.simple_spinner_item, array);
-            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+    //    array.add("ALL");
+        for (AshaFacilitator_Entity info: facilitatorList)
+        {
+            // if(!info.getFinancial_year().equals("anyType{}")){
+            array.add(info.get_Facilitator_Name_Hn());
+            // }
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(AshaFcAccpRjct_ActivityList.this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_asha_fc.setAdapter(adaptor);
-        sp_asha_fc.setSelection(1);
 
         sp_asha_fc.setOnItemSelectedListener(this);
     }
 
-    private class SynchronizeFCActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
-
+    private class SynchronizeFCActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>>
+    {
         private final ProgressDialog dialog = new ProgressDialog(AshaFcAccpRjct_ActivityList.this);
 
         private final AlertDialog alertDialog = new AlertDialog.Builder(AshaFcAccpRjct_ActivityList.this).create();
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Loading details...");
             this.dialog.show();
         }
 
         @Override
-        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
-
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param)
+        {
             // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
             return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserrole());
         }
 
         @Override
-        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result)
+        {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -176,9 +196,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
             {
                 ashawork=result;
                 setupRecuyclerView(result);
-
                 //  new SynchronizeMonthlyAshaActivityList().execute();
-
             }
         }
     }
@@ -194,5 +212,60 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         rv_data.setAdapter(adapter);
     }
 
+    public void loadHscList()
+    {
+        hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getBlockCode(),CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserID());
 
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        for (HscList_Entity info: hscList){
+            array.add(info.get_HSCName_Hn());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(AshaFcAccpRjct_ActivityList.this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_hsc_list.setAdapter(adaptor);
+    }
+
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>
+    {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Facilitator details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsccode);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+                if (i > 0) {
+
+                    Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+                    loadWorkerFascilatorData();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        }
+    }
 }

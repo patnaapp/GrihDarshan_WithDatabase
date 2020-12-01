@@ -629,7 +629,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setcentreamount_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC"))
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") )
                     {
                         new GetAshaWorkersList().execute();
                     }

@@ -74,6 +74,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc;
     LinearLayout ll_hsc_list;
+    //Button btn_proceed,btn_ashafc,btn_proceed1;
+
 
 
     ArrayList<Financial_Year> fYearArray;
