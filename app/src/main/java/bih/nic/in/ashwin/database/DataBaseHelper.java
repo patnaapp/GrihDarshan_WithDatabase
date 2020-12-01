@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
@@ -28,6 +30,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -458,6 +461,59 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return userRoleList;
     }
+
+    public long setregisterMapping_Local(ArrayList<RegisteMappingEbtity> list) {
+
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<RegisteMappingEbtity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("RegisterIdMapping",null,null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Activity_id", info.get(i).get_Activity_Id());
+                    values.put("Register_id", info.get(i).get_RegisterId());
+                    values.put("Register_name", info.get(i).get_RegisterDesc());
+                    values.put("Register_name_hnd", info.get(i).get_RegisterDesc_Hn());
+
+                    String[] whereArgs = new String[]{info.get(i).get_RegisterId()};
+
+//                    c = db.update("RegisterIdMapping", values, null", whereArgs);
+//                    if (!(c > 0)) {
+
+                        c = db.insert("RegisterIdMapping", null, values);
+                 //   }
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
     public long setregisterDetails_Local(ArrayList<RegisterDetailsEntity> list) {
 
 
@@ -1022,14 +1078,51 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<RegisteMappingEbtity> getRegisterMappedList(String activity_id){
+
+        ArrayList<RegisteMappingEbtity> list = new ArrayList<RegisteMappingEbtity>();
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+             String[] whereArgs = new String[]{activity_id};
+            Cursor cur = db.rawQuery("Select * from RegisterIdMapping where Activity_id=?",whereArgs);
+            while (cur.moveToNext()) {
+
+                RegisteMappingEbtity info = new RegisteMappingEbtity();
+
+                info.set_RegisterId(cur.getString(cur.getColumnIndex("Register_id")));
+                info.set_RegisterDesc(cur.getString(cur.getColumnIndex("Register_name")));
+                info.set_RegisterDesc_Hn(cur.getString(cur.getColumnIndex("Register_name_hnd")));
+                info.set_Activity_Id(cur.getString(cur.getColumnIndex("Activity_id")));
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+   // public ArrayList<RegisterDetailsEntity> getRegisterdescList(ArrayList regidlist){
     public ArrayList<RegisterDetailsEntity> getRegisterdescList(){
 
         ArrayList<RegisterDetailsEntity> list = new ArrayList<RegisterDetailsEntity>();
         try {
+//            String str = "";
+//            for(String s: regidlist){
+//                str = str+","+"\'"+s+"\'";
+//            }
+////to remove the extra ' in the begining
+//            str = str.substring(1);
+//            return str;
+
             SQLiteDatabase db = this.getReadableDatabase();
            // String[] whereArgs = new String[]{activityType,dmType};
             Cursor cur = db.rawQuery("Select * from RegisterDetails ",null);
-
+          //  Cursor cur= db.rawQuery("SELECT * FROM RegisterDetails WHERE register_id IN (" + TextUtils.join(",", Collections.nCopies(regidlist.size(), "?")) + ")", new String[regidlist.size()]);
             while (cur.moveToNext()) {
 
                 RegisterDetailsEntity info = new RegisterDetailsEntity();

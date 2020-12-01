@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
@@ -47,6 +48,7 @@ import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -67,13 +69,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     ArrayList<Activity_Type_entity> activityTypeArray;
     ArrayList<ActivityCategory_entity> categoryArray;
-    ArrayList<RegisterDetailsEntity> registerArray;
+    //ArrayList<RegisterDetailsEntity> registerArray;
+    ArrayList<RegisteMappingEbtity> registerArray;
     ArrayList<Activity_entity> activityArray;
 
     Activity_Type_entity activityTypeEntity;
     ActivityCategory_entity categoryEntity;
     Activity_entity activityEntity;
-    RegisterDetailsEntity registerDetailsEntity;
+   // RegisterDetailsEntity registerDetailsEntity;
+   RegisteMappingEbtity registerDetailsEntity;
 
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
@@ -84,6 +88,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     String entryType,role,volume;
     LinearLayout ll_btn;
     AshaWorkEntity info;
+    ArrayList<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -93,16 +98,17 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         initializeViews();
         extractDataFromIntent();
-
         //setCategorySpinner();
         setCategoryTypeSpinner();
-        setRegisterSpinner();
+       // setRegisterSpinner();
 
         edt_ben_no.addTextChangedListener(new TextWatcher()
         {
-
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
@@ -126,26 +132,36 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             }
 
             @Override
-            public void afterTextChanged(Editable editable){}
+            public void afterTextChanged(Editable editable)
+            {
+
+            }
         });
 
         edt_abbr.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+
+            }
 
             @Override
-            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2){
-                if (!charSequence.toString().isEmpty() && charSequence.length()>0){
-
-                    new Handler().postDelayed(new Runnable() {
+            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (!charSequence.toString().isEmpty() && charSequence.length()>0)
+                {
+                    new Handler().postDelayed(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             setFieldAbbrWise(charSequence.toString());
                         }
                     }, 500);
                 }
-                else{
+                else
+                    {
                     edt_amount_total.setText("0");
                 }
             }
@@ -153,7 +169,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             @Override
             public void afterTextChanged(Editable editable){}
         });
-
 
         btn_accp_rjct.setOnClickListener(new View.OnClickListener()
         {
@@ -173,8 +188,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     {
                         if (Utiilties.isOnline(AshaWorkerEntryForm_Activity.this))
                         {
-//
-//                            if (info.getVerificationStatus().contains("R"))
+////                            if (info.getVerificationStatus().contains("R"))
 //                            {
                             final EditText edittext = new EditText(AshaWorkerEntryForm_Activity.this);
 
@@ -188,19 +202,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             {
                                 public void onClick(DialogInterface dialog, int whichButton)
                                 {
-                                    //What ever you want to do with the value
-//                                Editable YouEditTextValue = edittext.getText();
-//                                //OR
+
                                     String YouEditTextValue = edittext.getText().toString();
-//                                        if (!YouEditTextValue.equals(""))
-//                                        {
+
                                     info.set_rejectedRemarks(YouEditTextValue);
                                     new AcceptRecordsFromPacs(info).execute();
                                     dialog.dismiss();
-//                                        }
-//                                        else {
-//                                            edittext.setError("Required field");
-//                                        }
+
                                 }
                             });
 
@@ -213,25 +221,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             });
 
                             alert.show();
-                            // }
 
-//                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-//                                    .setTitle("स्वीकृति की पुष्टि")
-//                                    .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-//                                    .setCancelable(false)
-//                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
-//                                    {
-//                                        public void onClick(DialogInterface dialog, int id)
-//                                        {
-//                                            new AcceptRecordsFromPacs(info).execute();
-//                                            dialog.dismiss();
-//                                        }
-//                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            }).show();
                         } else {
                             Utiilties.showAlet(AshaWorkerEntryForm_Activity.this);
 
@@ -251,9 +241,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             {
                                 public void onClick(DialogInterface dialog, int whichButton)
                                 {
-                                    //What ever you want to do with the value
-//                                Editable YouEditTextValue = edittext.getText();
-//                                //OR
+
                                     String YouEditTextValue = edittext.getText().toString();
                                     if (!YouEditTextValue.equals(""))
                                     {
@@ -276,23 +264,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             });
 
                             alert.show();
-//
-//                            new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-//                                    .setTitle("अस्वीकृति की पुष्टि")
-//                                    .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-//                                    .setCancelable(false)
-//                                    .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            new RejectRecordsFromPacs(info).execute();
-//                                            dialog.dismiss();
-//                                        }
-//                                    }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            }).show();
-
 
                         } else {
 
@@ -367,22 +338,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
                         alert.show();
 
-//                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-//                                .setTitle("स्वीकृति की पुष्टि")
-//                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-//                                .setCancelable(false)
-//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        //new AcceptRecordsFromPacs(info, position).execute();
-//                                        new AcceptRecordsFromPacs(info).execute();
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).show();
                     }
                 }
                 else {
@@ -451,23 +406,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
                         alert.show();
 
-
-//                        new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-//                                .setTitle("अस्वीकृति की पुष्टि")
-//                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-//                                .setCancelable(false)
-//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        // new RejectRecordsFromPacs(info, position).execute();
-//                                        new RejectRecordsFromPacs(info).execute();
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).show();
                     }
 
                 }
@@ -552,10 +490,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         edt_work_complt_date = findViewById(R.id.edt_work_complt_date);
         edt_amount = findViewById(R.id.edt_amount);
-        //edt_volume = findViewById(R.id.edt_volume);
-//        edt_pageno = findViewById(R.id.edt_pageno);
-//        edt_slno = findViewById(R.id.edt_slno);
-        //edt_reg_name = findViewById(R.id.edt_reg_name);
+
         edt_reg_date = findViewById(R.id.edt_reg_date);
         edt_amount_total = findViewById(R.id.edt_amount_total);
 
@@ -614,12 +549,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             btn_accp_rjct.setVisibility(View.GONE);
         }
 
-        if (entryType.equals("U")){
+        if (entryType.equals("U"))
+        {
             info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
             setData();
         }
-
+       // registerArray = dbhelper.getRegisterMappedList(info.getActivityId());
         setVolumeArraySpinner();
+
     }
 
     public void setData()
@@ -636,9 +573,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 btn_accpt.setVisibility(View.VISIBLE);
                 ll_btn.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setVisibility(View.GONE);
-//                btn_rjct.setVisibility(View.VISIBLE);
-//                btn_accpt.setVisibility(View.VISIBLE);
-                //  btn_accp_rjct.setVisibility(View.GONE);
+
             }
             else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N")))
             {
@@ -663,42 +598,18 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 btn_rjct.setVisibility(View.GONE);
                 btn_accpt.setVisibility(View.GONE);
                 btn_accp_rjct.setVisibility(View.GONE);
-//                if (info.getVerificationStatus().equals("P"))
-//                {
-//                    holder.tv_status.setText("विचाराधीन");
-//                    holder.tv_status.setText("विचाराधीन");
-//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-//                }
-//                else if (info.getVerificationStatus().equals("A")){
-//                    holder.tv_status.setText("अनुसंसित");
-//                    holder.tv_status.setText("अनुसंसित");
-//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-//                }
-//                else if (info.getVerificationStatus().equals("R"))
-//                {
-//                    holder.tv_status.setText("अस्वीकृत");
-//                    holder.tv_status.setText("अस्वीकृत");
-//                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
-//                }
 
             }
 
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
-            //edt_reg_name.setText(info.getRegisterDesc());
-//            edt_volume.setText(info.getVolume());
-            // edt_pageno.setText(info.getRegisterPageNo());
-//        edt_slno.setText(info.getPageSerialNo());
+
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
             edt_ben_no.setText(info.getNoOfBeneficiary());
             edt_remark.setText(info.getRemarks());
             edt_amount_total.setText(info.getActivityAmt());
 
             img_date1.setVisibility(View.GONE);
-            //  tv_note.setVisibility(View.VISIBLE);
-//                edt_volume.setEnabled(false);
-//            edt_pageno.setEnabled(false);
-            //      edt_slno.setEnabled(false);
 
             sp_work_categ.setEnabled(false);
 
@@ -713,10 +624,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
-            // edt_reg_name.setText(info.getRegisterDesc());
-            // edt_volume.setText(info.getVolume());
-            // edt_pageno.setText(info.getRegisterPageNo());
-//        edt_slno.setText(info.getPageSerialNo());
+
             edt_ben_no.setText(info.getNoOfBeneficiary());
             edt_remark.setText(info.getRemarks());
             edt_amount_total.setText(info.getActivityAmt());
@@ -736,6 +644,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 edt_remark.setEnabled(false);
 
             }
+            //setRegisterSpinner(info.getActivityId());
         }
     }
 
@@ -808,13 +717,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setRegisterSpinner(){
-        registerArray = dbhelper.getRegisterdescList();
+    public void setRegisterSpinner(String activity_id){
+        //registerArray = dbhelper.getRegisterdescList(list);
+       // registerArray = dbhelper.getRegisterdescList();
+        registerArray = dbhelper.getRegisterMappedList(activity_id);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
 
-        for (RegisterDetailsEntity info: registerArray){
+        for (RegisteMappingEbtity info: registerArray)
+        {
             array.add(info.get_RegisterDesc_Hn());
             if (entryType.equals("U") && info.get_RegisterId().equals(this.info.getRegisterId()))
             {
@@ -828,7 +740,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_reg_name.setAdapter(adaptor);
         sp_reg_name.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U")){
+        if(entryType.equals("U"))
+        {
             sp_reg_name.setSelection(pos);
         }
     }
@@ -944,11 +857,22 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             case R.id.sp_work:
                 if (i > 0) {
                     activityEntity = activityArray.get(i-1);
+
+//                    String numbersArray = activityEntity.get_RegisterId();
+//                     list = new ArrayList<String>();
+//                    for (int k = 0, j, n = numbersArray.length(); k < n; k = j + 1)
+//                    {
+//                        j = numbersArray.indexOf(":", k);
+//                        list.add(numbersArray.substring(k, j).trim());
+//                    }
+
                     edt_amount.setText(activityEntity.get_ActivityAmt());
                     tv_activity_type.setText(Utiilties.getActivityTypeStatus(activityEntity.getAcitivtyType()));
                     tv_activity_type.setVisibility(View.VISIBLE);
                     tv_activity.setError(null);
                     edt_abbr.setText(activityEntity.getAbbr());
+
+                    setRegisterSpinner(activityEntity.get_ActivityId());
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
                     activityEntity = null;

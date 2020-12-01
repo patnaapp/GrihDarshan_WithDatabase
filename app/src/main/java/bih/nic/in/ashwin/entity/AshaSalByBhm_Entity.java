@@ -35,12 +35,15 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
     private int FinalAmt =0;
     private String _rejected_remarks = "";
     private String _MO_Verified = "";
+    private String _HQADMVerified = "";
+    private String _svrid = "";
 
 
     public AshaSalByBhm_Entity() {
 
     }
     public AshaSalByBhm_Entity(SoapObject sobj) {
+        this._svrid = sobj.getProperty("svrid").toString();
         this._DistrictCode = sobj.getProperty("DistrictCode").toString();
         this._BlockCode = sobj.getProperty("BlockCode").toString();
         this._PanchayatCode = sobj.getProperty("PanchayatCode").toString();
@@ -164,6 +167,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
 
         this.VerificationStatus = sobj.getProperty("BLKBHMVerified").toString();
         this._MO_Verified = sobj.getProperty("BLKMOVerified").toString();
+        this._HQADMVerified = sobj.getProperty("HQADMVerified").toString();
       //  this._rejected_remarks = sobj.getProperty("BLKBHMVerified").toString();
     }
 
@@ -358,6 +362,22 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
 
     public void set_MO_Verified(String _MO_Verified) {
         this._MO_Verified = _MO_Verified;
+    }
+
+    public String get_HQADMVerified() {
+        return _HQADMVerified;
+    }
+
+    public void set_HQADMVerified(String _HQADMVerified) {
+        this._HQADMVerified = _HQADMVerified;
+    }
+
+    public String get_svrid() {
+        return _svrid;
+    }
+
+    public void set_svrid(String _svrid) {
+        this._svrid = _svrid;
     }
 
     @Override

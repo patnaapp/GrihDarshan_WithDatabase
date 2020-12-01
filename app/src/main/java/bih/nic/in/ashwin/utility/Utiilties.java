@@ -588,6 +588,28 @@ public class Utiilties {
 
     }
 
+    public static String getAshaWorkActivityStatusHQ(String code)
+    {
+        try
+        {
+            switch (code)
+            {
+
+                case "Y":
+                    return "अनुशंषित";
+                case "N":
+                    return "विचाराधीन";
+                default:
+                    return "";
+            }
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+
+    }
+
     public static String getActivityTypeStatus(String code)
     {
         try

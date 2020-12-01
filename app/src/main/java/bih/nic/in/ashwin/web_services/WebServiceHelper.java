@@ -66,6 +66,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -77,10 +78,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
 
-    //public static final String SERVICENAMESPACE = "http://10.133.20.159/";
-    public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
-    //public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
-    public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
+    public static final String SERVICENAMESPACE = "http://10.133.20.159/";
+    //public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
+    public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
+    //public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
 
 
     public static final String APPVERSION_METHOD = "getAppLatest";
@@ -93,6 +94,7 @@ public class WebServiceHelper {
     public static final String PANCHAYAT_LIST_METHOD = "getPanchayat";
     public static final String Block_LIST_METHOD = "getBlock";
     public static final String Register_METHOD = "Registerdetails";
+    public static final String RegisterMapping_METHOD = "msActivityRegisterMapping";
     public static final String Strate_METHOD = "StateAmount";
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
@@ -484,6 +486,30 @@ public class WebServiceHelper {
                 return fieldList;
             }
 
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<RegisteMappingEbtity> getregisterActMappingDetails() {
+
+        SoapObject res1;
+        res1 = getServerData(RegisterMapping_METHOD, RegisteMappingEbtity.RegisterMapping_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<RegisteMappingEbtity> fieldList = new ArrayList<RegisteMappingEbtity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    RegisteMappingEbtity sm = new RegisteMappingEbtity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
         }
 
 
@@ -920,6 +946,30 @@ public class WebServiceHelper {
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     AshaWorkEntity sm = new AshaWorkEntity(final_object,"1");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<Activity_entity> getAshaWorkMonthlyActivityListBHM(String workId, String monthId, String yearId,String role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORK_Month_LIST_METHOD, Activity_entity.Activity_CLASS, "AshaWorkerId","MonthId","FYearId","Role", workId,monthId,yearId,role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Activity_entity> fieldList = new ArrayList<Activity_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Activity_entity sm = new Activity_entity(final_object,"2");
                     fieldList.add(sm);
                 }
             } else
