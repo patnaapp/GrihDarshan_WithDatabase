@@ -100,6 +100,7 @@ public class WebServiceHelper {
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String Hsc_LIST_METHOD = "getHSCList";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
+    public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
@@ -906,6 +907,29 @@ public class WebServiceHelper {
         return fieldList;
     }
 
+    public static ArrayList<AshaFascilitatorWorkEntity> getAshaFCWorkActivityList(String workId, String monthId, String yearId) {
+
+        SoapObject res1;
+        res1 = getServerData(FCASHAWORK_LIST_METHOD, AshaFascilitatorWorkEntity.AshaFascilitatorWorkEntity_CLASS, "AshaFacilitatorId","MonthId","FYearId", workId,monthId,yearId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaFascilitatorWorkEntity> fieldList = new ArrayList<AshaFascilitatorWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaFascilitatorWorkEntity sm = new AshaFascilitatorWorkEntity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
 
     public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId,String userrole) {
 

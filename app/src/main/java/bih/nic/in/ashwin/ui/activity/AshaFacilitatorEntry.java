@@ -60,6 +60,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String workCategory,workCategoryId;
+    String entryType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         fyear = (Financial_Year) getIntent().getSerializableExtra("FYear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         hscEntity = (HscList_Entity) getIntent().getSerializableExtra("HSC");
+        entryType =  getIntent().getStringExtra("entryType");
 
         tv_fn_yr.setText(fyear.getFinancial_year());
         fn_mnth.setText(fmonth.get_MonthName());
