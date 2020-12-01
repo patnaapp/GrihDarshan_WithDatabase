@@ -108,6 +108,10 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         tv_fn_yr.setText(fyear.getFinancial_year());
         fn_mnth.setText(fmonth.get_MonthName());
         //tv_hsc_name.setText(hscEntity.get_HSCName());
+
+        if (entryType.equals("U")){
+            AshaFascilitatorWorkEntity info = (AshaFascilitatorWorkEntity)getIntent().getSerializableExtra("data");
+        }
     }
 
     public void setWorkCategorySpinner(){

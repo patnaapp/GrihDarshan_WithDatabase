@@ -71,7 +71,8 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                 intent.putExtra("FYear", fyear);
                 intent.putExtra("FMonth", fmonth);
                 //intent.putExtra("HSC",hscEntity);
-                intent.putExtra("entryType","I");
+                intent.putExtra("entryType","U");
+                intent.putExtra("data",info);
                 context.startActivity(intent);
 
             }
