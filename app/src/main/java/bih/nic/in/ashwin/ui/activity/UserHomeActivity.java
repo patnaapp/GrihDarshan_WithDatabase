@@ -51,6 +51,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
@@ -474,13 +475,51 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setPanchayatName(result,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0)
                 {
-                    new GetRegisterDetails().execute();
+                    new GetRegisterActMappingDetails().execute();
                     Toast.makeText(getApplicationContext(), "Panchayat loaded", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                     new GetRegisterDetails().execute();
+                }
+
+            }
+        }
+    }
+
+
+    private class GetRegisterActMappingDetails extends AsyncTask<String, Void, ArrayList<RegisteMappingEbtity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Register Mapping details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<RegisteMappingEbtity> doInBackground(String... param) {
+
+            return WebServiceHelper.getregisterActMappingDetails();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<RegisteMappingEbtity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setregisterMapping_Local(result);
+                if (i > 0) {
+                    new GetRegisterDetails().execute();
+                    Toast.makeText(getApplicationContext(), "Register Mapping details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -670,7 +709,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>
+    {
 
         @Override
         protected void onPreExecute()
@@ -680,8 +720,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
 
         @Override
-        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
-
+        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param)
+        {
             return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),CommonPref.getUserDetails(getApplicationContext()).getHSCCode());
         }
 

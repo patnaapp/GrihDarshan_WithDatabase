@@ -43,6 +43,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
+import bih.nic.in.ashwin.ui.activity.AshaFcAccpRjct_ActivityList;
 import bih.nic.in.ashwin.ui.activity.AshaSalaryByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
@@ -67,7 +68,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
-    Button btn_proceed,btn_ashafc,btn_proceed1;
+    Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -101,6 +102,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         initializeViews(root);
         btn_proceed.setVisibility(View.GONE);
         btn_proceed1.setVisibility(View.GONE);
+        btn_asha_fc.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
         ll_floating_btn.setVisibility(View.GONE);
 
@@ -147,6 +149,27 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
+
+        btn_asha_fc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AshaFcAccpRjct_ActivityList.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                // i.putExtra("role", userRole);
+                i.putExtra("role", "BLKBCM");
+
+                // i.putExtra("ashaid", asha_id);
+                // i.putExtra("ashanm", ashaname);
+
+
+                // i.putExtra("_faciltator_id", facilator_id);
+                // i.putExtra("_faciltator_nm", facilator_name);
+                //   i.putExtra("svr",svri_id);
+                startActivity(i);
+            }
+        });
+
 
         btn_proceed1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +219,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
+
+
+
+
         btn_ashafc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,10 +314,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
+        btn_asha_fc = root.findViewById(R.id.btn_asha_fc);
         btn_proceed1 = root.findViewById(R.id.btn_proceed1);
         btn_proceed.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
         btn_proceed1.setVisibility(View.GONE);
+        btn_asha_fc.setVisibility(View.GONE);
 
         tv_note = root.findViewById(R.id.tv_note);
 
@@ -313,8 +342,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ll_division.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
             btn_proceed1.setVisibility(View.VISIBLE);
+            btn_asha_fc.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
+
         else
         {
             //   ll_hsc.setVisibility(View.GONE);
@@ -465,16 +496,27 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_proceed.setVisibility(View.GONE);
                         btn_proceed1.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
+                        btn_asha_fc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
                     {
                         btn_proceed.setVisibility(View.GONE);
                         btn_proceed1.setVisibility(View.VISIBLE);
+                        btn_asha_fc.setVisibility(View.GONE);
+                        btn_ashafc.setVisibility(View.GONE);
+                                            ll_floating_btn.setVisibility(View.GONE);
+                    }
+                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                    {
+                        btn_proceed.setVisibility(View.GONE);
+                        btn_proceed1.setVisibility(View.VISIBLE);
+                        btn_asha_fc.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
                     }
+
                     else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }
@@ -637,6 +679,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void onActivityCheckboxChanged(int position, Boolean isChecked) {
         Activity_entity activity = mnthlyActList.get(position);
         activity.setChecked(isChecked);
+
         if(activity.getVerificationStatus() == null){
             activity.setVerificationStatus("P");
         }
@@ -820,12 +863,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private class UploadAshaMonthlyWorkDetail extends AsyncTask<String, Void, String>{
         AshaWorkEntity data;
+
         ArrayList<Activity_entity> monthlyData;
 
         private final ProgressDialog dialog = new ProgressDialog(getContext());
 
         public UploadAshaMonthlyWorkDetail(AshaWorkEntity data, ArrayList<Activity_entity> monthlyData) {
             this.data = data;
+
             this.monthlyData = monthlyData;
         }
 

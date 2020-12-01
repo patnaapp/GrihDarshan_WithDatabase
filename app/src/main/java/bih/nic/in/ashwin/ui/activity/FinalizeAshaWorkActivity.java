@@ -44,7 +44,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
     RecyclerView rv_data,rv_work;
     CheckBox ch_1,ch_2,ch_3;
-    LinearLayout ll_btn_bottom,ll_declaration;
+    LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -66,8 +66,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         extractDataFromIntent();
     }
 
-    void initializeViews()
-    {
+    void initializeViews() {
         dbhelper = new DataBaseHelper(this);
 
         tv_total_work = findViewById(R.id.tv_total_work);
@@ -94,7 +93,16 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         ll_btn_bottom = findViewById(R.id.ll_btn_bottom);
         ll_declaration = findViewById(R.id.ll_declaration);
+        ll_div_zone = findViewById(R.id.ll_div_zone);
 
+        if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO"))
+        {
+            ll_div_zone.setVisibility(View.GONE);
+        }
+        else
+        {
+            ll_div_zone.setVisibility(View.VISIBLE  );
+        }
         //category = getActivityCategory();
     }
 
@@ -219,7 +227,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public Double getTotalStateAmount()
     {
-        ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList(CommonPref.getUserDetails(this).getUserrole());
+
+        ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHA");
 
         Double amount = 0.0;
 

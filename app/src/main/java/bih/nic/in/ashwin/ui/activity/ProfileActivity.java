@@ -50,12 +50,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         img_ash_selfie=findViewById(R.id.img_ash_selfie);
 
         img_ash_selfie.setOnClickListener(ProfileActivity.this);
-
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onClick(View view)
+    {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) == true)
         {
@@ -66,7 +65,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         else
         {
-
             if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
             {
                 buildAlertMessageNoGps();
@@ -81,13 +79,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         builder.setMessage("GPS is turned OFF...\nDo U Want Turn On GPS..")
 //		builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
                 .setCancelable(false)
-                .setPositiveButton("Turn on GPS", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                .setPositiveButton("Turn on GPS", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                    {
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                .setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id)
+                    {
                         dialog.cancel();
                     }
                 });

@@ -26,11 +26,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
+import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -54,6 +57,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         this.fyear = fyear;
         this.fmonth = fmonth;
         this.context = context;
+
     }
 
 
@@ -412,6 +416,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                 }
             }
         });
+
+
     }
 
     // total number of rows
@@ -440,6 +446,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);
+
             sblist = itemView.findViewById(R.id.sblist);
             btn_accpt = itemView.findViewById(R.id.btn_accpt);
             btn_rjct = itemView.findViewById(R.id.btn_rjct);
@@ -647,5 +654,9 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
         return version;
     }
+
+
+
+
 
 }
