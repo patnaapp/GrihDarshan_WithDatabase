@@ -44,6 +44,7 @@ public class UserDetails implements KvmSerializable, Serializable {
     @SuppressWarnings("deprecation")
     public UserDetails(SoapObject obj) {
         this.setAuthenticated(Boolean.parseBoolean(obj.getProperty("isAuthenticated").toString()));
+        //this.setAuthenticated(true);
         this.setUserID(obj.getProperty("UserID").toString());
         this.setPassword(obj.getProperty("Password").toString());
         this.setUserName(obj.getProperty("UserName").toString());
