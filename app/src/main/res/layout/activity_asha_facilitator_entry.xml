@@ -36,26 +36,94 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_fn_yr"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="वित्तीय वर्ष: "
-                android:textSize="14sp"
-                android:textColor="@android:color/black"/>
+                android:id="@+id/ll_div_zone"
+                android:layout_below="@+id/ll_username"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <TextView
-                android:id="@+id/fn_mnth"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="वित्तीय महीना: "
-                android:textSize="14sp"
-                android:textColor="@android:color/black"/>
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_zone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="वित्तीय वर्ष"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_fn_yr"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_pan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="वित्तीय महीना: "
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/fn_mnth"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:id="@+id/ll_division"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="स्वास्थ्य उप केंद्र"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_hsc_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
             <LinearLayout
@@ -90,12 +158,39 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_panchayt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="पंचायत : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <Spinner
+                        android:background="@drawable/spinner_bg1"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/sp_panchayt_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent"/>
 
                 <LinearLayout
                     android:layout_marginBottom="12dp"
@@ -120,35 +215,6 @@
                         android:layout_height="36dp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="match_parent"/>
-
-                <LinearLayout
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_activity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="कार्य : [*]"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp"/>
-
-                    <Spinner
-                        android:background="@drawable/spinner_bg1"
-                        android:layout_marginTop="4dp"
-                        android:id="@+id/sp_work"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp" />
-
-
-                </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -159,23 +225,52 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_panchayt"
+                    android:id="@+id/tv_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="पंचायत : [*]"
+                    android:text="कार्य : [*]"
                     android:textColor="@color/color_black"
                     android:textSize="12sp"/>
 
                 <Spinner
                     android:background="@drawable/spinner_bg1"
                     android:layout_marginTop="4dp"
-                    android:id="@+id/sp_panchayt_type"
+                    android:id="@+id/sp_work"
                     android:layout_width="match_parent"
                     android:layout_height="36dp" />
+
+
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_marginBottom="12dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="लाभार्थियों की संख्या : [*]"
+                    android:textColor="@color/color_black"
+                    android:textSize="12sp"/>
+
+                <EditText
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/edt_ben_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/textboxshape"
+                    android:hint="लाभार्थियों की संख्या"
+                    android:padding="10dp"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="#222222"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -221,32 +316,7 @@
 
         </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="लाभार्थियों की संख्या : [*]"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
-
-                <EditText
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/edt_ben_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/textboxshape"
-                    android:hint="लाभार्थियों की संख्या"
-                    android:padding="10dp"
-                    android:inputType="number"
-                    android:singleLine="true"
-                    android:textColor="#222222"
-                    android:textSize="15sp" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="12dp"

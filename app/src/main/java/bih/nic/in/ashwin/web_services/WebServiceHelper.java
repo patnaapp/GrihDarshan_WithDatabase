@@ -77,10 +77,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
 
-    public static final String SERVICENAMESPACE = "http://10.133.20.159/";
-    //public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
-    public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
-    //public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
+    //public static final String SERVICENAMESPACE = "http://10.133.20.159/";
+    public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
+    //public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
+    public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
 
 
     public static final String APPVERSION_METHOD = "getAppLatest";
@@ -992,7 +992,7 @@ public class WebServiceHelper {
 
         request.addProperty("DistrictCode",data.getDistrictCode());
         request.addProperty("BlockCode",data.getBlockCode());
-        request.addProperty("HSCCODE",data.getHSCCODE());
+        //request.addProperty("HSCCODE",data.getHSCCODE());
         request.addProperty("PanchayatCode",data.getPanchayatCode());
         request.addProperty("AshaFacilitatorId",data.getAshaFacilitatorId());
         request.addProperty("FCAcitivtyId",data.getFCAcitivtyId());

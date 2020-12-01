@@ -364,7 +364,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
-            ll_hsc_list.setVisibility(View.VISIBLE);
+            //ll_hsc_list.setVisibility(View.VISIBLE);
         }
 
         tv_block.setText(userInfo.getBlockNameHN());
@@ -521,7 +521,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                         new SyncAshaActivityList().execute();
                     }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
-                        setHSCSpinner();
+                        ll_floating_btn.setVisibility(View.VISIBLE);
+                        //setHSCSpinner();
                     }
                 }
                 break;

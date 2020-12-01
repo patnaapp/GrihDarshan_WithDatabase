@@ -262,7 +262,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/ll_hsc_list"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
