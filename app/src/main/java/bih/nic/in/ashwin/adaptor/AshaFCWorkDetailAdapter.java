@@ -527,7 +527,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_asha_final;
-        TextView tv_workcategory,tv_work_cat_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
+        TextView tv_work_cat_type;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn,ll_asha_final;

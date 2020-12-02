@@ -12,7 +12,7 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkFinalizeEntity> AshaWorkEntity_CLASS = AshaWorkFinalizeEntity.class;
 
-    private String FinalizeBy,AshaWorkerId,FYearID,MonthId,TotalActivities_Asha,TotalAmt_Asha,UpdatedBy,deviceId,appVersion;
+    private String FinalizeBy,AshaWorkerId,FYearID,MonthId,TotalActivities_Asha,TotalAmt_Asha,UpdatedBy,deviceId,appVersion, userRole;
     private ArrayList<Activity_entity> activityArray;
 
     public AshaWorkFinalizeEntity(SoapObject sobj) {
@@ -42,6 +42,14 @@ public class AshaWorkFinalizeEntity implements KvmSerializable, Serializable {
 
     public static void setAshaWorkEntity_CLASS(Class<AshaWorkFinalizeEntity> ashaWorkEntity_CLASS) {
         AshaWorkEntity_CLASS = ashaWorkEntity_CLASS;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public String getAppVersion() {
