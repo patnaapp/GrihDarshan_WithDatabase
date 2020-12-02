@@ -36,6 +36,7 @@ public class UserDetails implements KvmSerializable, Serializable {
     private String AWCGOICode = "";
     private String _is_passwordChanged = "";
     private String email = "";
+    private String Asha_Img = "";
 
 
 
@@ -286,6 +287,15 @@ public class UserDetails implements KvmSerializable, Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public String getAsha_Img() {
+        return Asha_Img;
+    }
+
+    public void setAsha_Img(String asha_Img) {
+        Asha_Img = asha_Img;
     }
 
     @Override

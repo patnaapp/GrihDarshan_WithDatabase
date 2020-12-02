@@ -78,7 +78,7 @@
             android:id="@+id/tv_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="User Name"
+            android:text="Active User Name"
             android:textStyle="bold" />
         <TextView
             android:layout_weight="0.01"
@@ -93,7 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="10dp"
+            android:textSize="13sp"
             android:maxLength="100"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
@@ -125,7 +125,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="10dp"
+            android:textSize="13sp"
             android:maxLength="10"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
@@ -159,7 +159,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="10dp"
+            android:textSize="13sp"
             android:inputType="textEmailAddress"
             android:maxLength="100"
             android:textColor="@color/colorPrimary"/>
@@ -194,7 +194,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="10dp"
+            android:textSize="13sp"
             android:maxLength="20"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
@@ -227,7 +227,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="10dp"
+            android:textSize="13sp"
             android:maxLength="20"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
