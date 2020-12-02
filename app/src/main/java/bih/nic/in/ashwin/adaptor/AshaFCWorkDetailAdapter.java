@@ -67,7 +67,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaFascilitatorWorkEntity info = mData.get(position);
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
-            if ((info.getVerificationStatus().contains("P")&& info.get_IsFinalize().equals("N") )){
+            if ((info.getVerificationStatus().contains("P")&& (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // if ((info.getVerificationStatus().contains("P"))) {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -77,7 +77,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                 holder.ll_asha_final.setVisibility(View.GONE);
                 holder.btn_accp_rjct.setVisibility(View.GONE);
             }
-             else if ((info.getVerificationStatus().contains("A") && info.get_IsFinalize().equals("N") )){
+             else if ((info.getVerificationStatus().contains("A") && (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // else if ((info.getVerificationStatus().contains("A"))) {
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
@@ -93,7 +93,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
 //            holder.btn_rjct.setLayoutParams(lp);
                 //   holder.btn_accpt.setVisibility(View.GONE);
             }
-                else if ((info.getVerificationStatus().contains("R") && info.get_IsFinalize().equals("N") )){
+                else if ((info.getVerificationStatus().contains("R") && (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // else if ((info.getVerificationStatus().contains("R"))) {
 
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
@@ -106,7 +106,8 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
             }
-             else if ((info.getVerificationStatus().contains("R") && info.get_IsFinalize().equals("N") )){
+             else if ((info.getVerificationStatus().contains("R") && (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) ))
+             {
            // else if ((info.getVerificationStatus().contains("R"))) {
 
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);

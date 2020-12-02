@@ -31,7 +31,14 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
         this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
         this.Verification = sobj.getProperty("Verification").toString();
         this.NumberOfBen = sobj.getProperty("NumberOfBen").toString();
-        this._IsFinalize = sobj.getProperty("IsFinalize").toString();
+       // this._IsFinalize = sobj.getProperty("IsFinalize").toString();
+
+        if (sobj.getProperty("IsFinalize").toString().equals("NA")){
+            this._IsFinalize="N";
+        }
+        else {
+            this._IsFinalize = sobj.getProperty("IsFinalize").toString();
+        }
     }
 
     public AshaFascilitatorWorkEntity() {
