@@ -77,6 +77,10 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             holder.iv_delete.setVisibility(View.GONE);
         }
 
+        if(info.get_IsFinalize().equals("Y")){
+            holder.iv_delete.setVisibility(View.GONE);
+        }
+
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
             if ((info.getVerificationStatus().contains("P")&& (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // if ((info.getVerificationStatus().contains("P"))) {
@@ -552,8 +556,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         LinearLayout ll_btn,ll_asha_final;
         ImageView iv_delete;
 
-        ViewHolder(View itemView)
-        {
+        ViewHolder(View itemView) {
             super(itemView);
             tv_workcategory = itemView.findViewById(R.id.tv_workcategory);
             tv_work = itemView.findViewById(R.id.tv_work);
@@ -578,8 +581,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         }
 
         @Override
-        public void onClick(View view)
-        {
+        public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }

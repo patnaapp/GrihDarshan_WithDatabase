@@ -513,11 +513,14 @@
                 android:background="@drawable/buttonshape"
                 android:text="OTP प्राप्त करें"
                 android:textColor="#ffff"
-                android:textSize="17sp"/>
+                android:textSize="17sp"
+                android:onClick="onGetVerifyOtp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:visibility="gone"
             android:id="@+id/ll_btn_bottom"
             android:layout_width="match_parent"

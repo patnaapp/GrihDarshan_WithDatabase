@@ -676,7 +676,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_dmf_tab.setVisibility(View.VISIBLE);
         tv_monthly.setVisibility(View.GONE);
 
-        //isFinalize = isAshaFinalizeWork();
+        isFinalize = isAshaFCFinalizeWork();
         tabType = "D";
         handleTabView();
         //loadDailyRecyclerData();
@@ -686,18 +686,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //            ll_floating_btn.setVisibility(View.VISIBLE);
 //        }
 //
-//        if(isFinalize){
-//            //btn_proceed.setVisibility(View.GONE);
-//            ll_floating_btn.setVisibility(View.GONE);
-//            tv_note.setVisibility(View.VISIBLE);
-//            // tv_finalize.setVisibility(View.GONE);
-//        }else{
-////            btn_proceed.setVisibility(View.VISIBLE);
-////            btn_proceed.setText("स्थायी करें");
-//            ll_floating_btn.setVisibility(View.VISIBLE);
-//            tv_note.setVisibility(View.GONE);
-//            //tv_finalize.setVisibility(View.VISIBLE);
-//        }
+        if(isFinalize){
+            ll_floating_btn.setVisibility(View.GONE);
+            tv_note.setVisibility(View.VISIBLE);
+        }else{
+            ll_floating_btn.setVisibility(View.VISIBLE);
+            tv_note.setVisibility(View.GONE);
+        }
 
     }
 
@@ -841,6 +836,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(ashaWorkData.size()>0){
             for(AshaWorkEntity info: ashaWorkData){
                 if(info.getIsFinalize().equals("Y"))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Boolean isAshaFCFinalizeWork(){
+        if(ashaFcWorkData.size()>0){
+            for(AshaFascilitatorWorkEntity info: ashaFcWorkData){
+                if(info.get_IsFinalize().equals("Y"))
                     return true;
             }
         }

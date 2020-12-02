@@ -106,6 +106,7 @@ public class WebServiceHelper
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
+    public static final String FINALASHAFCACTIVITY_METHOD = "IsFinalizedAShAFacilorActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String AcceptRjctAshaSalByBHM = "AshaSalaryVerificationByBHM";
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
@@ -1572,10 +1573,15 @@ public class WebServiceHelper
 
     public static String uploadAshaFinalizeWorkDetail(AshaWorkFinalizeEntity data) {
 
-        SoapObject request = new SoapObject(SERVICENAMESPACE, FINALASHAACTIVITY_METHOD);
+        SoapObject request = new SoapObject(SERVICENAMESPACE, data.getUserRole().equals("ASHA") ? FINALASHAACTIVITY_METHOD: FINALASHAFCACTIVITY_METHOD);
 
         request.addProperty("FinalizeBy",data.getFinalizeBy());
-        request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        if(data.getUserRole().equals("ASHA")){
+            request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        }else{
+            request.addProperty("AshaFacilitatorId",data.getAshaWorkerId());
+        }
+
         request.addProperty("FYearID",data.getFYearID());
         request.addProperty("MonthId",data.getMonthId());
 //        request.addProperty("TotalActivities_Asha",data.getTotalActivities_Asha());
@@ -1593,7 +1599,7 @@ public class WebServiceHelper
             envelope.setOutputSoapObject(request);
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
-            androidHttpTransport.call(SERVICENAMESPACE + FINALASHAACTIVITY_METHOD,envelope);
+            androidHttpTransport.call(SERVICENAMESPACE + (data.getUserRole().equals("ASHA") ? FINALASHAACTIVITY_METHOD: FINALASHAFCACTIVITY_METHOD),envelope);
             rest = envelope.getResponse().toString();
 
         } catch (Exception e) {

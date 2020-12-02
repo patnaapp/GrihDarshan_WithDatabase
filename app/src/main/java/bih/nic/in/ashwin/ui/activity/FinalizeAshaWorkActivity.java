@@ -60,9 +60,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     ActivityCategory_entity category;
 
-    ArrayList<AshaWorkEntity> ashaWorkData;
-    ArrayList<AshaFascilitatorWorkEntity> ashaFCWorkData;
-    ArrayList<Activity_entity> activityArray;
+    ArrayList<AshaWorkEntity> ashaWorkData = new ArrayList<>();
+    ArrayList<AshaFascilitatorWorkEntity> ashaFCWorkData = new ArrayList<>();
+    ArrayList<Activity_entity> activityArray = new ArrayList<>();
 
     ArrayList<Stateamount_entity> stateAmountArray;
     ArrayList<Centralamount_entity> centralAmountArray;
@@ -72,6 +72,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     UserDetails userInfo;
 
     private ProgressDialog dialog;
+    Boolean getOtp = true;
+    String otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,8 +175,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            //ll_btn_bottom.setVisibility(View.VISIBLE);
-            ll_otp.setVisibility(View.VISIBLE);
+            ll_btn_bottom.setVisibility(View.VISIBLE);
+            //ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
         }
     }
@@ -190,6 +192,14 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
 
         setFCActivityRecycler();
+
+        if(!isDataFinalize() && isReadyForFinalize())
+        {
+            ll_btn_bottom.setVisibility(View.VISIBLE);
+            //ll_otp.setVisibility(View.VISIBLE);
+            ll_declaration.setVisibility(View.VISIBLE);
+            ch_1.setText(" उपरोक्त सभी दावा BCM के द्वारा सत्यापित हैं| ");
+        }
     }
 
     public Double getTotalCentralAmount(){
@@ -214,71 +224,82 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         return amount*count;
     }
 
-    public Boolean isReadyForFinalize()
-    {
-        if(ashaWorkData.size()> 0)
-        {
-            for(AshaWorkEntity work: ashaWorkData)
-            {
-                if(work.getVerificationStatus().equals("P"))
-                {
-                    return false;
+    public Boolean isReadyForFinalize(){
+        if(userInfo.getUserrole().equals("ASHA")) {
+            if (ashaWorkData.size() > 0) {
+                for (AshaWorkEntity work : ashaWorkData) {
+                    if (work.getVerificationStatus().equals("P")) {
+                        return false;
+                    }
                 }
+            } else {
+                return false;
+            }
+
+            if (activityArray.size() > 0) {
+                for (Activity_entity work : activityArray) {
+                    if (work.getVerificationStatus().equals("P")) {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+
+        }else if (userInfo.getUserrole().equals("ASHAFC")){
+            if (ashaFCWorkData.size() > 0) {
+                for (AshaFascilitatorWorkEntity work : ashaFCWorkData) {
+                    if (work.getVerificationStatus().equals("P")) {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
             }
         }
-        else
-        {
-            return false;
-        }
-
-        if(activityArray.size()> 0)
-        {
-            for(Activity_entity work: activityArray)
-            {
-                if(work.getVerificationStatus().equals("P"))
-                {
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            return false;
-        }
-
         return true;
     }
 
-    public Boolean isDataFinalize()
-    {
-        if(ashaWorkData.size()> 0)
-        {
-            for(AshaWorkEntity work: ashaWorkData)
+    public Boolean isDataFinalize(){
+        if(userInfo.getUserrole().equals("ASHA")){
+            if(ashaWorkData.size()> 0)
             {
-                if(work.getIsFinalize().equals("Y"))
+                for(AshaWorkEntity work: ashaWorkData)
                 {
-                    return true;
+                    if(work.getIsFinalize().equals("Y"))
+                    {
+                        return true;
+                    }
                 }
             }
-        }
-        else
-        {
-            return false;
-        }
+            else
+            {
+                return false;
+            }
 
-        if(activityArray.size()> 0)
-        {
-            for(Activity_entity work: activityArray)
+            if(activityArray.size()> 0)
             {
-                if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y"))
+                for(Activity_entity work: activityArray)
                 {
-                    return true;
+                    if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y"))
+                    {
+                        return true;
+                    }
                 }
             }
-        }
-        else
-        {
-            return false;
+            else{
+                return false;
+            }
+        }else if (userInfo.getUserrole().equals("ASHAFC")){
+            if (ashaFCWorkData.size() > 0) {
+                for (AshaFascilitatorWorkEntity work : ashaFCWorkData) {
+                    if (work.get_IsFinalize().equals("Y")) {
+                        return true;
+                    }
+                }
+            } else {
+                return false;
+            }
         }
 
         return false;
@@ -395,6 +416,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         if(isValidated())
         {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
+            entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
             new UploadAshaFinalizeData(entity).execute();
         }
     }
@@ -439,6 +461,18 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     @Override
     public void onEditFCWork(AshaFascilitatorWorkEntity info) {
+    }
+
+    public void onGetVerifyOtp(View view) {
+        if(isValidated()){
+            if(getOtp){
+                getOtp = false;
+                ll_btn_bottom.setVisibility(View.VISIBLE);
+            }else{
+
+            }
+        }
+
     }
 
     private class UploadAshaFinalizeData extends AsyncTask<String, Void, String>

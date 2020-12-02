@@ -26,15 +26,8 @@
             android:paddingBottom="2dp"
             android:weightSum="2"
             android:background="@drawable/shape_adapter_cell1">
-            <ImageView
-                android:id="@+id/iv_delete"
-                android:visibility="gone"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/delete"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="2dp"/>
+
+
             <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="4dp"
@@ -131,29 +124,47 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:id="@+id/ll_role"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_toLeftOf="@+id/iv_delete"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_role"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="कार्य"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_work"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="कार्य"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_work"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/iv_delete"
+                        android:visibility="gone"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/delete"
+                        android:layout_margin="2dp"/>
+                </RelativeLayout>
+
+
 
                 <LinearLayout
                     android:visibility="gone"
