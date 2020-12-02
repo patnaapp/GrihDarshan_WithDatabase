@@ -150,10 +150,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
                 // holder.btn_rjct.setVisibility(View.VISIBLE);
 
-//            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
-//
-//            holder.btn_rjct.setLayoutParams(lp);
-                //   holder.btn_accpt.setVisibility(View.GONE);
             }
             else if (info.getVerificationStatus().contains("R"))
             {

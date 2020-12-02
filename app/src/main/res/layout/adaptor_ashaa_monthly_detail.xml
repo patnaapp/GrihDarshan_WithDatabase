@@ -201,7 +201,7 @@
                             android:text="Text"
                             android:textStyle="bold"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="17sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
 

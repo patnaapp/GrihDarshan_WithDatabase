@@ -204,7 +204,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="आशा वर्कर"
+                android:text="आशा कार्यकर्त्ता"
                 android:textColor="@color/color_black"
                 android:id="@+id/tv_spworker"
                 android:textSize="12sp"/>
