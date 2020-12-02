@@ -333,6 +333,7 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_declaration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -388,6 +389,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
+        android:layout_marginBottom="12dp"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -474,8 +476,50 @@
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_otp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <EditText
+                android:visibility="gone"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:id="@+id/edt_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textboxshape"
+                android:hint="OTP डालें"
+                android:padding="10dp"
+                android:maxLength="4"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textColor="#222222"
+                android:textSize="15sp" />
+
+
+            <Button
+                android:id="@+id/btn_verify_otp"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/buttonshape"
+                android:text="OTP प्राप्त करें"
+                android:textColor="#ffff"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
             android:id="@+id/ll_btn_bottom"
-            android:layout_margin="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
@@ -37,7 +38,7 @@ import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
-public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AshaFCWorkDetailListener {
 
     String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
     TextView tv_name,tv_year,tv_month,tv_role,tv_daily,tv_monthly;
@@ -194,6 +195,9 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         sp_hsc_list.setAdapter(adaptor);
     }
 
+    @Override
+    public void onEditFCWork(AshaFascilitatorWorkEntity info) {}
+
     private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>
     {
 
@@ -279,7 +283,8 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         ll_monthly.setVisibility(View.GONE);
         rv_data_monthly.setVisibility(View.GONE);
         rv_data.setLayoutManager(new LinearLayoutManager(AshaFcAccpRjct_ActivityList.this));
-        AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, fyear, fmonth);
+        //AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, fyear, fmonth);
+        AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, this);
         rv_data.setAdapter(adapter);
 
     }

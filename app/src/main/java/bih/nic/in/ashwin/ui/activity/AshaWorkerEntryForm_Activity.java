@@ -615,13 +615,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             sp_work.setEnabled(false);
             sp_work_categ_type.setEnabled(false);
-
-
         }
         else
         {
-
-
             edt_work_complt_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getActivityDate()));
             edt_amount.setText(info.getActivityRate());
 

@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,14 +23,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailListener;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
@@ -37,14 +43,16 @@ import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
-public class FinalizeAshaWorkActivity extends AppCompatActivity implements MonthlyActivityListener {
+public class FinalizeAshaWorkActivity extends AppCompatActivity implements MonthlyActivityListener, AshaFCWorkDetailListener {
 
     TextView tv_fn_yr,fn_mnth,tv_total_work,tv_total_central_amnt,tv_total_state_amnt;
     TextView tv_monthly_amnt,tv_total_amnt;
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
     RecyclerView rv_data,rv_work;
     CheckBox ch_1,ch_2,ch_3;
-    LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone;
+    LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone,ll_otp,ll_pan,ll_division;
+    Button btn_verify_otp;
+    EditText edt_otp;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -53,9 +61,17 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     ActivityCategory_entity category;
 
     ArrayList<AshaWorkEntity> ashaWorkData;
+    ArrayList<AshaFascilitatorWorkEntity> ashaFCWorkData;
     ArrayList<Activity_entity> activityArray;
 
+    ArrayList<Stateamount_entity> stateAmountArray;
+    ArrayList<Centralamount_entity> centralAmountArray;
+
     Double totalWorkAmount,totalStateAmount;
+    String userRole;
+    UserDetails userInfo;
+
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +84,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     void initializeViews() {
         dbhelper = new DataBaseHelper(this);
+        dialog = new ProgressDialog(this);
 
         tv_total_work = findViewById(R.id.tv_total_work);
         tv_total_central_amnt = findViewById(R.id.tv_total_central_amnt);
@@ -94,6 +111,12 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ll_btn_bottom = findViewById(R.id.ll_btn_bottom);
         ll_declaration = findViewById(R.id.ll_declaration);
         ll_div_zone = findViewById(R.id.ll_div_zone);
+        ll_otp = findViewById(R.id.ll_otp);
+        ll_pan = findViewById(R.id.ll_pan);
+        ll_division = findViewById(R.id.ll_division);
+
+        btn_verify_otp = findViewById(R.id.btn_verify_otp);
+        edt_otp = findViewById(R.id.edt_otp);
 
         if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO"))
         {
@@ -108,12 +131,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public void extractDataFromIntent()
     {
-        UserDetails userInfo = CommonPref.getUserDetails(this);
+        userInfo = CommonPref.getUserDetails(this);
 
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
-        ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
-        activityArray = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
 
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
@@ -123,8 +144,22 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
-        tv_total_work.setText(""+ashaWorkData.size());
+        //tv_total_work.setText(""+ashaWorkData.size());
 
+        if(userInfo.getUserrole().equals("ASHA")){
+            ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
+            activityArray = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
+
+        }else if(userInfo.getUserrole().equals("ASHAFC")){
+            ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
+            ll_division.setVisibility(View.GONE);
+            ll_pan.setVisibility(View.GONE);
+        }
+
+        new GetStateAmount().execute();
+    }
+
+    public void loadAshaData(){
         totalWorkAmount = getTotalWorkAmount();
         totalStateAmount = getTotalStateAmount();
 
@@ -136,11 +171,47 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         updateTotalAmount();
 
-        if(isDataFinalize() || !isReadyForFinalize())
+        if(!isDataFinalize() && isReadyForFinalize())
         {
-            ll_btn_bottom.setVisibility(View.GONE);
-            ll_declaration.setVisibility(View.GONE);
+            //ll_btn_bottom.setVisibility(View.VISIBLE);
+            ll_otp.setVisibility(View.VISIBLE);
+            ll_declaration.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void loadAshaFCData(){
+        //totalWorkAmount = getTotalWorkAmount();
+        totalWorkAmount = getTotalCentralAmount();
+        totalStateAmount = getTotalStateAmount();
+
+        tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
+        tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
+
+        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
+
+        setFCActivityRecycler();
+    }
+
+    public Double getTotalCentralAmount(){
+        Double amount = 0.0;
+        Integer count = 0;
+
+        try{
+            for(Centralamount_entity amnt: centralAmountArray){
+                if(amnt.get_DesigId().equals("2") && amnt.get_Active().equals("Y"))
+                    amount += Double.parseDouble(amnt.get_CentralAmt());
+            }
+
+            for(AshaFascilitatorWorkEntity info: ashaFCWorkData){
+                if(info.getVerificationStatus().equals("A")){
+                    count += 1;
+                }
+            }
+        }catch (Exception e){
+
+        }
+
+        return amount*count;
     }
 
     public Boolean isReadyForFinalize()
@@ -227,17 +298,24 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public Double getTotalStateAmount()
     {
-
-        ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHA");
+        //ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHA");
 
         Double amount = 0.0;
 
-        for(Stateamount_entity info: list)
+        for(Stateamount_entity info: stateAmountArray)
         {
-            amount += Double.parseDouble(info.get_StateAmt());
+            if(info.get_Desig().equals(userInfo.getUserrole()))
+                amount += Double.parseDouble(info.get_StateAmt());
         }
 
         return amount;
+    }
+
+    public void setFCActivityRecycler()
+    {
+        rv_work.setLayoutManager(new LinearLayoutManager(this));
+        AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(this, ashaFCWorkData, this);
+        rv_work.setAdapter(adapter);
     }
 
     public void setActivityRecycler()
@@ -359,6 +437,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 .show();
     }
 
+    @Override
+    public void onEditFCWork(AshaFascilitatorWorkEntity info) {
+    }
+
     private class UploadAshaFinalizeData extends AsyncTask<String, Void, String>
     {
         AshaWorkFinalizeEntity data;
@@ -440,5 +522,71 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
 
         ab.show();
+    }
+
+    private class GetStateAmount extends AsyncTask<String, Void, ArrayList<Stateamount_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading state amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Stateamount_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getstateamount();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Stateamount_entity> result) {
+
+            if (result != null)
+            {
+                stateAmountArray = result;
+                if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC")){
+                    new GetCentreAmount().execute();
+                }
+                else{
+                    loadAshaData();
+                    if(dialog.isShowing())
+                        dialog.dismiss();
+                }
+                Toast.makeText(getApplicationContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Null Record, Try Again", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class GetCentreAmount extends AsyncTask<String, Void, ArrayList<Centralamount_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading central amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Centralamount_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getcentralamount();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Centralamount_entity> result) {
+
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                centralAmountArray = result;
+                loadAshaFCData();
+                Toast.makeText(getApplicationContext(), "central amount details loaded", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Null Record, Try Again", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
