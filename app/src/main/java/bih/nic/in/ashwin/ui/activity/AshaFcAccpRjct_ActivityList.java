@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
@@ -77,6 +78,13 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         tv_month.setText(fmonth.get_MonthName());
         loadHscList();
         //loadWorkerFascilatorData();
+        tv_daily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "D";
+                handleTabView();
+            }
+        });
 
     }
 
@@ -100,7 +108,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         ll_daily.setVisibility(View.GONE);
         ll_monthly.setVisibility(View.GONE);
         //ll_hsc.setVisibility(View.GONE);
-
+        ll_dmf_tab.setVisibility(View.GONE);
         // btn_finalize.setVisibility(View.GONE);
         sp_asha_fc.setOnItemSelectedListener(this);
         sp_hsc_list.setOnItemSelectedListener(this);
@@ -137,7 +145,8 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
                     facilator_name = role.get_Facilitator_Name_Hn();
                     facilator_id = role.get_Facilitator_ID();
                     svri_id = role.get_svr_id();
-                    new SynchronizeFCActivityList().execute();
+                    ll_dmf_tab.setVisibility(View.VISIBLE);
+                    new SyncFCAshaActivityList().execute();
 
                 }
                 break;
@@ -168,54 +177,6 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         sp_asha_fc.setOnItemSelectedListener(this);
     }
 
-    private class SynchronizeFCActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>>
-    {
-        private final ProgressDialog dialog = new ProgressDialog(AshaFcAccpRjct_ActivityList.this);
-
-        private final AlertDialog alertDialog = new AlertDialog.Builder(AshaFcAccpRjct_ActivityList.this).create();
-
-        @Override
-        protected void onPreExecute()
-        {
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading details...");
-            this.dialog.show();
-        }
-
-        @Override
-        protected ArrayList<AshaWorkEntity> doInBackground(String... param)
-        {
-            // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
-            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserrole());
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<AshaWorkEntity> result)
-        {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
-
-            if (result != null)
-            {
-                ashawork=result;
-                setupRecuyclerView(result);
-                //  new SynchronizeMonthlyAshaActivityList().execute();
-            }
-        }
-    }
-
-    public void setupRecuyclerView(ArrayList<AshaWorkEntity> data)
-    {
-        ll_daily.setVisibility(View.VISIBLE);
-        rv_data.setVisibility(View.VISIBLE);
-        ll_monthly.setVisibility(View.GONE);
-        rv_data_monthly.setVisibility(View.GONE);
-        rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(AshaFcAccpRjct_ActivityList.this, data, fyear, fmonth);
-        rv_data.setAdapter(adapter);
-    }
 
     public void loadHscList()
     {
@@ -291,7 +252,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         @Override
         protected ArrayList<AshaFascilitatorWorkEntity> doInBackground(String... param) {
 
-            return WebServiceHelper.getAshaFCWorkActivityList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+            return WebServiceHelper.getAshaFCWorkActivityList(svri_id,fmonth.get_MonthId(),fyear.getYear_Id());
         }
 
         @Override
@@ -312,31 +273,14 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
     public void setupFCAshaRecyclerView()
     {
-        ll_dmf_tab.setVisibility(View.VISIBLE);
-        tv_monthly.setVisibility(View.GONE);
 
-        //isFinalize = isAshaFinalizeWork();
-        tabType = "D";
-        handleTabView();
-        //loadDailyRecyclerData();
-
-//        if(ashaWorkData.size() == 0){
-//            tv_note.setVisibility(View.GONE);
-//            ll_floating_btn.setVisibility(View.VISIBLE);
-//        }
-//
-//        if(isFinalize){
-//            //btn_proceed.setVisibility(View.GONE);
-//            ll_floating_btn.setVisibility(View.GONE);
-//            tv_note.setVisibility(View.VISIBLE);
-//            // tv_finalize.setVisibility(View.GONE);
-//        }else{
-////            btn_proceed.setVisibility(View.VISIBLE);
-////            btn_proceed.setText("स्थायी करें");
-//            ll_floating_btn.setVisibility(View.VISIBLE);
-//            tv_note.setVisibility(View.GONE);
-//            //tv_finalize.setVisibility(View.VISIBLE);
-//        }
+        ll_daily.setVisibility(View.VISIBLE);
+        rv_data.setVisibility(View.VISIBLE);
+        ll_monthly.setVisibility(View.GONE);
+        rv_data_monthly.setVisibility(View.GONE);
+        rv_data.setLayoutManager(new LinearLayoutManager(AshaFcAccpRjct_ActivityList.this));
+        AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, fyear, fmonth);
+        rv_data.setAdapter(adapter);
 
     }
 
@@ -360,4 +304,9 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleTabView();
+    }
 }
