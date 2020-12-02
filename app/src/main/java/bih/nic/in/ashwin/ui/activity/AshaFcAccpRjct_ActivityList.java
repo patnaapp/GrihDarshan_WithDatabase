@@ -74,7 +74,8 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        tv_role.setText("आशा फैसिलिटेटर");
+        //    tv_role.setText("आशा फैसिलिटेटर");
+        tv_role.setText(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserrole());
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
         loadHscList();
@@ -132,8 +133,8 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 //                    }
 //                    else
 //                    {
-                        new GetAshaFacilitatorList().execute();
-                  //  }
+                    new GetAshaFacilitatorList().execute();
+                    //  }
                     // loadWorkerFascilatorData();
 
                 }
@@ -161,10 +162,10 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
     public void loadWorkerFascilatorData()
     {
-       // facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
+        // facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
-    //    array.add("ALL");
+        //    array.add("ALL");
         for (AshaFacilitator_Entity info: facilitatorList)
         {
             // if(!info.getFinancial_year().equals("anyType{}")){
@@ -246,21 +247,22 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             dialog.setCanceledOnTouchOutside(false);
             dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
             dialog.show();
         }
 
         @Override
-        protected ArrayList<AshaFascilitatorWorkEntity> doInBackground(String... param) {
-
+        protected ArrayList<AshaFascilitatorWorkEntity> doInBackground(String... param)
+        {
             return WebServiceHelper.getAshaFCWorkActivityList(svri_id,fmonth.get_MonthId(),fyear.getYear_Id());
         }
 
         @Override
-        protected void onPostExecute(ArrayList<AshaFascilitatorWorkEntity> result) {
+        protected void onPostExecute(ArrayList<AshaFascilitatorWorkEntity> result)
+        {
             if (dialog.isShowing())
             {
                 dialog.dismiss();
@@ -269,7 +271,9 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
             {
                 ashaFcWorkData = result;
                 setupFCAshaRecyclerView();
-            }else{
+            }
+            else
+            {
                 Utiilties.showErrorAlet(AshaFcAccpRjct_ActivityList.this, "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
         }
@@ -277,7 +281,6 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
     public void setupFCAshaRecyclerView()
     {
-
         ll_daily.setVisibility(View.VISIBLE);
         rv_data.setVisibility(View.VISIBLE);
         ll_monthly.setVisibility(View.GONE);
@@ -286,7 +289,6 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         //AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, fyear, fmonth);
         AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(AshaFcAccpRjct_ActivityList.this, ashaFcWorkData, this);
         rv_data.setAdapter(adapter);
-
     }
 
 
@@ -303,14 +305,13 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 //                {
                 new SyncFCAshaActivityList().execute();
                 // }
-
                 break;
-
         }
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         handleTabView();
     }

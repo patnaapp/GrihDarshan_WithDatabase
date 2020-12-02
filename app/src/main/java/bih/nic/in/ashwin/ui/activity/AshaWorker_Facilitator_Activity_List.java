@@ -83,7 +83,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        tv_role.setText("आशा कार्यकर्ता");
+      //  tv_role.setText("आशा कार्यकर्ता");
+        tv_role.setText(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
 
         //loadWorkerFascilatorData();
         new GetAshaWorkersList().execute();
@@ -112,7 +113,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         btn_finalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPendingforfinalie(ashawork)){
+                if (isPendingforfinalie(ashawork))
+                {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this);
                     builder1.setMessage("कार्य सूचि विचाराधीन है, कृपया अंतिम रूप देने से पहले सभी कार्य को स्वीकृत या अस्वीकृत करे |");
                     builder1.setCancelable(true);
