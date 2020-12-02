@@ -386,7 +386,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
-    public void setUserDetail(){
+    public void setUserDetail()
+    {
         UserDetails userInfo = CommonPref.getUserDetails(getContext());
 
         tv_username.setText(userInfo.getUserName());
@@ -396,11 +397,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         {
             tv_district.setText(userInfo.getDistName());
         }
-        else {
+        else
+        {
             tv_district.setText(userInfo.getDistNameHN());
         }
-
-        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+        {
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
             //ll_hsc_list.setVisibility(View.VISIBLE);
@@ -419,7 +421,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (Financial_Year info: fYearArray){
+        for (Financial_Year info: fYearArray)
+        {
             if(!info.getFinancial_year().equals("anyType{}"))
             {
                 array.add(info.getFinancial_year());
@@ -432,7 +435,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_year.setOnItemSelectedListener(this);
     }
 
-    public void setFMonthSpinner(){
+    public void setFMonthSpinner()
+    {
         fMonthArray = dbhelper.getFinancialMonthList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -451,7 +455,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         sp_fn_month.setOnItemSelectedListener(this);
     }
 
-    public void setHSCSpinner(){
+    public void setHSCSpinner()
+    {
         hscListArray = dbhelper.getHscList(CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getUserID());
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -529,19 +534,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (adapterView.getId()) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        switch (adapterView.getId())
+        {
             case R.id.sp_fn_year:
-                if (i > 0) {
+                if (i > 0)
+                {
                     fyear = fYearArray.get(i-1);
                     setFMonthSpinner();
                 }
                 break;
 
             case R.id.sp_fn_month:
-                if (i > 0) {
+                if (i > 0)
+                {
                     fmonth = fMonthArray.get(i-1);
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")) {
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+                    {
                         loadUserRoleSpinnerdata();
 
                         btn_proceed.setVisibility(View.GONE);
@@ -557,7 +567,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_proceed1.setVisibility(View.VISIBLE);
                         btn_asha_fc.setVisibility(View.GONE);
                         btn_ashafc.setVisibility(View.GONE);
-                                            ll_floating_btn.setVisibility(View.GONE);
+                        ll_floating_btn.setVisibility(View.GONE);
                     }
                     else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
                     {
@@ -568,9 +578,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         ll_floating_btn.setVisibility(View.GONE);
                     }
 
-                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
+                    {
                         new SyncAshaActivityList().execute();
-                    }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+                    }
+                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+                    {
                         //ll_floating_btn.setVisibility(View.VISIBLE);
                         new SyncFCAshaActivityList().execute();
                     }
@@ -578,29 +591,38 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 break;
 
             case R.id.sp_hsc:
-                if (i > 0) {
+                if (i > 0)
+                {
                     hscEntity = hscListArray.get(i-1);
                     ll_floating_btn.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.sp_userrole:
-                if (i > 0) {
+                if (i > 0)
+                {
                     UserRole role = userRoleList.get(i-1);
                     userRole = role.getRole();
                     facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(getContext()).getHSCCode());
                     ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
-                    if (userRole.equals("ASHA")){
-                        if (ashaworkerList.size()>0){
+                    if (userRole.equals("ASHA"))
+                    {
+                        if (ashaworkerList.size()>0)
+                        {
                             loadWorkerFascilatorData();
                         }
-                        else {
+                        else
+                            {
                             //   new GetAshaWorkersList().execute();
                         }
-                    }else if (userRole.equals("ASHAFC")){
-                        if (facilitatorList.size()>0){
+                    }
+                    else if (userRole.equals("ASHAFC"))
+                    {
+                        if (facilitatorList.size()>0)
+                        {
                             loadWorkerFascilatorData();
                         }
-                        else {
+                        else
+                            {
                             // new GetAshaFacilitatorList().execute();
                         }
                     }
@@ -611,15 +633,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             case R.id.sp_worker:
                 if (i > 0) {
 
-                    if (userRole.equals("ASHA")){
-                        if (i>0) {
+                    if (userRole.equals("ASHA"))
+                    {
+                        if (i>0)
+                        {
                             AshaWoker_Entity role = ashaworkerList.get(i - 1);
                             ashaname = role.get_Asha_Name_Hn();
                             asha_id = role.get_ASHAID();
                             svri_id = role.get_svr_id();
                         }
                     }
-                    else if (userRole.equals("ASHAFC")){
+                    else if (userRole.equals("ASHAFC"))
+                    {
                         if (i>1){
                             AshaFacilitator_Entity role = facilitatorList.get(i-2);
                             facilator_name = role.get_Facilitator_Name_Hn();

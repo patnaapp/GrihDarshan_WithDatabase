@@ -66,92 +66,95 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaFascilitatorWorkEntity info = mData.get(position);
-if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
-    //if ((info.getVerificationStatus().contains("P")&& info.getIsFinalize().equals("N") ))
-    if ((info.getVerificationStatus().contains("P"))) {
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-        holder.ll_btn.setVisibility(View.VISIBLE);
-        holder.btn_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accpt.setVisibility(View.VISIBLE);
-
-        holder.btn_accp_rjct.setVisibility(View.GONE);
-    }
-    // else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") ))
-    else if ((info.getVerificationStatus().contains("A"))) {
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("पुनः जाँच करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-        // holder.btn_rjct.setVisibility(View.VISIBLE);
+        if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
+            if ((info.getVerificationStatus().contains("P")&& info.get_IsFinalize().equals("N") )){
+           // if ((info.getVerificationStatus().contains("P"))) {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+                holder.ll_btn.setVisibility(View.VISIBLE);
+                holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accpt.setVisibility(View.VISIBLE);
+                holder.ll_asha_final.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+            }
+             else if ((info.getVerificationStatus().contains("A") && info.get_IsFinalize().equals("N") )){
+           // else if ((info.getVerificationStatus().contains("A"))) {
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("पुनः जाँच करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.ll_asha_final.setVisibility(View.GONE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                // holder.btn_rjct.setVisibility(View.VISIBLE);
 
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
-        //   holder.btn_accpt.setVisibility(View.GONE);
-    }
-    //    else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
-    else if ((info.getVerificationStatus().contains("R"))) {
+                //   holder.btn_accpt.setVisibility(View.GONE);
+            }
+                else if ((info.getVerificationStatus().contains("R") && info.get_IsFinalize().equals("N") )){
+           // else if ((info.getVerificationStatus().contains("R"))) {
 
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("अनुशंषित करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("अनुशंषित करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.ll_asha_final.setVisibility(View.GONE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-    }
-    /// else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N") )){
-    else if ((info.getVerificationStatus().contains("R"))) {
+            }
+             else if ((info.getVerificationStatus().contains("R") && info.get_IsFinalize().equals("N") )){
+           // else if ((info.getVerificationStatus().contains("R"))) {
 
-        holder.btn_accp_rjct.setVisibility(View.VISIBLE);
-        holder.btn_accp_rjct.setText("अनुशंषित करे");
-        holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
-        holder.ll_btn.setVisibility(View.GONE);
-        holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-        holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setText("अनुशंषित करे");
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.ll_asha_final.setVisibility(View.GONE);
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-    }
-    //else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
-//        else if (info.getIsFinalize().equals("Y"))
-//        {
-//            holder.btn_rjct.setVisibility(View.GONE);
-//            holder.btn_accpt.setVisibility(View.GONE);
-//            holder.btn_accp_rjct.setVisibility(View.GONE);
-//            holder.ll_asha_final.setVisibility(View.VISIBLE);
-//            holder.tv_asha_final.setText("आशा द्वारा अंतिम रूप दिया जा चूका है");
-//            holder.tv_asha_final.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-//
-//            if (info.getVerificationStatus().equals("P"))
-//            {
-//                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-//
-//                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-//            }
-//            else if (info.getVerificationStatus().equals("A")){
-//                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-//
-//                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-//            }
-//            else if (info.getVerificationStatus().equals("R"))
-//            {
-//                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-//
-//                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
-//            }
-//
-//        }
+            }
+            //else if (info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("Y"))
+        else if (info.get_IsFinalize().equals("Y"))
+        {
+            holder.btn_rjct.setVisibility(View.GONE);
+            holder.btn_accpt.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+            holder.ll_asha_final.setVisibility(View.VISIBLE);
+            holder.tv_asha_final.setText("फैसिलिटेटर द्वारा अंतिम रूप दिया जा चूका है");
+            holder.tv_asha_final.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
 
-    // holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
-}
-else {
-    holder.ll_btn.setVisibility(View.GONE);
-    holder.btn_accp_rjct.setVisibility(View.GONE);
-}
+            if (info.getVerificationStatus().equals("P"))
+            {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
+            }
+            else if (info.getVerificationStatus().equals("A")){
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+            }
+            else if (info.getVerificationStatus().equals("R"))
+            {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
+
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
+            }
+
+        }
+
+            // holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
+        }
+        else {
+            holder.ll_btn.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+        }
         holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -520,10 +523,10 @@ else {
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
+        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_asha_final;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
-        LinearLayout ll_btn;
+        LinearLayout ll_btn,ll_asha_final;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -543,6 +546,8 @@ else {
             btn_rjct = itemView.findViewById(R.id.btn_rjct);
             btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
             ll_btn = itemView.findViewById(R.id.ll_btn);
+            ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
+            tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
         }
 
         @Override

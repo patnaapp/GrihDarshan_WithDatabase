@@ -263,7 +263,7 @@ public class LoginActivity extends Activity {
                             final LinearLayout ll_email = (LinearLayout) customView.findViewById(R.id.ll_email);
                             Button button = (Button) customView.findViewById(R.id.button);
 
-                            if (result.getUserrole().equals("ASHA"))
+                            if (result.getUserrole().equals("ASHA")||result.getUserrole().equals("ASHAFC"))
                             {
                                 ll_email.setVisibility(View.GONE);
                             }
@@ -282,7 +282,7 @@ public class LoginActivity extends Activity {
                                     email=edt_email_id.getText().toString();
                                     mobno=edt_mob_no.getText().toString();
                                     user_name=edt_username.getText().toString();
-                                    if (result.getUserrole().equals("ASHA"))
+                                    if (result.getUserrole().equals("ASHA")||result.getUserrole().equals("ASHAFC"))
                                     {
                                         if (cnf_pass.length()>=4){
                                             if (edt_mob_no.getText().toString().length()==10){

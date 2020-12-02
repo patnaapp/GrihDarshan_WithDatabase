@@ -79,10 +79,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 public class WebServiceHelper
 {
 
-//    public static final String SERVICENAMESPACE = "http://10.133.20.159/";
-//    public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
-    public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
-    public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
+    public static final String SERVICENAMESPACE = "http://10.133.20.159/";
+    public static final String SERVICEURL1 = "http://10.133.20.159/testservice/ashwinwebservice.asmx";
+//    public static final String SERVICENAMESPACE = "http://ashwin.bih.nic.in/";
+//    public static final String SERVICEURL1 = "http://ashwin.bih.nic.in/ashwinwebservice.asmx";
 
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String AUTHENTICATE_METHOD = "Authenticate";
@@ -1356,7 +1356,7 @@ public class WebServiceHelper
     public static String UploadAcceptedFcActFromBCM(AshaFascilitatorWorkEntity data,String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFcFROMBCM);
-        request.addProperty("AshaFacilitatorId", data.getFCAshaActivityId());
+        request.addProperty("FCAshaActivityId", data.getFCAshaActivityId());
         request.addProperty("Fyear",data.getFYearId());
         request.addProperty("MonthId",data.getMonthId());
         request.addProperty("VerificationStatus","A");
@@ -1467,7 +1467,7 @@ public class WebServiceHelper
     public static String UploadRejectedFcFromBCM(AshaFascilitatorWorkEntity data, String userid,String app_ver,String deviceid) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFcFROMBCM);
-        request.addProperty("AshaFacilitatorId", data.getFCAshaActivityId());
+        request.addProperty("FCAshaActivityId", data.getFCAshaActivityId());
         request.addProperty("Fyear",data.getFYearId());
         request.addProperty("MonthId",data.getMonthId());
         request.addProperty("VerificationStatus","R");

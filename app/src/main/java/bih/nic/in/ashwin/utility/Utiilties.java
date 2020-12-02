@@ -205,8 +205,7 @@ public class Utiilties {
     }
 
     public static String getDateString() {
-        SimpleDateFormat postFormater = new SimpleDateFormat(
-                "MMMM dd, yyyy hh:mm a");
+        SimpleDateFormat postFormater = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
 
         String newDateStr = postFormater.format(Calendar.getInstance()
                 .getTime());
@@ -217,7 +216,8 @@ public class Utiilties {
 
     }
 
-    public static String getDateString(String Formats) {
+    public static String getDateString(String Formats)
+    {
         SimpleDateFormat postFormater = new SimpleDateFormat(Formats);
 
         String newDateStr = postFormater.format(Calendar.getInstance().getTime());
@@ -287,7 +287,8 @@ public class Utiilties {
 
 
 
-    public static String getCurrentDateWithTime() throws ParseException {
+    public static String getCurrentDateWithTime() throws ParseException
+    {
 
         SimpleDateFormat f = new SimpleDateFormat("MMM d,yyyy HH:mm");
         Date date=null;

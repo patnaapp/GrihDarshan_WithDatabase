@@ -155,11 +155,11 @@
                                 android:textStyle="bold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="पिता/पति का नाम"
+                                android:text="यूजर आईडी"
                                 android:textSize="17sp" />
 
                             <TextView
-                                android:id="@+id/tv_fh_name"
+                                android:id="@+id/tv_user_idme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -188,7 +188,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="आधार नंबर"
+                                android:text="जिला"
                                 android:textColor="@android:color/black"
 
                                 android:textStyle="bold"
@@ -196,7 +196,7 @@
 
 
                             <TextView
-                                android:id="@+id/tv_aadhar"
+                                android:id="@+id/tv_dist"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -207,7 +207,72 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                    </LinearLayout> <LinearLayout
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:textColor="@android:color/black"
+
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="प्रखंड"
+                                android:textSize="17sp" />
+
+                            <TextView
+                                android:id="@+id/tv_block"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:text="New Text"
+                                android:textColor="#151B54"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:textColor="@android:color/black"
+
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="स्वास्थ्य उप केंद्र"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/tv_hsc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:text="New Text"
+                            android:textColor="#151B54"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -243,39 +308,7 @@
 
                 </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:textColor="@android:color/black"
-
-                                android:textStyle="bold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="जन्म की तिथि"
-                                android:textSize="17sp" />
-
-                            <TextView
-                                android:id="@+id/tv_address"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:text="New Text"
-                                android:textColor="#151B54"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -295,11 +328,11 @@
                                 android:textStyle="bold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="बैंक खाता नंबर"
+                                android:text="ईमेल"
                                 android:textSize="17sp" />
 
                             <TextView
-                                android:id="@+id/tv_acc_no"
+                                android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -313,34 +346,7 @@
                     </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
 
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:textColor="@android:color/black"
-
-                            android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ifsc कोड"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/tv_ifsc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:text="New Text"
-                            android:textColor="#151B54"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -12,7 +12,7 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
     public static Class<AshaFascilitatorWorkEntity> AshaFascilitatorWorkEntity_CLASS = AshaFascilitatorWorkEntity.class;
 
     private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
-    private String Verification,VerificationStatus,_rejectedRemarks;
+    private String Verification,VerificationStatus,_rejectedRemarks,_IsFinalize;
     public AshaFascilitatorWorkEntity(SoapObject sobj) {
         this.FYearId = sobj.getProperty("FinYear").toString();
         this.Remarks = sobj.getProperty("Remarks").toString();
@@ -31,6 +31,7 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
         this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
         this.Verification = sobj.getProperty("Verification").toString();
         this.NumberOfBen = sobj.getProperty("NumberOfBen").toString();
+        this._IsFinalize = sobj.getProperty("IsFinalize").toString();
     }
 
     public AshaFascilitatorWorkEntity() {
@@ -247,5 +248,13 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     public void set_rejectedRemarks(String _rejectedRemarks) {
         this._rejectedRemarks = _rejectedRemarks;
+    }
+
+    public String get_IsFinalize() {
+        return _IsFinalize;
+    }
+
+    public void set_IsFinalize(String _IsFinalize) {
+        this._IsFinalize = _IsFinalize;
     }
 }

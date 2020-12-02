@@ -276,7 +276,34 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_asha_final"
 
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tv_asha_final"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:visibility="visible"
                     android:id="@+id/ll_btn"

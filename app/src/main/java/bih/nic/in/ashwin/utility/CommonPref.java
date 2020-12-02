@@ -53,6 +53,7 @@ public class CommonPref {
         editor.putString("AwcName", userInfo.getAwcName());
         editor.putString("HSCCode", userInfo.getHSCCode());
         editor.putString("HSCName", userInfo.getHSCName());
+        editor.putString("EmailId", userInfo.getEmail());
 
 
         editor.commit();
@@ -87,7 +88,7 @@ public class CommonPref {
         userInfo.setHSCName(prefs.getString("HSCName", ""));
         userInfo.setSVRID(prefs.getString("SVRID", ""));
         userInfo.setMobileNo(prefs.getString("MobileNo", ""));
-
+        userInfo.setEmail(prefs.getString("EmailId", ""));
 
         return userInfo;
     }
