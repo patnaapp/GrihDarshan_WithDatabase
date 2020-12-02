@@ -1955,13 +1955,15 @@ public class WebServiceHelper
         return rest;
     }
 
-    public static String DeleteFCActivity(AshaFascilitatorWorkEntity data,String role) {
+    public static String DeleteFCActivity(AshaFascilitatorWorkEntity data,String role)
+    {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, DeleteAsha_Fc_Activity);
         request.addProperty("Id", data.getFCAshaActivityId());
         request.addProperty("Userrolle",role);
 
-        try {
+        try
+        {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
             envelope.dotNet = true;
