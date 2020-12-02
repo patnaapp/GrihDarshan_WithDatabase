@@ -4,15 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,6 +27,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -229,6 +235,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tv_mobile.setText(userInfo.getMobileNo());
 
         tv_email.setText(userInfo.getEmail());
+
+//        String imagesr=dataBaseHelper.getAshaImg(userInfo.getUserID());
+//
+//        if (imagesr!=null)
+//        {
+//            // if (benDetails.getVchPhoto() == null) {
+//            byte[] imgData = Base64.decode(imagesr, Base64.DEFAULT);
+//            Bitmap bmp = BitmapFactory.decodeByteArray(imgData, 0, imgData.length);
+//            //  img_studphoto.setScaleType(ImageView.ScaleType.FIT_XY);
+//            img_ash_selfie.setImageBitmap(bmp);
+//            //}
+//        }
+//        else
+//        {
+//            Log.d("gdvhbvhbh",userInfo.getAsha_Img());
+//            if(!userInfo.getAsha_Img().equalsIgnoreCase("NA"))
+//            {
+//                String url = "http://ashwin.bih.nic.in" + userInfo.getAsha_Img().replace("~", "");
+//                Log.e("imgUrl", url);
+//                Picasso.with(this).load(url).into(img_ash_selfie);
+//                //Picasso.with(this).load("http://10.133.20.159/"+benDetails.getVchPhoto()).error(R.drawable.profile).into(img_studphoto);
+//                // Picasso.with(this).load(benDetails.getVchPhoto()).into(img_studphoto);
+//            }
+//        }
+
     }
 
     public String getRealPathFromURI(Uri contentUri)
@@ -239,5 +270,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+
+    public void saveImgaetoLocal()
+    {
+        DataBaseHelper placeData = new DataBaseHelper(ProfileActivity.this);
+        SQLiteDatabase db = placeData.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String[] whereArgs;
+        values.put("AshaProfile_Img", str_img1);
+//        values.put("Lat1",String.valueOf(imageData1.getStringExtra("Lat")));
+//        values.put("Long1",String.valueOf(imageData1.getStringExtra("Lng")));
+        whereArgs = new String[]{String.valueOf(Reg_No)};
+        long c=db.update("UserDetails", values, "UserID=?", whereArgs);
+        if(c>0)
+        {
+            Toast.makeText(ProfileActivity.this, "Asha Image saved successfully", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Toast.makeText(ProfileActivity.this, "Asha Image not saved ", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
 
 }

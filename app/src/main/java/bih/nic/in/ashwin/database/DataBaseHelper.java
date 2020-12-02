@@ -1715,7 +1715,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             Cursor cur = db.rawQuery("Select * from Panchayat WHERE DistrictCode=? AND BlockCode=?",whereArgs);
 
-            while (cur.moveToNext()) {
+            while (cur.moveToNext())
+            {
 
                 Panchayat_List info = new Panchayat_List();
 
@@ -1730,10 +1731,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             cur.close();
             db.close();
             this.getReadableDatabase().close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return list;
     }
 
+
+    public String getAshaImg(String uid) {
+
+        String status="NA";
+        try {
+
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            String[] whereArgs = new String[]{uid};
+            Cursor cur = db.rawQuery("SELECT AshaProfile_Img from UserDetails where UserID=?",whereArgs);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+
+                status = cur.getString(cur.getColumnIndex("AshaProfile_Img"));
+
+            }
+            cur.close();
+            db.close();
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return status;
+
+    }
 }
