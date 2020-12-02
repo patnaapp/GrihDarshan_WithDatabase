@@ -633,7 +633,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     {
                         new GetAshaWorkersList().execute();
                     }
-                    else if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC"))
+                  if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC"))
                     {
                         new GetHScList().execute();
                     }
