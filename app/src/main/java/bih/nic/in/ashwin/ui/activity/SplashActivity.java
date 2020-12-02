@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -159,7 +160,12 @@ public class SplashActivity extends Activity {
             }
             else
             {
-                checkOnline();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkOnline();
+                    }
+                }, 1000);
             }
         }else{
             finish();

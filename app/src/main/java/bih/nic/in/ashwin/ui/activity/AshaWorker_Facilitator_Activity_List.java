@@ -85,7 +85,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         tv_role.setText("आशा कार्यकर्ता");
 
-        loadWorkerFascilatorData();
+        //loadWorkerFascilatorData();
+        new GetAshaWorkersList().execute();
         loadHscList();
 
         tv_year.setText(fyear.getFinancial_year());
@@ -298,14 +299,14 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
                     ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-                    if (ashaworkerList.size()>0)
-                    {
-                        loadWorkerFascilatorData();
-                    }
-                    else
-                    {
+//                    if (ashaworkerList.size()>0)
+//                    {
+//                        loadWorkerFascilatorData();
+//                    }
+//                    else
+//                    {
                         new GetAshaWorkersList().execute();
-                    }
+                    //}
                     // loadWorkerFascilatorData();
 
                 }
@@ -540,16 +541,16 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     {
         //   if (user_role.equals("ASHA")){
 
-        if (!hsccode.equals(""))
-        {
-            ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
-
-        }
-        else
-        {
-            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
-
-        }
+//        if (!hsccode.equals(""))
+//        {
+//            ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
+//
+//        }
+//        else
+//        {
+//            ashaworkerList = dbhelper.getAshaWorkerList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode());
+//
+//        }
 
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -648,7 +649,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-
+                ashaworkerList = result;
+                loadWorkerFascilatorData();
                 long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
                 if (i > 0) {
 
