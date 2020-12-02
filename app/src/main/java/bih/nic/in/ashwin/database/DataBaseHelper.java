@@ -429,14 +429,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<UserRole> getUserRoleList(){
-
         ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
 
         try {
             String[] params = new String[]{"ASHAFC"};
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole!=?",params);
-            //Cursor cur = db.rawQuery("Select * from UserRole",null);
+            //Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole!=?",params);
+            Cursor cur = db.rawQuery("Select * from UserRole",null);
             int x = cur.getCount();
 
             while (cur.moveToNext()) {

@@ -629,11 +629,11 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 long i = helper.setcentreamount_Local(result);
                 if (i > 0) {
 
-                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") )
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("HSC"))
                     {
                         new GetAshaWorkersList().execute();
                     }
-                  if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC"))
+                    if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC"))
                     {
                         new GetHScList().execute();
                     }
