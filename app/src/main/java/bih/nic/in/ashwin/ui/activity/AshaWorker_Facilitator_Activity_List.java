@@ -83,7 +83,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        tv_role.setText("आशा कार्यकर्ता");
+      //  tv_role.setText("आशा कार्यकर्ता");
+        tv_role.setText(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
 
         //loadWorkerFascilatorData();
         new GetAshaWorkersList().execute();

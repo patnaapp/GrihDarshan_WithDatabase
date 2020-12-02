@@ -73,7 +73,8 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        tv_role.setText("आशा फैसिलिटेटर");
+    //    tv_role.setText("आशा फैसिलिटेटर");
+        tv_role.setText(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserrole());
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
         loadHscList();
