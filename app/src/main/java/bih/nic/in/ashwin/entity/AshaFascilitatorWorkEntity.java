@@ -12,7 +12,7 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
     public static Class<AshaFascilitatorWorkEntity> AshaFascilitatorWorkEntity_CLASS = AshaFascilitatorWorkEntity.class;
 
     private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
-    private String Verification,VerificationStatus;
+    private String Verification,VerificationStatus,_rejectedRemarks;
     public AshaFascilitatorWorkEntity(SoapObject sobj) {
         this.FYearId = sobj.getProperty("FinYear").toString();
         this.Remarks = sobj.getProperty("Remarks").toString();
@@ -239,5 +239,13 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     public void setMobDeviceId(String mobDeviceId) {
         MobDeviceId = mobDeviceId;
+    }
+
+    public String get_rejectedRemarks() {
+        return _rejectedRemarks;
+    }
+
+    public void set_rejectedRemarks(String _rejectedRemarks) {
+        this._rejectedRemarks = _rejectedRemarks;
     }
 }

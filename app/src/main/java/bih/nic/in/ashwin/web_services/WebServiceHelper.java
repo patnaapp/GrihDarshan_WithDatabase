@@ -116,6 +116,8 @@ public class WebServiceHelper {
     public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
     public static final String ASHASalByBhm_LIST_METHOD = "getAshaSallaryListInBHM";
     public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
+    public static final String AcceptRjctFcFROMBCM = "FCAshaActivityVerification";
+ //   public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -1352,6 +1354,40 @@ public class WebServiceHelper {
         return rest;
     }
 
+    public static String UploadAcceptedFcActFromBCM(AshaFascilitatorWorkEntity data,String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFcFROMBCM);
+        request.addProperty("AshaFacilitatorId", data.getFCAshaActivityId());
+        request.addProperty("Fyear",data.getFYearId());
+        request.addProperty("MonthId",data.getMonthId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("VerificationBy",userid.toUpperCase());
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctFcFROMBCM,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
+    }
+
     public static String AcceptAshaSalaryByBhm(AshaSalByBhm_Entity data,String userid,String app_ver,String deviceid,String role) {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctAshaSalByBHM);
@@ -1415,6 +1451,43 @@ public class WebServiceHelper {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(
                     SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+        return rest;
+
+    }
+
+    public static String UploadRejectedFcFromBCM(AshaFascilitatorWorkEntity data, String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFcFROMBCM);
+        request.addProperty("AshaFacilitatorId", data.getFCAshaActivityId());
+        request.addProperty("Fyear",data.getFYearId());
+        request.addProperty("MonthId",data.getMonthId());
+        request.addProperty("VerificationStatus","R");
+        request.addProperty("VerificationBy",userid.toUpperCase());
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctFcFROMBCM,envelope);
             // res2 = (SoapObject) envelope.getResponse();
             rest = envelope.getResponse().toString();
 
