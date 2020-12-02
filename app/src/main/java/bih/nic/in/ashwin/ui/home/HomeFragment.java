@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
+import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailListener;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
@@ -60,7 +61,7 @@ import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
-public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener, MonthlyActivityListener {
+public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener, MonthlyActivityListener, AshaFCWorkDetailListener {
 
     private HomeViewModel homeViewModel;
 
@@ -81,7 +82,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
     ArrayList<HscList_Entity> hscListArray;
-    ArrayList<Activity_entity> mnthlyActList;
+    ArrayList<Activity_entity> mnthlyActList = new ArrayList<>();
 
     HscList_Entity hscEntity;
     Financial_Year fyear;
@@ -100,7 +101,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Boolean isFinalize = false;
 
     ArrayList<AshaWorkEntity> ashaWorkData;
-    ArrayList<AshaFascilitatorWorkEntity> ashaFcWorkData;
+    ArrayList<AshaFascilitatorWorkEntity> ashaFcWorkData = new ArrayList<>();
 
     private ProgressDialog dialog;
 
@@ -135,7 +136,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         intent.putExtra("FMonth", fmonth);
                         //intent.putExtra("HSC",hscEntity);
                         intent.putExtra("entryType","I");
-                        //intent.putExtra("BlockCode",userInfo.getBlockCode());
+                        intent.putExtra("monthlyAddedWork",getAshaFCMonthlyActivity());
                         getContext().startActivity(intent);
                     }
                     else{
@@ -735,7 +736,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             rv_data.setAdapter(adapter);
         }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
             rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-            AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(getContext(), ashaFcWorkData, fyear, fmonth);
+            AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(getContext(), ashaFcWorkData, this);
             rv_data.setAdapter(adapter);
         }
 
@@ -775,6 +776,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 i.putExtra("fmonth", fmonth);
                 i.putExtra("workArray", ashaWorkData);
                 i.putExtra("monthly", list);
+                i.putExtra("workFCArray", ashaFcWorkData);
                 startActivity(i);
 //                }else{
 //                    Toast.makeText(getContext(),"कृपया मासिक कार्य चुने", Toast.LENGTH_SHORT).show();
@@ -791,6 +793,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 break;
         }
+    }
+
+    public ArrayList<AshaFascilitatorWorkEntity> getAshaFCMonthlyActivity(){
+        ArrayList<AshaFascilitatorWorkEntity> array = new ArrayList<>();
+        for(AshaFascilitatorWorkEntity info: ashaFcWorkData){
+            if(info.getFCAcitivtyCategoryId().equals("2"))
+                array.add(info);
+        }
+
+        return array;
     }
 
     @Override
@@ -834,6 +846,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
 
         return false;
+    }
+
+    @Override
+    public void onEditFCWork(AshaFascilitatorWorkEntity info) {
+        Intent intent = new Intent(getContext(), AshaFacilitatorEntry.class);
+        intent.putExtra("FYear", fyear);
+        intent.putExtra("FMonth", fmonth);
+        //intent.putExtra("HSC",hscEntity);
+        intent.putExtra("entryType", "U");
+        intent.putExtra("data", info);
+        intent.putExtra("monthlyAddedWork",getAshaFCMonthlyActivity());
+        startActivity(intent);
     }
 
     private class SyncFCAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaFascilitatorWorkEntity>> {

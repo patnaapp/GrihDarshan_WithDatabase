@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
@@ -64,6 +65,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     String entryType;
 
     AshaFascilitatorWorkEntity ashaFCWorkEntity;
+    ArrayList<AshaFascilitatorWorkEntity> selectedMonthlyWork = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +109,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         fmonth = (Financial_Month) getIntent().getSerializableExtra("FMonth");
         hscEntity = (HscList_Entity) getIntent().getSerializableExtra("HSC");
         entryType =  getIntent().getStringExtra("entryType");
+        selectedMonthlyWork =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("monthlyAddedWork");
 
         tv_fn_yr.setText(fyear.getFinancial_year());
         fn_mnth.setText(fmonth.get_MonthName());
@@ -154,11 +157,16 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     }
     public void setActivitySpinner(ArrayList<Activity_entity> ActivityList){
         ActivityEntityList = ActivityList;
+
+        if(workCategoryId.equals("2")){
+           getNotAddedMonthlyActivity(ActivityList);
+        }
+
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
         int position = 0;
-        for (Activity_entity info:ActivityList ){
+        for (Activity_entity info:ActivityEntityList ){
             array.add(info.get_ActivityDesc());
 
             if (entryType.equals("U") && info.get_ActivityId().equals(ashaFCWorkEntity.getFCAcitivtyId())){
@@ -176,6 +184,27 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         }
     }
 
+    public void getNotAddedMonthlyActivity(ArrayList<Activity_entity> list){
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for(Activity_entity activty: list){
+            for(AshaFascilitatorWorkEntity monthly: selectedMonthlyWork){
+                if(activty.get_ActivityId().equals(monthly.getFCAcitivtyId()) && (!entryType.equals("U") || !ashaFCWorkEntity.getFCAcitivtyId().equals(activty.get_ActivityId()))){
+                    indexes.add(list.indexOf(activty));
+                    break;
+                }
+            }
+        }
+
+        if(indexes.size() == ActivityEntityList.size()){
+            ActivityEntityList.clear();
+        }else{
+            for(int index: indexes){
+                ActivityEntityList.remove(index);
+            }
+        }
+       // return list;
+    }
+
 
     public void ShowDialog(View view) {
         viewCalender();
@@ -184,17 +213,14 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
+        int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
+        //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear, mMonth, mDay);
+        DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
 
-        if (c.getTimeInMillis() < System.currentTimeMillis()) {
-
-            datedialog.getDatePicker().setMaxDate(c.getTimeInMillis());
-        } else {
-            datedialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        }
+        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
+        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
 
         datedialog.show();
     }

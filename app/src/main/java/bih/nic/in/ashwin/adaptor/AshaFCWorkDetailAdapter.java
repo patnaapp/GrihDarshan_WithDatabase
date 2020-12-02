@@ -41,17 +41,17 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     Context context;
+    AshaFCWorkDetailListener listener;
     Financial_Year fyear;
     Financial_Month fmonth;
     String version="";
 
 
-    public AshaFCWorkDetailAdapter(Context context, ArrayList<AshaFascilitatorWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
+    public AshaFCWorkDetailAdapter(Context context, ArrayList<AshaFascilitatorWorkEntity> data, AshaFCWorkDetailListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
-        this.fyear = fyear;
-        this.fmonth = fmonth;
         this.context = context;
+        this.listener = listener;
     }
 
 
@@ -479,6 +479,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         holder.tv_work.setText(info.getFCActivityDesc());
         holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_reg_date.setText(info.getNumberOfBen());
+        holder.tv_work_cat_type.setText(info.getFCAcitivtyCategoryDesc());
         holder.tv_count.setText(String.valueOf(position+1)+".");
         holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
         holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
@@ -487,14 +488,16 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(CommonPref.getUserDetails(context).getUserrole().equals("ASHAFC")) {
-                    Intent intent = new Intent(context, AshaFacilitatorEntry.class);
-                    intent.putExtra("FYear", fyear);
-                    intent.putExtra("FMonth", fmonth);
-                    //intent.putExtra("HSC",hscEntity);
-                    intent.putExtra("entryType", "U");
-                    intent.putExtra("data", info);
-                    context.startActivity(intent);
+                    listener.onEditFCWork(info);
+//                    Intent intent = new Intent(context, AshaFacilitatorEntry.class);
+//                    intent.putExtra("FYear", fyear);
+//                    intent.putExtra("FMonth", fmonth);
+//                    //intent.putExtra("HSC",hscEntity);
+//                    intent.putExtra("entryType", "U");
+//                    intent.putExtra("data", info);
+//                    context.startActivity(intent);
                 }
             }
         });
@@ -524,6 +527,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_asha_final;
+        TextView tv_workcategory,tv_work_cat_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn,ll_asha_final;
@@ -536,6 +540,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
+            tv_work_cat_type = itemView.findViewById(R.id.tv_work_cat_type);
             //tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
