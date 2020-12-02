@@ -77,6 +77,10 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             holder.iv_delete.setVisibility(View.GONE);
         }
 
+        if(info.get_IsFinalize().equals("Y")){
+            holder.iv_delete.setVisibility(View.GONE);
+        }
+
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
             if ((info.getVerificationStatus().contains("P")&& (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // if ((info.getVerificationStatus().contains("P"))) {

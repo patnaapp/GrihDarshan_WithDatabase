@@ -74,6 +74,9 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
         holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
         setAshaStatus(info.getVerificationStatus(), holder.tv_status);
+        if(info.getIsFinalize().equals("Y")){
+            holder.iv_delete.setVisibility(View.GONE);
+        }
 
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
