@@ -575,7 +575,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (HscList_Entity info: hscList){
+        for (HscList_Entity info: hscList)
+        {
             array.add(info.get_HSCName_Hn());
         }
 

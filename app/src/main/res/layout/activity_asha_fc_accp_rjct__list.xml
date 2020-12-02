@@ -226,7 +226,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
+
             android:id="@+id/ll_dmf_tab"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
@@ -271,6 +271,8 @@
 
 
         </LinearLayout>
+
+
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView

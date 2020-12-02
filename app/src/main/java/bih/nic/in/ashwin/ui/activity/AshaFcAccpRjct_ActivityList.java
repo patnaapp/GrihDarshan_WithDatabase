@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,13 +24,16 @@ import java.util.ArrayList;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
+import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -51,6 +55,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
     String hscname="",hsccode="",facilator_name="",facilator_id="",svri_id="";
     private ProgressDialog dialog;
     ArrayList<AshaFacilitator_Entity> facilitatorList = new ArrayList<AshaFacilitator_Entity>();
+    ArrayList<AshaFascilitatorWorkEntity> ashaFcWorkData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,15 +116,15 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
-                    facilitatorList = dbhelper.getAshaFacilitatorList(hsccode);
-                    if (facilitatorList.size()>0)
-                    {
-                        loadWorkerFascilatorData();
-                    }
-                    else
-                    {
+//                    facilitatorList = dbhelper.getAshaFacilitatorList(hsccode);
+//                    if (facilitatorList.size()>0)
+//                    {
+//                        loadWorkerFascilatorData();
+//                    }
+//                    else
+//                    {
                         new GetAshaFacilitatorList().execute();
-                    }
+                  //  }
                     // loadWorkerFascilatorData();
 
                 }
@@ -146,7 +151,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
     public void loadWorkerFascilatorData()
     {
-        facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
+       // facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
     //    array.add("ALL");
@@ -255,17 +260,104 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
 
                 DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
-                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-                if (i > 0) {
+                facilitatorList=result;
+                loadWorkerFascilatorData();
 
-                    Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
-                    loadWorkerFascilatorData();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
-                }
+//                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+//                if (i > 0) {
+//
+//                    Toast.makeText(getApplicationContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+//                    loadWorkerFascilatorData();
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+//                }
 
 
             }
         }
     }
+
+    private class SyncFCAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaFascilitatorWorkEntity>> {
+
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaFascilitatorWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaFCWorkActivityList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFascilitatorWorkEntity> result) {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+            if (result != null)
+            {
+                ashaFcWorkData = result;
+                setupFCAshaRecyclerView();
+            }else{
+                Utiilties.showErrorAlet(AshaFcAccpRjct_ActivityList.this, "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
+    }
+
+    public void setupFCAshaRecyclerView()
+    {
+        ll_dmf_tab.setVisibility(View.VISIBLE);
+        tv_monthly.setVisibility(View.GONE);
+
+        //isFinalize = isAshaFinalizeWork();
+        tabType = "D";
+        handleTabView();
+        //loadDailyRecyclerData();
+
+//        if(ashaWorkData.size() == 0){
+//            tv_note.setVisibility(View.GONE);
+//            ll_floating_btn.setVisibility(View.VISIBLE);
+//        }
+//
+//        if(isFinalize){
+//            //btn_proceed.setVisibility(View.GONE);
+//            ll_floating_btn.setVisibility(View.GONE);
+//            tv_note.setVisibility(View.VISIBLE);
+//            // tv_finalize.setVisibility(View.GONE);
+//        }else{
+////            btn_proceed.setVisibility(View.VISIBLE);
+////            btn_proceed.setText("स्थायी करें");
+//            ll_floating_btn.setVisibility(View.VISIBLE);
+//            tv_note.setVisibility(View.GONE);
+//            //tv_finalize.setVisibility(View.VISIBLE);
+//        }
+
+    }
+
+
+    public void handleTabView()
+    {
+        switch (tabType)
+        {
+            case "D":
+                tv_daily.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                rv_data.setVisibility(View.VISIBLE);
+                rv_data_monthly.setVisibility(View.GONE);
+//                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
+//                {
+                new SyncFCAshaActivityList().execute();
+                // }
+
+                break;
+
+        }
+    }
+
 }
