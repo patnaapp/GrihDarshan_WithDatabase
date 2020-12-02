@@ -26,7 +26,15 @@
             android:paddingBottom="2dp"
             android:weightSum="2"
             android:background="@drawable/shape_adapter_cell1">
-
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:visibility="gone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/delete"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="2dp"/>
             <TextView
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="4dp"

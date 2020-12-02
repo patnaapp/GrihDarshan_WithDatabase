@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,6 +67,16 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaFascilitatorWorkEntity info = mData.get(position);
+
+        if (CommonPref.getUserDetails(context).getUserrole().equals("ASHAFC"))
+        {
+            holder.iv_delete.setVisibility(View.VISIBLE);
+        }
+        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM"))
+        {
+            holder.iv_delete.setVisibility(View.GONE);
+        }
+
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBCM")) {
             if ((info.getVerificationStatus().contains("P")&& (info.get_IsFinalize().equals("N")||info.get_IsFinalize().equals("NA")) )){
            // if ((info.getVerificationStatus().contains("P"))) {
@@ -502,6 +513,13 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                 }
             }
         });
+
+        holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DeleteFacilitatorActivity(info, position).execute();
+            }
+        });
     }
 
     public void setAshaStatus(String code, TextView tv){
@@ -532,8 +550,10 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn,ll_asha_final;
+        ImageView iv_delete;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView)
+        {
             super(itemView);
             tv_workcategory = itemView.findViewById(R.id.tv_workcategory);
             tv_work = itemView.findViewById(R.id.tv_work);
@@ -554,10 +574,12 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             ll_btn = itemView.findViewById(R.id.ll_btn);
             ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
             tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
+            iv_delete = itemView.findViewById(R.id.iv_delete);
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
@@ -752,6 +774,80 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             e.printStackTrace();
         }
         return version;
+    }
+
+    private class DeleteFacilitatorActivity extends AsyncTask<String, Void, String> {
+        AshaFascilitatorWorkEntity data;
+        String result;
+        int position;
+        private final ProgressDialog dialog = new ProgressDialog(context);
+        private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+
+        DeleteFacilitatorActivity(AshaFascilitatorWorkEntity data, int position) {
+            this.data = data;
+            this.position = position;
+            //_uid = data.getId();
+            //rowid = data.get_phase1_id();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("डिलीट किया जा रहा हैं...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+
+            result = WebServiceHelper.DeleteFCActivity(data,CommonPref.getUserDetails(context).getUserrole());
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            Log.d("Responsevalue", "" + result);
+            if (result != null) {
+                if(result.equals("1")){
+                    //    mData.get(position).setVerificationStatus("A");
+                    notifyDataSetChanged();
+
+                    new android.app.AlertDialog.Builder(context)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड हटाया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setIcon(R.drawable.ashwin_logo);
+                    builder.setTitle("Failed");
+                    // Ask the final question
+                    builder.setMessage("failed");
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
+            }
+            else{
+                Toast.makeText(context, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
 

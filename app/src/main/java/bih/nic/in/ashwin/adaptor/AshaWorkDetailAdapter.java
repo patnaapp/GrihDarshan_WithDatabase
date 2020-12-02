@@ -1,15 +1,20 @@
 package bih.nic.in.ashwin.adaptor;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +27,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
 public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAdapter.ViewHolder> {
@@ -54,6 +60,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaWorkEntity info = mData.get(position);
 
+        holder.iv_delete.setVisibility(View.VISIBLE);
        // holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
         holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
         holder.tv_work.setText(info.getActivityDesc());
@@ -83,6 +90,13 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
             }
         });
+
+        holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DeleteAshaActivity(info, position).execute();
+            }
+        });
     }
 
     public void setAshaStatus(String code, TextView tv){
@@ -110,6 +124,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
         RelativeLayout sblist;
+        ImageView iv_delete;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +139,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);
             sblist = itemView.findViewById(R.id.sblist);
+            iv_delete = itemView.findViewById(R.id.iv_delete);
             //itemView.setOnClickListener(this);
         }
 
@@ -149,5 +165,78 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     }
 
 
+    private class DeleteAshaActivity extends AsyncTask<String, Void, String> {
+        AshaWorkEntity data;
+        String result;
+        int position;
+        private final ProgressDialog dialog = new ProgressDialog(context);
+        private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+
+
+        DeleteAshaActivity(AshaWorkEntity data, int position) {
+            this.data = data;
+            this.position = position;
+            //_uid = data.getId();
+            //rowid = data.get_phase1_id();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("डिलीट किया जा रहा हैं...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param) {
+
+            result = WebServiceHelper.DeleteAshaActivity(data,CommonPref.getUserDetails(context).getUserrole());
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+
+            Log.d("Responsevalue", "" + result);
+            if (result != null) {
+                if(result.equals("1")){
+                //    mData.get(position).setVerificationStatus("A");
+                    notifyDataSetChanged();
+
+                    new android.app.AlertDialog.Builder(context)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड हटाया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setIcon(R.drawable.ashwin_logo);
+                    builder.setTitle("Failed");
+                    // Ask the final question
+                    builder.setMessage("failed");
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+
+            }
+            else{
+                Toast.makeText(context, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 
 }

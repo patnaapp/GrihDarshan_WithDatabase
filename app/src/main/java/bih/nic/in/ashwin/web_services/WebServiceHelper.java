@@ -118,6 +118,7 @@ public class WebServiceHelper
     public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
     public static final String AcceptRjctFcFROMBCM = "FCAshaActivityVerification";
  //   public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
+ public static final String DeleteAsha_Fc_Activity = "DeletedFCAshaActivityAndAshaActiVity";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -1924,6 +1925,61 @@ public class WebServiceHelper
 
 
         return fieldList;
+    }
+
+    public static String DeleteAshaActivity(AshaWorkEntity data,String role) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, DeleteAsha_Fc_Activity);
+        request.addProperty("Id", data.getAshaActivityId());
+        request.addProperty("Userrolle",role);
+
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + DeleteAsha_Fc_Activity,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
+    }
+
+    public static String DeleteFCActivity(AshaFascilitatorWorkEntity data,String role) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, DeleteAsha_Fc_Activity);
+        request.addProperty("Id", data.getFCAshaActivityId());
+        request.addProperty("Userrolle",role);
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + DeleteAsha_Fc_Activity,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
     }
 
 }

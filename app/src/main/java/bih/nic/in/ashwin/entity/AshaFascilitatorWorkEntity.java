@@ -13,7 +13,8 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
     private String Verification,VerificationStatus,_rejectedRemarks,_IsFinalize;
-    public AshaFascilitatorWorkEntity(SoapObject sobj) {
+    public AshaFascilitatorWorkEntity(SoapObject sobj)
+    {
         this.FYearId = sobj.getProperty("FinYear").toString();
         this.Remarks = sobj.getProperty("Remarks").toString();
         this.FCAshaActivityId = sobj.getProperty("FCAshaActivityId").toString();
@@ -31,41 +32,48 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
         this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
         this.Verification = sobj.getProperty("Verification").toString();
         this.NumberOfBen = sobj.getProperty("NumberOfBen").toString();
-       // this._IsFinalize = sobj.getProperty("IsFinalize").toString();
-
-        if (sobj.getProperty("IsFinalize").toString().equals("NA")){
+        // this._IsFinalize = sobj.getProperty("IsFinalize").toString();
+        if (sobj.getProperty("IsFinalize").toString().equals("NA"))
+        {
             this._IsFinalize="N";
         }
-        else {
+        else
+        {
             this._IsFinalize = sobj.getProperty("IsFinalize").toString();
         }
     }
 
-    public AshaFascilitatorWorkEntity() {
+    public AshaFascilitatorWorkEntity()
+    {
 
     }
 
     @Override
-    public Object getProperty(int index) {
+    public Object getProperty(int index)
+    {
         return null;
     }
 
     @Override
-    public int getPropertyCount() {
+    public int getPropertyCount()
+    {
         return 0;
     }
 
     @Override
-    public void setProperty(int index, Object value) {
+    public void setProperty(int index, Object value)
+    {
 
     }
 
     @Override
-    public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
+    public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info)
+    {
 
     }
 
-    public String getHSCName() {
+    public String getHSCName()
+    {
         return HSCName;
     }
 
