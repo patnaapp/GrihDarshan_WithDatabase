@@ -19,8 +19,8 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
         this.FCAshaActivityId = sobj.getProperty("FCAshaActivityId").toString();
         this.PanchayatName = sobj.getProperty("PanchayatName").toString();
         this.PanchayatCode = sobj.getProperty("PanchayatCode").toString();
-        this.HSCName = sobj.getProperty("HSCName").toString();
-        this.HSCCODE = sobj.getProperty("HSCCode").toString();
+        //this.HSCName = sobj.getProperty("HSCName").toString();
+        //this.HSCCODE = sobj.getProperty("HSCCode").toString();
         this.MonthName = sobj.getProperty("MonthName").toString();
         this.MonthId = sobj.getProperty("MonthId").toString();
         this.FCAcitivtyCategoryDesc = sobj.getProperty("FCAcitivtyCategoryDesc").toString();

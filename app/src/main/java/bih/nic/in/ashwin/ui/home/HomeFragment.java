@@ -596,8 +596,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         else {
                             //   new GetAshaWorkersList().execute();
                         }
-                    }
-                    if (userRole.equals("ASHAFC")){
+                    }else if (userRole.equals("ASHAFC")){
                         if (facilitatorList.size()>0){
                             loadWorkerFascilatorData();
                         }
@@ -791,6 +790,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if(fyear != null && fmonth != null){
                 if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
                     new SyncAshaActivityList().execute();
+                }else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+                    new SyncFCAshaActivityList().execute();
                 }
             }
         }else{
