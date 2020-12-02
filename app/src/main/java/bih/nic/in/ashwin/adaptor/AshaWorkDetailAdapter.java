@@ -210,7 +210,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
                 //    mData.get(position).setVerificationStatus("A");
                     notifyDataSetChanged();
 
-                    new android.app.AlertDialog.Builder(context)
+                    new AlertDialog.Builder(context)
                             .setTitle("सूचना")
                             .setMessage("रिकॉर्ड हटाया गया")
                             .setCancelable(true)
