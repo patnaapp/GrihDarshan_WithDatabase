@@ -66,15 +66,15 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(context, AshaFacilitatorEntry.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                //intent.putExtra("HSC",hscEntity);
-                intent.putExtra("entryType","U");
-                intent.putExtra("data",info);
-                context.startActivity(intent);
-
+                if(CommonPref.getUserDetails(context).getUserrole().equals("ASHAFC")) {
+                    Intent intent = new Intent(context, AshaFacilitatorEntry.class);
+                    intent.putExtra("FYear", fyear);
+                    intent.putExtra("FMonth", fmonth);
+                    //intent.putExtra("HSC",hscEntity);
+                    intent.putExtra("entryType", "U");
+                    intent.putExtra("data", info);
+                    context.startActivity(intent);
+                }
             }
         });
     }
