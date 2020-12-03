@@ -580,7 +580,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (role.equals("HSC") || role.equals("BLKBCM"))
         {
 
-            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N"))){
+            if (((info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N"))){
 
                 ll_btn.setVisibility(View.VISIBLE);
                 btn_rjct.setVisibility(View.VISIBLE);

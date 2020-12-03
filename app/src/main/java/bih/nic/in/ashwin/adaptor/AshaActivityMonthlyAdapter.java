@@ -74,7 +74,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
 //        holder.tv_slno.setText(info.getPageSerialNo());
 //        holder.tv_reg_date.setText(info.getRegisterDate());
         //if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        if ((info.getVerificationStatus().contains("P")&& info.getIsFinalize().equals("N") ))
+        if (((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA"))&& info.getIsFinalize().equals("N") ))
         {
             holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
