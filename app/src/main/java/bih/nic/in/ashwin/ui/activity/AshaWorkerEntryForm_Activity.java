@@ -672,20 +672,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setVolumeArraySpinner()
-    {
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, volumeArray);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_volume.setAdapter(adaptor);
-        sp_volume.setOnItemSelectedListener(this);
-
-        if(entryType.equals("U")){
-            sp_volume.setSelection(Arrays.asList(volumeArray).indexOf(info.getVolume()));
-        }
-    }
-
-    public void setCategorySpinner()
-    {
+    public void setCategorySpinner(){
         categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -698,7 +685,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             if (entryType.equals("U") && info.get_AcitivtyCategoryId().equals(this.info.getAcitivtyCategoryId()))
             {
-                pos=activityTypeArray.indexOf(info);
+                pos=categoryArray.indexOf(info)+1;
             }
         }
 
@@ -709,7 +696,32 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         if(entryType.equals("U"))
         {
-            sp_work_categ.setSelection(pos+1);
+            sp_work_categ.setSelection(pos);
+        }
+    }
+
+    public void setActivitySpinner(){
+        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), workdmCode);
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        int pos=0;
+        for (Activity_entity info: activityArray){
+            array.add(info.getAbbr()+" - "+info.get_ActivityDesc());
+
+            if (entryType.equals("U") && info.get_ActivityId().equals(this.info.getActivityId()))
+            {
+                pos=activityTypeArray.indexOf(info);
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work.setAdapter(adaptor);
+        sp_work.setOnItemSelectedListener(this);
+
+        if(entryType.equals("U")){
+            sp_work.setSelection(pos+1);
         }
     }
 
@@ -742,32 +754,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-
-    public void setActivitySpinner(){
-        activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), workdmCode);
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
-
-        int pos=0;
-        for (Activity_entity info: activityArray){
-            array.add(info.getAbbr()+" - "+info.get_ActivityDesc());
-
-            if (entryType.equals("U") && info.get_ActivityId().equals(this.info.getActivityId()))
-            {
-                pos=activityTypeArray.indexOf(info);
-            }
-        }
-
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+    public void setVolumeArraySpinner(){
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, volumeArray);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_work.setAdapter(adaptor);
-        sp_work.setOnItemSelectedListener(this);
+        sp_volume.setAdapter(adaptor);
+        sp_volume.setOnItemSelectedListener(this);
 
         if(entryType.equals("U")){
-            sp_work.setSelection(pos+1);
+            sp_volume.setSelection(Arrays.asList(volumeArray).indexOf(info.getVolume()));
         }
     }
-
 
     public void ShowDialog(View view) {
         caltype = 1;
