@@ -220,8 +220,10 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
         }
 
-        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
-            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA")) {
+        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO"))
+        {
+            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA"))
+            {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
                 holder.ll_btn.setVisibility(View.VISIBLE);
@@ -230,7 +232,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
                 holder.btn_accp_rjct.setVisibility(View.GONE);
             }
-            else if (info.get_MO_Verified().contains("Y")) {
+            else if (info.get_MO_Verified().contains("Y"))
+            {
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
@@ -238,13 +241,13 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
                 // holder.btn_rjct.setVisibility(View.VISIBLE);
-
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
                 //   holder.btn_accpt.setVisibility(View.GONE);
-            } else if (info.get_MO_Verified().contains("R")) {
-
+            }
+            else if (info.get_MO_Verified().contains("R"))
+            {
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);

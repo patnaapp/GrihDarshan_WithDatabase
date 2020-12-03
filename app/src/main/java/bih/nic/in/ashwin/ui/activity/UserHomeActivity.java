@@ -144,8 +144,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_profile:
                 if (CommonPref.getUserDetails(UserHomeActivity.this).getUserrole().equals("ASHA"))
                 {
-                    Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
-                    startActivity(i);
+//                    Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
+//                    startActivity(i);
                 }
                 break;
         }

@@ -249,16 +249,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 //        }
 //        else
 //        {
-//            Log.d("gdvhbvhbh",userInfo.getAsha_Img());
-//            if(!userInfo.getAsha_Img().equalsIgnoreCase("NA"))
-//            {
-//                String url = "http://ashwin.bih.nic.in" + userInfo.getAsha_Img().replace("~", "");
-//                Log.e("imgUrl", url);
-//                Picasso.with(this).load(url).into(img_ash_selfie);
-//                //Picasso.with(this).load("http://10.133.20.159/"+benDetails.getVchPhoto()).error(R.drawable.profile).into(img_studphoto);
-//                // Picasso.with(this).load(benDetails.getVchPhoto()).into(img_studphoto);
-//            }
-//        }
+            Log.d("asha_img_url",userInfo.getAsha_Img());
+            if(!userInfo.getAsha_Img().equalsIgnoreCase("NA")|| !userInfo.getAsha_Img().equalsIgnoreCase("anyType{}"))
+            {
+                String url = "http://ashwin.bih.nic.in" + userInfo.getAsha_Img().replace("~", "");
+                Log.e("imgUrl", url);
+                Picasso.with(this).load(url).into(img_ash_selfie);
+                //Picasso.with(this).load("http://10.133.20.159/"+benDetails.getVchPhoto()).error(R.drawable.profile).into(img_studphoto);
+                // Picasso.with(this).load(benDetails.getVchPhoto()).into(img_studphoto);
+            }
+     //   }
 
     }
 
