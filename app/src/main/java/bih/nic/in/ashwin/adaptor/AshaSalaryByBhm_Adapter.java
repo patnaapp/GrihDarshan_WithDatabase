@@ -849,22 +849,27 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
         });
 
-        holder.edt_deductremarks_state.addTextChangedListener(new TextWatcher() {
+        holder.edt_deductremarks_state.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!holder.edt_deductremarks_state.getText().toString().isEmpty()){
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (!holder.edt_deductremarks_state.getText().toString().isEmpty())
+                {
                     listener.onDeductionRemarks(position,holder.edt_deductremarks_state.getText().toString(),true);
                 }
             }
@@ -880,10 +885,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_view_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 new SyncAshaActivityList(info.get_AshaWorkerId()).execute();
-
-
             }
         });
 
