@@ -644,13 +644,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setCategoryTypeSpinner(){
+    public void setCategoryTypeSpinner()
+    {
         activityTypeArray = dbhelper.getActictivityTypeList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
 
-        for (Activity_Type_entity info: activityTypeArray){
+        for (Activity_Type_entity info: activityTypeArray)
+        {
             array.add(info.getAbbr()+" - "+info.get_ActnameHN());
 
             if (entryType.equals("U") && info.get_ActTypeId().equals(this.info.getActTypeId()))
@@ -679,7 +681,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_volume.setAdapter(adaptor);
         sp_volume.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U")){
+        if(entryType.equals("U"))
+        {
             sp_volume.setSelection(Arrays.asList(volumeArray).indexOf(info.getVolume()));
         }
     }
@@ -713,7 +716,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setRegisterSpinner(String activity_id){
+    public void setRegisterSpinner(String activity_id)
+    {
         //registerArray = dbhelper.getRegisterdescList(list);
        // registerArray = dbhelper.getRegisterdescList();
         registerArray = dbhelper.getRegisterMappedList(activity_id);

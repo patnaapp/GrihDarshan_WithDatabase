@@ -830,22 +830,27 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                                 }
                             }).show();
                     //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else
+                    {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
                     builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.dismiss();
                         }
                     });
                 }
 
             }
-            else{
+            else
+                {
                 Toast.makeText(context, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
             }
 
