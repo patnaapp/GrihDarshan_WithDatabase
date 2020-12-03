@@ -195,8 +195,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 }
-
             }
+
             else if (info.get_HQADMVerified().equals("Y"))
             {
                 holder.ll_btn.setVisibility(View.GONE);
@@ -216,7 +216,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
                 }
-
             }
         }
 
@@ -297,10 +296,11 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         }
 
 //----------------
-
-        holder.btn_accpt.setOnClickListener(new View.OnClickListener() {
+        holder.btn_accpt.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 if(Utiilties.isOnline(context)) {
 
                     final EditText edittext = new EditText(context);
@@ -880,8 +880,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_view_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
-                //if(list.size()>0){
+
                 new SyncAshaActivityList(info.get_AshaWorkerId()).execute();
 
 
