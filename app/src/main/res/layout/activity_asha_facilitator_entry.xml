@@ -354,7 +354,15 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="नोट: यह कार्य पहले से ही अंतिम रूप दिया गया है और इसलिए इसे संशोधित नहीं किया जा सकता है"
+                android:layout_margin="8dp"
+                android:textSize="13sp"
+                android:textColor="@color/holo_green_dark"/>
         </LinearLayout>
 
     </ScrollView>
@@ -374,4 +382,6 @@
         android:textColor="#ffff"
         android:textSize="17sp"
         android:onClick="onSaveData"/>
+
+
 </RelativeLayout>
