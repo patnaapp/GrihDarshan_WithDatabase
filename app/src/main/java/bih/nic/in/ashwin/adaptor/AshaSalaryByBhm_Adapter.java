@@ -195,8 +195,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 }
-
             }
+
             else if (info.get_HQADMVerified().equals("Y"))
             {
                 holder.ll_btn.setVisibility(View.GONE);
@@ -216,12 +216,13 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
                 }
-
             }
         }
 
-        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO")) {
-            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA")) {
+        else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO"))
+        {
+            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA"))
+            {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
                 holder.ll_btn.setVisibility(View.VISIBLE);
@@ -230,7 +231,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
                 holder.btn_accp_rjct.setVisibility(View.GONE);
             }
-            else if (info.get_MO_Verified().contains("Y")) {
+            else if (info.get_MO_Verified().contains("Y"))
+            {
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
@@ -238,13 +240,13 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
                 // holder.btn_rjct.setVisibility(View.VISIBLE);
-
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
 //
 //            holder.btn_rjct.setLayoutParams(lp);
                 //   holder.btn_accpt.setVisibility(View.GONE);
-            } else if (info.get_MO_Verified().contains("R")) {
-
+            }
+            else if (info.get_MO_Verified().contains("R"))
+            {
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
@@ -294,10 +296,11 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         }
 
 //----------------
-
-        holder.btn_accpt.setOnClickListener(new View.OnClickListener() {
+        holder.btn_accpt.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 if(Utiilties.isOnline(context)) {
 
                     final EditText edittext = new EditText(context);
@@ -846,22 +849,27 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable)
+            {
 
             }
 
         });
 
-        holder.edt_deductremarks_state.addTextChangedListener(new TextWatcher() {
+        holder.edt_deductremarks_state.addTextChangedListener(new TextWatcher()
+        {
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!holder.edt_deductremarks_state.getText().toString().isEmpty()){
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+            {
+                if (!holder.edt_deductremarks_state.getText().toString().isEmpty())
+                {
                     listener.onDeductionRemarks(position,holder.edt_deductremarks_state.getText().toString(),true);
                 }
             }
@@ -877,11 +885,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_view_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
-                //if(list.size()>0){
                 new SyncAshaActivityList(info.get_AshaWorkerId()).execute();
-
-
             }
         });
 

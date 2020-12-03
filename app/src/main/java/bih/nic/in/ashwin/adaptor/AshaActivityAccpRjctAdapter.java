@@ -86,7 +86,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
 
         //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") ))
+        if (((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N") ))
         {
             holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
