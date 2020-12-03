@@ -1404,23 +1404,29 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public static String getDeviceName() {
+    public static String getDeviceName()
+    {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
-
+        if (model.startsWith(manufacturer))
+        {
             return model.toUpperCase();
-        } else {
-
+        }
+        else
+        {
             return manufacturer.toUpperCase() + " " + model;
         }
     }
-    public String getAppVersion(){
-        try {
+    public String getAppVersion()
+    {
+        try
+        {
             version = AshaWorkerEntryForm_Activity.this.getPackageManager().getPackageInfo(AshaWorkerEntryForm_Activity.this.getPackageName(), 0).versionName;
 //                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
 //                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
