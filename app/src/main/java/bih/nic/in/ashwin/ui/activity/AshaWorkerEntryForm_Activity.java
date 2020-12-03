@@ -168,7 +168,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     }, 500);
                 }
                 else
-                    {
+                {
                     edt_amount_total.setText("0");
                 }
             }
@@ -177,7 +177,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             public void afterTextChanged(Editable editable){}
         });
 
-        btn_accp_rjct.setOnClickListener(new View.OnClickListener(){
+        btn_accp_rjct.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view)
             {
@@ -568,7 +569,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             setData();
         }
-       // registerArray = dbhelper.getRegisterMappedList(info.getActivityId());
+        // registerArray = dbhelper.getRegisterMappedList(info.getActivityId());
         setVolumeArraySpinner();
 
     }
@@ -804,7 +805,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     public void setRegisterSpinner(String activity_id){
         //registerArray = dbhelper.getRegisterdescList(list);
-       // registerArray = dbhelper.getRegisterdescList();
+        // registerArray = dbhelper.getRegisterdescList();
         registerArray = dbhelper.getRegisterMappedList(activity_id);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");

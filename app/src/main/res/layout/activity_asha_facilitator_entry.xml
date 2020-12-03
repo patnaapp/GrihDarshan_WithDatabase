@@ -31,103 +31,106 @@
             android:gravity="center"
             android:padding="10dp"
             android:orientation="vertical">
-        <LinearLayout
-            android:background="@drawable/shape_adapter_cell"
-            android:padding="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+
 
             <LinearLayout
-                android:visibility="visible"
+                android:background="@drawable/shape_adapter_cell"
+                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ll_div_zone"
-                android:layout_below="@+id/ll_username"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:id="@+id/ll_zone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:id="@+id/ll_div_zone"
+                    android:layout_below="@+id/ll_username"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="वित्तीय वर्ष"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_fn_yr"
+                    <LinearLayout
+                        android:gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/ll_zone"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/black"/>
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:id="@+id/ll_pan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="वित्तीय वर्ष"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="वित्तीय महीना: "
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
+                        <TextView
+                            android:id="@+id/tv_fn_yr"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/fn_mnth"
+                    <LinearLayout
+                        android:gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/ll_pan"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textSize="14sp"
-                        android:textColor="@android:color/black"/>
-                </LinearLayout>
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:visibility="gone"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:id="@+id/ll_division"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="वित्तीय महीना: "
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/fn_mnth"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/black"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_division"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="स्वास्थ्य उप केंद्र"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_hsc_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="स्वास्थ्य उप केंद्र"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hsc_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +141,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="संक्षिप्त कोड"
+                    android:text="कार्य कोड"
                     android:textColor="@color/color_black"
                     android:textSize="14sp"/>
 
@@ -148,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/textboxshape"
-                    android:hint="संक्षिप्त कोड डाले"
+                    android:hint="कार्य कोड डाले"
                     android:padding="10dp"
                     android:inputType="textCapWords"
                     android:maxLength="6"
@@ -270,51 +273,51 @@
             </LinearLayout>
 
             <LinearLayout
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="कार्य तिथि : [*]"
-                android:textColor="@color/color_black"
-                android:textSize="12sp"/>
-
-            <RelativeLayout
+                android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:enabled="false"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="8dp"
-                    android:id="@+id/edt_date"
-                    android:layout_toLeftOf="@+id/img_date1"
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/textboxshape"
-                    android:hint="कार्य पूर्ण की तिथि "
-                    android:padding="10dp"
-                    android:inputType="number"
-                    android:singleLine="true"
-                    android:textColor="#222222"
-                    android:focusableInTouchMode="true"
-                    android:textSize="15sp" />
+                    android:text="कार्य तिथि : [*]"
+                    android:textColor="@color/color_black"
+                    android:textSize="12sp"/>
 
-                <ImageView
-                    android:onClick="ShowDialog"
-                    android:layout_alignParentRight="true"
-                    android:id="@+id/img_date1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:src="@drawable/calendaricon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:enabled="false"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="8dp"
+                        android:id="@+id/edt_date"
+                        android:layout_toLeftOf="@+id/img_date1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/textboxshape"
+                        android:hint="कार्य पूर्ण की तिथि "
+                        android:padding="10dp"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="#222222"
+                        android:focusableInTouchMode="true"
+                        android:textSize="15sp" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:onClick="ShowDialog"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/img_date1"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:src="@drawable/calendaricon" />
 
-        </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
 
