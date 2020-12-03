@@ -36,7 +36,7 @@ import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
-public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDetailAdapter.ViewHolder> {
+public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDetailAdapter.ViewHolder>{
 
     private ArrayList<AshaFascilitatorWorkEntity> mData;
     private LayoutInflater mInflater;
@@ -165,12 +165,12 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
 
         }
 
-            // holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
         }
         else {
             holder.ll_btn.setVisibility(View.GONE);
             holder.btn_accp_rjct.setVisibility(View.GONE);
         }
+
         holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,19 +190,11 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                         {
                             public void onClick(DialogInterface dialog, int whichButton)
                             {
-                                //What ever you want to do with the value
-//                                Editable YouEditTextValue = edittext.getText();
-//                                //OR
+
                                 String YouEditTextValue = edittext.getText().toString();
-//                                        if (!YouEditTextValue.equals(""))
-//                                        {
                                 info.set_rejectedRemarks(YouEditTextValue);
                                 new AcceptFcActivityByBCM(info, position).execute();
                                 dialog.dismiss();
-//                                        }
-//                                        else {
-//                                            edittext.setError("Required field");
-//                                        }
                             }
                         });
 
@@ -215,40 +207,9 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                         });
 
                         alert.show();
-
-//                        new AlertDialog.Builder(context)
-//                                .setTitle("अनुशंसित करे")
-//                                .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-//                                .setCancelable(false)
-//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener()
-//                                {
-//                                    public void onClick(DialogInterface dialog, int id)
-//                                    {
-//                                        new AcceptRecordsFromPacs(info, position).execute();
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener()
-//                        {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which)
-//                            {
-//                                dialog.dismiss();
-//                            }
-//                        }).show();
                     }
                     else {
-                        new AlertDialog.Builder(context)
-                                .setTitle("अलर्ट !!")
-                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                                .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                        context.startActivity(I);
-                                        dialog.cancel();
-                                    }
-                                }).show();
-
+                        Utiilties.showInternetAlert(context);
                     }
                 }
                 else if (info.getVerificationStatus().contains("A")){
@@ -266,9 +227,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                         {
                             public void onClick(DialogInterface dialog, int whichButton)
                             {
-                                //What ever you want to do with the value
-//                                Editable YouEditTextValue = edittext.getText();
-//                                //OR
+
                                 String YouEditTextValue = edittext.getText().toString();
                                 if (!YouEditTextValue.equals(""))
                                 {
@@ -291,41 +250,9 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                         });
 
                         alert.show();
-
-//                        new AlertDialog.Builder(context)
-//                                .setTitle("अस्वीकृति की पुष्टि")
-//                                .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-//                                .setCancelable(false)
-//                                .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        new RejectRecordsFromPacs(info, position).execute();
-//                                        dialog.dismiss();
-//                                    }
-//                                }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        }).show();
-
-
                     }
                     else {
-
-                        new AlertDialog.Builder(context)
-                                .setTitle("अलर्ट !!")
-                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                                .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                        context.startActivity(I);
-                                        dialog.cancel();
-                                    }
-                                }).show();
-
-
-
+                        Utiilties.showInternetAlert(context);
                     }
                 }
             }
@@ -373,36 +300,9 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                     });
 
                     alert.show();
-
-//                    new AlertDialog.Builder(context)
-//                            .setTitle("अनुशंसित करे")
-//                            .setMessage("क्या आप वाकई इस कार्य को स्वीकार करना चाहते हैं?")
-//                            .setCancelable(false)
-//                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    new AcceptRecordsFromPacs(info, position).execute();
-//                                    dialog.dismiss();
-//                                }
-//                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    }).show();
                 }
                 else {
-                    new AlertDialog.Builder(context)
-                            .setTitle("अलर्ट !!")
-                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                            .setCancelable(false)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                    context.startActivity(I);
-                                    dialog.cancel();
-                                }
-                            }).show();
-
+                    Utiilties.showInternetAlert(context);
                 }
             }
         });
@@ -425,9 +325,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
                     {
                         public void onClick(DialogInterface dialog, int whichButton)
                         {
-                            //What ever you want to do with the value
-//                                Editable YouEditTextValue = edittext.getText();
-//                                //OR
+
                             String YouEditTextValue = edittext.getText().toString();
                             if (!YouEditTextValue.equals(""))
                             {
@@ -451,41 +349,9 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
 
                     alert.show();
 
-
-//                    new AlertDialog.Builder(context)
-//                            .setTitle("अस्वीकृति की पुष्टि")
-//                            .setMessage("क्या आप वाकई इस कार्य को अस्वीकार करना चाहते हैं?")
-//                            .setCancelable(false)
-//                            .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    new RejectRecordsFromPacs(info, position).execute();
-//                                    dialog.dismiss();
-//                                }
-//                            }).setNegativeButton("नहीं ", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    }).show();
-
-
                 }
                 else {
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("अलर्ट !!")
-                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                            .setCancelable(false)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                    context.startActivity(I);
-                                    dialog.cancel();
-                                }
-                            }).show();
-
-
-
+                    Utiilties.showInternetAlert(context);
                 }
             }
         });
@@ -507,13 +373,6 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
 
                 if(CommonPref.getUserDetails(context).getUserrole().equals("ASHAFC")) {
                     listener.onEditFCWork(info);
-//                    Intent intent = new Intent(context, AshaFacilitatorEntry.class);
-//                    intent.putExtra("FYear", fyear);
-//                    intent.putExtra("FMonth", fmonth);
-//                    //intent.putExtra("HSC",hscEntity);
-//                    intent.putExtra("entryType", "U");
-//                    intent.putExtra("data", info);
-//                    context.startActivity(intent);
                 }
             }
         });
@@ -521,7 +380,29 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         holder.iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DeleteFacilitatorActivity(info, position).execute();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setMessage("क्या आप वाकई इस कार्य को हटाना चाहते हैं?");
+                alert.setTitle("पुष्टि करें");
+
+                alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        new DeleteFacilitatorActivity(info, position).execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
             }
         });
     }
@@ -545,7 +426,6 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
     public int getItemCount() {
         return mData.size();
     }
-
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -796,7 +676,7 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
         @Override
         protected void onPreExecute() {
             this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("डिलीट किया जा रहा हैं...");
+            this.dialog.setMessage("कार्य हटाया किया जा रहा हैं...");
             this.dialog.show();
         }
 
@@ -818,34 +698,12 @@ public class AshaFCWorkDetailAdapter extends RecyclerView.Adapter<AshaFCWorkDeta
             if (result != null) {
                 if(result.equals("1")){
                     //    mData.get(position).setVerificationStatus("A");
-                    notifyDataSetChanged();
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("सूचना")
-                            .setMessage("रिकॉर्ड हटाया गया")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
+                    listener.onDeleteFCWork(position);
+                    Toast.makeText(context, "कार्य हटाया गया", Toast.LENGTH_SHORT).show();
                 }
                 else
                     {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
+                        Toast.makeText(context, "रिकॉर्ड हटाने में विफल!!", Toast.LENGTH_SHORT).show();
                 }
 
             }

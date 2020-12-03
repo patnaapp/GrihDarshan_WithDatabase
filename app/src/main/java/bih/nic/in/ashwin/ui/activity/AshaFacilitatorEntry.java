@@ -407,7 +407,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         View focusView = null;
         boolean validate = true;
 
-        if(workCategory == null)
+        if(workCategoryId == null)
         {
             tv_cat_title.setError("कृप्या कार्य का श्रेणी का चयन करें ");
             focusView = tv_cat_title;

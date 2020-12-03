@@ -199,6 +199,11 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
     @Override
     public void onEditFCWork(AshaFascilitatorWorkEntity info) {}
 
+    @Override
+    public void onDeleteFCWork(int position) {
+
+    }
+
     private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>
     {
 
