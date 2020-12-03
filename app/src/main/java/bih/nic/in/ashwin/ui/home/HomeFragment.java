@@ -866,6 +866,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         startActivity(intent);
     }
 
+    @Override
+    public void onDeleteFCWork(int position) {
+        ashaFcWorkData.remove(position);
+        rv_data.getAdapter().notifyItemRemoved(position);
+    }
+
     private class SyncFCAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaFascilitatorWorkEntity>> {
 
 

@@ -463,6 +463,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void onEditFCWork(AshaFascilitatorWorkEntity info) {
     }
 
+    @Override
+    public void onDeleteFCWork(int position) {
+
+    }
+
     public void onGetVerifyOtp(View view) {
         if(isValidated()){
             if(getOtp){

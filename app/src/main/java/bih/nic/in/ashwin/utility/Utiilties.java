@@ -118,6 +118,33 @@ public class Utiilties {
         }
     }
 
+    public static void showInternetAlert(final Context context){
+
+        if (Utiilties.isOnline(context) == false) {
+            AlertDialog.Builder ab = new AlertDialog.Builder(context);
+            ab.setCancelable(false);
+            ab.setTitle("अलर्ट !!");
+            ab.setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें");
+            ab.setPositiveButton("ओके",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog,
+                                            int whichButton) {
+                            GlobalVariables.isOffline = false;
+                            Intent I = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                            context.startActivity(I);
+                        }
+                    });
+            ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
+
+            ab.show();
+        }else {
+
+            GlobalVariables.isOffline = false;
+            // new CheckUpdate().execute();
+        }
+    }
+
     public static void showErrorAlet(final Context context, String title, String message){
 
             AlertDialog.Builder ab = new AlertDialog.Builder(context);
