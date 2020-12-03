@@ -58,18 +58,18 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume;
+    Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume,sp_work_place,sp_place_type;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total,edt_abbr;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname,tv_activity_type;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname,tv_activity_type,tv_work_place,tv_place_type;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
-    LinearLayout ll_daily_content;
+    LinearLayout ll_daily_content,ll_place_type,ll_place;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
     Financial_Month fmonth;
 
-    ArrayList<Activity_Type_entity> activityTypeArray;
+    ArrayList<Activity_Type_entity> activityTypeArray = new ArrayList<>();
     ArrayList<District_list> districtArray;
     ArrayList<Block_List> blockArray;
     ArrayList<ActivityCategory_entity> categoryArray;
@@ -82,14 +82,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     Activity_entity activityEntity;
    // RegisterDetailsEntity registerDetailsEntity;
    RegisteMappingEbtity registerDetailsEntity;
+    Block_List otherBlock;
 
+    String placeypeArray[] = {"अपने प्रखंड में", "अन्य प्रखंड", "ज़िला अस्पताल"};
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
     String workdmCode,workDmName,version="";
 
     int caltype = 0;
-    String entryType,role,volume;
+    String entryType,role,volume,placeTypeCode;
     LinearLayout ll_btn;
     AshaWorkEntity info;
     ArrayList<String> list;
@@ -101,14 +103,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         setContentView(R.layout.activity_asha_worker_entry_form_);
 
         initializeViews();
-        extractDataFromIntent();
-        //setCategorySpinner();
-        setCategoryTypeSpinner();
-        setDistrictSpinner();
-       // setRegisterSpinner();
 
-        edt_ben_no.addTextChangedListener(new TextWatcher()
-        {
+        extractDataFromIntent();
+
+        setCategoryTypeSpinner();
+
+        //setPlaceTypeSpinner();
+
+        edt_ben_no.addTextChangedListener(new TextWatcher(){
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
@@ -175,8 +177,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             public void afterTextChanged(Editable editable){}
         });
 
-        btn_accp_rjct.setOnClickListener(new View.OnClickListener()
-        {
+        btn_accp_rjct.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view)
             {
@@ -508,6 +509,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_volume = findViewById(R.id.tv_volume);
         tv_regname = findViewById(R.id.tv_regname);
         tv_activity_type = findViewById(R.id.tv_activity_type);
+        tv_work_place = findViewById(R.id.tv_work_place);
+        tv_place_type = findViewById(R.id.tv_place_type);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -517,6 +520,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_work_categ_type = findViewById(R.id.sp_work_categ_type);
         sp_reg_name = findViewById(R.id.sp_reg_name);
         sp_volume = findViewById(R.id.sp_volume);
+        sp_work_place = findViewById(R.id.sp_work_place);
+        sp_place_type = findViewById(R.id.sp_place_type);
 
         btn_proceed = findViewById(R.id.btn_proceed);
         img_date2 = findViewById(R.id.img_date2);
@@ -529,6 +534,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         ll_daily_content = findViewById(R.id.ll_daily_content);
         ll_btn = findViewById(R.id.ll_btn);
+        ll_place_type = findViewById(R.id.ll_place_type);
+        ll_place = findViewById(R.id.ll_place);
     }
 
     public void extractDataFromIntent()
@@ -538,12 +545,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         entryType =  getIntent().getStringExtra("Type");
 
         workdmCode =  getIntent().getStringExtra("WorkDMType");
-        role =  getIntent().getStringExtra("role");
+        //role =  getIntent().getStringExtra("role");
+        role =  CommonPref.getUserDetails(this).getUserrole();
 
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
 
-        if (role.equals("HSC"))
+        if (role.equals("HSC") || role.equals("BLKBCM"))
         {
             btn_proceed.setVisibility(View.GONE);
             ll_btn.setVisibility(View.VISIBLE);
@@ -557,6 +565,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (entryType.equals("U"))
         {
             info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
+
             setData();
         }
        // registerArray = dbhelper.getRegisterMappedList(info.getActivityId());
@@ -567,11 +576,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void setData()
     {
 
-        if (role.equals("HSC"))
+        if (role.equals("HSC") || role.equals("BLKBCM"))
         {
 
-            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N")))
-            {
+            if ((info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N"))){
 
                 ll_btn.setVisibility(View.VISIBLE);
                 btn_rjct.setVisibility(View.VISIBLE);
@@ -579,25 +587,21 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 ll_btn.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setVisibility(View.GONE);
 
-            }
-            else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N")))
-            {
+            }else if ((info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("पुनः जाँच करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                 ll_btn.setVisibility(View.GONE);
 
-            }
-            else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
+            }else if ((info.getVerificationStatus().contains("R") && info.getIsFinalize().equals("N"))){
 
                 btn_accp_rjct.setVisibility(View.VISIBLE);
                 btn_accp_rjct.setText("अनुशंषित करे");
                 btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 ll_btn.setVisibility(View.GONE);
 
-            }
-            else if (info.getIsFinalize().equals("Y"))
+            }else if (info.getIsFinalize().equals("Y"))
             {
                 ll_btn.setVisibility(View.GONE);
                 btn_rjct.setVisibility(View.GONE);
@@ -620,6 +624,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             sp_work.setEnabled(false);
             sp_work_categ_type.setEnabled(false);
+            sp_work_place.setEnabled(false);
+            sp_place_type.setEnabled(false);
         }
         else
         {
@@ -649,6 +655,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
+    public void setPlaceTypeSpinner(){
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, placeypeArray);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work_place.setAdapter(adaptor);
+        sp_work_place.setOnItemSelectedListener(this);
+    }
+
     public void setDistrictSpinner(){
         districtArray = dbhelper.getDistrictList();
         ArrayList array = new ArrayList<String>();
@@ -658,7 +671,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         for (District_list info: districtArray){
             array.add(info.getDist_NAME_HN());
 
-            if (info.getDistt_code().equals(this.info.getDistrictCode()))
+            if (info.getDistt_code().equals(CommonPref.getUserDetails(this).getDistrictCode()))
             {
                 pos=districtArray.indexOf(info);
                 pos+=1;
@@ -667,14 +680,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_work_categ_type.setAdapter(adaptor);
-        sp_work_categ_type.setOnItemSelectedListener(this);
+        sp_place_type.setAdapter(adaptor);
+        sp_place_type.setOnItemSelectedListener(this);
 
-//        if(entryType.equals("U"))
-//        {
-            //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
-            sp_work_categ_type.setSelection(pos);
-//        }
+        if(pos > 0)
+        {
+            sp_place_type.setSelection(pos);
+        }
+
+        sp_place_type.setEnabled(false);
     }
 
     public void setBlockSpinner(String distid){
@@ -686,27 +700,29 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         for (Block_List info: blockArray){
             array.add(info.getBlock_NAME_HN());
 
-            if (info.getBlk_Code().equals(this.info.getBlockCode()))
-            {
-                pos=blockArray.indexOf(info);
-                pos+=1;
-            }
+//            if (info.getBlk_Code().equals(this.info.getBlockCode()))
+//            {
+//                pos=blockArray.indexOf(info);
+//                pos+=1;
+//            }
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_work_categ_type.setAdapter(adaptor);
-        sp_work_categ_type.setOnItemSelectedListener(this);
+        sp_place_type.setAdapter(adaptor);
+        sp_place_type.setOnItemSelectedListener(this);
 
 //        if(entryType.equals("U"))
 //        {
         //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
-        sp_work_categ_type.setSelection(pos);
+        //sp_work_categ_type.setSelection(pos);
 //        }
+
+        sp_place_type.setEnabled(true);
     }
 
     public void setCategoryTypeSpinner(){
-        districtArray = dbhelper.getDistrictList();
+        activityTypeArray = dbhelper.getActictivityTypeList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
@@ -772,7 +788,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             if (entryType.equals("U") && info.get_ActivityId().equals(this.info.getActivityId()))
             {
-                pos=activityTypeArray.indexOf(info);
+                pos=activityArray.indexOf(info);
             }
         }
 
@@ -940,6 +956,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     tv_cat_title.setError(null);
                     setCategorySpinner();
                     tv_activity_type.setVisibility(View.GONE);
+                    if(activityTypeEntity.get_ActTypeId().equals("2")){
+                        setPlaceTypeSpinner();
+                        ll_place.setVisibility(View.VISIBLE);
+                    }else{
+                        ll_place.setVisibility(View.GONE);
+                    }
                     //sp_work.setSelection(0);
                     //sp_work_categ.setSelection(0);
                 }else{
@@ -947,6 +969,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     sp_work.setSelection(0);
                     sp_work_categ.setSelection(0);
                     tv_activity_type.setVisibility(View.GONE);
+                    ll_place.setVisibility(View.GONE);
                 }
                 break;
             case R.id.sp_reg_name:
@@ -963,6 +986,32 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     tv_volume.setError(null);
                 }else{
                     volume = null;
+                }
+                break;
+
+            case R.id.sp_work_place:
+                placeTypeCode = String.valueOf(i);
+                switch (i){
+                    case 1:
+                        tv_place_type.setText("प्रखंड : [*]");
+                        setBlockSpinner(CommonPref.getUserDetails(this).getDistrictCode());
+                        ll_place_type.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        tv_place_type.setText("ज़िला : [*]");
+                        setDistrictSpinner();
+                        ll_place_type.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        ll_place_type.setVisibility(View.GONE);
+                        break;
+                }
+                break;
+            case R.id.sp_place_type:
+                if (i > 0 && placeTypeCode.equals("1")) {
+                    otherBlock = blockArray.get(i-1);
+                }else{
+                    otherBlock = null;
                 }
                 break;
         }
@@ -986,9 +1035,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setRegisterId(registerDetailsEntity.get_RegisterId());
             entity.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
             entity.setVolume(volume);
-            //entity.setRegisterPageNo(edt_pageno.getText().toString());
-            //entity.setRegisterPageNo(edt_pageno.getText().toString());
-            //entity.setPageSerialNo(edt_slno.getText().toString());
             entity.setRegisterDate(edt_reg_date.getText().toString());
             entity.setAppVersion(Utiilties.getAppVersion(this));
 
@@ -1009,6 +1055,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setHSCCODE(CommonPref.getUserDetails(this).getHSCCode());
             entity.setEntryType(entryType);
             entity.setEntryBy(CommonPref.getUserDetails(this).getUserID());
+
+            if(activityTypeEntity.get_ActTypeId().equals("2")){
+                entity.setActivityPlace(placeTypeCode);
+                if(placeTypeCode.equals("1")){
+                    entity.setOtherBlock(otherBlock.getBlk_Code());
+                }else if (placeTypeCode.equals("2")){
+                    entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
+                }
+            }
 
             if(entryType.equals("U")){
                 entity.setAshaActivityId(info.getAshaActivityId());

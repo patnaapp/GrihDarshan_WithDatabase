@@ -46,7 +46,6 @@
     <ScrollView
         android:id="@+id/reg_form"
         android:layout_below="@+id/tv_desc"
-        android:layout_above="@+id/btn_proceed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="2dp"
@@ -271,7 +270,95 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/ll_place"
+                            android:padding="8dp"
+                            android:background="@drawable/shape_adapter_cell"
+                            android:layout_marginTop="8dp"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_work_place"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="कार्य स्थल : [*]"
+                                    android:textColor="@color/color_black"
+                                    android:textSize="12sp"/>
+
+                                <Spinner
+                                    android:id="@+id/sp_work_place"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="36dp"
+                                    android:layout_marginTop="4dp"
+                                    android:background="@drawable/spinner_bg1" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="8dp"
+                                android:layout_height="match_parent"/>
+
+                            <LinearLayout
+                                android:id="@+id/ll_place_type"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_place_type"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="स्थल का प्रकार : [*]"
+                                    android:textColor="@color/color_black"
+                                    android:textSize="12sp"/>
+
+                                <Spinner
+                                    android:background="@drawable/spinner_bg1"
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/sp_place_type"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="36dp" />
+                            </LinearLayout>
+
+                            <!--                    <LinearLayout-->
+
+                            <!--                        android:layout_marginBottom="12dp"-->
+                            <!--                        android:layout_width="match_parent"-->
+                            <!--                        android:layout_height="wrap_content"-->
+                            <!--                        android:layout_weight="1"-->
+                            <!--                        android:orientation="vertical">-->
+
+                            <!--                        <TextView-->
+                            <!--                            android:id="@+id/tv_activity_md"-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:text="कार्य महीना/दिन : [*]"-->
+                            <!--                            android:textColor="@color/color_black"-->
+                            <!--                            android:textSize="12sp"/>-->
+
+                            <!--                        <Spinner-->
+                            <!--                            android:background="@drawable/spinner_bg1"-->
+                            <!--                            android:layout_marginTop="4dp"-->
+                            <!--                            android:id="@+id/sp_md"-->
+                            <!--                            android:layout_width="match_parent"-->
+                            <!--                            android:layout_height="36dp" />-->
+                            <!--                    </LinearLayout>-->
+
+                        </LinearLayout>
+
                         <TextView
+                            android:layout_marginTop="8dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="कार्य पूर्ण की तिथि : [*]"
@@ -681,83 +768,82 @@
                 android:textSize="13sp"
                 android:textColor="@color/holo_green_dark"/>
 
+            <Button
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:id="@+id/btn_proceed"
+                android:layout_above="@+id/ll_btn1"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/buttonshape"
+                android:text="    सेव करे  "
+                android:textColor="#ffff"
+                android:textSize="17sp"
+                android:onClick="onSaveData"/>
+
+            <LinearLayout
+                android:id="@+id/ll_btn1"
+                android:layout_above="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="visible"
+                    android:id="@+id/ll_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/btn_accpt"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/color_white"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:background="@drawable/buttonshapeaccept"
+                        android:text="स्वीकार करें" />
+
+                    <Button
+                        android:id="@+id/btn_rjct"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:text="पुनः जाँच करें"
+                        android:textColor="@color/color_white"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:background="@drawable/buttonbackshape1"
+                        />
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_accp_rjct"
+                    android:layout_width="140dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="पुनः जाँच करें"
+
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonbackshape1"
+                    />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-    <Button
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:id="@+id/btn_proceed"
-        android:layout_above="@+id/ll_btn1"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/buttonshape"
-        android:text="    सेव करे  "
-        android:textColor="#ffff"
-        android:textSize="17sp"
-        android:onClick="onSaveData"/>
-
-    <LinearLayout
-        android:id="@+id/ll_btn1"
-        android:layout_above="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:visibility="visible"
-            android:id="@+id/ll_btn"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/btn_accpt"
-                android:layout_width="140dp"
-                android:layout_height="20dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:background="@drawable/buttonshapeaccept"
-                android:text="स्वीकार करें" />
-
-            <Button
-                android:id="@+id/btn_rjct"
-                android:layout_width="140dp"
-                android:layout_height="20dp"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:text="पुनः जाँच करें"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:background="@drawable/buttonbackshape1"
-                />
-
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_accp_rjct"
-            android:layout_width="140dp"
-            android:layout_height="20dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center_horizontal"
-            android:text="पुनः जाँच करें"
-
-            android:textColor="@color/color_white"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:background="@drawable/buttonbackshape1"
-            />
-    </LinearLayout>
-
 
     <include
         android:id="@+id/footer"

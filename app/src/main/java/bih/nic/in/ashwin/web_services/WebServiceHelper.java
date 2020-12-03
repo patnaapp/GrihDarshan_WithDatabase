@@ -1041,6 +1041,9 @@ public class WebServiceHelper
         request.addProperty("Remarks", data.getRemark());
         request.addProperty("AcitivtyType", data.getWorkdmCode());
         request.addProperty("ActTypeId", data.getActTypeId());
+        request.addProperty("ActivityPlace", data.getActivityPlace());
+        request.addProperty("OtherDist", data.getOtherDist());
+        request.addProperty("OtherBlock", data.getOtherBlock());
 
         try
         {

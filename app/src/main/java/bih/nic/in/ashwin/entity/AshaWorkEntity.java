@@ -13,7 +13,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE;
+    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -40,6 +40,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.ActivityRate = sobj.getProperty("ActivityRate").toString();
         this.Remarks = sobj.getProperty("Remarks").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+        this.ActivityId = sobj.getProperty("ActivityId").toString();
     }
     public AshaWorkEntity(SoapObject sobj ,String monthly) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -82,6 +83,30 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getActivityPlace() {
+        return ActivityPlace;
+    }
+
+    public void setActivityPlace(String activityPlace) {
+        ActivityPlace = activityPlace;
+    }
+
+    public String getOtherDist() {
+        return OtherDist;
+    }
+
+    public void setOtherDist(String otherDist) {
+        OtherDist = otherDist;
+    }
+
+    public String getOtherBlock() {
+        return OtherBlock;
+    }
+
+    public void setOtherBlock(String otherBlock) {
+        OtherBlock = otherBlock;
     }
 
     public String getHSCCODE() {
