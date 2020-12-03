@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +52,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     ImageView img_date1;
     EditText edt_date,edt_ben_no,edt_remark,edt_abbr;
     Spinner sp_panchayt_type,sp_work_categ,sp_work;
-    TextView tv_cat_title,tv_activity,tv_panchayt,tv_hsc_name;
+    TextView tv_cat_title,tv_activity,tv_panchayt,tv_hsc_name,tv_note;
+    Button btn_proceed;
 
     ArrayList<Panchayat_List> panchayatEntitylist;
     Panchayat_List panchayatTypeEntity;
@@ -142,9 +144,12 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         tv_activity=findViewById(R.id.tv_activity);
         tv_panchayt=findViewById(R.id.tv_panchayt);
         tv_hsc_name=findViewById(R.id.tv_hsc_name);
+        tv_note=findViewById(R.id.tv_note);
 
         edt_ben_no=findViewById(R.id.edt_ben_no);
         edt_remark=findViewById(R.id.edt_remark);
+
+        btn_proceed=findViewById(R.id.btn_proceed);
     }
 
     public void setDataFromIntent(){
@@ -166,6 +171,18 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             edt_ben_no.setText(ashaFCWorkEntity.getNumberOfBen());
             edt_date.setText(ashaFCWorkEntity.getActivityDate());
             edt_remark.setText(ashaFCWorkEntity.getRemarks());
+
+            if(ashaFCWorkEntity.get_IsFinalize().equals("Y")){
+                sp_panchayt_type.setEnabled(false);
+                sp_work_categ.setEnabled(false);
+                sp_work.setEnabled(false);
+                edt_ben_no.setEnabled(false);
+                img_date1.setEnabled(false);
+                edt_remark.setEnabled(false);
+                edt_abbr.setEnabled(false);
+                btn_proceed.setVisibility(View.GONE);
+                tv_note.setVisibility(View.VISIBLE);
+            }
         }
     }
 
