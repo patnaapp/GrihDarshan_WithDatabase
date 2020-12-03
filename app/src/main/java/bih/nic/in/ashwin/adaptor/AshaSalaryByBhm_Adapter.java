@@ -149,7 +149,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
 
-                holder.btn_accp_rjct.setVisibility(View.GONE);
+               // holder.btn_accp_rjct.setVisibility(View.GONE);
             }
             else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA")))
             {
