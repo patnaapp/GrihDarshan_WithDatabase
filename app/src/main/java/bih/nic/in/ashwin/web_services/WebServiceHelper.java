@@ -61,6 +61,7 @@ import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.District_list;
+import bih.nic.in.ashwin.entity.FCActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
@@ -134,6 +135,7 @@ public class WebServiceHelper
     private static final String Modify_Password = "ChangePassword";
     public static final String FCActivityList = "FCActivityList";
     public static final String FCActivityDescList = "getFCAcitivtyCategoryList";
+    public static final String FCActivityCategoryList = "FCActivityCategoryList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -1907,6 +1909,30 @@ public class WebServiceHelper
             return "0";
         }
         return rest;
+    }
+
+    public static ArrayList<FCActivityCategory_entity> getAshaFacilatatotActivityCategList() {
+
+        SoapObject res1;
+        res1 = getServerData(FCActivityCategoryList, Activity_entity.Activity_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<FCActivityCategory_entity> fieldList = new ArrayList<FCActivityCategory_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    FCActivityCategory_entity sm = new FCActivityCategory_entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
     }
 
     public static ArrayList<Activity_entity> getAshaFacilatatotActivityList(String catId) {
