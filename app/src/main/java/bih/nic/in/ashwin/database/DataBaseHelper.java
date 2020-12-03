@@ -1142,6 +1142,63 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    public ArrayList<District_list> getDistrictList(){
+
+        ArrayList<District_list> list = new ArrayList<District_list>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            //String[] whereArgs = new String[]{"D"};
+            Cursor cur = db.rawQuery("Select * from Districts",null);
+
+            while (cur.moveToNext()) {
+
+                District_list info = new District_list();
+
+                info.setDistt_code(cur.getString(cur.getColumnIndex("DistCode")));
+                info.setDistt_name(cur.getString(cur.getColumnIndex("DistName")));
+                info.setDist_NAME_HN(cur.getString(cur.getColumnIndex("DistNameHN")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<Block_List> getBlocktList(String distid){
+
+        ArrayList<Block_List> list = new ArrayList<Block_List>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = new String[]{distid};
+            Cursor cur = db.rawQuery("Select * from Blocks where DistCode=?",whereArgs);
+
+            while (cur.moveToNext()) {
+
+                Block_List info = new Block_List();
+
+                info.setDist_code(cur.getString(cur.getColumnIndex("DistCode")));
+                info.setBlk_Code(cur.getString(cur.getColumnIndex("BlockCode")));
+                info.setBlk_Name(cur.getString(cur.getColumnIndex("BlockName")));
+                info.setBlock_NAME_HN(cur.getString(cur.getColumnIndex("BlockNameHN")));
+
+                list.add(info);
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public ArrayList<Activity_Type_entity> getActictivityTypeList(){
 
         ArrayList<Activity_Type_entity> list = new ArrayList<Activity_Type_entity>();

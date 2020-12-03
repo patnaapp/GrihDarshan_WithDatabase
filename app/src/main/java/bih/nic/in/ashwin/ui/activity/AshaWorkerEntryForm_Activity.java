@@ -46,6 +46,8 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
+import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
@@ -68,6 +70,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     Financial_Month fmonth;
 
     ArrayList<Activity_Type_entity> activityTypeArray;
+    ArrayList<District_list> districtArray;
+    ArrayList<Block_List> blockArray;
     ArrayList<ActivityCategory_entity> categoryArray;
     //ArrayList<RegisterDetailsEntity> registerArray;
     ArrayList<RegisteMappingEbtity> registerArray;
@@ -100,6 +104,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         extractDataFromIntent();
         //setCategorySpinner();
         setCategoryTypeSpinner();
+        setDistrictSpinner();
        // setRegisterSpinner();
 
         edt_ben_no.addTextChangedListener(new TextWatcher()
@@ -644,8 +649,64 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
+    public void setDistrictSpinner(){
+        districtArray = dbhelper.getDistrictList();
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+        int pos=0;
+
+        for (District_list info: districtArray){
+            array.add(info.getDist_NAME_HN());
+
+            if (info.getDistt_code().equals(this.info.getDistrictCode()))
+            {
+                pos=districtArray.indexOf(info);
+                pos+=1;
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work_categ_type.setAdapter(adaptor);
+        sp_work_categ_type.setOnItemSelectedListener(this);
+
+//        if(entryType.equals("U"))
+//        {
+            //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+            sp_work_categ_type.setSelection(pos);
+//        }
+    }
+
+    public void setBlockSpinner(String distid){
+        blockArray = dbhelper.getBlocktList(distid);
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+        int pos=0;
+
+        for (Block_List info: blockArray){
+            array.add(info.getBlock_NAME_HN());
+
+            if (info.getBlk_Code().equals(this.info.getBlockCode()))
+            {
+                pos=blockArray.indexOf(info);
+                pos+=1;
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_work_categ_type.setAdapter(adaptor);
+        sp_work_categ_type.setOnItemSelectedListener(this);
+
+//        if(entryType.equals("U"))
+//        {
+        //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+        sp_work_categ_type.setSelection(pos);
+//        }
+    }
+
     public void setCategoryTypeSpinner(){
-        activityTypeArray = dbhelper.getActictivityTypeList();
+        districtArray = dbhelper.getDistrictList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
