@@ -72,16 +72,21 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
     // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View view = mInflater.inflate(R.layout.adaptor_ashasal_bhm_detail, parent, false);
         return new ViewHolder(view);
     }
 
-    public String calculateAmount(ViewHolder holder){
+    public String calculateAmount(ViewHolder holder)
+    {
         int totalamt = 0;
-        if(holder.tv_dava_amt.getText().toString().isEmpty()){
+        if(holder.tv_dava_amt.getText().toString().isEmpty())
+        {
             return "0";
-        }else{
+        }
+        else
+        {
             // totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
             totalamt=Integer.parseInt(holder.tv_dava_amt.getText().toString());
             totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
@@ -93,11 +98,15 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
     }
 
 
-    public String addinstateAmount(ViewHolder holder){
+    public String addinstateAmount(ViewHolder holder)
+    {
         int totalamt = 0;
-        if(holder.edt_add_state.getText().toString().isEmpty()){
+        if(holder.edt_add_state.getText().toString().isEmpty())
+        {
             return "0";
-        }else{
+        }
+        else
+        {
             totalamt=Integer.parseInt(holder.tv_state_amt.getText().toString())+Integer.parseInt(holder.edt_add_state.getText().toString());
 
         }
@@ -133,15 +142,18 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-                holder.ll_btn.setVisibility(View.VISIBLE);
-                holder.btn_rjct.setVisibility(View.VISIBLE);
-                holder.btn_accpt.setVisibility(View.VISIBLE);
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.btn_rjct.setVisibility(View.GONE);
+                holder.btn_accpt.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
+                holder.btn_accp_rjct.setText("अनुशंषित करे");
 
                 holder.btn_accp_rjct.setVisibility(View.GONE);
             }
             else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA")))
             {
-                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                 holder.ll_btn.setVisibility(View.GONE);
@@ -153,7 +165,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
             else if (info.getVerificationStatus().contains("R"))
             {
-                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 holder.ll_btn.setVisibility(View.GONE);
@@ -253,7 +265,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 //                {
 //                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
 //                }
-               if (info.get_HQADMVerified().equals("Y"))
+                if (info.get_HQADMVerified().equals("Y"))
                 {
                     holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
                     holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
@@ -1174,7 +1186,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
 
     private class SyncSelectedMonthlyActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
-String _srvr_id="";
+        String _srvr_id="";
         public SyncSelectedMonthlyActivityList(String srvr_id) {
             _srvr_id=srvr_id;
         }
@@ -1211,7 +1223,7 @@ String _srvr_id="";
 
             }
             else
-                {
+            {
                 Utiilties.showErrorAlet(context, "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
         }
