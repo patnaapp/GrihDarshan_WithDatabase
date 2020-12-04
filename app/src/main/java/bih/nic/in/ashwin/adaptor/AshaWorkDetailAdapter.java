@@ -38,13 +38,15 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
     Context context;
     Financial_Year fyear;
     Financial_Month fmonth;
+    AshaFCWorkDetailListener listener;
 
-    public AshaWorkDetailAdapter(Context context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth) {
+    public AshaWorkDetailAdapter(Context context, ArrayList<AshaWorkEntity> data, Financial_Year fyear, Financial_Month fmonth, AshaFCWorkDetailListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.fyear = fyear;
         this.fmonth = fmonth;
         this.context = context;
+        this.listener = listener;
     }
 
 
@@ -192,9 +194,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
         @Override
         protected String doInBackground(String... param) {
-
             result = WebServiceHelper.DeleteAshaActivity(data,CommonPref.getUserDetails(context).getUserrole());
-
             return result;
         }
 
@@ -207,31 +207,11 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             Log.d("Responsevalue", "" + result);
             if (result != null) {
                 if(result.equals("1")){
-                //    mData.get(position).setVerificationStatus("A");
-                    notifyDataSetChanged();
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("सूचना")
-                            .setMessage("रिकॉर्ड हटाया गया")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
-                }else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    listener.onDeleteFCWork(position);
+                    Toast.makeText(context, "कार्य हटाया गया", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(context, "रिकॉर्ड हटाने में विफल!!", Toast.LENGTH_SHORT).show();
                 }
 
             }

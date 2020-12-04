@@ -120,7 +120,6 @@ public class Utiilties {
 
     public static void showInternetAlert(final Context context){
 
-        if (Utiilties.isOnline(context) == false) {
             AlertDialog.Builder ab = new AlertDialog.Builder(context);
             ab.setCancelable(false);
             ab.setTitle("अलर्ट !!");
@@ -138,11 +137,7 @@ public class Utiilties {
             ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
 
             ab.show();
-        }else {
 
-            GlobalVariables.isOffline = false;
-            // new CheckUpdate().execute();
-        }
     }
 
     public static void showErrorAlet(final Context context, String title, String message){
