@@ -148,7 +148,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
-
                // holder.btn_accp_rjct.setVisibility(View.GONE);
             }
             else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA")))
@@ -161,7 +160,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
                 // holder.btn_rjct.setVisibility(View.VISIBLE);
-
             }
             else if (info.getVerificationStatus().contains("R"))
             {
@@ -175,7 +173,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
             }
-
             else if (info.get_MO_Verified().equals("Y") && info.get_HQADMVerified().equals("N"))
             {
                 holder.ll_btn.setVisibility(View.GONE);
@@ -241,7 +238,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
                 // holder.btn_rjct.setVisibility(View.VISIBLE);
 //            android.widget.LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,20); // 60 is height you can set it as u need
-//
 //            holder.btn_rjct.setLayoutParams(lp);
                 //   holder.btn_accpt.setVisibility(View.GONE);
             }
@@ -256,7 +252,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
             }
-
             else if (info.get_HQADMVerified().equals("Y"))
             {
                 holder.ll_btn.setVisibility(View.GONE);
@@ -292,7 +287,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 //        }
 //
 //    }
-
         }
 
 //----------------
@@ -435,7 +429,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
 
                 }
-                else {
+                else
+                    {
 
                     new AlertDialog.Builder(context)
                             .setTitle("अलर्ट !!")
@@ -448,8 +443,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                                     dialog.cancel();
                                 }
                             }).show();
-
-
 
                 }
             }
@@ -593,7 +586,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                     }
                     else
                     {
-
                         new AlertDialog.Builder(context)
                                 .setTitle("अलर्ट !!")
                                 .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
@@ -607,7 +599,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                                         dialog.cancel();
                                     }
                                 }).show();
-
                     }
                 }
             }

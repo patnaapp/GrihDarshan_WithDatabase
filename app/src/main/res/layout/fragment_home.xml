@@ -314,6 +314,19 @@
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 
+        <Button
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_other_blk"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/buttonshape"
+            android:text="     अन्य प्रखंड का कार्य     "
+            android:textStyle="bold"
+            android:textColor="@color/color_white"
+            android:textSize="15sp" />
+
         <LinearLayout
             android:layout_margin="16dp"
             android:visibility="gone"

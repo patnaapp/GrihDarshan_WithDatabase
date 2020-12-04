@@ -55,6 +55,7 @@ import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+import bih.nic.in.ashwin.ui.activity.OtherBLockActivityVerificationList;
 import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     RecyclerView rv_data;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
-    Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc;
+    Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc,btn_other_blk;
     LinearLayout ll_hsc_list;
     //Button btn_proceed,btn_ashafc,btn_proceed1;
 
@@ -116,6 +117,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed1.setVisibility(View.GONE);
         btn_asha_fc.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
+        btn_other_blk.setVisibility(View.GONE);
         ll_floating_btn.setVisibility(View.GONE);
 
         setUserDetail();
@@ -175,6 +177,27 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
+
+        btn_other_blk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), OtherBLockActivityVerificationList.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                // i.putExtra("role", userRole);
+                i.putExtra("role", "BLKBCM");
+
+                // i.putExtra("ashaid", asha_id);
+                // i.putExtra("ashanm", ashaname);
+
+
+                // i.putExtra("_faciltator_id", facilator_id);
+                // i.putExtra("_faciltator_nm", facilator_name);
+                //   i.putExtra("svr",svri_id);
+                startActivity(i);
+            }
+        });
+
 
         btn_asha_fc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,10 +367,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
         btn_asha_fc = root.findViewById(R.id.btn_asha_fc);
         btn_proceed1 = root.findViewById(R.id.btn_proceed1);
+        btn_other_blk = root.findViewById(R.id.btn_other_blk);
         btn_proceed.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
         btn_proceed1.setVisibility(View.GONE);
         btn_asha_fc.setVisibility(View.GONE);
+        btn_other_blk.setVisibility(View.GONE);
 
         tv_note = root.findViewById(R.id.tv_note);
 
@@ -361,6 +386,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_proceed1.setVisibility(View.VISIBLE);
             btn_proceed.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
+            btn_other_blk.setVisibility(View.GONE);
         }
         else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
         {
@@ -371,6 +397,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_proceed.setVisibility(View.GONE);
             btn_proceed1.setVisibility(View.VISIBLE);
             btn_asha_fc.setVisibility(View.VISIBLE);
+            btn_other_blk.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
         }
 
@@ -379,6 +406,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             //   ll_hsc.setVisibility(View.GONE);
             btn_proceed.setVisibility(View.GONE);
             btn_proceed1.setVisibility(View.GONE);
+            btn_other_blk.setVisibility(View.GONE);
             btn_ashafc.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
             ll_pan.setVisibility(View.VISIBLE);
@@ -559,6 +587,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_proceed1.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         btn_asha_fc.setVisibility(View.GONE);
+                        btn_other_blk.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
 
                     }
@@ -568,6 +597,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_proceed1.setVisibility(View.VISIBLE);
                         btn_asha_fc.setVisibility(View.GONE);
                         btn_ashafc.setVisibility(View.GONE);
+                        btn_other_blk.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
                     }
                     else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
@@ -575,6 +605,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         btn_proceed.setVisibility(View.GONE);
                         btn_proceed1.setVisibility(View.VISIBLE);
                         btn_asha_fc.setVisibility(View.VISIBLE);
+                        btn_other_blk.setVisibility(View.VISIBLE);
                         btn_ashafc.setVisibility(View.GONE);
                         ll_floating_btn.setVisibility(View.GONE);
                     }
@@ -612,7 +643,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             loadWorkerFascilatorData();
                         }
                         else
-                            {
+                        {
                             //   new GetAshaWorkersList().execute();
                         }
                     }
@@ -623,17 +654,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             loadWorkerFascilatorData();
                         }
                         else
-                            {
+                        {
                             // new GetAshaFacilitatorList().execute();
                         }
                     }
 
-
                 }
                 break;
             case R.id.sp_worker:
-                if (i > 0) {
-
+                if (i > 0)
+                {
                     if (userRole.equals("ASHA"))
                     {
                         if (i>0)
@@ -646,21 +676,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     }
                     else if (userRole.equals("ASHAFC"))
                     {
-                        if (i>1){
+                        if (i>1)
+                        {
                             AshaFacilitator_Entity role = facilitatorList.get(i-2);
                             facilator_name = role.get_Facilitator_Name_Hn();
                             facilator_id = role.get_Facilitator_ID();
                             svri_id = role.get_svr_id();
                         }
-                        else if(i==1){
-
+                        else if(i==1)
+                        {
                             facilator_name = "ALL";
                             facilator_id = "0";
                             svri_id = "0";
                         }
 
                     }
-
                     // btn_proceed.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -668,11 +698,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
 
-    public void setupFCAshaRecyclerView(){
+    public void setupFCAshaRecyclerView()
+    {
         ll_dmf_tab.setVisibility(View.VISIBLE);
         tv_monthly.setVisibility(View.GONE);
 
@@ -686,17 +718,21 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //            ll_floating_btn.setVisibility(View.VISIBLE);
 //        }
 //
-        if(isFinalize){
+        if(isFinalize)
+        {
             ll_floating_btn.setVisibility(View.GONE);
             tv_note.setVisibility(View.VISIBLE);
-        }else{
+        }
+        else
+        {
             ll_floating_btn.setVisibility(View.VISIBLE);
             tv_note.setVisibility(View.GONE);
         }
 
     }
 
-    public void setupRecuyclerView(){
+    public void setupRecuyclerView()
+    {
         ll_dmf_tab.setVisibility(View.VISIBLE);
 
         isFinalize = isAshaFinalizeWork();
@@ -704,17 +740,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         handleTabView();
         //loadDailyRecyclerData();
 
-        if(ashaWorkData.size() == 0){
+        if(ashaWorkData.size() == 0)
+        {
             tv_note.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
         }
-
-        if(isFinalize){
+        if(isFinalize)
+        {
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
             tv_note.setVisibility(View.VISIBLE);
             // tv_finalize.setVisibility(View.GONE);
-        }else{
+        }
+        else
+        {
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
@@ -724,20 +763,24 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
-    public void loadDailyRecyclerData(){
-        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+    public void loadDailyRecyclerData()
+    {
+        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
+        {
             rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
             AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
             rv_data.setAdapter(adapter);
-        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+        }
+        else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+        {
             rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
             AshaFCWorkDetailAdapter adapter = new AshaFCWorkDetailAdapter(getContext(), ashaFcWorkData, this);
             rv_data.setAdapter(adapter);
         }
-
     }
 
-    public void loadMonthlyRecyclerData(){
+    public void loadMonthlyRecyclerData()
+    {
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
         MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this, false, isFinalize);
         rv_data.setAdapter(adapter);

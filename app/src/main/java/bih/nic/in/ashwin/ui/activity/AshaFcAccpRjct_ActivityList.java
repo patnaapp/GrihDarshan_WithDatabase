@@ -169,7 +169,7 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         for (AshaFacilitator_Entity info: facilitatorList)
         {
             // if(!info.getFinancial_year().equals("anyType{}")){
-            array.add(info.get_Facilitator_Name_Hn());
+            array.add(info.get_Facilitator_ID()+"-"+info.get_Facilitator_Name_Hn());
             // }
         }
         ArrayAdapter adaptor = new ArrayAdapter(AshaFcAccpRjct_ActivityList.this, android.R.layout.simple_spinner_item, array);

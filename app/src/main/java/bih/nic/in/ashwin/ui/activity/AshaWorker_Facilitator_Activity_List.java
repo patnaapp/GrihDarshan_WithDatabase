@@ -558,7 +558,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         array.add("-Select-");
 
         for (AshaWoker_Entity info: ashaworkerList){
-            array.add(info.get_Asha_Name_Hn());
+            array.add(info.get_ASHAID()+":-"+info.get_Asha_Name_Hn());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
