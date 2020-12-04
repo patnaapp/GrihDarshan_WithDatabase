@@ -176,8 +176,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            //ll_btn_bottom.setVisibility(View.VISIBLE);
-            ll_otp.setVisibility(View.VISIBLE);
+            ll_btn_bottom.setVisibility(View.VISIBLE);
+            //ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
         }
     }
@@ -196,8 +196,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            //ll_btn_bottom.setVisibility(View.VISIBLE);
-            ll_otp.setVisibility(View.VISIBLE);
+            ll_btn_bottom.setVisibility(View.VISIBLE);
+            //ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
             ch_1.setText(" उपरोक्त सभी दावा BCM के द्वारा सत्यापित हैं| ");
         }
@@ -429,13 +429,20 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
     public void finalizeActivity(View view)
     {
-        if(edt_otp.getText().toString().equals(otp))
+//        if(edt_otp.getText().toString().equals(otp))
+//        {
+//            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
+//            entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
+//            new UploadAshaFinalizeData(entity).execute();
+//        }else{
+//            Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
+//        }
+
+        if(isValidated())
         {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
             new UploadAshaFinalizeData(entity).execute();
-        }else{
-            Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
         }
     }
 
