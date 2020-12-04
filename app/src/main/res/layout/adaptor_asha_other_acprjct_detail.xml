@@ -346,7 +346,7 @@
                     android:textColor="@color/color_white"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:background="@drawable/buttonshapeaccept"
+                    android:background="@drawable/buttonshape"
                     />
 
         </LinearLayout>

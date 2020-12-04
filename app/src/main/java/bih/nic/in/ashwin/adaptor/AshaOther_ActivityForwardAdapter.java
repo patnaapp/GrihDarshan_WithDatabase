@@ -90,10 +90,9 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
             holder.btn_forward.setVisibility(View.VISIBLE);
         }
         //  else if ((info.getVerificationStatus().contains("A")&& info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("A") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        else if ((info.getIsForwaded().contains("Y") && info.getIsForwaded().equals("N") ))
+        else if ((info.getIsForwaded().contains("Y")))
         {
             holder.btn_forward.setVisibility(View.GONE);
-
             holder.ll_btn.setVisibility(View.GONE);
             holder.tv_status.setText("BCM को फॉरवर्ड किया जा चूका है ");
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
@@ -107,28 +106,28 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
 
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
-        holder.sblist.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-
-                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                intent.putExtra("data", info);
-                intent.putExtra("WorkDMType", "D");
-                intent.putExtra("Type", "U");
-                intent.putExtra("role", "HSC");
-                context.startActivity(intent);
-
-            }
-        });
+//        holder.sblist.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//
+//                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+//                intent.putExtra("FYear", fyear);
+//                intent.putExtra("FMonth", fmonth);
+//                intent.putExtra("data", info);
+//                intent.putExtra("WorkDMType", "D");
+//                intent.putExtra("Type", "U");
+//                intent.putExtra("role", "HSC");
+//                context.startActivity(intent);
+//
+//            }
+//        });
 
         holder.btn_forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (info.getIsForwaded().contains("P"))
+                if (info.getIsForwaded().contains("P") || info.getIsForwaded().contains("NA"))
                 {
                     if(Utiilties.isOnline(context)) {
 
@@ -153,7 +152,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
                         }).show();
                     }
                     else {
-                        Utiilties.isOnline(context);
+                        Utiilties.showInternetAlert(context);
                     }
                 }
             }
@@ -228,7 +227,8 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 
 
-        ForwardActivityToCorresponsingBcm(AshaWorkEntity data, int position) {
+        ForwardActivityToCorresponsingBcm(AshaWorkEntity data, int position)
+        {
             this.data = data;
             this.position = position;
             //_uid = data.getId();
@@ -236,7 +236,8 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         }
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
@@ -263,7 +264,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
             {
                 if(result.equals("1"))
                 {
-                    mData.get(position).setVerificationStatus("A");
+                    mData.get(position).setIsForwaded("Y");
                     notifyDataSetChanged();
 
                     new AlertDialog.Builder(context)
@@ -277,7 +278,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
                             }).show();
                 }
                 else
-                    {
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
