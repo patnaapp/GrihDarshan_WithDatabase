@@ -13,7 +13,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded;
+    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -62,6 +62,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
             //  this.VerificationStatus ="P";
             this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+            this.Abbr = sobj.getProperty("Abbr").toString();
             //this.IsFinalize = "N";
             //    this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
             // this._IsANMFinalize ="N";
@@ -127,6 +128,14 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int index, Hashtable properties, PropertyInfo info) {
 
+    }
+
+    public String getAbbr() {
+        return Abbr;
+    }
+
+    public void setAbbr(String abbr) {
+        Abbr = abbr;
     }
 
     public String getActivityPlace() {

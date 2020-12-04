@@ -831,7 +831,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 rv_data.setVisibility(View.VISIBLE);
                 tv_rr.setVisibility(View.VISIBLE);
                 tv_sc.setVisibility(View.VISIBLE);
-                rv_data_sc.setVisibility(View.GONE);
+                rv_data_sc.setVisibility(View.VISIBLE);
 
                 ll_floating_btn.setVisibility(View.GONE);
                 loadMonthlyRecyclerData();
@@ -875,7 +875,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onActivityCheckboxChanged(int position, Boolean isChecked, String type) {
-        if(type.equals("P")){
+        if(type.contains("PC1") || type.contains("PI1")){
             Activity_entity activity = mnthlyActList.get(position);
             activity.setChecked(isChecked);
 
@@ -884,7 +884,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
             mnthlyActList.set(position, activity);
 
-        }else if (type.equals("PS")){
+        }else if (type.contains("PC2") || type.contains("PI2")){
             Activity_entity activity = stateContibActList.get(position);
             activity.setChecked(isChecked);
 
@@ -1096,12 +1096,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //        }
 
         for(AshaWorkEntity mItem: list){
-            if(mItem.getAcitivtyType().equals("P")){
+            if(mItem.getAbbr().contains("PC1") || mItem.getAbbr().contains("PI1")){
                 markRoutineReccuringActivity(mItem);
-            }else if (mItem.getAcitivtyType().equals("PS")){
+            }else if (mItem.getAbbr().contains("PC2") || mItem.getAbbr().contains("PI2")){
                 markStateContributionActivity(mItem);
             }
-
         }
     }
 
@@ -1136,9 +1135,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         mnthlyActList.clear();
         stateContibActList.clear();
         for(Activity_entity item: list){
-            if(item.getAcitivtyType().equals("P")){
+            if(item.getAbbr().contains("PC1") || item.getAbbr().contains("PI1")){
                 mnthlyActList.add(item);
-            }else if (item.getAcitivtyType().equals("PS")){
+            }else if (item.getAbbr().contains("PC2") || item.getAbbr().contains("PI2")){
                 stateContibActList.add(item);
             }
         }
