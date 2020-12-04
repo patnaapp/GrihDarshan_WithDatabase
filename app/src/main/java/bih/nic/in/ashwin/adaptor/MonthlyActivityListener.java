@@ -1,5 +1,5 @@
 package bih.nic.in.ashwin.adaptor;
 
 public interface MonthlyActivityListener {
-    public void onActivityCheckboxChanged(int position, Boolean isChecked);
+    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type);
 }

@@ -67,10 +67,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
-    TextView tv_daily,tv_monthly,tv_finalize;
+    TextView tv_daily,tv_monthly,tv_finalize,tv_rr,tv_sc;
     LinearLayout ll_dmf_tab;
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_hsc;
-    RecyclerView rv_data;
+    RecyclerView rv_data,rv_data_sc;
     //Spinner sp_facilitator;
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc;
@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayList<Financial_Month> fMonthArray;
     ArrayList<HscList_Entity> hscListArray;
     ArrayList<Activity_entity> mnthlyActList = new ArrayList<>();
+    ArrayList<Activity_entity> stateContibActList = new ArrayList<>();
 
     HscList_Entity hscEntity;
     Financial_Year fyear;
@@ -303,6 +304,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             if(item.getChecked())
                 list.add(item);
         }
+
+        for(Activity_entity item: stateContibActList)
+        {
+            if(item.getChecked())
+                list.add(item);
+        }
         return list;
     }
 
@@ -317,6 +324,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_district = root.findViewById(R.id.tv_district);
         tv_block = root.findViewById(R.id.tv_block);
         tv_panchayat = root.findViewById(R.id.tv_panchayat);
+        tv_note = root.findViewById(R.id.tv_note);
+
+        tv_rr = root.findViewById(R.id.tv_rr);
+        tv_sc = root.findViewById(R.id.tv_sc);
 
         tv_daily = root.findViewById(R.id.tv_daily);
         tv_monthly = root.findViewById(R.id.tv_monthly);
@@ -336,9 +347,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_division = root.findViewById(R.id.ll_division);
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
         ll_hsc_list = root.findViewById(R.id.ll_hsc_list);
+        ll_div_zone = root.findViewById(R.id.ll_div_zone);
 
         rv_data = root.findViewById(R.id.rv_data);
-        ll_div_zone = root.findViewById(R.id.ll_div_zone);
+        rv_data_sc = root.findViewById(R.id.rv_data_sc);
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
@@ -349,9 +361,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_proceed1.setVisibility(View.GONE);
         btn_asha_fc.setVisibility(View.GONE);
 
-        tv_note = root.findViewById(R.id.tv_note);
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
+
+        tv_rr.setVisibility(View.GONE);
+        tv_sc.setVisibility(View.GONE);
+        rv_data_sc.setVisibility(View.GONE);
+
         if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
         {
             // ll_hsc.setVisibility(View.VISIBLE);
@@ -741,6 +757,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
         MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(getContext(), mnthlyActList, this, false, isFinalize);
         rv_data.setAdapter(adapter);
+
+        rv_data_sc.setLayoutManager(new LinearLayoutManager(getContext()));
+        MonthlyActivityAdapter adapter1 = new MonthlyActivityAdapter(getContext(), stateContibActList, this, false, isFinalize);
+        rv_data_sc.setAdapter(adapter1);
     }
 
     public void handleTabView(){
@@ -749,8 +769,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_daily.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
+
                 rv_data.setVisibility(View.VISIBLE);
                 btn_proceed.setVisibility(View.GONE);
+                tv_rr.setVisibility(View.GONE);
+                tv_sc.setVisibility(View.GONE);
+                rv_data_sc.setVisibility(View.GONE);
+
                 if(!isFinalize)
                     ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
@@ -759,7 +784,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_daily.setTextColor(getResources().getColor(R.color.colorGreyDark));
                 tv_monthly.setTextColor(getResources().getColor(R.color.colorPrimary));
                 tv_finalize.setTextColor(getResources().getColor(R.color.colorGreyDark));
+
                 rv_data.setVisibility(View.VISIBLE);
+                tv_rr.setVisibility(View.VISIBLE);
+                tv_sc.setVisibility(View.VISIBLE);
+                rv_data_sc.setVisibility(View.GONE);
+
                 ll_floating_btn.setVisibility(View.GONE);
                 loadMonthlyRecyclerData();
                 break;
@@ -801,15 +831,26 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked) {
-        Activity_entity activity = mnthlyActList.get(position);
-        activity.setChecked(isChecked);
+    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type) {
+        if(type.equals("P")){
+            Activity_entity activity = mnthlyActList.get(position);
+            activity.setChecked(isChecked);
 
-        if(activity.getVerificationStatus() == null){
-            activity.setVerificationStatus("P");
+            if(activity.getVerificationStatus() == null){
+                activity.setVerificationStatus("P");
+            }
+            mnthlyActList.set(position, activity);
+
+        }else if (type.equals("PS")){
+            Activity_entity activity = stateContibActList.get(position);
+            activity.setChecked(isChecked);
+
+            if(activity.getVerificationStatus() == null){
+                activity.setVerificationStatus("P");
+            }
+            stateContibActList.set(position, activity);
         }
 
-        mnthlyActList.set(position, activity);
 
         btn_proceed.setVisibility(View.VISIBLE);
         btn_proceed.setText("सुरक्षित करें");
@@ -959,7 +1000,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
 
             if (result != null) {
-                mnthlyActList = getMonthlyActivity(result);
+                setMonthlyActivity(result);
                 new SyncSelectedMonthlyActivityList().execute();
             }else{
                 Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
@@ -998,32 +1039,66 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
-        for(AshaWorkEntity mItem: list){
-            for(Activity_entity item: mnthlyActList){
+//        for(AshaWorkEntity mItem: list){
+//            for(Activity_entity item: mnthlyActList){
+//
+//                if(mItem.getActivityId().equals(item.get_ActivityId())){
+//                    int position = mnthlyActList.indexOf(item);
+//                    item.setVerificationStatus(mItem.getVerificationStatus());
+//                    item.setIsFinalize(mItem.getIsFinalize());
+//                    item.setChecked(true);
+//                    mnthlyActList.set(position,item);
+//                }
+//            }
+//        }
 
-                if(mItem.getActivityId().equals(item.get_ActivityId())){
-                    int position = mnthlyActList.indexOf(item);
-                    item.setVerificationStatus(mItem.getVerificationStatus());
-                    item.setIsFinalize(mItem.getIsFinalize());
-                    item.setChecked(true);
-                    mnthlyActList.set(position,item);
-                }
+        for(AshaWorkEntity mItem: list){
+            if(mItem.getAcitivtyType().equals("P")){
+                markRoutineReccuringActivity(mItem);
+            }else if (mItem.getAcitivtyType().equals("PS")){
+                markStateContributionActivity(mItem);
+            }
+
+        }
+    }
+
+    public void markRoutineReccuringActivity(AshaWorkEntity mItem){
+        for(Activity_entity item: mnthlyActList){
+            if(mItem.getActivityId().equals(item.get_ActivityId())){
+                int position = mnthlyActList.indexOf(item);
+                item.setVerificationStatus(mItem.getVerificationStatus());
+                item.setIsFinalize(mItem.getIsFinalize());
+                item.setChecked(true);
+                mnthlyActList.set(position,item);
+                break;
             }
         }
     }
 
-    public ArrayList<Activity_entity> getMonthlyActivity(ArrayList<Activity_entity> list){
-        ArrayList<Activity_entity> monthly = new ArrayList<>();
-        for(Activity_entity item: list){
-            if(item.getAcitivtyType().equals("P")){
-                //if(isMonthlyActivityAlreadyChecked(item)){
-                //item.setChecked(true);
-                //}
-                monthly.add(item);
+    public void markStateContributionActivity(AshaWorkEntity mItem){
+        for(Activity_entity item: stateContibActList){
+            if(mItem.getActivityId().equals(item.get_ActivityId())){
+                int position = stateContibActList.indexOf(item);
+                item.setVerificationStatus(mItem.getVerificationStatus());
+                item.setIsFinalize(mItem.getIsFinalize());
+                item.setChecked(true);
+                stateContibActList.set(position,item);
+                break;
             }
         }
+    }
 
-        return monthly;
+    public void setMonthlyActivity(ArrayList<Activity_entity> list){
+        //ArrayList<Activity_entity> monthly = new ArrayList<>();
+        mnthlyActList.clear();
+        stateContibActList.clear();
+        for(Activity_entity item: list){
+            if(item.getAcitivtyType().equals("P")){
+                mnthlyActList.add(item);
+            }else if (item.getAcitivtyType().equals("PS")){
+                stateContibActList.add(item);
+            }
+        }
     }
 
     public Boolean isMonthlyActivityAlreadyChecked(Activity_entity activity){
