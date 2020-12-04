@@ -37,6 +37,7 @@ import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -148,7 +149,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
         //tv_total_work.setText(""+ashaWorkData.size());
 
-        if(userInfo.getUserrole().equals("ASHA")){
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
             activityArray = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
 
@@ -175,8 +176,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            ll_btn_bottom.setVisibility(View.VISIBLE);
-            //ll_otp.setVisibility(View.VISIBLE);
+            //ll_btn_bottom.setVisibility(View.VISIBLE);
+            ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
         }
     }
@@ -184,7 +185,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void loadAshaFCData(){
         //totalWorkAmount = getTotalWorkAmount();
         totalWorkAmount = getTotalCentralAmount();
-        totalStateAmount = getTotalStateAmount();
+        totalStateAmount = getTotalFCStateAmount();
 
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
@@ -195,8 +196,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            ll_btn_bottom.setVisibility(View.VISIBLE);
-            //ll_otp.setVisibility(View.VISIBLE);
+            //ll_btn_bottom.setVisibility(View.VISIBLE);
+            ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
             ch_1.setText(" उपरोक्त सभी दावा BCM के द्वारा सत्यापित हैं| ");
         }
@@ -225,10 +226,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isReadyForFinalize(){
-        if(userInfo.getUserrole().equals("ASHA")) {
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")) {
             if (ashaWorkData.size() > 0) {
                 for (AshaWorkEntity work : ashaWorkData) {
-                    if (work.getVerificationStatus().equals("P")) {
+                    if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
                         return false;
                     }
                 }
@@ -238,7 +239,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
             if (activityArray.size() > 0) {
                 for (Activity_entity work : activityArray) {
-                    if (work.getVerificationStatus().equals("P")) {
+                    if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
                         return false;
                     }
                 }
@@ -249,7 +250,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         }else if (userInfo.getUserrole().equals("ASHAFC")){
             if (ashaFCWorkData.size() > 0) {
                 for (AshaFascilitatorWorkEntity work : ashaFCWorkData) {
-                    if (work.getVerificationStatus().equals("P")) {
+                    if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
                         return false;
                     }
                 }
@@ -261,7 +262,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isDataFinalize(){
-        if(userInfo.getUserrole().equals("ASHA")){
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")){
             if(ashaWorkData.size()> 0)
             {
                 for(AshaWorkEntity work: ashaWorkData)
@@ -325,7 +326,22 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         for(Stateamount_entity info: stateAmountArray)
         {
-            if(info.get_Desig().equals(userInfo.getUserrole()))
+            if(info.get_Desig().equals("ASHA"))
+                amount += Double.parseDouble(info.get_StateAmt());
+        }
+
+        return amount;
+    }
+
+    public Double getTotalFCStateAmount()
+    {
+        //ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHA");
+
+        Double amount = 0.0;
+
+        for(Stateamount_entity info: stateAmountArray)
+        {
+            if(info.get_Desig().equals("ASHAFC"))
                 amount += Double.parseDouble(info.get_StateAmt());
         }
 
@@ -413,11 +429,13 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
     public void finalizeActivity(View view)
     {
-        if(isValidated())
+        if(edt_otp.getText().toString().equals(otp))
         {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
             new UploadAshaFinalizeData(entity).execute();
+        }else{
+            Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -470,18 +488,22 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public void onGetVerifyOtp(View view) {
         if(isValidated()){
-            if(getOtp){
-                getOtp = false;
-                ll_btn_bottom.setVisibility(View.VISIBLE);
-            }else{
-
-            }
+            //if(getOtp){
+                OtpEntitiy entity = new OtpEntitiy();
+                entity.setId(userInfo.getSVRID());
+                entity.setFYearID(fyear.getYear_Id());
+                entity.setMonthId(fmonth.get_MonthId());
+                entity.setUserid(userInfo.getUserID());
+                entity.setUserolle(userInfo.getUserrole());
+                new AsyncGetOtp(entity).execute();
+//            }else{
+//
+//            }
         }
 
     }
 
-    private class UploadAshaFinalizeData extends AsyncTask<String, Void, String>
-    {
+    private class UploadAshaFinalizeData extends AsyncTask<String, Void, String>{
         AshaWorkFinalizeEntity data;
 
         private final ProgressDialog dialog = new ProgressDialog(FinalizeAshaWorkActivity.this);
@@ -536,6 +558,57 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             else
             {
                 Toast.makeText(FinalizeAshaWorkActivity.this, "null record", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class AsyncGetOtp extends AsyncTask<String, Void, String>{
+        OtpEntitiy data;
+
+        private final ProgressDialog dialog = new ProgressDialog(FinalizeAshaWorkActivity.this);
+
+        public AsyncGetOtp(OtpEntitiy data) {
+            this.data = data;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("अपलोड हो राहा है...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+            return WebServiceHelper.getOtp(data);
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue",""+result);
+
+            if (result != null)
+            {
+                if(result.length() > 1){
+                    otp = result;
+                    //getOtp = false;
+                    ll_btn_bottom.setVisibility(View.VISIBLE);
+                    Log.e("otp", otp);
+                }else{
+                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed to send otp, Please try again", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            else
+            {
+                Toast.makeText(FinalizeAshaWorkActivity.this, "Null Record", Toast.LENGTH_SHORT).show();
             }
         }
     }

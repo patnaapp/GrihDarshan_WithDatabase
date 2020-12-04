@@ -66,6 +66,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
+import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
@@ -107,6 +108,7 @@ public class WebServiceHelper
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
+    public static final String GET_METHOD = "getOTP";
     public static final String FINALASHAFCACTIVITY_METHOD = "IsFinalizedAShAFacilorActivity";
     public static final String AcceptRjctRecordsFromPacs = "ActivityVerificationbyANM";
     public static final String AcceptRjctAshaSalByBHM = "AshaSalaryVerificationByBHM";
@@ -1605,6 +1607,34 @@ public class WebServiceHelper
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + (data.getUserRole().equals("ASHA") ? FINALASHAACTIVITY_METHOD: FINALASHAFCACTIVITY_METHOD),envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
+    }
+
+    public static String getOtp(OtpEntitiy data) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GET_METHOD);
+
+        request.addProperty("id", data.getId());
+        request.addProperty("FYearID",data.getFYearID());
+        request.addProperty("MonthId",data.getMonthId());
+        request.addProperty("Userid", data.getUserid());
+        request.addProperty("Userolle", data.getUserolle());
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + GET_METHOD,envelope);
             rest = envelope.getResponse().toString();
 
         } catch (Exception e) {
