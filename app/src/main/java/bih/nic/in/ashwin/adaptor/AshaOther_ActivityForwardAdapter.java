@@ -228,7 +228,8 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         private final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 
 
-        ForwardActivityToCorresponsingBcm(AshaWorkEntity data, int position) {
+        ForwardActivityToCorresponsingBcm(AshaWorkEntity data, int position)
+        {
             this.data = data;
             this.position = position;
             //_uid = data.getId();
@@ -236,7 +237,8 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         }
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();

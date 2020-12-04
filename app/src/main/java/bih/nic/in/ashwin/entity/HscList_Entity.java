@@ -31,8 +31,8 @@ public class HscList_Entity implements KvmSerializable, Serializable {
         this._HSCName_Hn = sobj.getProperty("HSCName_Hn").toString();
         this._HSCCode = sobj.getProperty("HSCCode").toString();
         this._LocationType = sobj.getProperty("LocationType").toString();
-        this._DistCode = sobj.getProperty("OtherDist").toString();
-        this._BlockCode = sobj.getProperty("OtherBlock").toString();
+        this._DistCode = sobj.getProperty("DistCode").toString();
+        this._BlockCode = sobj.getProperty("BlockCode").toString();
     }
 
     public HscList_Entity() {

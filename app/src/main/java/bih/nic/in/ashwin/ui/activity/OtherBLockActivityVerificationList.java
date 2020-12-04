@@ -82,7 +82,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         tv_year=findViewById(R.id.tv_year);
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
-        rv_data = findViewById(R.id.recyclerview_data);
+        rv_data = findViewById(R.id.recyclerview_data_other);
         rv_data_monthly = findViewById(R.id.recyclerview_data_monthly);
         btn_finalize = findViewById(R.id.btn_finalize);
         sp_worker_other = findViewById(R.id.sp_asha_other);
