@@ -21,6 +21,14 @@ public class AshaWoker_Entity implements KvmSerializable, Serializable {
 
     }
 
+    public AshaWoker_Entity(SoapObject sobj,String str) {
+        this._ASHAID = sobj.getProperty("ASHAID").toString();
+        this._Asha_Name = sobj.getProperty("Name").toString();
+        this._Asha_Name_Hn = sobj.getProperty("Name_Hn").toString();
+        this._svr_id = sobj.getProperty("SvrID").toString();
+
+    }
+
     public AshaWoker_Entity() {
 
     }

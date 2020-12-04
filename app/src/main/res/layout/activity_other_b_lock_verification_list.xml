@@ -204,7 +204,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="आशा फैसिलिटेटर"
+                android:text="आशा कार्यकर्ता"
                 android:textColor="@color/color_black"
                 android:id="@+id/tv_spworker"
                 android:textSize="12sp"/>
@@ -212,7 +212,7 @@
             <Spinner
                 android:background="@drawable/spinner_bg1"
                 android:layout_marginTop="4dp"
-                android:id="@+id/sp_asha_fc_other"
+                android:id="@+id/sp_asha_other"
                 android:layout_width="match_parent"
                 android:layout_height="36dp" />
 

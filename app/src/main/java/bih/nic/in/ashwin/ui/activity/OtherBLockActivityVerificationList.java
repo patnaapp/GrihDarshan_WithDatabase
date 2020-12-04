@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
+import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
@@ -41,7 +43,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
     String version="";
-    Spinner sp_worker,sp_hsc_list;
+    Spinner sp_worker_other,sp_hsc_list_other;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     ArrayList<HscList_Entity> hscList = new ArrayList<HscList_Entity>();
     DataBaseHelper dbhelper;
@@ -66,6 +68,8 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
         tv_role.setText(CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole());
+        tv_year.setText(fyear.getFinancial_year());
+        tv_month.setText(fmonth.get_MonthName());
 
         new GetHScList().execute();
 
@@ -80,8 +84,8 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         rv_data = findViewById(R.id.recyclerview_data);
         rv_data_monthly = findViewById(R.id.recyclerview_data_monthly);
         btn_finalize = findViewById(R.id.btn_finalize);
-        sp_worker = findViewById(R.id.sp_asha_fc_other);
-        sp_hsc_list = findViewById(R.id.sp_hsc_list_other);
+        sp_worker_other = findViewById(R.id.sp_asha_other);
+        sp_hsc_list_other = findViewById(R.id.sp_hsc_list_other);
         ll_monthly = findViewById(R.id.ll_monthly);
         ll_daily = findViewById(R.id.ll_daily);
         ll_dmf_tab = findViewById(R.id.ll_dmf_tab);
@@ -90,32 +94,29 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         ll_hsc = findViewById(R.id.ll_hsc);
         ll_daily.setVisibility(View.GONE);
         ll_monthly.setVisibility(View.GONE);
-        ll_hsc.setVisibility(View.GONE);
+        //ll_hsc.setVisibility(View.GONE);
 
         // btn_finalize.setVisibility(View.GONE);
-        sp_worker.setOnItemSelectedListener(this);
-        sp_hsc_list.setOnItemSelectedListener(this);
-
+        sp_worker_other.setOnItemSelectedListener(this);
+        sp_hsc_list_other.setOnItemSelectedListener(this);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long l)
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
         switch (parent.getId())
         {
-            case R.id.sp_hsc_list:
+
+            case R.id.sp_hsc_list_other:
                 if (position > 0)
                 {
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
-                    ashaworkerList = dbhelper.getAshaWorkerList(hsccode, CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-
                     new GetAshaWorkersList().execute();
                 }
                 break;
-
-            case R.id.sp_worker:
+            case R.id.sp_asha_other:
                 if (position > 0)
                 {
                     AshaWoker_Entity role = ashaworkerList.get(position - 1);
@@ -125,9 +126,9 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
                     tv_name.setText(asha_worker_nm);
                     ll_dmf_tab.setVisibility(View.VISIBLE);
                     new SynchronizeAshaActivityList().execute();
-
                 }
                 break;
+
         }
     }
 
@@ -149,7 +150,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         @Override
         protected ArrayList<HscList_Entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getHscList(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+            return WebServiceHelper.getHscList_Other(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
         }
 
         @Override
@@ -158,7 +159,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
             if(dialog.isShowing())
                 dialog.dismiss();
 
-            if (result != null)
+            if (result.size()>0)
             {
                 Log.d("Resultgfg", "" + result);
                 hscList=result;
@@ -168,7 +169,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "No List Found For Other Block Entry", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No HSC List Found For Other Block Entry", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -185,7 +186,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
 
         ArrayAdapter adaptor = new ArrayAdapter(OtherBLockActivityVerificationList.this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_hsc_list.setAdapter(adaptor);
+        sp_hsc_list_other.setAdapter(adaptor);
     }
 
     private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>>
@@ -211,7 +212,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
                 hsc_code=CommonPref.getUserDetails(getApplicationContext()).getHSCCode();
             }
 
-            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code);
+            return WebServiceHelper.getAshaWorkerList_Other(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code);
         }
 
         @Override
@@ -227,21 +228,12 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
 
                 ashaworkerList = result;
                 loadWorkerFascilatorData();
-                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getApplicationContext()).getHSCCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-                if (i > 0)
-                {
-                    loadWorkerFascilatorData();
-                    Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
-                }
-                else
-                    {
-                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(getApplicationContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
 
             }
             else {
-
+                loadWorkerFascilatorData();
                 Toast.makeText(getApplicationContext(), "No Asha Worker List In This Hsc", Toast.LENGTH_SHORT).show();
             }
 
@@ -254,13 +246,14 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
-        for (AshaWoker_Entity info: ashaworkerList){
+        for (AshaWoker_Entity info: ashaworkerList)
+        {
             array.add(info.get_ASHAID()+":-"+info.get_Asha_Name_Hn());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(OtherBLockActivityVerificationList.this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_worker.setAdapter(adaptor);
+        sp_worker_other.setAdapter(adaptor);
 
     }
 
@@ -310,5 +303,13 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(OtherBLockActivityVerificationList.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(OtherBLockActivityVerificationList.this, UserHomeActivity.class);
+        startActivity(i);
+        finish();
     }
 }
