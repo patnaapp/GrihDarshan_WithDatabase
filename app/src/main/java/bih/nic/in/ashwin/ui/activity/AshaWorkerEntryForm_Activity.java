@@ -638,6 +638,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_amount_total.setText(info.getActivityAmt());
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
 
+
+
+
             if(info.getIsFinalize().equals("Y")) {
                 btn_proceed.setVisibility(View.GONE);
                 img_date2.setVisibility(View.GONE);
@@ -661,6 +664,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_work_place.setAdapter(adaptor);
         sp_work_place.setOnItemSelectedListener(this);
+
+        try{
+            if(entryType.equals("U") && info.getActivityPlace() != null){
+                sp_work_place.setSelection(Integer.parseInt(info.getActivityPlace()));
+            }
+
+        }catch (Exception e){
+            Toast.makeText(this, "Failed to set activity place", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setDistrictSpinner(){
@@ -701,11 +713,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         for (Block_List info: blockArray){
             array.add(info.getBlock_NAME_HN());
 
-//            if (info.getBlk_Code().equals(this.info.getBlockCode()))
-//            {
-//                pos=blockArray.indexOf(info);
-//                pos+=1;
-//            }
+            if (entryType.equals("U") && placeTypeCode.equals("1") && info.getBlk_Code().equals(this.info.getOtherBlock()))
+            {
+                pos=blockArray.indexOf(info);
+                pos+=1;
+            }
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -713,11 +725,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_place_type.setAdapter(adaptor);
         sp_place_type.setOnItemSelectedListener(this);
 
-//        if(entryType.equals("U"))
-//        {
-        //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
-        //sp_work_categ_type.setSelection(pos);
-//        }
+        if(entryType.equals("U"))
+        {
+            sp_place_type.setSelection(pos);
+        }
 
         sp_place_type.setEnabled(true);
     }

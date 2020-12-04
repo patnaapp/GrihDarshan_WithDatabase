@@ -176,8 +176,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            ll_btn_bottom.setVisibility(View.VISIBLE);
-            //ll_otp.setVisibility(View.VISIBLE);
+            //ll_btn_bottom.setVisibility(View.VISIBLE);
+            ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
         }
     }
@@ -196,8 +196,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(!isDataFinalize() && isReadyForFinalize())
         {
-            ll_btn_bottom.setVisibility(View.VISIBLE);
-            //ll_otp.setVisibility(View.VISIBLE);
+            //ll_btn_bottom.setVisibility(View.VISIBLE);
+            ll_otp.setVisibility(View.VISIBLE);
             ll_declaration.setVisibility(View.VISIBLE);
             ch_1.setText(" उपरोक्त सभी दावा BCM के द्वारा सत्यापित हैं| ");
         }
@@ -384,7 +384,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked)
+    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type)
     {
         Activity_entity activity = activityArray.get(position);
         activity.setChecked(isChecked);
@@ -429,21 +429,21 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
     public void finalizeActivity(View view)
     {
-//        if(edt_otp.getText().toString().equals(otp))
-//        {
-//            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
-//            entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
-//            new UploadAshaFinalizeData(entity).execute();
-//        }else{
-//            Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
-//        }
-
-        if(isValidated())
+        if(edt_otp.getText().toString().equals(otp))
         {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
             new UploadAshaFinalizeData(entity).execute();
+        }else{
+            Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
         }
+
+//        if(isValidated())
+//        {
+//            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
+//            entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
+//            new UploadAshaFinalizeData(entity).execute();
+//        }
     }
 
     public Boolean isValidated()
@@ -545,8 +545,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
             if (result != null)
             {
-                if(result.contains(","))
-                {
+                if(result.contains(",")){
                     String[] res = result.split(",");
                     if(res.length == 2)
                     {
@@ -556,8 +555,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                     {
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                     }
-                }
-                else
+                }else
                 {
                     showErrorAlet(FinalizeAshaWorkActivity.this, "Message", result);
                 }
@@ -603,15 +601,24 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
             if (result != null)
             {
-                if(result.length() > 1){
-                    otp = result;
-                    //getOtp = false;
-                    ll_btn_bottom.setVisibility(View.VISIBLE);
-                    Log.e("otp", otp);
-                }else{
-                    Toast.makeText(FinalizeAshaWorkActivity.this, "Failed to send otp, Please try again", Toast.LENGTH_SHORT).show();
-                }
 
+                if(result.contains(",")){
+                    String[] res = result.split(",");
+                    if(res.length == 2)
+                    {
+                        otp = res[1];
+                        edt_otp.setVisibility(View.VISIBLE);
+                        ll_btn_bottom.setVisibility(View.VISIBLE);
+                        Log.e("otp", otp);
+                    }
+                    else
+                    {
+                        Toast.makeText(FinalizeAshaWorkActivity.this, "Failed Try Again", Toast.LENGTH_SHORT).show();
+                    }
+                }else
+                {
+                    showErrorAlet(FinalizeAshaWorkActivity.this, "Failed to send otp, Please try again", result);
+                }
             }
             else
             {
