@@ -140,6 +140,7 @@ public class WebServiceHelper
     public static final String FCActivityList = "FCActivityList";
     public static final String FCActivityDescList = "getFCAcitivtyCategoryList";
     public static final String FCActivityCategoryList = "FCActivityCategoryList";
+    public static final String ASHAWORK_other_LIST_METHOD = "getAshaListMonthYearOther";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -987,6 +988,31 @@ public class WebServiceHelper
 
         return fieldList;
     }
+    public static ArrayList<AshaWorkEntity> getAshaWork_Other_ActivityList(String workId, String monthId, String yearId,String userrole) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORK_other_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId","Role", workId,monthId,yearId,userrole);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"2");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+
 
 
     public static ArrayList<AshaWorkEntity> getAshaWorkMonthlyActivityList(String workId, String monthId, String yearId,String role) {

@@ -13,7 +13,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock;
+    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -41,25 +41,65 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.Remarks = sobj.getProperty("Remarks").toString();
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
         this.ActivityId = sobj.getProperty("ActivityId").toString();
-    }
-    public AshaWorkEntity(SoapObject sobj ,String monthly) {
-        this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
-        this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
-        this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
-        this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
-        this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
-        this.MonthName = sobj.getProperty("MonthName").toString();
-        this.FinYear = sobj.getProperty("FinYear").toString();
-        this.ActivityId = sobj.getProperty("ActivityId").toString();
-        this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
-        this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
-      //  this.VerificationStatus ="P";
-        this.IsFinalize = sobj.getProperty("IsFinalize").toString();
-        //this.IsFinalize = "N";
-    //    this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
-       // this._IsANMFinalize ="N";
 
     }
+    public AshaWorkEntity(SoapObject sobj ,String monthly) {
+        if (monthly.equals("1"))
+        {
+            this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
+            this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
+            this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
+            this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
+            this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
+            this.MonthName = sobj.getProperty("MonthName").toString();
+            this.FinYear = sobj.getProperty("FinYear").toString();
+            this.ActivityId = sobj.getProperty("ActivityId").toString();
+            this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+            this.VerificationStatus =sobj.getProperty("VerificationStatus").toString();
+            //  this.VerificationStatus ="P";
+            this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+            //this.IsFinalize = "N";
+            //    this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
+            // this._IsANMFinalize ="N";
+        }
+        else if (monthly.equals("2"))
+        {
+            this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
+            this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
+            this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
+            this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
+            this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
+            this.MonthName = sobj.getProperty("MonthName").toString();
+            this.FinYear = sobj.getProperty("FinYear").toString();
+            this.ActivityDate = sobj.getProperty("ActivityDate").toString();
+            this.RegisterId = sobj.getProperty("RegisterId").toString();
+            this.Volume = sobj.getProperty("Volume").toString();
+            this.RegisterPageNo = sobj.getProperty("RegisterPageNo").toString();
+            this.RegisterDesc = sobj.getProperty("RegisterDesc").toString();
+            this.PageSerialNo = sobj.getProperty("PageSerialNo").toString();
+            this.RegisterDate = sobj.getProperty("RegisterDate").toString();
+            this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
+            this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+            this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+            this._IsANMFinalize = sobj.getProperty("ANMVerified").toString();
+            //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+            this.ActTypeId = sobj.getProperty("ActTypeId").toString();
+            this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
+            this.ActivityRate = sobj.getProperty("ActivityRate").toString();
+            this.Remarks = sobj.getProperty("Remarks").toString();
+            this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+            this.ActivityId = sobj.getProperty("ActivityId").toString();
+            this.ActivityPlace = sobj.getProperty("ActivityPlace").toString();
+            this.OtherDist = sobj.getProperty("OtherDist").toString();
+            this.OtherBlock = sobj.getProperty("OtherBlock").toString();
+            this.IsForwaded = sobj.getProperty("IsForwaded").toString();
+
+        }
+
+
+    }
+
+
 
     public AshaWorkEntity() {
 

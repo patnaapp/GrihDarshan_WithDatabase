@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <RelativeLayout
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/sblist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:paddingBottom="2dp"
+        android:weightSum="2"
+        android:background="@drawable/shape_adapter_cell1">
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@android:color/black"
+            android:id="@+id/tv_count"/>
+
+        <LinearLayout
+            android:layout_toRightOf="@+id/tv_count"
+            android:id="@+id/ll_content"
+            android:layout_marginBottom="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_div_zone"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य का श्रेणी"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_workcategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:id="@+id/ll_role"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_work"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य पूर्ण की तिथि"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_workcompldate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="दावा की गयी राशी"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="पंजी का नाम"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_regname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="खंड"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_volume"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="लाभार्थियों की संख्या"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_no_of_benif"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="पंजी का दिनांक"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_reg_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="स्थिति"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_asha_final"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tv_asha_final"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/ll_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_accpt"
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonshapeaccept"
+                    android:text="स्वीकार करें" />
+
+                <Button
+                    android:id="@+id/btn_rjct"
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:text="पुनः जाँच करें"
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonbackshape1"
+                    />
+            </LinearLayout>
+
+
+
+
+
+                <Button
+                    android:id="@+id/btn_accp_rjct"
+                    android:layout_width="140dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="right"
+                    android:text="पुनः जाँच करें"
+                    android:textColor="@color/color_white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:background="@drawable/buttonbackshape1"
+                    />
+
+        </LinearLayout>
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_next"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ll_content"
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3/19/2020 8:38:41 PM"
+            android:textColor="@color/colorGreyDark"
+            android:textSize="12sp"
+            android:layout_gravity="end"/>
+
+
+    </RelativeLayout>
+    <!--    </androidx.cardview.widget.CardView>-->
+
+</LinearLayout>
