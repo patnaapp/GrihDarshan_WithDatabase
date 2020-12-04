@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
+import bih.nic.in.ashwin.adaptor.AshaOther_ActivityForwardAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
@@ -301,7 +302,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         ll_monthly.setVisibility(View.GONE);
         rv_data_monthly.setVisibility(View.GONE);
         rv_data.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(OtherBLockActivityVerificationList.this, data, fyear, fmonth);
+        AshaOther_ActivityForwardAdapter adapter = new AshaOther_ActivityForwardAdapter(OtherBLockActivityVerificationList.this, data, fyear, fmonth);
         rv_data.setAdapter(adapter);
     }
 

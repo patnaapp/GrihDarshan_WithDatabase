@@ -125,6 +125,7 @@ public class WebServiceHelper
  //   public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
  public static final String DeleteAsha_Fc_Activity = "DeletedFCAshaActivityAndAshaActiVity";
  public static final String Asha_worker_LIST_Other_METHOD = "getAshaWorkersOther";
+ public static final String FrowardActivityToBCM = "getAshaWorkersOther";
 
     //e-Niwas
     public static final String ITEM_MASTER = "getItemMasterList";
@@ -1375,6 +1376,36 @@ public class WebServiceHelper
         Element eid = doc.createElement(key);
         eid.appendChild(doc.createTextNode(value));
         return eid;
+    }
+
+    public static String ForwardActivityToBcm(AshaWorkEntity data,String userid,String app_ver,String deviceid) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, FrowardActivityToBCM);
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("VerificationBy",userid);
+        request.addProperty("MobVersion",app_ver);
+
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(
+                    SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + FrowardActivityToBCM,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return rest;
     }
 
     public static String UploadAcceptedRecordsFromPacs(AshaWorkEntity data,String userid,String app_ver,String deviceid) {

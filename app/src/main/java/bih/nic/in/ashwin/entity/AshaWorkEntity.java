@@ -460,4 +460,12 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
     public void set_rejectedRemarks(String _rejectedRemarks) {
         this._rejectedRemarks = _rejectedRemarks;
     }
+
+    public String getIsForwaded() {
+        return IsForwaded;
+    }
+
+    public void setIsForwaded(String isForwaded) {
+        IsForwaded = isForwaded;
+    }
 }

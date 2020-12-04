@@ -297,7 +297,7 @@
 
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/ll_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -337,16 +337,16 @@
 
 
                 <Button
-                    android:id="@+id/btn_accp_rjct"
+                    android:id="@+id/btn_forward"
                     android:layout_width="140dp"
                     android:layout_height="20dp"
                     android:layout_margin="8dp"
                     android:layout_gravity="right"
-                    android:text="पुनः जाँच करें"
+                    android:text="BCM को फॉरवर्ड करे"
                     android:textColor="@color/color_white"
                     android:textStyle="bold"
                     android:textSize="15sp"
-                    android:background="@drawable/buttonbackshape1"
+                    android:background="@drawable/buttonshapeaccept"
                     />
 
         </LinearLayout>
