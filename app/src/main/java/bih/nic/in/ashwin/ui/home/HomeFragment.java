@@ -727,7 +727,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void loadDailyRecyclerData(){
         if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
             rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
-            AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth);
+            AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(getContext(), ashaWorkData, fyear, fmonth, this);
             rv_data.setAdapter(adapter);
         }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
             rv_data.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -868,8 +868,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onDeleteFCWork(int position) {
-        ashaFcWorkData.remove(position);
-        rv_data.getAdapter().notifyItemRemoved(position);
+        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+            ashaWorkData.remove(position);
+            rv_data.getAdapter().notifyItemRemoved(position);
+        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+            ashaFcWorkData.remove(position);
+            rv_data.getAdapter().notifyItemRemoved(position);
+        }
     }
 
     private class SyncFCAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaFascilitatorWorkEntity>> {

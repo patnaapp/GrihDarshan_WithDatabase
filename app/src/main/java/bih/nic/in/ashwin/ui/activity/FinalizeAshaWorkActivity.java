@@ -366,7 +366,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void setWorkRecycler()
     {
         rv_work.setLayoutManager(new LinearLayoutManager(this));
-        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(this, ashaWorkData, fyear, fmonth);
+        AshaWorkDetailAdapter adapter = new AshaWorkDetailAdapter(this, ashaWorkData, fyear, fmonth, this);
         rv_work.setAdapter(adapter);
     }
 
