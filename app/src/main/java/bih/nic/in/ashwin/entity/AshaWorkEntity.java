@@ -103,19 +103,20 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     }
 
-
-
-    public AshaWorkEntity() {
+    public AshaWorkEntity()
+    {
 
     }
 
     @Override
-    public Object getProperty(int index) {
+    public Object getProperty(int index)
+    {
         return null;
     }
 
     @Override
-    public int getPropertyCount() {
+    public int getPropertyCount()
+    {
         return 0;
     }
 

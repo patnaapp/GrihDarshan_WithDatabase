@@ -107,7 +107,6 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     {
         switch (parent.getId())
         {
-
             case R.id.sp_hsc_list_other:
                 if (position > 0)
                 {
@@ -129,7 +128,6 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
                     new SynchronizeAshaActivityList().execute();
                 }
                 break;
-
         }
     }
 
@@ -139,7 +137,8 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
 
     }
 
-    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>> {
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>
+    {
 
         @Override
         protected void onPreExecute()

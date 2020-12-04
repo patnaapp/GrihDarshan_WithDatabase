@@ -155,13 +155,15 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void
-    displaySelectedFragment(Fragment fragment){
+    displaySelectedFragment(Fragment fragment)
+    {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
     }
 
-    private void confirmLogout(){
+    private void confirmLogout()
+    {
         SplashActivity.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = SplashActivity.prefs.edit();
         editor.putBoolean("username", false);
@@ -178,7 +180,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         finish();
     }
 
-    private void logout() {
+    private void logout()
+    {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setIcon(R.drawable.asha)
@@ -202,14 +205,15 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     private class GetFinYear extends AsyncTask<String, Void, ArrayList<Financial_Year>> {
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             dialog.setMessage("Loading financial year...");
             dialog.show();
         }
 
         @Override
-        protected ArrayList<Financial_Year> doInBackground(String... param) {
-
+        protected ArrayList<Financial_Year> doInBackground(String... param)
+        {
             return WebServiceHelper.getFinancialYear();
         }
 
