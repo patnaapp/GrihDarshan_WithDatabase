@@ -1082,6 +1082,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
+
 //        for(AshaWorkEntity mItem: list){
 //            for(Activity_entity item: mnthlyActList){
 //
