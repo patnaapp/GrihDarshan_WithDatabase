@@ -83,7 +83,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-      //  tv_role.setText("आशा कार्यकर्ता");
+        //  tv_role.setText("आशा कार्यकर्ता");
         tv_role.setText(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
 
         //loadWorkerFascilatorData();
@@ -300,16 +300,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
-                    ashaworkerList = dbhelper.getAshaWorkerList(hsccode,CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
-//                    if (ashaworkerList.size()>0)
-//                    {
-//                        loadWorkerFascilatorData();
-//                    }
-//                    else
-//                    {
-                        new GetAshaWorkersList().execute();
-                    //}
-                    // loadWorkerFascilatorData();
+                    new GetAshaWorkersList().execute();
 
                 }
                 break;
@@ -558,7 +549,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         array.add("-Select-");
 
         for (AshaWoker_Entity info: ashaworkerList){
-            array.add(info.get_Asha_Name_Hn());
+            array.add(info.get_ASHAID()+":-"+info.get_Asha_Name_Hn());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
@@ -599,8 +590,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 rv_data_monthly.setVisibility(View.GONE);
 //                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
 //                {
-                    new SynchronizeAshaActivityList().execute();
-               // }
+                new SynchronizeAshaActivityList().execute();
+                // }
 
                 break;
 

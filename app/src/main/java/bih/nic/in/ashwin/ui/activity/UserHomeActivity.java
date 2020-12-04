@@ -795,8 +795,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
-
 //    public void refreshFragment(){
 //        homeFrag.setFYearSpinner();
 //        //f.setFYearSpinner();
