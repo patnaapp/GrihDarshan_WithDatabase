@@ -155,7 +155,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
         //tv_total_work.setText(""+ashaWorkData.size());
 
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")){
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
             setMonthlyActivity((ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly"));
             ll_monthly.setVisibility(View.VISIBLE);
@@ -248,7 +248,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isReadyForFinalize(){
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")) {
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")) {
             if (ashaWorkData.size() > 0) {
                 for (AshaWorkEntity work : ashaWorkData) {
                     if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
@@ -293,7 +293,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isDataFinalize(){
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")){
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
             if(ashaWorkData.size()> 0)
             {
                 for(AshaWorkEntity work: ashaWorkData)
