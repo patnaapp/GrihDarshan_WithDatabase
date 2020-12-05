@@ -67,8 +67,8 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
 //        holder.tv_workcategory.setText(info.getAcitivtyCategoryDesc());
 //        holder.tv_work.setText(info.getActivityDesc());
 //        holder.tv_workcompldate.setText(info.getActivityDate());
-        holder.tv_amount.setText(info.getActivityAmt());
-        holder.tv_activity_desc.setText(info.getAcitivtyCategoryDesc());
+        holder.tv_amount.setText("\u20B9"+info.getActivityAmt());
+        holder.tv_activity_desc.setText(info.getActivityDesc());
 //        holder.tv_regname.setText(info.getRegisterDesc());
 //        holder.tv_volume.setText(info.getVolume());
 //        holder.tv_slno.setText(info.getPageSerialNo());
@@ -128,15 +128,14 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
 
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
             }
-            else if (info.getVerificationStatus().equals("A")){
+            else if (info.getVerificationStatus().equals("A"))
+            {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             }
             else if (info.getVerificationStatus().equals("R"))
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
-
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
             }
 
@@ -513,7 +512,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             btn_accp_rjct = itemView.findViewById(R.id.btn_accp_rjct);
             ll_btn = itemView.findViewById(R.id.ll_btn);
             tv_activity_desc = itemView.findViewById(R.id.tv_activity_desc);
-            tv_amount = itemView.findViewById(R.id.tv_amount);
+            tv_amount = itemView.findViewById(R.id.tv_amount1);
             tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
             ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
             //itemView.setOnClickListener(this);

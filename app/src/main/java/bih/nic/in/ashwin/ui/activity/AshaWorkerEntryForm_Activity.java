@@ -552,7 +552,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
 
-        if (role.equals("HSC") || role.equals("BLKBCM"))
+        if (role.equals("HSC") || role.equals("ANM") || role.equals("BLKBCM"))
         {
             btn_proceed.setVisibility(View.GONE);
             ll_btn.setVisibility(View.VISIBLE);
@@ -577,7 +577,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void setData()
     {
 
-        if (role.equals("HSC") || role.equals("BLKBCM"))
+        if (role.equals("HSC")|| role.equals("ANM") || role.equals("BLKBCM"))
         {
 
             if (((info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N"))){

@@ -393,7 +393,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_sc.setVisibility(View.GONE);
         rv_data_sc.setVisibility(View.GONE);
 
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ANM"))
         {
             // ll_hsc.setVisibility(View.VISIBLE);
             ll_floating_btn.setVisibility(View.GONE);
@@ -595,7 +595,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if (i > 0)
                 {
                     fmonth = fMonthArray.get(i-1);
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ANM"))
                     {
                         loadUserRoleSpinnerdata();
 

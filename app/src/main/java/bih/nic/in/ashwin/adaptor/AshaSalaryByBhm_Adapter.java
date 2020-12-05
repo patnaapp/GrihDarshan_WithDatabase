@@ -451,7 +451,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.btn_accp_rjct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (info.getVerificationStatus().contains("R"))
+                if (info.getVerificationStatus().contains("R") ||info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
                 {
                     if(Utiilties.isOnline(context)) {
                         final EditText edittext = new EditText(context);
