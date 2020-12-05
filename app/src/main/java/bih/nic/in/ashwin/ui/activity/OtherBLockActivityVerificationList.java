@@ -37,7 +37,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class OtherBLockActivityVerificationList extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
-    TextView tv_name,tv_year,tv_month,tv_role,tv_daily,tv_monthly;
+    TextView tv_name,tv_year,tv_month,tv_role,tv_forward,tv_approve_other;
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data,rv_data_monthly;
@@ -49,13 +49,14 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     ArrayList<HscList_Entity> hscList = new ArrayList<HscList_Entity>();
     DataBaseHelper dbhelper;
     LinearLayout ll_monthly,ll_daily,ll_dmf_tab,ll_hsc;
-    String tabType = "D";
+    String tabType = "F";
     String hscname="",hsccode="";
     private ProgressDialog dialog;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_b_lock_verification_list);
         initialise();
@@ -74,6 +75,22 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
 
         new GetHScList().execute();
 
+        tv_forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "F";
+                handleTabView();
+            }
+        });
+
+
+        tv_approve_other.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tabType = "A";
+                handleTabView();
+            }
+        });
     }
 
     public void initialise()
@@ -90,8 +107,9 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         ll_monthly = findViewById(R.id.ll_monthly);
         ll_daily = findViewById(R.id.ll_daily);
         ll_dmf_tab = findViewById(R.id.ll_dmf_tab);
-        tv_daily = findViewById(R.id.tv_daily);
-        tv_monthly = findViewById(R.id.tv_monthly);
+
+        tv_forward = findViewById(R.id.tv_forward);
+        tv_approve_other = findViewById(R.id.tv_approve_other);
         ll_hsc = findViewById(R.id.ll_hsc);
         ll_daily.setVisibility(View.GONE);
         ll_monthly.setVisibility(View.GONE);
@@ -135,6 +153,32 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     public void onNothingSelected(AdapterView<?> adapterView)
     {
 
+    }
+
+    public void handleTabView()
+    {
+        switch (tabType)
+        {
+            case "F":
+                tv_forward.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tv_approve_other.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                rv_data.setVisibility(View.VISIBLE);
+                rv_data_monthly.setVisibility(View.GONE);
+//                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
+//                {
+                new SynchronizeAshaActivityList().execute();
+                // }
+
+                break;
+
+            case "A":
+                tv_forward.setTextColor(getResources().getColor(R.color.colorGreyDark));
+                tv_approve_other.setTextColor(getResources().getColor(R.color.colorPrimary));
+                rv_data_monthly.setVisibility(View.VISIBLE);
+                rv_data.setVisibility(View.GONE);
+                new ApproveOtherActivityList().execute();
+                break;
+        }
     }
 
     private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>
@@ -306,10 +350,68 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         super.onBackPressed();
         Intent i=new Intent(OtherBLockActivityVerificationList.this, UserHomeActivity.class);
         startActivity(i);
         finish();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        handleTabView();
+    }
+
+    private class ApproveOtherActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(OtherBLockActivityVerificationList.this);
+
+        private final AlertDialog alertDialog = new AlertDialog.Builder(OtherBLockActivityVerificationList.this).create();
+
+        @Override
+        protected void onPreExecute() {
+
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Loading details...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param)
+        {            // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
+            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                ashawork=result;
+                setupRecuyclerViewAccpRjctOther(result);
+
+                //  new SynchronizeMonthlyAshaActivityList().execute();
+
+            }
+        }
+    }
+
+
+    public void setupRecuyclerViewAccpRjctOther(ArrayList<AshaWorkEntity> data)
+    {
+        ll_monthly.setVisibility(View.VISIBLE);
+        rv_data_monthly.setVisibility(View.VISIBLE);
+        ll_daily.setVisibility(View.GONE);
+        rv_data.setVisibility(View.GONE);
+        rv_data_monthly.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        AshaActivityAccpRjctAdapter adapter = new AshaActivityAccpRjctAdapter(OtherBLockActivityVerificationList.this, data, fyear, fmonth);
+        rv_data_monthly.setAdapter(adapter);
     }
 }

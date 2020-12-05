@@ -286,7 +286,8 @@ public class LoginActivity extends Activity {
                                     {
                                         if (cnf_pass.length()>=4){
                                             if (edt_mob_no.getText().toString().length()==10){
-                                                if (!user_name.equals("")){
+                                                if (!user_name.equals(""))
+                                                {
                                                 if (cnf_pass.equals(newpass))
                                                 {
                                                     new ChangePassword().execute();
@@ -309,17 +310,25 @@ public class LoginActivity extends Activity {
                                         }
                                     }
                                     else {
-                                        if (cnf_pass.length()>=4){
-
-                                            if (edt_mob_no.getText().toString().length()==10){
-                                                if (!user_name.equals("")) {
-                                                    if (edt_email_id.getText().toString().length() > 0) {
-                                                        if (cnf_pass.equals(newpass)) {
+                                        if (cnf_pass.length()>=4)
+                                        {
+                                            if (edt_mob_no.getText().toString().length()==10)
+                                            {
+                                                if (!user_name.equals(""))
+                                                {
+                                                    if (edt_email_id.getText().toString().length() > 0)
+                                                    {
+                                                        if (cnf_pass.equals(newpass))
+                                                        {
                                                             new ChangePassword().execute();
-                                                        } else {
+                                                        }
+                                                        else
+                                                            {
                                                             Toast.makeText(LoginActivity.this, "पासवर्ड और कन्फर्म पासवर्ड मैच नहीं हुआ", Toast.LENGTH_LONG).show();
                                                         }
-                                                    } else {
+                                                    }
+                                                    else
+                                                        {
                                                         Toast.makeText(LoginActivity.this, "कृपया ईमेल आईडी डाले ", Toast.LENGTH_LONG).show();
                                                     }
                                                 }

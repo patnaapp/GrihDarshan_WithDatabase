@@ -245,7 +245,7 @@
                 android:layout_weight="1"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/tv_daily"
+                    android:id="@+id/tv_forward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="फॉरवर्ड करे"
@@ -262,7 +262,7 @@
                 android:layout_weight="1"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/tv_monthly"
+                    android:id="@+id/tv_approve_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="सत्यापन करे"
