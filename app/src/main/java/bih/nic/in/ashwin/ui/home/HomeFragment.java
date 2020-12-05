@@ -1,6 +1,5 @@
 package bih.nic.in.ashwin.ui.home;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,9 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +32,7 @@ import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailListener;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
+import bih.nic.in.ashwin.adaptor.UserHomeListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
@@ -49,14 +47,11 @@ import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorEntry;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaFcAccpRjct_ActivityList;
-import bih.nic.in.ashwin.ui.activity.AshaSalaryByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
-import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.OtherBLockActivityVerificationList;
-import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -65,6 +60,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class HomeFragment extends Fragment implements AdapterView.OnItemSelectedListener, MonthlyActivityListener, AshaFCWorkDetailListener {
 
     private HomeViewModel homeViewModel;
+    public UserHomeListener listenr;
 
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
@@ -76,9 +72,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     LinearLayout ll_hsc,ll_floating_btn,ll_pan,ll_division;
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc,btn_other_blk;
     LinearLayout ll_hsc_list;
-    //Button btn_proceed,btn_ashafc,btn_proceed1;
-
-
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -107,7 +100,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private ProgressDialog dialog;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState)
+
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
         homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -437,7 +431,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_username.setText(userInfo.getUserName());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
-        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+        if (userInfo.getUserrole().equals("BLKBCM")|| userInfo.getUserrole().equals("BLKBHM")|| userInfo.getUserrole().equals("BLKMO"))
         {
             tv_district.setText(userInfo.getDistName());
         }
@@ -445,7 +439,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         {
             tv_district.setText(userInfo.getDistNameHN());
         }
-        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+        if(userInfo.getUserrole().equals("ASHAFC"))
         {
             ll_pan.setVisibility(View.GONE);
             ll_division.setVisibility(View.GONE);
@@ -462,21 +456,26 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void setFYearSpinner()
     {
         fYearArray = dbhelper.getFinancialYearList();
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
+        //if(fYearArray.size() > 0){
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
 
-        for (Financial_Year info: fYearArray)
-        {
-            if(!info.getFinancial_year().equals("anyType{}"))
+            for (Financial_Year info: fYearArray)
             {
-                array.add(info.getFinancial_year());
+                if(!info.getFinancial_year().equals("anyType{}"))
+                {
+                    array.add(info.getFinancial_year());
+                }
             }
-        }
 
-        ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_fn_year.setAdapter(adaptor);
-        sp_fn_year.setOnItemSelectedListener(this);
+            ArrayAdapter adaptor = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sp_fn_year.setAdapter(adaptor);
+            sp_fn_year.setOnItemSelectedListener(this);
+//        }else{
+//            listenr.onSyncMasterData();
+//        }
+
     }
 
     public void setFMonthSpinner()

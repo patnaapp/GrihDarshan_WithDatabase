@@ -47,7 +47,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class FinalizeAshaWorkActivity extends AppCompatActivity implements MonthlyActivityListener, AshaFCWorkDetailListener {
 
     TextView tv_fn_yr,fn_mnth,tv_total_work,tv_total_central_amnt,tv_total_state_amnt;
-    TextView tv_monthly_amnt,tv_total_amnt;
+    TextView tv_monthly_amnt,tv_total_amnt,tv_rr,tv_sc;
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
     RecyclerView rv_data,rv_work,rv_data_sc;
     CheckBox ch_1,ch_2,ch_3;
@@ -104,6 +104,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_district = findViewById(R.id.tv_district);
         tv_block = findViewById(R.id.tv_block);
         tv_panchayat = findViewById(R.id.tv_panchayat);
+
+        tv_rr = findViewById(R.id.tv_rr);
+        tv_sc = findViewById(R.id.tv_sc);
 
         rv_data = findViewById(R.id.rv_data);
         rv_work = findViewById(R.id.rv_work);
@@ -400,14 +403,21 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public void setActivityRecycler()
     {
-        //activityArray = dbhelper.getActictivityList("1", "M");
-        rv_data.setLayoutManager(new LinearLayoutManager(this));
-        MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true, true);
-        rv_data.setAdapter(adapter);
+        if(activityArray.size()> 0){
+            rv_data.setLayoutManager(new LinearLayoutManager(this));
+            MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true, true);
+            rv_data.setAdapter(adapter);
+        }else{
+            tv_rr.setVisibility(View.GONE);
+        }
 
-        rv_data_sc.setLayoutManager(new LinearLayoutManager(this));
-        MonthlyActivityAdapter adapter1 = new MonthlyActivityAdapter(this, stateContArray, this, true, true);
-        rv_data_sc.setAdapter(adapter1);
+        if(stateContArray.size()>0){
+            rv_data_sc.setLayoutManager(new LinearLayoutManager(this));
+            MonthlyActivityAdapter adapter1 = new MonthlyActivityAdapter(this, stateContArray, this, true, true);
+            rv_data_sc.setAdapter(adapter1);
+        }else{
+            tv_sc.setVisibility(View.GONE);
+        }
     }
 
     public void setWorkRecycler()
