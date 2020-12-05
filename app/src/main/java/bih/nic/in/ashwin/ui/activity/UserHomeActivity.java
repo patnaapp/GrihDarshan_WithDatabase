@@ -38,6 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.UserHomeListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
@@ -60,7 +61,7 @@ import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
-public class UserHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class UserHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, UserHomeListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     DrawerLayout drawer;
@@ -199,6 +200,11 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     private void syncData()
     {
         new GetFinYear().execute();
+    }
+
+    @Override
+    public void onSyncMasterData() {
+        syncData();
     }
 
 

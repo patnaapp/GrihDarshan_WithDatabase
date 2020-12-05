@@ -38,7 +38,7 @@ public class Activity_entity implements KvmSerializable, Serializable {
         this.ActTypeId = sobj.getProperty("ActTypeId").toString();
         this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
         this.IsFinalize = sobj.getProperty("IsFinalize").toString();
-       // this.Abbr = sobj.getProperty("Abbr").toString();
+        this.Abbr = sobj.getProperty("Abbr").toString();
     }
 
     public Activity_entity(SoapObject sobj,int i) {
