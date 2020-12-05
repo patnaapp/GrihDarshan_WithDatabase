@@ -75,7 +75,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.ch_activity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                listener.onActivityCheckboxChanged(position, b, info.getAcitivtyType());
+                listener.onActivityCheckboxChanged(position, b, info.getAbbr());
             }
         });
     }
