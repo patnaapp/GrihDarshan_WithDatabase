@@ -49,9 +49,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     TextView tv_fn_yr,fn_mnth,tv_total_work,tv_total_central_amnt,tv_total_state_amnt;
     TextView tv_monthly_amnt,tv_total_amnt;
     TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
-    RecyclerView rv_data,rv_work;
+    RecyclerView rv_data,rv_work,rv_data_sc;
     CheckBox ch_1,ch_2,ch_3;
-    LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone,ll_otp,ll_pan,ll_division;
+    LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone,ll_otp,ll_pan,ll_division,ll_monthly;
     Button btn_verify_otp;
     EditText edt_otp;
 
@@ -64,6 +64,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     ArrayList<AshaWorkEntity> ashaWorkData = new ArrayList<>();
     ArrayList<AshaFascilitatorWorkEntity> ashaFCWorkData = new ArrayList<>();
     ArrayList<Activity_entity> activityArray = new ArrayList<>();
+    ArrayList<Activity_entity> stateContArray = new ArrayList<>();
 
     ArrayList<Stateamount_entity> stateAmountArray;
     ArrayList<Centralamount_entity> centralAmountArray;
@@ -106,6 +107,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         rv_data = findViewById(R.id.rv_data);
         rv_work = findViewById(R.id.rv_work);
+        rv_data_sc = findViewById(R.id.rv_data_sc);
 
         ch_1 = findViewById(R.id.ch_1);
         ch_2 = findViewById(R.id.ch_2);
@@ -117,6 +119,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ll_otp = findViewById(R.id.ll_otp);
         ll_pan = findViewById(R.id.ll_pan);
         ll_division = findViewById(R.id.ll_division);
+        ll_monthly = findViewById(R.id.ll_monthly);
 
         btn_verify_otp = findViewById(R.id.btn_verify_otp);
         edt_otp = findViewById(R.id.edt_otp);
@@ -151,7 +154,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
-            activityArray = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
+            setMonthlyActivity((ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly"));
+            ll_monthly.setVisibility(View.VISIBLE);
 
         }else if(userInfo.getUserrole().equals("ASHAFC")){
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
@@ -162,15 +166,30 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         new GetStateAmount().execute();
     }
 
+    public void setMonthlyActivity(ArrayList<Activity_entity> list){
+        //ArrayList<Activity_entity> monthly = new ArrayList<>();
+        activityArray.clear();
+        stateContArray.clear();
+        for(Activity_entity item: list){
+            if(item.getAbbr().contains("PC1") || item.getAbbr().contains("PI1")){
+                activityArray.add(item);
+            }else if (item.getAbbr().contains("PC2") || item.getAbbr().contains("PI2")){
+                stateContArray.add(item);
+            }
+        }
+    }
+
     public void loadAshaData(){
+        setWorkRecycler();
+        setActivityRecycler();
+
         totalWorkAmount = getTotalWorkAmount();
         totalStateAmount = getTotalStateAmount();
 
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
 
-        setWorkRecycler();
-        setActivityRecycler();
+
 
         updateTotalAmount();
 
@@ -243,9 +262,18 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                         return false;
                     }
                 }
-            } else {
-                return false;
             }
+
+            if (stateContArray.size() > 0) {
+                for (Activity_entity work : stateContArray) {
+                    if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
+                        return false;
+                    }
+                }
+            }
+//            else {
+//                return false;
+//            }
 
         }else if (userInfo.getUserrole().equals("ASHAFC")){
             if (ashaFCWorkData.size() > 0) {
@@ -278,8 +306,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 return false;
             }
 
-            if(activityArray.size()> 0)
-            {
+            if(activityArray.size()> 0){
                 for(Activity_entity work: activityArray)
                 {
                     if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y"))
@@ -288,8 +315,15 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                     }
                 }
             }
-            else{
-                return false;
+
+            if(stateContArray.size()> 0){
+                for(Activity_entity work: stateContArray)
+                {
+                    if(work.getIsFinalize() != null && work.getIsFinalize().equals("Y"))
+                    {
+                        return true;
+                    }
+                }
             }
         }else if (userInfo.getUserrole().equals("ASHAFC")){
             if (ashaFCWorkData.size() > 0) {
@@ -323,9 +357,18 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         //ArrayList<Stateamount_entity> list = dbhelper.getStateAmountList("ASHA");
 
         Double amount = 0.0;
+        int scApprovedCount = 0;
 
-        for(Stateamount_entity info: stateAmountArray)
-        {
+        for(Activity_entity info: stateContArray){
+            if(info.getVerificationStatus().equals("A"))
+                scApprovedCount += 1;
+        }
+
+        if(scApprovedCount < 4){
+            return amount;
+        }
+
+        for(Stateamount_entity info: stateAmountArray){
             if(info.get_Desig().equals("ASHA"))
                 amount += Double.parseDouble(info.get_StateAmt());
         }
@@ -361,6 +404,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         rv_data.setLayoutManager(new LinearLayoutManager(this));
         MonthlyActivityAdapter adapter = new MonthlyActivityAdapter(this, activityArray, this, true, true);
         rv_data.setAdapter(adapter);
+
+        rv_data_sc.setLayoutManager(new LinearLayoutManager(this));
+        MonthlyActivityAdapter adapter1 = new MonthlyActivityAdapter(this, stateContArray, this, true, true);
+        rv_data_sc.setAdapter(adapter1);
     }
 
     public void setWorkRecycler()

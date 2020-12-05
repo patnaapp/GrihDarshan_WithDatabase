@@ -434,7 +434,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void setUserDetail()
     {
         UserDetails userInfo = CommonPref.getUserDetails(getContext());
-
         tv_username.setText(userInfo.getUserName());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
@@ -837,13 +836,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 loadMonthlyRecyclerData();
                 break;
             case "F":
-                ArrayList<Activity_entity> list = getSelectedMonthlyActivity();
                 //if(list.size()>0){
                 Intent i = new Intent(getContext(), FinalizeAshaWorkActivity.class);
                 i.putExtra("fyear", fyear);
                 i.putExtra("fmonth", fmonth);
                 i.putExtra("workArray", ashaWorkData);
-                i.putExtra("monthly", list);
+                i.putExtra("monthly", getSelectedMonthlyActivity());
                 i.putExtra("workFCArray", ashaFcWorkData);
                 startActivity(i);
 //                }else{

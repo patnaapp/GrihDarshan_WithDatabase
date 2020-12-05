@@ -72,6 +72,10 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
             holder.ch_activity.setChecked(info.getChecked());
         }
 
+        if(info.getAbbr().contains("PC2") || info.getAbbr().contains("PI2")){
+            holder.tv_amount.setVisibility(View.GONE);
+        }
+
         holder.ch_activity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
