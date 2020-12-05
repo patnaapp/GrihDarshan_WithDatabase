@@ -319,7 +319,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         protected ArrayList<AshaWorkEntity> doInBackground(String... param)
         {
             // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
-            return WebServiceHelper.getAshaWork_Other_ActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole());
+            return WebServiceHelper.getAshaWork_Other_ActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getBlockCode());
         }
 
         @Override
@@ -382,7 +382,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
         @Override
         protected ArrayList<AshaWorkEntity> doInBackground(String... param)
         {            // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
-            return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole());
+            return WebServiceHelper.getAshaWorkOtherActivityListForApproval(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),hsccode,CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getUserrole(),CommonPref.getUserDetails(OtherBLockActivityVerificationList.this).getBlockCode());
         }
 
         @Override

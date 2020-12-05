@@ -1,6 +1,7 @@
 package bih.nic.in.ashwin.web_services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -142,6 +143,7 @@ public class WebServiceHelper
     public static final String FCActivityDescList = "getFCAcitivtyCategoryList";
     public static final String FCActivityCategoryList = "FCActivityCategoryList";
     public static final String ASHAWORK_other_LIST_METHOD = "getAshaListMonthYearOther";
+    public static final String ASHAWORKOTherForApproval_LIST_METHOD = "getAshaActivityOtherForApprovalList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -406,6 +408,37 @@ public class WebServiceHelper
         }
         return res1;
     }
+
+    public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5,String param6, String value1, String value2, String value3, String value4,String value5, String value6 )
+    {
+        SoapObject res1;
+        try
+        {
+            SoapObject request = new SoapObject(SERVICENAMESPACE,methodName);
+            request.addProperty(param1,value1);
+            request.addProperty(param2,value2);
+            request.addProperty(param3,value3);
+            request.addProperty(param4,value4);
+            request.addProperty(param5,value5);
+            request.addProperty(param6,value6);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            envelope.addMapping(SERVICENAMESPACE,bindClass.getSimpleName(),bindClass);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + methodName,envelope);
+            res1 = (SoapObject) envelope.getResponse();
+        }
+        catch (Exception e)
+
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return res1;
+    }
+
 
 
     public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8)
@@ -989,10 +1022,10 @@ public class WebServiceHelper
 
         return fieldList;
     }
-    public static ArrayList<AshaWorkEntity> getAshaWork_Other_ActivityList(String workId, String monthId, String yearId,String userrole) {
+    public static ArrayList<AshaWorkEntity> getAshaWork_Other_ActivityList(String workId, String monthId, String yearId,String userrole,String blkcode) {
 
         SoapObject res1;
-        res1 = getServerData(ASHAWORK_other_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId","Role", workId,monthId,yearId,userrole);
+        res1 = getServerData(ASHAWORK_other_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId","Role","BlockCode", workId,monthId,yearId,userrole,blkcode);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
@@ -1013,6 +1046,30 @@ public class WebServiceHelper
         return fieldList;
     }
 
+
+    public static ArrayList<AshaWorkEntity> getAshaWorkOtherActivityListForApproval(String workId, String monthId, String yearId,String hsccode,String userrole,String blkcode) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORKOTherForApproval_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaWorkerId","MonthId","FYearId","HSCCode","Role","OtherBlockCode", workId,monthId,yearId,hsccode,userrole,blkcode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"2");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
 
 
 
@@ -1421,7 +1478,9 @@ public class WebServiceHelper
         request.addProperty("NoofBeneficiary",data.getNoOfBenif());
         request.addProperty("Remarks",data.getRemarks());
         request.addProperty("RegisterDate",data.getRegisterDate());
-        request.addProperty("ActivityAmt",data.getActivityAmt());
+        String[] amt=data.getActivityAmt().split("\\.");
+
+        request.addProperty("ActivityAmt",amt[0]);
         request.addProperty("RejectedReason",data.get_rejectedRemarks());
         try
         {
@@ -1525,7 +1584,8 @@ public class WebServiceHelper
         request.addProperty("NoofBeneficiary",data.getNoOfBenif());
         request.addProperty("Remarks",data.getRemarks());
         request.addProperty("RegisterDate",data.getRegisterDate());
-        request.addProperty("ActivityAmt",data.getActivityAmt());
+        String[] amt=data.getActivityAmt().split("\\.");
+        request.addProperty("ActivityAmt",amt[0]);
         request.addProperty("RejectedReason",data.get_rejectedRemarks());
 
         try
