@@ -80,7 +80,6 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         {
             ll_blk.setVisibility(View.GONE);
             new GetFcSalByMo_ForApproval().execute();
-
         }
 
     }
@@ -106,24 +105,27 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+    {
 
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
 
-    private class SynchronizeFcSalaryListForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>> {
+    private class SynchronizeFcSalaryListForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>>
+    {
 
         private final ProgressDialog dialog = new ProgressDialog(FcSalary_ByBHM_MOIC_Activity.this);
 
         private final AlertDialog alertDialog = new AlertDialog.Builder(FcSalary_ByBHM_MOIC_Activity.this).create();
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Loading Facilitator Salary details...");
             this.dialog.show();
@@ -136,22 +138,16 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result) {
+        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result)
+        {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
             }
 
-
-
             if (result != null)
             {
                 fcNoOfdays=result;
-//
-//                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
-//                    stateamt.set_TotalAmt_State(getTotalStateAmount());
-//                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
-//                }
 
                 setupRecuyclerView(fcNoOfdays);
 
@@ -186,8 +182,8 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         private final AlertDialog alertDialog = new AlertDialog.Builder(FcSalary_ByBHM_MOIC_Activity.this).create();
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Loading Facilitator Salary details...");
             this.dialog.show();
@@ -200,7 +196,8 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result) {
+        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result)
+        {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -209,14 +206,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
             if (result != null)
             {
                 fcNoOfdays=result;
-
-//                for(AshaSalByBhm_Entity stateamt:fcNoOfdays){
-//                    stateamt.set_TotalAmt_State(getTotalStateAmount());
-//                    stateamt.set_TotalAmt_Central(getTotalCentreAmount());
-//                }
-
                 setupRecuyclerView(fcNoOfdays);
-
             }
         }
     }

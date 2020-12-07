@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="आशा कार्यकर्ता का नाम"
+                        android:text="फैसिलिटेटर का नाम"
                         android:textColor="@color/colorGreyDark"
                         android:textSize="12sp"/>
 
@@ -143,11 +143,13 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal"
                 android:weightSum="3">
 
                 <LinearLayout
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -214,6 +216,31 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="स्थिति"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
@@ -227,31 +254,32 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
-            <LinearLayout
-                android:layout_weight="1"
-                android:background="@drawable/shape_adapter_cell"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_adapter_cell"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="स्थिति"
-                    android:textColor="@color/colorGreyDark"
-                    android:textSize="12sp"/>
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Text"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="स्थिति"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_status1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="13sp" />
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
             <TextView
                 android:visibility="gone"
