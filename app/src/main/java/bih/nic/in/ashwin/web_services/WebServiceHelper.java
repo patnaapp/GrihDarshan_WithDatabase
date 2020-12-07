@@ -931,20 +931,20 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<AshaSalByBhm_Entity> getFcSalByBhm(String fyid, String monthId, String blkcode, String dist) {
+    public static ArrayList<FCSalByBhmMOIC_Entity> getFcSalByBhm(String fyid, String monthId, String blkcode, String dist) {
 
         SoapObject res1;
-        res1 = getServerData(FcSalByBhm_LIST_METHOD, AshaSalByBhm_Entity.AshaSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        res1 = getServerData(FcSalByBhm_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
-        ArrayList<AshaSalByBhm_Entity> fieldList = new ArrayList<AshaSalByBhm_Entity>();
+        ArrayList<FCSalByBhmMOIC_Entity> fieldList = new ArrayList<FCSalByBhmMOIC_Entity>();
 
         for (int i = 0; i < TotalProperty; i++) {
             if (res1.getProperty(i) != null) {
                 Object property = res1.getProperty(i);
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
-                    AshaSalByBhm_Entity sm = new AshaSalByBhm_Entity(final_object);
+                    FCSalByBhmMOIC_Entity sm = new FCSalByBhmMOIC_Entity(final_object);
                     fieldList.add(sm);
                 }
             } else
@@ -956,20 +956,20 @@ public class WebServiceHelper
     }
 
 
-    public static ArrayList<AshaSalByBhm_Entity> getAshaSalByMO(String fyid, String monthId, String blkcode, String dist) {
+    public static ArrayList<FCSalByBhmMOIC_Entity> getAshaSalByMO(String fyid, String monthId, String blkcode, String dist) {
 
         SoapObject res1;
-        res1 = getServerData(ASHASalByMO_LIST_METHOD, AshaSalByBhm_Entity.AshaSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        res1 = getServerData(ASHASalByMO_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
-        ArrayList<AshaSalByBhm_Entity> fieldList = new ArrayList<AshaSalByBhm_Entity>();
+        ArrayList<FCSalByBhmMOIC_Entity> fieldList = new ArrayList<FCSalByBhmMOIC_Entity>();
 
         for (int i = 0; i < TotalProperty; i++) {
             if (res1.getProperty(i) != null) {
                 Object property = res1.getProperty(i);
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
-                    AshaSalByBhm_Entity sm = new AshaSalByBhm_Entity(final_object);
+                    FCSalByBhmMOIC_Entity sm = new FCSalByBhmMOIC_Entity(final_object);
                     fieldList.add(sm);
                 }
             } else

@@ -26,6 +26,7 @@ import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.FCSalByBhmMOIC_Entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -39,7 +40,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
     Financial_Month fmonth;
     RecyclerView rv_data;
     Button btn_submit,btn_preview;
-    ArrayList<AshaSalByBhm_Entity> fcNoOfdays;
+    ArrayList<FCSalByBhmMOIC_Entity> fcNoOfdays;
     String version="",blk_name="",blk_code="";
     Spinner sp_worker;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
@@ -54,8 +55,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fc_salary__by_b_h_m__m_o_i_c_);
 
@@ -115,7 +115,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
 
     }
 
-    private class SynchronizeFcSalaryListForApproval extends AsyncTask<String, Void, ArrayList<AshaSalByBhm_Entity>> {
+    private class SynchronizeFcSalaryListForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>> {
 
         private final ProgressDialog dialog = new ProgressDialog(FcSalary_ByBHM_MOIC_Activity.this);
 
@@ -125,18 +125,18 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         protected void onPreExecute() {
 
             this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Asha Salary details...");
+            this.dialog.setMessage("Loading FC Salary details...");
             this.dialog.show();
         }
 
         @Override
-        protected ArrayList<AshaSalByBhm_Entity> doInBackground(String... param)
+        protected ArrayList<FCSalByBhmMOIC_Entity> doInBackground(String... param)
         {
             return WebServiceHelper.getFcSalByBhm(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getBlockCode(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getDistrictCode());
         }
 
         @Override
-        protected void onPostExecute(ArrayList<AshaSalByBhm_Entity> result) {
+        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result) {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -159,7 +159,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setupRecuyclerView(ArrayList<AshaSalByBhm_Entity> data)
+    public void setupRecuyclerView(ArrayList<FCSalByBhmMOIC_Entity> data)
     {
         if (data.size()>0)
         {
@@ -179,7 +179,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
 
     }
 
-    private class GetFcSalByMo_ForApproval extends AsyncTask<String, Void, ArrayList<AshaSalByBhm_Entity>> {
+    private class GetFcSalByMo_ForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>> {
 
         private final ProgressDialog dialog = new ProgressDialog(FcSalary_ByBHM_MOIC_Activity.this);
 
@@ -194,13 +194,13 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected ArrayList<AshaSalByBhm_Entity> doInBackground(String... param)
+        protected ArrayList<FCSalByBhmMOIC_Entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getFcSalByMO(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getBlockCode(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getDistrictCode());
+            return WebServiceHelper.getAshaSalByMO(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getBlockCode(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getDistrictCode());
         }
 
         @Override
-        protected void onPostExecute(ArrayList<AshaSalByBhm_Entity> result) {
+        protected void onPostExecute(ArrayList<FCSalByBhmMOIC_Entity> result) {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
