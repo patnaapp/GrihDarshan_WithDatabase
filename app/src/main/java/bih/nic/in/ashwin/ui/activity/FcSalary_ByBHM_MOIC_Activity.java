@@ -125,7 +125,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         protected void onPreExecute() {
 
             this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading FC Salary details...");
+            this.dialog.setMessage("Loading Facilitator Salary details...");
             this.dialog.show();
         }
 
@@ -189,7 +189,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         protected void onPreExecute() {
 
             this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("Loading Asha Salary details...");
+            this.dialog.setMessage("Loading Facilitator Salary details...");
             this.dialog.show();
         }
 
