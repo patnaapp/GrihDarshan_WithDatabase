@@ -196,7 +196,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         @Override
         protected ArrayList<FCSalByBhmMOIC_Entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getAshaSalByMO(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getBlockCode(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getDistrictCode());
+            return WebServiceHelper.getFcSalByMO(fyear.getYear_Id(),fmonth.get_MonthId(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getBlockCode(),CommonPref.getUserDetails(FcSalary_ByBHM_MOIC_Activity.this).getDistrictCode());
         }
 
         @Override
@@ -205,8 +205,6 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
             {
                 this.dialog.dismiss();
             }
-
-
 
             if (result != null)
             {
