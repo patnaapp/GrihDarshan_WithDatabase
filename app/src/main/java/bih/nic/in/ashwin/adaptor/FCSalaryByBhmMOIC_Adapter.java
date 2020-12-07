@@ -75,7 +75,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = mInflater.inflate(R.layout.adaptor_ashasal_bhm_detail, parent, false);
+        View view = mInflater.inflate(R.layout.adaptor_fc_sal_bhm_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -127,7 +127,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
         final FCSalByBhmMOIC_Entity info = mData.get(position);
         dialog = new ProgressDialog(context);
         holder.tv_count.setText(String.valueOf(position+1));
-        holder.tv_asha_name.setText(info.get_Name());
+        holder.tv_fc_name.setText(info.get_Name());
         holder.tv_father_name.setText(info.get_FHName());
         holder.tv_dava_amt.setText(String.valueOf(info.get_TotalAmt_Asha()));
         holder.tv_total_amt.setText(String.valueOf(info.getFinalAmt()));
@@ -203,10 +203,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                 holder.btn_accpt.setVisibility(View.GONE);
                 holder.btn_rjct.setVisibility(View.GONE);
                 holder.btn_accp_rjct.setVisibility(View.GONE);
-//                if (info.get_HQADMVerified().equals("P"))
-//                {
-//                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-//                }
+
                 if (info.get_HQADMVerified().equals("Y"))
                 {
                     holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
@@ -867,7 +864,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        TextView tv_asha_name,tv_father_name,tv_total_amt,tv_center_amt,tv_state_amt,tv_add_dedcut,tv_close,tv_dava_amt;
+        TextView tv_fc_name,tv_father_name,tv_total_amt,tv_center_amt,tv_state_amt,tv_add_dedcut,tv_close,tv_dava_amt;
         EditText edt_no_days,edt_add_centre,edt_deduct_centre,edt_addremarks_centre,edt_deductremarks_centre,edt_add_state,edt_deduct_state,edt_addremarks_state,edt_deductremarks_state;
         RelativeLayout sblist;
         LinearLayout ll_centre,ll_state;
@@ -878,7 +875,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
         ViewHolder(View itemView)
         {
             super(itemView);
-            tv_asha_name = itemView.findViewById(R.id.tv_asha_name);
+            tv_fc_name = itemView.findViewById(R.id.tv_fc_name);
             tv_father_name = itemView.findViewById(R.id.tv_father_name);
             tv_center_amt = itemView.findViewById(R.id.tv_center_amt);
             tv_total_amt = itemView.findViewById(R.id.tv_total_amt);
