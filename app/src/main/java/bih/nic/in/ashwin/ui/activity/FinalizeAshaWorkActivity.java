@@ -155,7 +155,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
         //tv_total_work.setText(""+ashaWorkData.size());
 
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
+        if(userInfo.getUserrole().equals("ASHA")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
             setMonthlyActivity((ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly"));
             ll_monthly.setVisibility(View.VISIBLE);
@@ -164,6 +164,16 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
             ll_division.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
+        }else if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
+            ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
+            ArrayList<Activity_entity> monthly = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
+            ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
+
+            if(ashaWorkData.size()> 0 || monthly.size() > 0){
+                userInfo.setUserrole("ASHA");
+            }else if(ashaFCWorkData.size()>0){
+                userInfo.setUserrole("ASHAFC");
+            }
         }
 
         new GetStateAmount().execute();

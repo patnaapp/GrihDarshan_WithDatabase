@@ -217,14 +217,14 @@ public class SplashActivity extends Activity {
                     startActivity(I);
                 }
             });
-            ab.setNegativeButton("Go Offline", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog,
-                                    int whichButton) {
-
-                    start();
-                }
-            });
+//            ab.setNegativeButton("Go Offline", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog,
+//                                    int whichButton) {
+//
+//                    start();
+//                }
+//            });
             ab.show();
 
         } else {

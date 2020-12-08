@@ -108,7 +108,12 @@ public class LoginActivity extends Activity {
                 }else if (param[2].length() < 1){
                     Toast.makeText(LoginActivity.this, "Select User Role", Toast.LENGTH_SHORT).show();
                 }else{
-                    new LoginTask(param[0], param[1],param[2]).execute(param);
+                    if(Utiilties.isOnline(LoginActivity.this)){
+                        new LoginTask(param[0], param[1],param[2]).execute(param);
+                    }else{
+                        Utiilties.showAlet(LoginActivity.this);
+                    }
+
                 }
 
             }
@@ -190,11 +195,11 @@ public class LoginActivity extends Activity {
         @Override
         protected UserDetails doInBackground(String... param) {
 
-            if (!Utiilties.isOnline(LoginActivity.this)) {
-                return OfflineLogin(param[0],param[1]);
-            } else {
+//            if (!Utiilties.isOnline(LoginActivity.this)) {
+//                return OfflineLogin(param[0],param[1]);
+//            } else {
                 return WebServiceHelper.Login(username, password,userRole);
-            }
+            //}
 
         }
 

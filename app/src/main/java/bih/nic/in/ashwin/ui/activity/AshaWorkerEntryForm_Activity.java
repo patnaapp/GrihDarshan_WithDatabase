@@ -756,13 +756,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
         if(entryType.equals("U"))
         {
-            //   sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
+            //sp_work_categ_type.setSelection(array.indexOf(info.getAcitivtyCategoryDesc()));
             sp_work_categ_type.setSelection(pos);
         }
     }
 
     public void setCategorySpinner(){
-        categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),workdmCode);
+        categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),"M");
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 

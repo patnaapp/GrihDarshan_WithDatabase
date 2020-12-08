@@ -59,6 +59,7 @@ import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.ui.changePassword.ChangePasswordFragment;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class UserHomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, UserHomeListener {
@@ -199,7 +200,12 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private void syncData()
     {
-        new GetFinYear().execute();
+        if(Utiilties.isOnline(this)){
+            new GetFinYear().execute();
+        }else{
+            Utiilties.showInternetAlert(this);
+        }
+
     }
 
     @Override
