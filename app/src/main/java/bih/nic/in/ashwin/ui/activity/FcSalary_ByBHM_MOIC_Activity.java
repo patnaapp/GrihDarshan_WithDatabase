@@ -55,7 +55,8 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fc_salary__by_b_h_m__m_o_i_c_);
 
@@ -101,7 +102,6 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         ll_btn.setVisibility(View.GONE);
         sp_worker.setOnItemSelectedListener(this);
         sp_block.setOnItemSelectedListener(this);
-
     }
 
     @Override
@@ -175,7 +175,8 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
 
     }
 
-    private class GetFcSalByMo_ForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>> {
+    private class GetFcSalByMo_ForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>>
+    {
 
         private final ProgressDialog dialog = new ProgressDialog(FcSalary_ByBHM_MOIC_Activity.this);
 
