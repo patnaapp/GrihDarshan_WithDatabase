@@ -81,6 +81,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
         {
             ll_blk.setVisibility(View.GONE);
             new GetFcSalByMo_ForApproval().execute();
+
         }
 
     }
