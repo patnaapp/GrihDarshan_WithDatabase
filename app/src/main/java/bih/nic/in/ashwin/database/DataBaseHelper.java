@@ -1050,8 +1050,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<ActivityCategory_entity> list = new ArrayList<ActivityCategory_entity>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{activityType};
-            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE ActivityType_id=?",whereArgs);
+            String[] whereArgs = new String[]{activityType, dmType};
+            Cursor cur = db.rawQuery("Select * from ActivtiyCategory_Master WHERE ActivityType_id=? ANd AcitivtyType !=?",whereArgs);
 
             while (cur.moveToNext()) {
 
