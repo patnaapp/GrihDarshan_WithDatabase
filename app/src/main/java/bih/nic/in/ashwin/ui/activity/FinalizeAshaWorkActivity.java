@@ -141,7 +141,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void extractDataFromIntent()
     {
         userInfo = CommonPref.getUserDetails(this);
-
+        Log.e("userId", userInfo.getSVRID());
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
 
