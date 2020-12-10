@@ -1371,7 +1371,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             String app_version=getAppVersion();
             result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
             return result;
-
         }
 
         @Override
