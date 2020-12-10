@@ -29,6 +29,7 @@ import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 
@@ -50,7 +51,11 @@ public class ChangePasswordFragment extends Fragment {
             public void onClick(View view) {
                 if(isDataValidated()){
                     Toast.makeText(getContext(), "Validated", Toast.LENGTH_SHORT).show();
-                    new ChangePassword().execute();
+                    if(Utiilties.isOnline(getContext())) {
+                        new ChangePassword().execute();
+                    }else{
+                        Utiilties.showInternetAlert(getContext());
+                    }
                 }
             }
         });

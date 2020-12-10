@@ -111,7 +111,7 @@ public class LoginActivity extends Activity {
                     if(Utiilties.isOnline(LoginActivity.this)){
                         new LoginTask(param[0], param[1],param[2]).execute(param);
                     }else{
-                        Utiilties.showAlet(LoginActivity.this);
+                        Utiilties.showInternetAlert(LoginActivity.this);
                     }
 
                 }

@@ -135,9 +135,7 @@ public class Utiilties {
                         }
                     });
             ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
-
             ab.show();
-
     }
 
     public static void showErrorAlet(final Context context, String title, String message){

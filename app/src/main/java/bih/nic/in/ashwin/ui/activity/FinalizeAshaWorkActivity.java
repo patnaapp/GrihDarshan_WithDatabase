@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -176,16 +175,20 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             if(ashaFCWorkData == null)
                 ashaFCWorkData = new ArrayList<>();
 
-            if((ashaWorkData!=null && ashaWorkData.size()>0) || (monthly!=null && monthly.size()>0)){
+            if(ashaWorkData.size()>0 || monthly.size()>0){
                 setMonthlyActivity(monthly);
                 userInfo.setUserrole("ASHA");
                 ll_monthly.setVisibility(View.VISIBLE);
-            }else if(ashaFCWorkData!=null){
+            }else if(ashaFCWorkData.size()>0){
                 userInfo.setUserrole("ASHAFC");
             }
         }
 
-        new GetStateAmount().execute();
+        if(Utiilties.isOnline(this)) {
+            new GetStateAmount().execute();
+        }else{
+            Utiilties.showInternetAlert(this);
+        }
     }
 
     public void setMonthlyActivity(ArrayList<Activity_entity> list){
@@ -210,8 +213,6 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
-
-
 
         updateTotalAmount();
 
@@ -509,7 +510,13 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         {
             AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
-            new UploadAshaFinalizeData(entity).execute();
+
+            if(Utiilties.isOnline(this)) {
+                new UploadAshaFinalizeData(entity).execute();
+            }else{
+                Utiilties.showInternetAlert(this);
+            }
+
         }else{
             Toast.makeText(this, "ओटीपी मैच नहीं हुआ, कृपया सही ओटीपी दर्ज करें", Toast.LENGTH_SHORT).show();
         }
@@ -578,10 +585,12 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 entity.setMonthId(fmonth.get_MonthId());
                 entity.setUserid(userInfo.getUserID());
                 entity.setUserolle(userInfo.getUserrole());
-                new AsyncGetOtp(entity).execute();
-//            }else{
-//
-//            }
+
+                if(Utiilties.isOnline(this)){
+                    new AsyncGetOtp(entity).execute();
+                }else{
+                    Utiilties.showInternetAlert(this);
+                }
         }
 
     }

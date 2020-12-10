@@ -352,18 +352,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
 //                    }).show();
                 }
                 else {
-                    new AlertDialog.Builder(context)
-                            .setTitle("अलर्ट !!")
-                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                            .setCancelable(false)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                    context.startActivity(I);
-                                    dialog.cancel();
-                                }
-                            }).show();
-
+                    Utiilties.showInternetAlert(context);
                 }
             }
         });
@@ -415,17 +404,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                 }
                 else
                 {
-                    new AlertDialog.Builder(context)
-                            .setTitle("अलर्ट !!")
-                            .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                            .setCancelable(false)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                    context.startActivity(I);
-                                    dialog.cancel();
-                                }
-                            }).show();
+                    Utiilties.showInternetAlert(context);
                 }
             }
         });
@@ -475,18 +454,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
 
                     }
                     else {
-                        new AlertDialog.Builder(context)
-                                .setTitle("अलर्ट !!")
-                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                                .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                        context.startActivity(I);
-                                        dialog.cancel();
-                                    }
-                                }).show();
-
+                        Utiilties.showInternetAlert(context);
                     }
                 }
                 else if (info.getVerificationStatus().contains("Y"))
@@ -533,19 +501,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     }
                     else
                     {
-                        new AlertDialog.Builder(context)
-                                .setTitle("अलर्ट !!")
-                                .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
-                                .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int id)
-                                    {
-                                        Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                                        context.startActivity(I);
-                                        dialog.cancel();
-                                    }
-                                }).show();
+                        Utiilties.showInternetAlert(context);
                     }
                 }
             }

@@ -989,7 +989,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     if(registerArray.size()>0){
                         setRegisterSpinner();
                     }else{
-                        new GetRegisterDetails().execute();
+                        if(Utiilties.isOnline(this)) {
+                            new GetRegisterDetails().execute();
+                        }else{
+                            Utiilties.showInternetAlert(this);
+                        }
                     }
 
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
@@ -1129,8 +1133,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 entity.setAshaActivityId(info.getAshaActivityId());
             }
 
-            if (Utiilties.isOnline(this))
-            {
+            if (Utiilties.isOnline(this)) {
                 if (activityEntity.getAcitivtyType().equals("Y") || activityEntity.getAcitivtyType().equals("M") || activityEntity.getAcitivtyType().equals("Q")|| activityEntity.getAcitivtyType().equals("H"))
                 {
                     new CheckActivityTypeCount(entity).execute();
@@ -1144,7 +1147,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             }
             else
             {
-                Utiilties.showAlet(this);
+                Utiilties.showInternetAlert(this);
             }
         }
     }

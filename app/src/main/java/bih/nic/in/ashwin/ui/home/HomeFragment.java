@@ -621,46 +621,49 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             case R.id.sp_fn_month:
                 if (i > 0)
                 {
-                    fmonth = fMonthArray.get(i-1);
-                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ANM"))
-                    {
-                        loadUserRoleSpinnerdata();
+                    if(Utiilties.isOnline(getContext())){
+                        fmonth = fMonthArray.get(i-1);
+                        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ANM"))
+                        {
+                            loadUserRoleSpinnerdata();
 
-                        btn_proceed.setVisibility(View.GONE);
-                        btn_proceed1.setVisibility(View.VISIBLE);
-                        btn_ashafc.setVisibility(View.GONE);
-                        btn_asha_fc.setVisibility(View.GONE);
-                        btn_other_blk.setVisibility(View.GONE);
-                        ll_floating_btn.setVisibility(View.GONE);
+                            btn_proceed.setVisibility(View.GONE);
+                            btn_proceed1.setVisibility(View.VISIBLE);
+                            btn_ashafc.setVisibility(View.GONE);
+                            btn_asha_fc.setVisibility(View.GONE);
+                            btn_other_blk.setVisibility(View.GONE);
+                            ll_floating_btn.setVisibility(View.GONE);
 
-                    }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
-                    {
-                        btn_proceed.setVisibility(View.GONE);
-                        btn_proceed1.setVisibility(View.VISIBLE);
-                        btn_asha_fc.setVisibility(View.VISIBLE);
-                        btn_ashafc.setVisibility(View.GONE);
-                        btn_other_blk.setVisibility(View.GONE);
-                        ll_floating_btn.setVisibility(View.GONE);
-                    }
-                    else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
-                    {
-                        btn_proceed.setVisibility(View.GONE);
-                        btn_proceed1.setVisibility(View.VISIBLE);
-                        btn_asha_fc.setVisibility(View.VISIBLE);
-                        btn_other_blk.setVisibility(View.VISIBLE);
-                        btn_ashafc.setVisibility(View.GONE);
-                        ll_floating_btn.setVisibility(View.GONE);
-                    }
-
-                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
-                    {
-                        new SyncAshaActivityList().execute();
-                    }
-                    else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
-                    {
-                        //ll_floating_btn.setVisibility(View.VISIBLE);
-                        new SyncFCAshaActivityList().execute();
+                        }
+                        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+                        {
+                            btn_proceed.setVisibility(View.GONE);
+                            btn_proceed1.setVisibility(View.VISIBLE);
+                            btn_asha_fc.setVisibility(View.VISIBLE);
+                            btn_ashafc.setVisibility(View.GONE);
+                            btn_other_blk.setVisibility(View.GONE);
+                            ll_floating_btn.setVisibility(View.GONE);
+                        }
+                        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                        {
+                            btn_proceed.setVisibility(View.GONE);
+                            btn_proceed1.setVisibility(View.VISIBLE);
+                            btn_asha_fc.setVisibility(View.VISIBLE);
+                            btn_other_blk.setVisibility(View.VISIBLE);
+                            btn_ashafc.setVisibility(View.GONE);
+                            ll_floating_btn.setVisibility(View.GONE);
+                        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
+                        {
+                            new SyncAshaActivityList().execute();
+                        }
+                        else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+                        {
+                            //ll_floating_btn.setVisibility(View.VISIBLE);
+                            new SyncFCAshaActivityList().execute();
+                        }
+                    }else{
+                        sp_fn_month.setSelection(0);
+                        Utiilties.showInternetAlert(getContext());
                     }
                 }
                 break;
@@ -937,7 +940,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
             }
         }else{
-            Utiilties.showAlet(getContext());
+            Utiilties.showInternetAlert(getContext());
         }
 
     }
@@ -1196,7 +1199,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         entity.setAppVersion(Utiilties.getAppVersion(getContext()));
         entity.setIemi(Utiilties.getDeviceIMEI(getContext()));
 
-        new UploadAshaMonthlyWorkDetail(entity, list).execute();
+        if(Utiilties.isOnline(getContext())) {
+            new UploadAshaMonthlyWorkDetail(entity, list).execute();
+        }else{
+            Utiilties.showInternetAlert(getContext());
+        }
     }
 
     private class UploadAshaMonthlyWorkDetail extends AsyncTask<String, Void, String>{
