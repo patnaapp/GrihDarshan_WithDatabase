@@ -169,9 +169,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             ArrayList<Activity_entity> monthly = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
 
-            if(ashaWorkData.size()> 0 || monthly.size() > 0){
+            if(ashaWorkData!=null || monthly!=null){
                 userInfo.setUserrole("ASHA");
-            }else if(ashaFCWorkData.size()>0){
+            }else if(ashaFCWorkData!=null){
                 userInfo.setUserrole("ASHAFC");
             }
         }

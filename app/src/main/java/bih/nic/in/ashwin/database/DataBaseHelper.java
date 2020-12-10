@@ -48,20 +48,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    public DataBaseHelper(Context context) {
+    public DataBaseHelper(Context context)
+    {
 
         super(context, DB_NAME, null, 2);
-        if (android.os.Build.VERSION.SDK_INT >= 4.2) {
-
-
+        if (android.os.Build.VERSION.SDK_INT >= 4.2)
+        {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
-        } else {
+        }
+        else
+        {
             DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
         }
         this.myContext = context;
     }
-
-
 
     /**
      * Creates a empty database on the system and rewrites it with your own
@@ -71,26 +71,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         boolean dbExist = checkDataBase();
 
-        if (dbExist) {
+        if (dbExist)
+        {
             // do nothing - database already exist
 
 
-        } else {
-
+        }
+        else
+        {
             // By calling this method and empty database will be created into
             // the default system path
             // of your application so we are gonna be able to overwrite that
             // database with our database.
             this.getReadableDatabase();
 
-            try {
-
+            try
+            {
                 copyDataBase();
-
-            } catch (IOException e) {
-
+            }
+            catch (IOException e)
+            {
                 throw new Error("Error copying database");
-
             }
         }
 
@@ -102,35 +103,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      *
      * @return true if it exists, false if it doesn't
      */
-    private boolean checkDataBase() {
+    private boolean checkDataBase()
+    {
         SQLiteDatabase checkDB = null;
 
-        try {
+        try
+        {
             String myPath = DB_PATH + DB_NAME;
             //this.getReadableDatabase();
 
-            checkDB = SQLiteDatabase.openDatabase(myPath, null,
-                    SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
-
-
-        } catch (SQLiteException e) {
-
+            checkDB = SQLiteDatabase.openDatabase(myPath, null,SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READWRITE);
+        }
+        catch (SQLiteException e)
+        {
             // database does't exist yet.
-
         }
 
-        if (checkDB != null) {
-
+        if (checkDB != null)
+        {
             checkDB.close();
-
         }
 
         return checkDB != null ? true : false;
 
     }
 
-    public boolean databaseExist() {
-
+    public boolean databaseExist()
+    {
 
         File dbFile = new File(DB_PATH + DB_NAME);
 
@@ -142,7 +141,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * empty database in the system folder, from where it can be accessed and
      * handled. This is done by transfering bytestream.
      */
-    private void copyDataBase() throws IOException {
+    private void copyDataBase() throws IOException
+    {
 
         // Open your local db as the input stream
         InputStream myInput = myContext.getAssets().open(DB_NAME);
@@ -156,7 +156,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         // transfer bytes from the inputfile to the outputfile
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer)) > 0) {
+        while ((length = myInput.read(buffer)) > 0)
+        {
             myOutput.write(buffer, 0, length);
         }
 
@@ -168,13 +169,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void openDataBase() throws SQLException {
-
+    public void openDataBase() throws SQLException
+    {
         // Open the database
         this.getReadableDatabase();
         String myPath = DB_PATH + DB_NAME;
-        myDataBase = SQLiteDatabase.openDatabase(myPath, null,
-                SQLiteDatabase.OPEN_READONLY);
+        myDataBase = SQLiteDatabase.openDatabase(myPath, null,SQLiteDatabase.OPEN_READONLY);
 
     }
 
@@ -435,7 +435,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String[] params = new String[]{"HSC"};
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole!=?",params);
-           // Cursor cur = db.rawQuery("Select * from UserRole",null);
+            // Cursor cur = db.rawQuery("Select * from UserRole",null);
             int x = cur.getCount();
 
             while (cur.moveToNext())
@@ -493,8 +493,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 //                    c = db.update("RegisterIdMapping", values, null", whereArgs);
 //                    if (!(c > 0)) {
 
-                        c = db.insert("RegisterIdMapping", null, values);
-                 //   }
+                    c = db.insert("RegisterIdMapping", null, values);
+                    //   }
 
 
                 }
@@ -1081,7 +1081,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         try {
 
             SQLiteDatabase db = this.getReadableDatabase();
-             String[] whereArgs = new String[]{activity_id};
+            String[] whereArgs = new String[]{activity_id};
             Cursor cur = db.rawQuery("Select * from RegisterIdMapping where Activity_id=?",whereArgs);
             while (cur.moveToNext()) {
 
@@ -1103,7 +1103,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-   // public ArrayList<RegisterDetailsEntity> getRegisterdescList(ArrayList regidlist){
+    // public ArrayList<RegisterDetailsEntity> getRegisterdescList(ArrayList regidlist){
     public ArrayList<RegisterDetailsEntity> getRegisterdescList(){
 
         ArrayList<RegisterDetailsEntity> list = new ArrayList<RegisterDetailsEntity>();
@@ -1117,9 +1117,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 //            return str;
 
             SQLiteDatabase db = this.getReadableDatabase();
-           // String[] whereArgs = new String[]{activityType,dmType};
+            // String[] whereArgs = new String[]{activityType,dmType};
             Cursor cur = db.rawQuery("Select * from RegisterDetails ",null);
-          //  Cursor cur= db.rawQuery("SELECT * FROM RegisterDetails WHERE register_id IN (" + TextUtils.join(",", Collections.nCopies(regidlist.size(), "?")) + ")", new String[regidlist.size()]);
+            //  Cursor cur= db.rawQuery("SELECT * FROM RegisterDetails WHERE register_id IN (" + TextUtils.join(",", Collections.nCopies(regidlist.size(), "?")) + ")", new String[regidlist.size()]);
             while (cur.moveToNext()) {
 
                 RegisterDetailsEntity info = new RegisterDetailsEntity();
@@ -1744,7 +1744,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.set_CentralAmt(cur.getString(cur.getColumnIndex("centre_amt")));
                 info.set_CentralAmtDesc(cur.getString(cur.getColumnIndex("centreamt_desc")));
                 info.set_DesigId(cur.getString(cur.getColumnIndex("desig_id")));
-               // info.set_Desig(cur.getString(cur.getColumnIndex("desig")));
+                // info.set_Desig(cur.getString(cur.getColumnIndex("desig")));
 
                 list.add(info);
             }

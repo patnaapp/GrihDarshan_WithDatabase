@@ -80,8 +80,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     Activity_Type_entity activityTypeEntity;
     ActivityCategory_entity categoryEntity;
     Activity_entity activityEntity;
-   // RegisterDetailsEntity registerDetailsEntity;
-   RegisteMappingEbtity registerDetailsEntity;
+    // RegisterDetailsEntity registerDetailsEntity;
+    RegisteMappingEbtity registerDetailsEntity;
     Block_List otherBlock;
 
     String placeypeArray[] = {"अपने प्रखंड में", "अन्य प्रखंड", "ज़िला अस्पताल"};
@@ -616,7 +616,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
             edt_ben_no.setText(info.getNoOfBeneficiary());
-            edt_remark.setText(info.getRemarks());
+            if(info.getRemarks().equals("NA"))
+            {
+                edt_remark.setText("");
+            }
+            else {
+                edt_remark.setText(info.getRemarks());
+            }
+
             edt_amount_total.setText(info.getActivityAmt());
 
             img_date1.setVisibility(View.GONE);
@@ -634,14 +641,21 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             edt_amount.setText(info.getActivityRate());
 
             edt_ben_no.setText(info.getNoOfBeneficiary());
-            edt_remark.setText(info.getRemarks());
+
+            if(info.getRemarks().equals("NA"))
+            {
+                edt_remark.setText("");
+            }
+            else
+            {
+                edt_remark.setText(info.getRemarks());
+            }
+
             edt_amount_total.setText(info.getActivityAmt());
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
 
-
-
-
-            if(info.getIsFinalize().equals("Y")) {
+            if(info.getIsFinalize().equals("Y"))
+            {
                 btn_proceed.setVisibility(View.GONE);
                 img_date2.setVisibility(View.GONE);
                 img_date1.setVisibility(View.GONE);
@@ -659,29 +673,34 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setPlaceTypeSpinner(){
+    public void setPlaceTypeSpinner()
+    {
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, placeypeArray);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_work_place.setAdapter(adaptor);
         sp_work_place.setOnItemSelectedListener(this);
 
-        try{
-            if(entryType.equals("U") && info.getActivityPlace() != null){
+        try
+        {
+            if(entryType.equals("U") && info.getActivityPlace() != null)
+            {
                 sp_work_place.setSelection(Integer.parseInt(info.getActivityPlace()));
             }
-
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             Toast.makeText(this, "Failed to set activity place", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void setDistrictSpinner(){
+    public void setDistrictSpinner()
+    {
         districtArray = dbhelper.getDistrictList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
-
-        for (District_list info: districtArray){
+        for (District_list info: districtArray)
+        {
             array.add(info.getDist_NAME_HN());
 
             if (info.getDistt_code().equals(CommonPref.getUserDetails(this).getDistrictCode()))
@@ -690,7 +709,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 pos+=1;
             }
         }
-
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_place_type.setAdapter(adaptor);
@@ -700,19 +718,19 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         {
             sp_place_type.setSelection(pos);
         }
-
         sp_place_type.setEnabled(false);
     }
 
-    public void setBlockSpinner(String distid){
+    public void setBlockSpinner(String distid)
+    {
         blockArray = dbhelper.getBlocktList(distid);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
 
-        for (Block_List info: blockArray){
+        for (Block_List info: blockArray)
+        {
             array.add(info.getBlock_NAME_HN());
-
             if (entryType.equals("U") && placeTypeCode.equals("1") && info.getBlk_Code().equals(this.info.getOtherBlock()))
             {
                 pos=blockArray.indexOf(info);
@@ -733,13 +751,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_place_type.setEnabled(true);
     }
 
-    public void setCategoryTypeSpinner(){
+    public void setCategoryTypeSpinner()
+    {
         activityTypeArray = dbhelper.getActictivityTypeList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
 
-        for (Activity_Type_entity info: activityTypeArray){
+        for (Activity_Type_entity info: activityTypeArray)
+        {
             array.add(info.getAbbr()+" - "+info.get_ActnameHN());
 
             if (entryType.equals("U") && info.get_ActTypeId().equals(this.info.getActTypeId()))
@@ -761,7 +781,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setCategorySpinner(){
+    public void setCategorySpinner()
+    {
         categoryArray = dbhelper.getActictivityCategoryList(activityTypeEntity.get_ActTypeId(),"M");
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -777,7 +798,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 pos=categoryArray.indexOf(info)+1;
             }
         }
-
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_work_categ.setAdapter(adaptor);
@@ -789,13 +809,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setActivitySpinner(){
+    public void setActivitySpinner()
+    {
         activityArray = dbhelper.getActictivityList(categoryEntity.get_AcitivtyCategoryId(), workdmCode);
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
         int pos=0;
-        for (Activity_entity info: activityArray){
+        for (Activity_entity info: activityArray)
+        {
             array.add(info.getAbbr()+" - "+info.get_ActivityDesc());
 
             if (entryType.equals("U") && info.get_ActivityId().equals(this.info.getActivityId()))
@@ -1035,12 +1057,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
 
-    public void onSaveData(View view) {
-        if (isDataValidated()){
+    public void onSaveData(View view)
+    {
+        if (isDataValidated())
+        {
             AshaWorkEntity entity = new AshaWorkEntity();
             entity.setAcitivtyCategoryId(categoryEntity.get_AcitivtyCategoryId());
             entity.setAcitivtyCategoryDesc(categoryEntity.get_AcitivtyCategoryDesc());
@@ -1073,32 +1098,51 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setEntryType(entryType);
             entity.setEntryBy(CommonPref.getUserDetails(this).getUserID());
 
-            if(activityTypeEntity.get_ActTypeId().equals("2")){
+            if(activityTypeEntity.get_ActTypeId().equals("2"))
+            {
                 entity.setActivityPlace(placeTypeCode);
-                if(placeTypeCode.equals("1")){
+                if(placeTypeCode.equals("1"))
+                {
                     entity.setOtherBlock(otherBlock.getBlk_Code());
-                }else if (placeTypeCode.equals("2")){
+                }
+                else if (placeTypeCode.equals("2"))
+                {
                     entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
                 }
             }
 
-            if(entryType.equals("U")){
+            if(entryType.equals("U"))
+            {
                 entity.setAshaActivityId(info.getAshaActivityId());
             }
 
-            if (Utiilties.isOnline(this)){
-                new UploadAshaWorkDetail(entity).execute();
-            }else{
+            if (Utiilties.isOnline(this))
+            {
+                if (activityEntity.getAcitivtyType().equals("Y") || activityEntity.getAcitivtyType().equals("M") || activityEntity.getAcitivtyType().equals("Q")|| activityEntity.getAcitivtyType().equals("H"))
+                {
+                    new CheckActivityTypeCount(entity).execute();
+                   // new UploadAshaWorkDetail(entity).execute();
+                }
+                else  if (activityEntity.getAcitivtyType().equals("D"))
+                {
+                    new UploadAshaWorkDetail(entity).execute();
+                }
+
+            }
+            else
+            {
                 Utiilties.showAlet(this);
             }
         }
     }
 
-    public Boolean isDataValidated(){
+    public Boolean isDataValidated()
+    {
         View focusView = null;
         boolean validate = true;
 
-        if(categoryEntity == null){
+        if(categoryEntity == null)
+        {
             tv_cat_title.setError("कृप्या कार्य का श्रेणी का चयन करें ");
             focusView = tv_cat_title;
             validate = false;
@@ -1246,14 +1290,72 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void onDataUploaded(){
+    private class CheckActivityTypeCount extends AsyncTask<String, Void, String>{
+        AshaWorkEntity data;
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+
+        CheckActivityTypeCount(AshaWorkEntity data)
+        {
+            this.data = data;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("अपलोड हो राहा है...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+            return WebServiceHelper.CheckActivityCount(data);
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue",""+result);
+
+            if (result != null)
+            {
+                if(result.contains("0") || result.contains("2"))
+                {
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+                }
+                else if(result.contains("1"))
+                {
+                    onDataUploaded();
+                }
+                else
+                {
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void onDataUploaded()
+    {
         new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setIcon(R.drawable.asha)
                 .setMessage("Data Uploaded Successfully.")
                 .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int id)
+                    {
                         finish();
                     }
                 })
@@ -1261,7 +1363,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
 
-    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String> {
+    private class AcceptRecordsFromPacs extends AsyncTask<String, Void, String>
+    {
         AshaWorkEntity data;
         String result;
         int position;
@@ -1270,7 +1373,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
 
         // AcceptRecordsFromPacs(AshaWorkEntity data, int position) {
-        AcceptRecordsFromPacs(AshaWorkEntity data) {
+        AcceptRecordsFromPacs(AshaWorkEntity data)
+        {
             this.data = data;
             // this.position = position;
             //_uid = data.getId();
@@ -1278,14 +1382,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
+        protected String doInBackground(String... param)
+        {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
             result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));
@@ -1294,50 +1400,56 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            if (this.dialog.isShowing()) {
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
                 this.dialog.dismiss();
             }
 
             Log.d("Responsevalue", "" + result);
-            if (result != null) {
-                if(result.equals("1")){
+            if (result != null)
+            {
+                if(result.equals("1"))
+                {
                     //mData.get(position).setVerificationStatus("A");
-
-
                     btn_accp_rjct.setText("पुनः जाँच करे");
                     btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                     //  notifyDataSetChanged();
-
                     new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
                             .setTitle("सूचना")
                             .setMessage("रिकॉर्ड स्वीकृत किया गया")
                             .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-//                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
-//                                    startActivity(intent);
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+
                                     finish();
                                     dialog.dismiss();
                                 }
                             }).show();
-                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
                     builder.setIcon(R.drawable.ashwin_logo);
                     builder.setTitle("Failed");
                     // Ask the final question
                     builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                    {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
                             dialog.dismiss();
                         }
                     });
                 }
 
             }
-            else{
+            else
+            {
                 Toast.makeText(AshaWorkerEntryForm_Activity.this, "Result:null ..Uploading failed...Please Try Later", Toast.LENGTH_SHORT).show();
             }
 
@@ -1345,16 +1457,17 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     }
 
 
-    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String> {
+    private class RejectRecordsFromPacs extends AsyncTask<String, Void, String>
+    {
         AshaWorkEntity data;
         String result;
         int position;
         private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
         private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this).create();
 
-
         //RejectRecordsFromPacs(AshaWorkEntity data, int position) {
-        RejectRecordsFromPacs(AshaWorkEntity data) {
+        RejectRecordsFromPacs(AshaWorkEntity data)
+        {
             this.data = data;
             //    this.position = position;
             //_uid = data.getId();
@@ -1363,15 +1476,16 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPreExecute() {
-
+        protected void onPreExecute()
+        {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("पुष्टि किया जा रहा हैं...");
             this.dialog.show();
         }
 
         @Override
-        protected String doInBackground(String... param) {
+        protected String doInBackground(String... param)
+        {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
             result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getUserID().toUpperCase(),app_version,Utiilties.getDeviceIMEI(AshaWorkerEntryForm_Activity.this));

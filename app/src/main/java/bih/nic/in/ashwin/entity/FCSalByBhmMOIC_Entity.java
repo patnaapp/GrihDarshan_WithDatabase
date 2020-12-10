@@ -13,7 +13,7 @@ public class FCSalByBhmMOIC_Entity implements KvmSerializable, Serializable {
     private String _DistrictCode = "";
     private String _BlockCode = "";
     private String _PanchayatCode = "";
-    private String _AshaWorkerId = "";
+    private String _FacilitatorId = "";
     private String _HSCCode = "";
     private String _Name = "";
     private String _FHName  = "";
@@ -46,8 +46,8 @@ public class FCSalByBhmMOIC_Entity implements KvmSerializable, Serializable {
         this._svrid = sobj.getProperty("svrid").toString();
         this._DistrictCode = sobj.getProperty("DistrictCode").toString();
         this._BlockCode = sobj.getProperty("BlockCode").toString();
-        this._PanchayatCode = sobj.getProperty("PanchayatCode").toString();
-        this._AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+//        this._PanchayatCode = sobj.getProperty("PanchayatCode").toString();
+        this._FacilitatorId = sobj.getProperty("AshaFacilitatorId").toString();
         this._HSCCode = sobj.getProperty("HSCCode").toString();
 
         if (sobj.getProperty("Name").toString().equals("anyType{}")){
@@ -77,12 +77,12 @@ public class FCSalByBhmMOIC_Entity implements KvmSerializable, Serializable {
             this._MonthId = sobj.getProperty("MonthId").toString();
         }
 
-        if (sobj.getProperty("TotalAmt_Asha").toString().equals("NA")){
-            this._TotalAmt_Asha=0;
-        }
-        else {
-            this._TotalAmt_Asha = Integer.parseInt(sobj.getProperty("TotalAmt_Asha").toString());
-        }
+//        if (sobj.getProperty("TotalAmt_Asha").toString().equals("NA")){
+//            this._TotalAmt_Asha=0;
+//        }
+//        else {
+//            this._TotalAmt_Asha = Integer.parseInt(sobj.getProperty("TotalAmt_Asha").toString());
+//        }
 
         if (sobj.getProperty("TotalAmt_State").toString().equals("NA")){
             this._TotalAmt_State=0;
@@ -195,12 +195,12 @@ public class FCSalByBhmMOIC_Entity implements KvmSerializable, Serializable {
         this._PanchayatCode = _PanchayatCode;
     }
 
-    public String get_AshaWorkerId() {
-        return _AshaWorkerId;
+    public String get_FacilitatorId() {
+        return _FacilitatorId;
     }
 
-    public void set_AshaWorkerId(String _AshaWorkerId) {
-        this._AshaWorkerId = _AshaWorkerId;
+    public void set_FacilitatorId(String _FacilitatorId) {
+        this._FacilitatorId = _FacilitatorId;
     }
 
     public String get_HSCCode() {
