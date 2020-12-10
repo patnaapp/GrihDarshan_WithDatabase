@@ -145,9 +145,10 @@ public class WebServiceHelper
     public static final String FCActivityCategoryList = "FCActivityCategoryList";
     public static final String ASHAWORK_other_LIST_METHOD = "getAshaListMonthYearOther";
     public static final String ASHAWORKOTherForApproval_LIST_METHOD = "getAshaActivityOtherForApprovalList";
-    public static final String AcceptRjctFCSalByBHM = "getAshaActivityOtherForApprovalList";
-    public static final String FcSalByBhm_LIST_METHOD = "getAshaActivityOtherForApprovalList";
-    public static final String FcSalByMO_LIST_METHOD = "getAshaActivityOtherForApprovalList";
+    public static final String AcceptRjctFCSalByBHM = "AshaFacilatorSalaryVerificationByBHM";
+    public static final String FcSalByBhm_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
+    public static final String FcSalByMO_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
+    public static final String CheckActivityCOunt_Service = "getAshaActivityOtherForApprovalList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -931,10 +932,10 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<FCSalByBhmMOIC_Entity> getFcSalByBhm(String fyid, String monthId, String blkcode, String dist) {
-
+    public static ArrayList<FCSalByBhmMOIC_Entity> getFcSalByBhm(String fyid, String monthId, String blkcode, String dist,String role)
+    {
         SoapObject res1;
-        res1 = getServerData(FcSalByBhm_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        res1 = getServerData(FcSalByBhm_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId","Rolle", dist,blkcode,monthId,fyid,role);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<FCSalByBhmMOIC_Entity> fieldList = new ArrayList<FCSalByBhmMOIC_Entity>();
@@ -951,47 +952,52 @@ public class WebServiceHelper
                 return fieldList;
         }
 
-
         return fieldList;
     }
 
-
-    public static ArrayList<AshaSalByBhm_Entity> getAshaSalByMO(String fyid, String monthId, String blkcode, String dist) {
-
+    public static ArrayList<AshaSalByBhm_Entity> getAshaSalByMO(String fyid, String monthId, String blkcode, String dist)
+    {
         SoapObject res1;
         res1 = getServerData(ASHASalByMO_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaSalByBhm_Entity> fieldList = new ArrayList<AshaSalByBhm_Entity>();
 
-        for (int i = 0; i < TotalProperty; i++) {
-            if (res1.getProperty(i) != null) {
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
                 Object property = res1.getProperty(i);
-                if (property instanceof SoapObject) {
+                if (property instanceof SoapObject)
+                {
                     SoapObject final_object = (SoapObject) property;
                     AshaSalByBhm_Entity sm = new AshaSalByBhm_Entity(final_object);
                     fieldList.add(sm);
                 }
-            } else
+            }
+            else
+
                 return fieldList;
         }
-
 
         return fieldList;
     }
 
-    public static ArrayList<FCSalByBhmMOIC_Entity> getFcSalByMO(String fyid, String monthId, String blkcode, String dist) {
+    public static ArrayList<FCSalByBhmMOIC_Entity> getFcSalByMO(String fyid, String monthId, String blkcode, String dist,String role) {
 
         SoapObject res1;
-        res1 = getServerData(FcSalByMO_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId", dist,blkcode,monthId,fyid);
+        res1 = getServerData(FcSalByMO_LIST_METHOD, FCSalByBhmMOIC_Entity.FcSalByBhm_CLASS, "Distcode","BlockCode","Month","FYearId","Rolle", dist,blkcode,monthId,fyid,role);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<FCSalByBhmMOIC_Entity> fieldList = new ArrayList<FCSalByBhmMOIC_Entity>();
 
-        for (int i = 0; i < TotalProperty; i++) {
-            if (res1.getProperty(i) != null) {
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
                 Object property = res1.getProperty(i);
-                if (property instanceof SoapObject) {
+                if (property instanceof SoapObject)
+                {
                     SoapObject final_object = (SoapObject) property;
                     FCSalByBhmMOIC_Entity sm = new FCSalByBhmMOIC_Entity(final_object);
                     fieldList.add(sm);
@@ -1004,8 +1010,8 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<AshaWorkerSalary_Entity> getAshaSalaryApprovalByBhm(String fyid, String monthId, String blkcode, String dist, String hsccode) {
-
+    public static ArrayList<AshaWorkerSalary_Entity> getAshaSalaryApprovalByBhm(String fyid, String monthId, String blkcode, String dist, String hsccode)
+    {
         SoapObject res1;
         res1 = getServerData(ASHAFcNoOfDays_LIST_METHOD, NoOfDays_Entity.NoOfDays_CLASS, "FYearId","MonthId","BlockCode","DistrictCode","HSCCode", fyid,monthId,blkcode,dist,hsccode);
         int TotalProperty = 0;
@@ -1036,15 +1042,19 @@ public class WebServiceHelper
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaFascilitatorWorkEntity> fieldList = new ArrayList<AshaFascilitatorWorkEntity>();
 
-        for (int i = 0; i < TotalProperty; i++) {
-            if (res1.getProperty(i) != null) {
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
                 Object property = res1.getProperty(i);
-                if (property instanceof SoapObject) {
+                if (property instanceof SoapObject)
+                {
                     SoapObject final_object = (SoapObject) property;
                     AshaFascilitatorWorkEntity sm = new AshaFascilitatorWorkEntity(final_object);
                     fieldList.add(sm);
                 }
             } else
+
                 return fieldList;
         }
 
@@ -1172,6 +1182,39 @@ public class WebServiceHelper
 
 
         return fieldList;
+    }
+
+    public static String CheckActivityCount(AshaWorkEntity data)
+    {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, CheckActivityCOunt_Service);
+
+        request.addProperty("DistrictCode",data.getDistrictCode());
+        request.addProperty("BlockCode",data.getBlockCode());
+        request.addProperty("PanchayatCode",data.getPanchayatCode());
+        request.addProperty("AWCID",data.getAwcId());
+        request.addProperty("HSCCODE",data.getHSCCODE());
+        request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + CheckActivityCOunt_Service,envelope);
+            rest = envelope.getResponse().toString();
+
+        }
+        catch (Exception e)
+        {
+            Log.e("exception",""+e.getLocalizedMessage());
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
     }
 
 
@@ -1627,7 +1670,7 @@ public class WebServiceHelper
     {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFCSalByBHM);
-        request.addProperty("AshaWorkid", data.get_AshaWorkerId());
+        request.addProperty("AshaFacilitatorId", data.get_FacilitatorId());
         request.addProperty("MonthId",data.get_MonthId());
         request.addProperty("FYearId",data.get_FYearID());
         request.addProperty("VerificationStatus","Y");
@@ -1772,7 +1815,7 @@ public class WebServiceHelper
     public static String RejectFCSalaryByBhm_MOIC(FCSalByBhmMOIC_Entity data, String userid,String app_ver,String deviceid,String role)
     {
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFCSalByBHM);
-        request.addProperty("AshaWorkid", data.get_AshaWorkerId());
+        request.addProperty("AshaFacilitatorId", data.get_FacilitatorId());
         request.addProperty("MonthId",data.get_MonthId());
         request.addProperty("FYearId",data.get_FYearID());
         request.addProperty("VerificationStatus","R");

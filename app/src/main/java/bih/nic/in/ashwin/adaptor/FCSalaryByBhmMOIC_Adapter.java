@@ -129,7 +129,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
         holder.tv_count.setText(String.valueOf(position+1));
         holder.tv_fc_name.setText(info.get_Name());
         holder.tv_father_name.setText(info.get_FHName());
-        holder.tv_dava_amt.setText(String.valueOf(info.get_TotalAmt_Asha()));
+        holder.tv_dava_amt.setText(String.valueOf(info.get_TotalAmt_Central()));
         holder.tv_total_amt.setText(String.valueOf(info.getFinalAmt()));
         holder.tv_center_amt.setText(String.valueOf(info.get_TotalAmt_Central()));
         holder.tv_state_amt.setText(String.valueOf(info.get_TotalAmt_State()));
@@ -848,7 +848,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
             @Override
             public void onClick(View view)
             {
-                new SyncFCAshaActivityList(info.get_AshaWorkerId()).execute();
+                new SyncFCAshaActivityList(info.get_FacilitatorId()).execute();
             }
         });
 
