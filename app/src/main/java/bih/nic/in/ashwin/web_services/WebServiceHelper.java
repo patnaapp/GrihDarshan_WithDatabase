@@ -148,7 +148,7 @@ public class WebServiceHelper
     public static final String AcceptRjctFCSalByBHM = "AshaFacilatorSalaryVerificationByBHM";
     public static final String FcSalByBhm_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
     public static final String FcSalByMO_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
-    public static final String CheckActivityCOunt_Service = "getAshaActivityOtherForApprovalList";
+    public static final String CheckActivityCOunt_Service = "occurancetime";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -1188,13 +1188,9 @@ public class WebServiceHelper
     {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, CheckActivityCOunt_Service);
-
-        request.addProperty("DistrictCode",data.getDistrictCode());
-        request.addProperty("BlockCode",data.getBlockCode());
-        request.addProperty("PanchayatCode",data.getPanchayatCode());
-        request.addProperty("AWCID",data.getAwcId());
-        request.addProperty("HSCCODE",data.getHSCCODE());
         request.addProperty("AshaWorkerId",data.getAshaWorkerId());
+        request.addProperty("FYearID",data.getFinYear());
+        request.addProperty("AcitivtyId",data.getActivityId());
 
         try
         {

@@ -1086,6 +1086,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setMonthName(fmonth.get_MonthId());
             entity.setWorkdmCode(activityEntity.getAcitivtyType());
             entity.setActTypeId(activityTypeEntity.get_ActTypeId());
+            entity.setAcitivtyType(activityEntity.getAcitivtyType());
+            entity.setAbbr(activityEntity.getAbbr());
 
             entity.setNoOfBenif(edt_ben_no.getText().toString());
             entity.setRemark(edt_remark.getText().toString());
@@ -1292,6 +1294,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     private class CheckActivityTypeCount extends AsyncTask<String, Void, String>{
         AshaWorkEntity data;
+        //String AshaWorkerId,FYearID,AcitivtyId;
 
         private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
 
@@ -1299,6 +1302,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         {
             this.data = data;
         }
+
+
+//        public CheckActivityTypeCount(String ashaWorkerId, String FYearID, String acitivtyId) {
+//            AshaWorkerId = ashaWorkerId;
+//            this.FYearID = FYearID;
+//            AcitivtyId = acitivtyId;
+//        }
 
         @Override
         protected void onPreExecute()
@@ -1325,23 +1335,42 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             if (result != null)
             {
-                if(result.contains("0") || result.contains("2"))
-                {
-                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+                try{
+                    Integer limit = Integer.parseInt(result);
+                    if(limit >= 0){
+                        if(!isActivityLimitReached(limit, data.getAcitivtyType())){
+                            new UploadAshaWorkDetail(data).execute();
+                        }else{
+                            Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this, "अलर्ट", "कार्य code:"+ data.getAbbr()+" "+Utiilties.getActivityTypeStatus(data.getAcitivtyType())+" प्रकार का हैं जिसका अधिकतम आवेदन दिया जा चुका हैं! \n कृपया दूसरा कार्य का चयन करें" );
+                        }
+                    }else{
+                        Toast.makeText(AshaWorkerEntryForm_Activity.this, "Invalid Server Response: "+result, Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed Parsing Avtivity Limit From Server Response", Toast.LENGTH_SHORT).show();
                 }
-                else if(result.contains("1"))
-                {
-                    onDataUploaded();
-                }
-                else
-                {
-                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Failed!!", Toast.LENGTH_SHORT).show();
-                }
+
             }
             else
             {
                 Toast.makeText(AshaWorkerEntryForm_Activity.this, "null record", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public Boolean isActivityLimitReached(Integer limit, String activityType){
+        switch (activityType){
+            case "Y":
+                return limit >= 1 ? true : false;
+            case "M":
+                return limit >= 12 ? true : false;
+            case "Q":
+                return limit >= 4 ? true : false;
+            case "H":
+                return limit >= 2 ? true : false;
+            default:
+                return false;
         }
     }
 

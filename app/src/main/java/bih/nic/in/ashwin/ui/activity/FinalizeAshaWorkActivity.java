@@ -169,8 +169,17 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             ArrayList<Activity_entity> monthly = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
 
-            if(ashaWorkData!=null || monthly!=null){
+            if(ashaWorkData == null)
+                ashaWorkData = new ArrayList<>();
+            if(monthly == null)
+                monthly = new ArrayList<>();
+            if(ashaFCWorkData == null)
+                ashaFCWorkData = new ArrayList<>();
+
+            if((ashaWorkData!=null && ashaWorkData.size()>0) || (monthly!=null && monthly.size()>0)){
+                setMonthlyActivity(monthly);
                 userInfo.setUserrole("ASHA");
+                ll_monthly.setVisibility(View.VISIBLE);
             }else if(ashaFCWorkData!=null){
                 userInfo.setUserrole("ASHAFC");
             }
@@ -737,7 +746,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             if (result != null)
             {
                 stateAmountArray = result;
-                if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("ASHAFC")){
+                if (userInfo.getUserrole().equals("ASHAFC")){
                     new GetCentreAmount().execute();
                 }
                 else{
