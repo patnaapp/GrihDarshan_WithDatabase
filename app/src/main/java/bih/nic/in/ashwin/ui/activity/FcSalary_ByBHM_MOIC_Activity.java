@@ -114,6 +114,7 @@ public class FcSalary_ByBHM_MOIC_Activity extends AppCompatActivity implements A
     public void onNothingSelected(AdapterView<?> adapterView)
     {
 
+
     }
 
     private class SynchronizeFcSalaryListForApproval extends AsyncTask<String, Void, ArrayList<FCSalByBhmMOIC_Entity>>
