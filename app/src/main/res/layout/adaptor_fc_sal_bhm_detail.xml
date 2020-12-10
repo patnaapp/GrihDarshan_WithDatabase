@@ -294,7 +294,6 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/tv_close"
                 android:visibility="gone"
-
                 android:layout_height="wrap_content"
                 android:text="बंद करे"
                 android:layout_gravity="center_horizontal"

@@ -836,17 +836,17 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     }
 
-    public void setRegisterSpinner(String activity_id){
+    public void setRegisterSpinner(){
         //registerArray = dbhelper.getRegisterdescList(list);
         // registerArray = dbhelper.getRegisterdescList();
-        registerArray = dbhelper.getRegisterMappedList(activity_id);
+
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
         int pos=0;
 
         for (RegisteMappingEbtity info: registerArray)
         {
-            array.add(info.get_RegisterDesc_Hn());
+            array.add("R"+info.get_RegisterId()+"-"+info.get_RegisterDesc_Hn());
             if (entryType.equals("U") && info.get_RegisterId().equals(this.info.getRegisterId()))
             {
                 pos=registerArray.indexOf(info);
@@ -980,7 +980,13 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     tv_activity.setError(null);
                     edt_abbr.setText(activityEntity.getAbbr());
 
-                    setRegisterSpinner(activityEntity.get_ActivityId());
+                    registerArray = dbhelper.getRegisterMappedList(activityEntity.get_ActivityId());
+                    if(registerArray.size()>0){
+                        setRegisterSpinner();
+                    }else{
+                        new GetRegisterDetails().execute();
+                    }
+
                     //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
                     activityEntity = null;
@@ -1536,44 +1542,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     btn_accp_rjct.setText("स्वीकार करे");
                     btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                     // notifyDataSetChanged();
-
-                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                            .setTitle("सूचना")
-                            .setMessage("रिकॉर्ड अस्वीकृत किया गया")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-//                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
-//                                    startActivity(intent);
-                                    finish();
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                    Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this,"सूचना", "रिकॉर्ड अस्वीकृत किया गया");
                 }else{
-                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
-                            .setTitle("Failed")
-                            .setMessage("Failed")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent=new Intent(AshaWorkerEntryForm_Activity.this,AshaWorker_Facilitator_Activity_List.class);
-                                    startActivity(intent);
-                                    finish();
-                                    dialog.dismiss();
-                                }
-                            }).show();
-
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
-//                    builder.setIcon(R.drawable.ashwin_logo);
-//                    builder.setTitle("Failed");
-//                    // Ask the final question
-//                    builder.setMessage("Failed");
-//                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
+                    Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this,"सूचना", "विफल रहा");
                 }
 
             } else {
@@ -1582,6 +1553,51 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             }
 
         }
+    }
+
+    private class GetRegisterDetails extends AsyncTask<String, Void, ArrayList<RegisterDetailsEntity>> {
+
+        private final ProgressDialog dialog = new ProgressDialog(AshaWorkerEntryForm_Activity.this);
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Register details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<RegisterDetailsEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getregisterDetails();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+
+
+            if (result != null)
+            {
+                registerArray = getRegisterRegisterDataAsMappingWise(result);
+                setRegisterSpinner();
+            }
+        }
+    }
+
+    public ArrayList<RegisteMappingEbtity> getRegisterRegisterDataAsMappingWise(ArrayList<RegisterDetailsEntity> result){
+        ArrayList<RegisteMappingEbtity> list = new ArrayList<>();
+        for(RegisterDetailsEntity info: result){
+            RegisteMappingEbtity entity = new RegisteMappingEbtity();
+            entity.set_RegisterId(info.get_RegisterId());
+            entity.set_RegisterDesc(info.get_RegisterDesc());
+            entity.set_RegisterDesc_Hn(info.get_RegisterDesc_Hn());
+            //entity.set_Activity_Id(info.get);
+            list.add(entity);
+        }
+
+        return list;
     }
 
     public static String getDeviceName()

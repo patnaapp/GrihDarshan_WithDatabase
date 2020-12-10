@@ -644,9 +644,15 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                if (holder.edt_add_centre.getText().toString().length()>0)
+                if (holder.edt_add_centre.getText() != null && holder.edt_add_centre.getText().toString().length()>0)
                 {
-                    listener.onAdditionInCentre(position,Integer.parseInt(holder.edt_add_centre.getText().toString()));
+                    try{
+                        listener.onAdditionInCentre(position,Integer.parseInt(holder.edt_add_centre.getText().toString()));
+                    }
+                    catch (Exception e){
+                        //Toast.makeText(context, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
 
@@ -673,7 +679,13 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
             {
                 if (holder.edt_deduct_centre.getText().toString().length()>0)
                 {
-                    listener.onDeductionInCentre(position,Integer.parseInt(holder.edt_deduct_centre.getText().toString()));
+                    try{
+                        listener.onDeductionInCentre(position,Integer.parseInt(holder.edt_deduct_centre.getText().toString()));
+                    }
+                    catch (Exception e){
+                        //Toast.makeText(context, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
             }
@@ -700,7 +712,13 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
             {
                 if (holder.edt_add_state.getText().toString().length()>0)
                 {
-                    listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
+                    try{
+                        listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
+                    }
+                    catch (Exception e){
+                        //Toast.makeText(context, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
 //                holder.tv_state_amt.setText(addinstateAmount(holder));
@@ -728,7 +746,13 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
             {
                 if (holder.edt_deduct_state.getText().toString().length()>0)
                 {
-                    listener.onDeductionInStatere(position,Integer.parseInt(holder.edt_deduct_state.getText().toString()));
+                    try{
+                        listener.onDeductionInStatere(position,Integer.parseInt(holder.edt_deduct_state.getText().toString()));
+                    }
+                    catch (Exception e){
+                        //Toast.makeText(context, e.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 holder.tv_total_amt.setText(calculateAmount(holder));
             }
@@ -987,33 +1011,11 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                         mData.get(position).set_MO_Verified("Y");
                     }
                     notifyDataSetChanged();
-
-                    new AlertDialog.Builder(context)
-                            .setTitle("सूचना")
-                            .setMessage("रिकॉर्ड स्वीकृत किया गया")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                    //Toast.makeText(activity, "नौकरी का अनुरोध अपडेट कर दिया गया है, आगे की जानकारी सिग्रह ही आपको अप्डेट की जाएगी|", Toast.LENGTH_SHORT).show();
+                    Utiilties.showErrorAlet(context, "सूचना","ररिकॉर्ड स्वीकृत किया गया");
                 }
                 else
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
+                    Utiilties.showErrorAlet(context, "अलर्ट","रिकॉर्ड अपडेट करने में विफल");
                 }
 
             }
@@ -1083,33 +1085,11 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
 
                     notifyDataSetChanged();
 
-                    new AlertDialog.Builder(context)
-                            .setTitle("सूचना")
-                            .setMessage("रिकॉर्ड अस्वीकृत किया गया")
-                            .setCancelable(true)
-                            .setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                            {
-                                public void onClick(DialogInterface dialog, int id)
-                                {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                    Utiilties.showErrorAlet(context, "सूचना","ररिकॉर्ड अस्वीकृत किया गया");
                 }
                 else
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("Failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
+                    Utiilties.showErrorAlet(context, "अलर्ट","रिकॉर्ड अपडेट करने में विफल");
                 }
 
             }
