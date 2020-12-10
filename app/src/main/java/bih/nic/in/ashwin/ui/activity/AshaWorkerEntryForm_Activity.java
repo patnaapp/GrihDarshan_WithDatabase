@@ -660,13 +660,18 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 img_date2.setVisibility(View.GONE);
                 img_date1.setVisibility(View.GONE);
                 tv_note.setVisibility(View.VISIBLE);
+
                 sp_work_categ_type.setEnabled(false);
                 sp_work_categ.setEnabled(false);
                 sp_work.setEnabled(false);
                 sp_reg_name.setEnabled(false);
                 sp_volume.setEnabled(false);
+                sp_work_place.setEnabled(false);
+                sp_place_type.setEnabled(false);
+
                 edt_ben_no.setEnabled(false);
                 edt_remark.setEnabled(false);
+                edt_abbr.setEnabled(false);
 
             }
             //setRegisterSpinner(info.getActivityId());
