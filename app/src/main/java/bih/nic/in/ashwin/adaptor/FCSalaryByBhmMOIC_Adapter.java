@@ -126,6 +126,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
     {
         final FCSalByBhmMOIC_Entity info = mData.get(position);
         dialog = new ProgressDialog(context);
+
         holder.tv_count.setText(String.valueOf(position+1));
         holder.tv_fc_name.setText(info.get_Name());
         holder.tv_father_name.setText(info.get_FHName());
@@ -1198,6 +1199,8 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
 
     public ArrayList<Activity_entity> getSelectedMonthlyActivity()
     {
+        mnthlyActList = new ArrayList<Activity_entity>();
+
         ArrayList<Activity_entity> list = new ArrayList<>();
         for(Activity_entity item: mnthlyActList)
         {

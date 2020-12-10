@@ -1113,10 +1113,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             if (Utiilties.isOnline(this))
             {
-                if (activityEntity.getAcitivtyType().equals("M") || activityEntity.getAcitivtyType().equals("Q")|| activityEntity.getAcitivtyType().equals("H"))
+                if (activityEntity.getAcitivtyType().equals("Y") || activityEntity.getAcitivtyType().equals("M") || activityEntity.getAcitivtyType().equals("Q")|| activityEntity.getAcitivtyType().equals("H"))
                 {
                     new CheckActivityTypeCount(entity).execute();
-                    new UploadAshaWorkDetail(entity).execute();
+                   // new UploadAshaWorkDetail(entity).execute();
                 }
                 else  if (activityEntity.getAcitivtyType().equals("D"))
                 {
