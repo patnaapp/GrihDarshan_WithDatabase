@@ -99,13 +99,22 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         navMobileNum.setText(user.getMobileNo().equals("anyType{}")? "NA" : user.getMobileNo());
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Menu menu = navigationView.getMenu();
+        MenuItem profile = menu.findItem(R.id.nav_profile);
+
+        if(user.getUserrole().equals("ASHA")){
+            profile.setVisible(true);
+        }else{
+            profile.setVisible(false);
+        }
 
         homeFrag = new HomeFragment();
         displaySelectedFragment(homeFrag);
@@ -146,8 +155,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_profile:
                 if (CommonPref.getUserDetails(UserHomeActivity.this).getUserrole().equals("ASHA"))
                 {
-//                    Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
-//                    startActivity(i);
+                    Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
+                    startActivity(i);
                 }
                 break;
         }

@@ -38,7 +38,6 @@ import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
-import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.utility.CommonPref;
@@ -418,7 +417,6 @@ public class LoginActivity extends Activity {
                             start();
 
                         } else {
-
                             Toast.makeText(
                                     getApplicationContext(),
                                     getResources().getString(R.string.username_password_notmatched),
@@ -489,20 +487,8 @@ public class LoginActivity extends Activity {
 
     public String getDeviceIMEI()
     {
-        //String deviceUniqueIdentifier = null;
-        MarshmallowPermission permission = new MarshmallowPermission(this, Manifest.permission.READ_PHONE_STATE);
-//        try {
-//            TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-//            if (null != tm) {
-//                imei = tm.getDeviceId();
-//            }
-//            if (null == imei || 0 == imei.length()) {
-//                imei = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-//            }
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        //MarshmallowPermission permission = new MarshmallowPermission(this, Manifest.permission.READ_PHONE_STATE);
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
         {
             imei = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -715,7 +701,6 @@ public class LoginActivity extends Activity {
         roleAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, typeNameArray);
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_userRole.setAdapter(roleAdapter);
-
     }
 
 
@@ -746,6 +731,7 @@ public class LoginActivity extends Activity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return version;
     }
 
