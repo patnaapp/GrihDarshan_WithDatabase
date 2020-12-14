@@ -148,6 +148,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         sp_work=(Spinner)findViewById(R.id.sp_work);
         sp_asha=(Spinner)findViewById(R.id.sp_asha);
 
+
         tv_cat_title=findViewById(R.id.tv_cat_title);
         tv_activity=findViewById(R.id.tv_activity);
         tv_panchayt=findViewById(R.id.tv_panchayt);
@@ -752,6 +753,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         ArrayAdapter adaptor = new ArrayAdapter(AshaFacilitatorEntry.this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_asha.setAdapter(adaptor);
+        sp_asha.setOnItemSelectedListener(this);
 
         if(entryType.equals("U"))
         {
