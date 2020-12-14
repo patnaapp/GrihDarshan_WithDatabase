@@ -55,7 +55,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Activity_entity info = mData.get(position);
 
-        holder.tv_name.setText(info.get_ActivityDesc());
+        holder.tv_name.setText(info.getAbbr()+" - "+info.get_ActivityDesc());
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
 

@@ -91,7 +91,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     String workdmCode,workDmName,version="";
 
     int caltype = 0;
-    String entryType,role,volume,placeTypeCode;
+    String entryType,role,volume,placeTypeCode = "0";
     LinearLayout ll_btn;
     AshaWorkEntity info;
     ArrayList<String> list;
@@ -1029,7 +1029,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             case R.id.sp_reg_name:
                 if (i > 0) {
                     registerDetailsEntity = registerArray.get(i-1);
-
+                    tv_regname.setError(null);
                 }else{
                     registerDetailsEntity = null;
                 }
@@ -1064,6 +1064,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             case R.id.sp_place_type:
                 if (i > 0 && placeTypeCode.equals("1")) {
                     otherBlock = blockArray.get(i-1);
+                    tv_place_type.setError(null);
                 }else{
                     otherBlock = null;
                 }
@@ -1115,18 +1116,29 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             entity.setEntryType(entryType);
             entity.setEntryBy(CommonPref.getUserDetails(this).getUserID());
 
-            if(activityTypeEntity.get_ActTypeId().equals("2"))
-            {
-                entity.setActivityPlace(placeTypeCode);
-                if(placeTypeCode.equals("1"))
+            entity.setActivityPlace(placeTypeCode);
+
+//            if(activityTypeEntity.get_ActTypeId().equals("2"))
+//            {
+                //entity.setActivityPlace(placeTypeCode);
+//            if(placeTypeCode.equals("0"))
+//            {
+//                entity.setOtherBlock(CommonPref.getUserDetails(this).getBlockCode());
+//                entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
+//            }else
+            if(placeTypeCode.equals("1"))
                 {
                     entity.setOtherBlock(otherBlock.getBlk_Code());
-                }
-                else if (placeTypeCode.equals("2"))
-                {
                     entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
                 }
-            }
+                else{
+                    entity.setOtherBlock(CommonPref.getUserDetails(this).getBlockCode());
+                    entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
+                }
+
+//            }else{
+//
+//            }
 
             if(entryType.equals("U"))
             {
@@ -1182,6 +1194,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
+        if(placeTypeCode.equals("1") && otherBlock == null){
+            tv_place_type.setError("कृप्या अन्य खंड का चयन करें");
+            focusView = tv_place_type;
+            validate = false;
+        }
+
 //        if (edt_pageno.getText().toString().equals("")) {
 //            edt_pageno.setError("कृप्या पेज संख्या डालें");
 //            focusView = edt_pageno;
@@ -1211,6 +1229,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (edt_ben_no.getText().toString().equals(""))
         {
             edt_ben_no.setError("कृप्या पेज संख्या डालें");
+            focusView = edt_ben_no;
+            validate = false;
+        }else if (Integer.parseInt(edt_ben_no.getText().toString()) < 1){
+            edt_ben_no.setError("कृप्या सही लाभार्थी संख्या डालें");
             focusView = edt_ben_no;
             validate = false;
         }
