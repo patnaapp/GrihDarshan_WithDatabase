@@ -95,7 +95,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             }
         });*/
 
-
         ModifyTable();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -107,10 +106,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         navUsername.setText(user.getUserName());
         navMobileNum.setText(user.getMobileNo().equals("anyType{}")? "NA" : user.getMobileNo());
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut)
-                .setDrawerLayout(drawer)
-                .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_profile, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -119,9 +115,12 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         Menu menu = navigationView.getMenu();
         MenuItem profile = menu.findItem(R.id.nav_profile);
 
-        if(user.getUserrole().equals("ASHA")){
+        if(user.getUserrole().equals("ASHA"))
+        {
             profile.setVisible(true);
-        }else{
+        }
+        else
+            {
             profile.setVisible(false);
         }
 
@@ -138,7 +137,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 //    }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
