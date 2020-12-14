@@ -87,7 +87,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_field_name.setText(info.getFieldName());
 
         //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
-        if (((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N") ))
+        if (((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N")))
         {
             holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -141,7 +141,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
             }
-            else if (info.getVerificationStatus().equals("A")){
+            else if (info.getVerificationStatus().equals("A"))
+            {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
 
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
@@ -202,19 +203,21 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
                             }
                         }).show();
                     }
-                    else {
+                    else
+                        {
                         new AlertDialog.Builder(context)
                                 .setTitle("अलर्ट !!")
                                 .setMessage("कृपया अपना इंटर्नेट कनेक्शन ऑन करें")
                                 .setCancelable(false)
-                                .setPositiveButton("ओके", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                .setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int id)
+                                    {
                                         Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
                                         context.startActivity(I);
                                         dialog.cancel();
                                     }
                                 }).show();
-
                     }
                 }
                 else if (info.getVerificationStatus().contains("A"))

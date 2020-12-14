@@ -99,7 +99,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.OtherDist = sobj.getProperty("OtherDist").toString();
             this.OtherBlock = sobj.getProperty("OtherBlock").toString();
             this.IsForwaded = sobj.getProperty("IsForwaded").toString();
-
+            this.FieldName = sobj.getProperty("FieldName").toString();
         }
 
 

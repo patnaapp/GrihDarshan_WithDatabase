@@ -42,7 +42,8 @@ public class PreviewFacilitatorNoOfDays_Activity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_facilitator_no_of_days_);
         initialise();
@@ -75,8 +76,6 @@ public class PreviewFacilitatorNoOfDays_Activity extends AppCompatActivity {
         tv_role=findViewById(R.id.tv_role);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_submit = findViewById(R.id.btn_submit);
-
-
     }
 
     public void populateData()
@@ -86,7 +85,6 @@ public class PreviewFacilitatorNoOfDays_Activity extends AppCompatActivity {
             Log.e("data", ""+fcNoOfdays.size());
 //            tv_Norecord.setVisibility(View.GONE);
 //            listView.setVisibility(View.VISIBLE);
-
             adapter = new PreviewFacilitatorNoofDays_Adapter(this, fcNoOfdays);
             rv_data.setLayoutManager(new LinearLayoutManager(this));
             rv_data.setAdapter(adapter);
@@ -97,6 +95,4 @@ public class PreviewFacilitatorNoOfDays_Activity extends AppCompatActivity {
            // tv_Norecord.setVisibility(View.VISIBLE);
         }
     }
-
-
 }
