@@ -1251,8 +1251,7 @@ public class WebServiceHelper
         request.addProperty("OtherDist", data.getOtherDist());
         request.addProperty("OtherBlock", data.getOtherBlock());
 
-        try
-        {
+        try{
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;

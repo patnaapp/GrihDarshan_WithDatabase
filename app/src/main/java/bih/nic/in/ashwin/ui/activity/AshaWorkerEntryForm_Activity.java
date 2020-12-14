@@ -84,7 +84,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     RegisteMappingEbtity registerDetailsEntity;
     Block_List otherBlock;
 
-    String placeypeArray[] = {"अपने प्रखंड में", "अन्य प्रखंड", "ज़िला अस्पताल"};
+    String placeypeArray[] = {"अपने प्रखंड में", "अन्य प्रखंड", "ज़िला अस्पताल", "चिकित्सा महाविद्यालय", "उप मंडल"};
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
@@ -1248,12 +1248,15 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 focusView = edt_ben_no;
                 validate = false;
             }else if(Integer.parseInt(edt_ben_no.getText().toString()) > Integer.parseInt(activityEntity.getMaxRange())){
-                edt_ben_no.setError(activityEntity.getFieldNAme()+" ");
+                edt_ben_no.setError(activityEntity.getFieldNAme()+" "+activityEntity.getMaxRange()+" से ज्यदा मान्य नहीं है");
+                Toast.makeText(this, activityEntity.getFieldNAme()+" "+activityEntity.getMaxRange()+" से ज्यदा मान्य नहीं है", Toast.LENGTH_SHORT).show();
+
                 focusView = edt_ben_no;
                 validate = false;
             }
         }catch (Exception e){
-
+            Toast.makeText(this, "Failed in parsing activity ben range!!", Toast.LENGTH_SHORT).show();
+            validate = false;
         }
 
 
@@ -1274,6 +1277,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
         catch (ParseException e)
         {
+            Toast.makeText(this, "Failed in comparing between date range!!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             validate = false;
         }
