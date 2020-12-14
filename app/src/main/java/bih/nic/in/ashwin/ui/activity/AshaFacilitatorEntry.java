@@ -51,7 +51,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     ImageView img_date1;
     EditText edt_date,edt_ben_no,edt_remark,edt_abbr;
-    Spinner sp_panchayt_type,sp_work_categ,sp_work;
+    Spinner sp_panchayt_type,sp_work_categ,sp_work,sp_asha;
     TextView tv_cat_title,tv_activity,tv_panchayt,tv_hsc_name,tv_note;
     Button btn_proceed;
 
@@ -139,6 +139,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         sp_panchayt_type=(Spinner)findViewById(R.id.sp_panchayt_type);
         sp_work_categ=(Spinner)findViewById(R.id.sp_work_categ);
         sp_work=(Spinner)findViewById(R.id.sp_work);
+        sp_asha=(Spinner)findViewById(R.id.sp_asha);
 
         tv_cat_title=findViewById(R.id.tv_cat_title);
         tv_activity=findViewById(R.id.tv_activity);

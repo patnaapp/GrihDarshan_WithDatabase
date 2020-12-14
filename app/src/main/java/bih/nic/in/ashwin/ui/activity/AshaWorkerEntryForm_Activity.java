@@ -674,6 +674,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 edt_remark.setEnabled(false);
                 edt_abbr.setEnabled(false);
 
+                edt_ben_no.setBackgroundResource(R.drawable.textboxshape1);
+                edt_remark.setBackgroundResource(R.drawable.textboxshape1);
+                edt_abbr.setBackgroundResource(R.drawable.textboxshape1);
+                edt_reg_date.setBackgroundResource(R.drawable.textboxshape1);
+                //edt_amount_total.setBackgroundResource(R.drawable.textboxshape1);
+                edt_work_complt_date.setBackgroundResource(R.drawable.textboxshape1);
             }
             //setRegisterSpinner(info.getActivityId());
         }
@@ -972,19 +978,26 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 if (i > 0) {
                     activityEntity = activityArray.get(i-1);
 
-//                    String numbersArray = activityEntity.get_RegisterId();
-//                     list = new ArrayList<String>();
-//                    for (int k = 0, j, n = numbersArray.length(); k < n; k = j + 1)
-//                    {
-//                        j = numbersArray.indexOf(":", k);
-//                        list.add(numbersArray.substring(k, j).trim());
-//                    }
-
                     edt_amount.setText(activityEntity.get_ActivityAmt());
                     tv_activity_type.setText(Utiilties.getActivityTypeStatus(activityEntity.getAcitivtyType()));
                     tv_activity_type.setVisibility(View.VISIBLE);
                     tv_activity.setError(null);
                     edt_abbr.setText(activityEntity.getAbbr());
+                    tv_ben_no_field.setText(activityEntity.getFieldNAme());
+                    edt_ben_no.setHint(activityEntity.getFieldNAme()+" डालें");
+                    edt_ben_no.setText(activityEntity.getMinRange());
+
+                    if(entryType.equals("U") && info.getIsFinalize().equals("Y")){
+
+                    }else{
+                        if(activityEntity.getMinRange().equals(activityEntity.getMaxRange())){
+                            edt_ben_no.setEnabled(false);
+                            edt_ben_no.setBackgroundResource(R.drawable.textboxshape1);
+                        }else{
+                            edt_ben_no.setEnabled(true);
+                            edt_ben_no.setBackgroundResource(R.drawable.textboxshape);
+                        }
+                    }
 
                     registerArray = dbhelper.getRegisterMappedList(activityEntity.get_ActivityId());
                     if(registerArray.size()>0){
@@ -996,8 +1009,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                             Utiilties.showInternetAlert(this);
                         }
                     }
-
-                    //edt_volume.setText(registerDetailsEntity.get_VolNo());
                 }else{
                     activityEntity = null;
                     tv_activity_type.setVisibility(View.GONE);
@@ -1227,16 +1238,24 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
-        if (edt_ben_no.getText().toString().equals(""))
-        {
-            edt_ben_no.setError("कृप्या पेज संख्या डालें");
-            focusView = edt_ben_no;
-            validate = false;
-        }else if (Integer.parseInt(edt_ben_no.getText().toString()) < 1){
-            edt_ben_no.setError("कृप्या सही लाभार्थी संख्या डालें");
-            focusView = edt_ben_no;
-            validate = false;
+        try{
+            if (edt_ben_no.getText().toString().equals("")){
+                edt_ben_no.setError("कृप्या "+activityEntity.getFieldNAme()+" डालें");
+                focusView = edt_ben_no;
+                validate = false;
+            }else if (Integer.parseInt(edt_ben_no.getText().toString()) < 1){
+                edt_ben_no.setError("कृप्या सही "+activityEntity.getFieldNAme()+" डालें");
+                focusView = edt_ben_no;
+                validate = false;
+            }else if(Integer.parseInt(edt_ben_no.getText().toString()) > Integer.parseInt(activityEntity.getMaxRange())){
+                edt_ben_no.setError(activityEntity.getFieldNAme()+" ");
+                focusView = edt_ben_no;
+                validate = false;
+            }
+        }catch (Exception e){
+
         }
+
 
 //        if (edt_remark.getText().toString().equals(""))
 //        {
