@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -70,6 +72,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private ProgressDialog dialog;
     HomeFragment homeFrag;
+    SQLiteDatabase db;
+    DataBaseHelper dataBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        dataBaseHelper = new DataBaseHelper(getApplicationContext());
 
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
@@ -88,6 +94,9 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                         .setAction("Action", null).show();
             }
         });*/
+
+
+        ModifyTable();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -118,6 +127,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
         homeFrag = new HomeFragment();
         displaySelectedFragment(homeFrag);
+
     }
 
 //    @Override
@@ -862,4 +872,45 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         alertDialog.show();
     }
 
+
+    public void ModifyTable() {
+
+
+        if (isColumnExists("ActivityList_Master", "MinRange") == false) {
+            AlterTable("ActivityList_Master", "MinRange");
+        }
+        if (isColumnExists("ActivityList_Master", "MaxRange") == false) {
+            AlterTable("ActivityList_Master", "MaxRange");
+        }
+        if (isColumnExists("ActivityList_Master", "FieldName") == false) {
+            AlterTable("ActivityList_Master", "FieldName");
+        }
+
+    }
+
+    public boolean isColumnExists(String table, String column) {
+        db = dataBaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("PRAGMA table_info(" + table + ")", null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                if (column.equalsIgnoreCase(name)) {
+                    return true;
+                }
+            }
+        }
+        dataBaseHelper.getReadableDatabase().close();
+        return false;
+    }
+
+    public void AlterTable(String tableName, String columnName) {
+        try {
+            db = dataBaseHelper.getWritableDatabase();
+            db.execSQL("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " TEXT");
+            Log.e("ALTER Done", tableName + "-" + columnName);
+            dataBaseHelper.getWritableDatabase().close();
+        } catch (Exception e) {
+            Log.e("ALTER Failed", tableName + "-" + columnName);
+        }
+    }
 }

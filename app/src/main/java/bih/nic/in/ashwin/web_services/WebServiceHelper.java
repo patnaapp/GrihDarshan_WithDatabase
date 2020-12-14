@@ -75,7 +75,7 @@ import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
-import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+
 
 import static org.apache.http.util.EntityUtils.getContentCharSet;
 
