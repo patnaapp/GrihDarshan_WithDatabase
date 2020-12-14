@@ -1256,6 +1256,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 info.setAcitivtyType(cur.getString(cur.getColumnIndex("AcitivtyType")));
                 info.setAbbr(cur.getString(cur.getColumnIndex("Abbr")));
                 info.setActTypeId(cur.getString(cur.getColumnIndex("ActTypeId")));
+
+                info.setFieldNAme(cur.getString(cur.getColumnIndex("FieldName")));
+                info.setMaxRange(cur.getString(cur.getColumnIndex("MaxRange")));
+                info.setMinRange(cur.getString(cur.getColumnIndex("MinRange")));
                 list.add(info);
             }
 

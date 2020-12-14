@@ -141,7 +141,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="कार्य कोड"
+                    android:text="सेवा/कार्य का कोड"
                     android:textColor="@color/color_black"
                     android:textSize="14sp"/>
 
@@ -203,6 +203,37 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_asha_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="आशा : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
+
+                    <Spinner
+                        android:background="@drawable/spinner_bg1"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/sp_asha"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
                         android:id="@+id/tv_cat_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -218,30 +249,30 @@
                         android:layout_height="36dp" />
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginBottom="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_activity"
+                <LinearLayout
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="कार्य : [*]"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <Spinner
-                    android:background="@drawable/spinner_bg1"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/sp_work"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
+                    <TextView
+                        android:id="@+id/tv_activity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="कार्य : [*]"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp"/>
 
+                    <Spinner
+                        android:background="@drawable/spinner_bg1"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/sp_work"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -254,7 +285,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="लाभार्थियों की संख्या : [*]"
+                    android:text="लाभार्थियों/बैठक की संख्या : [*]"
                     android:textColor="@color/color_black"
                     android:textSize="12sp"/>
 
@@ -282,7 +313,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="कार्य तिथि : [*]"
+                    android:text="सेवा/कार्य पूर्ण की तिथि : [*]"
                     android:textColor="@color/color_black"
                     android:textSize="12sp"/>
 
