@@ -77,6 +77,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
 //        holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
+        holder.tv_filed_name.setText(info.getFieldName());
 
         //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         if (((info.getIsForwaded().contains("P")||info.getIsForwaded().contains("NA"))))
@@ -169,7 +170,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif,tv_asha_final;
+        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif,tv_asha_final,tv_filed_name;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_forward;
         LinearLayout ll_btn,ll_asha_final;
@@ -186,6 +187,7 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);
+            tv_filed_name = itemView.findViewById(R.id.tv_filed_name);
 
             sblist = itemView.findViewById(R.id.sblist);
             btn_accpt = itemView.findViewById(R.id.btn_accpt);
