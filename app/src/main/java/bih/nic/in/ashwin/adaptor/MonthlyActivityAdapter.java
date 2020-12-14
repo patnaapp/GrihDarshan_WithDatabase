@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,6 +76,11 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 
         if(info.getAbbr().contains("PC2") || info.getAbbr().contains("PI2")){
             holder.tv_amount.setVisibility(View.GONE);
+        }else if(info.getAbbr().equals("C3.3")){
+            holder.ll_no_of_ben.setVisibility(View.VISIBLE);
+            if(isFinalize || isPreview){
+                holder.edt_ben_no.setEnabled(false);
+            }
         }
 
         holder.ch_activity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,6 +117,8 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         TextView tv_name,tv_amount,tv_count,tv_status;
         CheckBox ch_activity;
         RelativeLayout sblist;
+        LinearLayout ll_no_of_ben;
+        EditText edt_ben_no;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -119,6 +128,8 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
             tv_status = itemView.findViewById(R.id.tv_status);
             ch_activity = itemView.findViewById(R.id.ch_activity);
             sblist = itemView.findViewById(R.id.sblist);
+            ll_no_of_ben = itemView.findViewById(R.id.ll_no_of_ben);
+            edt_ben_no = itemView.findViewById(R.id.edt_ben_no);
 
             //itemView.setOnClickListener(this);
         }
