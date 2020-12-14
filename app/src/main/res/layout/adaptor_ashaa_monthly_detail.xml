@@ -54,7 +54,7 @@
 
                     <TextView
                         android:layout_centerVertical="true"
-android:visibility="gone"
+                        android:visibility="gone"
                         android:layout_marginRight="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
@@ -98,7 +98,7 @@ android:visibility="gone"
 
                     <TextView
                         android:layout_centerVertical="true"
-android:visibility="gone"
+                        android:visibility="gone"
                         android:layout_marginRight="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
@@ -151,7 +151,7 @@ android:visibility="gone"
                         android:id="@+id/tv_amount1"/>
                     <TextView
                         android:layout_centerVertical="true"
-android:visibility="gone"
+                        android:visibility="gone"
                         android:layout_marginRight="4dp"
                         android:layout_marginLeft="4dp"
                         android:layout_width="wrap_content"
@@ -184,6 +184,7 @@ android:visibility="gone"
                 </RelativeLayout>
                 <RelativeLayout
                     android:padding="4dp"
+                    android:id="@+id/rl_nofben"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
