@@ -13,7 +13,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr;
+    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr,FieldName;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -44,6 +44,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.ActivityPlace = sobj.getProperty("ActivityPlace").toString();
         this.OtherDist = sobj.getProperty("OtherDist").toString();
         this.OtherBlock = sobj.getProperty("OtherBlock").toString();
+        this.FieldName = sobj.getProperty("FieldName").toString();
         //this.IsForwaded = sobj.getProperty("IsForwaded").toString();
 
     }
@@ -481,5 +482,13 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public void setIsForwaded(String isForwaded) {
         IsForwaded = isForwaded;
+    }
+
+    public String getFieldName() {
+        return FieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        FieldName = fieldName;
     }
 }

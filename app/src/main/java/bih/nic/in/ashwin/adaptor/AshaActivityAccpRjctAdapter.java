@@ -31,8 +31,7 @@ import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
-import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
-import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
+
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -84,6 +83,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 //        holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
+        holder.tv_field_name.setText(info.getFieldName());
 
         //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         if (((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N") ))
@@ -429,12 +429,13 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif,tv_asha_final;
+        final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_reg_date,tv_count,tv_status,tv_no_of_benif,tv_asha_final,tv_field_name;
         RelativeLayout sblist;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn,ll_asha_final;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView)
+        {
             super(itemView);
             tv_workcategory = itemView.findViewById(R.id.tv_workcategory);
             tv_work = itemView.findViewById(R.id.tv_work);
@@ -446,6 +447,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);
             tv_status = itemView.findViewById(R.id.tv_status);
+            tv_field_name = itemView.findViewById(R.id.tv_field_name);
 
             sblist = itemView.findViewById(R.id.sblist);
             btn_accpt = itemView.findViewById(R.id.btn_accpt);
@@ -459,7 +461,8 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View view)
+        {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
@@ -643,12 +646,16 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
             return manufacturer.toUpperCase() + " " + model;
         }
     }
-    public String getAppVersion(){
-        try {
+    public String getAppVersion()
+    {
+        try
+        {
             version = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
 //                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
 //                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
