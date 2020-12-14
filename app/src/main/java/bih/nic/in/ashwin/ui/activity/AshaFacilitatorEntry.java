@@ -36,7 +36,9 @@ import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
+import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.FCActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
@@ -52,11 +54,12 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     ImageView img_date1;
     EditText edt_date,edt_ben_no,edt_remark,edt_abbr;
     Spinner sp_panchayt_type,sp_work_categ,sp_work,sp_asha;
-    TextView tv_cat_title,tv_activity,tv_panchayt,tv_hsc_name,tv_note;
+    TextView tv_cat_title,tv_activity,tv_panchayt,tv_asha_title,tv_hsc_name,tv_note;
     Button btn_proceed;
 
     ArrayList<Panchayat_List> panchayatEntitylist;
     Panchayat_List panchayatTypeEntity;
+    AshaWoker_Entity ashaworkerEntity;
     ArrayList<Activity_entity>ActivityEntityList;
     ArrayList<FCActivityCategory_entity>workDMTypeList;
     Activity_entity activityEntity;
@@ -76,18 +79,22 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
     AshaFascilitatorWorkEntity ashaFCWorkEntity;
     ArrayList<AshaFascilitatorWorkEntity> selectedMonthlyWork = new ArrayList<>();
+    ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asha_facilitator_entry);
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
 
         initialize();
 
         // setWorkCategorySpinner();
         new GetActivityCategoryList().execute();
-
+        new GetAshaWorkersListFcWise().execute();
 
         setDataFromIntent();
 
@@ -144,6 +151,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         tv_cat_title=findViewById(R.id.tv_cat_title);
         tv_activity=findViewById(R.id.tv_activity);
         tv_panchayt=findViewById(R.id.tv_panchayt);
+        tv_asha_title=findViewById(R.id.tv_asha_title);
         tv_hsc_name=findViewById(R.id.tv_hsc_name);
         tv_note=findViewById(R.id.tv_note);
 
@@ -194,7 +202,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         sp_work_categ.setOnItemSelectedListener(this);
     }
 
-    public void setPanchayatSpinner(){
+    public void setPanchayatSpinner()
+    {
         panchayatEntitylist = dataBaseHelper.getPanchayatList(userDetails.getDistrictCode(),userDetails.getBlockCode());
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
@@ -213,7 +222,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         sp_panchayt_type.setAdapter(adaptor);
         sp_panchayt_type.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U")){
+        if(entryType.equals("U"))
+        {
             sp_panchayt_type.setSelection(position+1);
         }
     }
@@ -394,6 +404,18 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
                     panchayatTypeEntity = null;
                 }
                 break;
+
+            case R.id.sp_asha:
+                if (i > 0)
+                {
+                    ashaworkerEntity = ashaworkerList.get(i - 1);
+                    tv_asha_title.setError(null);
+                }
+                else
+                {
+                    ashaworkerEntity = null;
+                }
+                break;
         }
     }
 
@@ -428,6 +450,12 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             focusView = tv_panchayt;
             validate = false;
         }
+        if (ashaworkerEntity == null)
+        {
+            tv_asha_title.setError("कृप्या आशा का चयन करें");
+            focusView = tv_asha_title;
+            validate = false;
+        }
 
         if (edt_date.getText().toString().equals(""))
         {
@@ -455,6 +483,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             entity.setBlockCode(userDetails.getBlockCode());
             //entity.setHSCCODE(hscEntity.get_HSCCode());
             entity.setPanchayatCode(panchayatTypeEntity.getPanchayat_code());
+            entity.setAshaID(ashaworkerEntity.get_ASHAID());
             entity.setAshaFacilitatorId(userDetails.getSVRID());
             entity.setFCAcitivtyId(activityEntity.get_ActivityId());
             entity.setNumberOfBen(edt_ben_no.getText().toString());
@@ -661,6 +690,73 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
                 break;
             }
         }
+    }
+
+
+    private class GetAshaWorkersListFcWise extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Asha details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getAshaWorkerListFcWise(CommonPref.getUserDetails(getApplicationContext()).getSVRID());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null && result.size()>0)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                ashaworkerList = result;
+                loadashafcwiseData();
+
+            }
+            else {
+
+                Toast.makeText(getApplicationContext(), "No Asha Worker List Mapped with this facilitator", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+
+    public void loadashafcwiseData()
+    {
+
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+
+        int position = 0;
+        for (AshaWoker_Entity info: ashaworkerList)
+        {
+            array.add(info.get_ASHAID()+":-"+info.get_Asha_Name());
+
+            if (entryType.equals("U") && info.get_ASHAID().equals(ashaworkerEntity.get_ASHAID())){
+                position=ashaworkerList.indexOf(info);
+            }
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(AshaFacilitatorEntry.this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_asha.setAdapter(adaptor);
+
+        if(entryType.equals("U"))
+        {
+            sp_asha.setSelection(position+1);
+        }
+
     }
 
 }

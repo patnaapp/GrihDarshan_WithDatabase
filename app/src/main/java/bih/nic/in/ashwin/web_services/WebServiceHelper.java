@@ -149,6 +149,8 @@ public class WebServiceHelper
     public static final String FcSalByBhm_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
     public static final String FcSalByMO_LIST_METHOD = "getAshaFacilatorSallaryListInBHM";
     public static final String CheckActivityCOunt_Service = "occurancetime";
+    public static final String Asha_worker_LISTFCWISE_METHOD = "getAshaFacilatorWiseList";
+    public static final String Hsc_LISTANM_METHOD = "getHscListAnmWise";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -799,6 +801,30 @@ public class WebServiceHelper
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     Block_List sm = new Block_List(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<AshaWoker_Entity> getAshaWorkerListFcWise(String fc_id) {
+
+        SoapObject res1;
+        res1 = getServerData(Asha_worker_LISTFCWISE_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "AshaFacilitatorID", fc_id);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWoker_Entity sm = new AshaWoker_Entity(final_object,"1","2");
                     fieldList.add(sm);
                 }
             } else
@@ -2215,6 +2241,30 @@ public class WebServiceHelper
         return fieldList;
     }
 
+    public static ArrayList<HscList_Entity> getHscListANMWISe(String svrid) {
+
+        SoapObject res1;
+        res1 = getServerData(Hsc_LISTANM_METHOD, HscList_Entity.Hsc_CLASS, "ANMMapId",svrid);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<HscList_Entity> fieldList = new ArrayList<HscList_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    HscList_Entity sm = new HscList_Entity(final_object,"1","1");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
     public static ArrayList<HscList_Entity> getHscList_Other(String blkcode) {
 
         SoapObject res1;
@@ -2290,6 +2340,8 @@ public class WebServiceHelper
 
         return fieldList;
     }
+
+
 
     public static ArrayList<Activity_entity> getAshaFacilatatotActivityList(String catId) {
 

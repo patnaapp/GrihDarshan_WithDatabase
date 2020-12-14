@@ -69,13 +69,16 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         dbhelper=new DataBaseHelper(this);
 
         initialise();
+
         if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("BLKBCM"))
         {
             ll_hsc.setVisibility(View.VISIBLE);
+            loadHscList();
         }
         else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC") || CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("ANM"))
         {
-            ll_hsc.setVisibility(View.GONE);
+            ll_hsc.setVisibility(View.VISIBLE);
+            new GetHScListAnmWise().execute();
         }
 
         user_role=getIntent().getStringExtra("role");
@@ -87,8 +90,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         tv_role.setText(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
 
         //loadWorkerFascilatorData();
-        new GetAshaWorkersList().execute();
-        loadHscList();
+      //  new GetAshaWorkersList().execute();
+
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
@@ -562,14 +565,16 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void loadHscList()
     {
-        hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
-
+        if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("BLKBCM")) {
+            hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(), CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
+        }
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
         for (HscList_Entity info: hscList)
         {
-            array.add(info.get_HSCName_Hn());
+                array.add(info.get_HSCName_Hn());
+
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
@@ -618,14 +623,14 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         protected ArrayList<AshaWoker_Entity> doInBackground(String... param)
         {
             String hsc_code="";
-            if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
-            {
+//            if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
+//            {
                 hsc_code=hsccode;
 
-            }
-            else {
-                hsc_code=CommonPref.getUserDetails(getApplicationContext()).getHSCCode();
-            }
+//            }
+//            else {
+//                hsc_code=CommonPref.getUserDetails(getApplicationContext()).getHSCCode();
+//            }
 
 
             return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code);
@@ -664,9 +669,52 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         }
     }
 
+
+    private class GetHScListAnmWise extends AsyncTask<String, Void, ArrayList<HscList_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Hsc details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<HscList_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getHscListANMWISe(CommonPref.getUserDetails(getApplicationContext()).getSVRID());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HscList_Entity> result)
+        {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                hscList = result;
+                loadHscList();
+                Log.d("Resultgfg", "" + result);
+
+            }
+            else {
+
+            }
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         handleTabView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(AshaWorker_Facilitator_Activity_List.this,UserHomeActivity.class);
+        startActivity(i);
+        finish();
     }
 }

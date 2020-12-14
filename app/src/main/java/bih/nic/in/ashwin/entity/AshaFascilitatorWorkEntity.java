@@ -11,7 +11,7 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     public static Class<AshaFascilitatorWorkEntity> AshaFascilitatorWorkEntity_CLASS = AshaFascilitatorWorkEntity.class;
 
-    private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId;
+    private String DistrictCode,BlockCode,HSCCODE,HSCName,PanchayatCode,PanchayatName,AshaFacilitatorId,FCAcitivtyId,FCActivityDesc,NumberOfBen,FCAcitivtyCategoryId,FCAcitivtyCategoryDesc,ActivityDate,MonthId,MonthName,FYearId,Remarks,EntryBy,FCAshaActivityId,MobVersion,MobDeviceId,AshaName,AshaID;
     private String Verification,VerificationStatus,_rejectedRemarks,_IsFinalize;
     public AshaFascilitatorWorkEntity(SoapObject sobj)
     {
@@ -271,5 +271,21 @@ public class AshaFascilitatorWorkEntity implements KvmSerializable, Serializable
 
     public void set_IsFinalize(String _IsFinalize) {
         this._IsFinalize = _IsFinalize;
+    }
+
+    public String getAshaName() {
+        return AshaName;
+    }
+
+    public void setAshaName(String ashaName) {
+        AshaName = ashaName;
+    }
+
+    public String getAshaID() {
+        return AshaID;
+    }
+
+    public void setAshaID(String ashaID) {
+        AshaID = ashaID;
     }
 }

@@ -11,7 +11,7 @@ public class HscList_Entity implements KvmSerializable, Serializable {
 
     public static Class<HscList_Entity> Hsc_CLASS = HscList_Entity.class;
 
-    private String _HSCId, _HSCName,_HSCName_Hn,_HSCCode,_LocationType,_DistCode,_BlockCode;
+    private String _HSCId, _HSCName,_HSCName_Hn,_HSCCode,_LocationType,_DistCode,_BlockCode,ANmId;
 
     private Boolean isChecked = false;
 
@@ -33,6 +33,13 @@ public class HscList_Entity implements KvmSerializable, Serializable {
         this._LocationType = sobj.getProperty("LocationType").toString();
         this._DistCode = sobj.getProperty("DistCode").toString();
         this._BlockCode = sobj.getProperty("BlockCode").toString();
+    }
+
+    public HscList_Entity(SoapObject sobj,String str,String str1) {
+        this.ANmId = sobj.getProperty("ANMMapId").toString();
+        this._HSCCode = sobj.getProperty("HSCCode").toString();
+        this._HSCName_Hn = sobj.getProperty("HSCName").toString();
+
     }
 
     public HscList_Entity() {
