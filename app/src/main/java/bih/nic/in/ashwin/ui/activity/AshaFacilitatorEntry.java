@@ -268,7 +268,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         array.add("-Select-");
 
         int position = 0;
-        for (Activity_entity info:ActivityEntityList ){
+        for (Activity_entity info:ActivityEntityList )
+        {
             array.add(info.getAbbr()+" - "+info.get_ActivityDesc());
 
             if (entryType.equals("U") && info.get_ActivityId().equals(ashaFCWorkEntity.getFCAcitivtyId())){
@@ -743,7 +744,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         {
             array.add(info.get_ASHAID()+":-"+info.get_Asha_Name());
 
-            if (entryType.equals("U") && info.get_ASHAID().equals(ashaworkerEntity.get_ASHAID())){
+            if (entryType.equals("U") && info.get_ASHAID().equals(ashaFCWorkEntity.getAshaID())){
                 position=ashaworkerList.indexOf(info);
             }
         }

@@ -1318,6 +1318,7 @@ public class WebServiceHelper
 
         request.addProperty("MobVersion", data.getMobVersion());
         request.addProperty("MobDeviceId",data.getMobDeviceId());
+        request.addProperty("AshaWorkerID",data.getAshaID());
 
         try{
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
