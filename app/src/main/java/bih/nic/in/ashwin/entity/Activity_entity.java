@@ -11,11 +11,14 @@ public class Activity_entity implements KvmSerializable, Serializable {
 
     public static Class<Activity_entity> Activity_CLASS = Activity_entity.class;
 
-    private String _ActivityId, _ActivityDesc,_ActivityAmt,_AcitivtyCategoryId,_OrderStatus,_RegisterId,AcitivtyType,VerificationStatus,IsFinalize,ActTypeId,Abbr;
+    private String _ActivityId, _ActivityDesc,_ActivityAmt,_AcitivtyCategoryId,_OrderStatus,_RegisterId,AcitivtyType,VerificationStatus,IsFinalize,ActTypeId,Abbr,MinRange,MaxRange,FieldNAme;
 
     private Boolean isChecked = false;
 
     public Activity_entity(SoapObject sobj) {
+        this.MinRange = sobj.getProperty("MinRange").toString();
+        this.MaxRange = sobj.getProperty("MaxRange").toString();
+        this.FieldNAme = sobj.getProperty("FieldName").toString();
         this._ActivityId = sobj.getProperty("ActivityId").toString();
         this._ActivityDesc = sobj.getProperty("ActivityDesc").toString();
         this._ActivityAmt = sobj.getProperty("ActivityAmt").toString();
@@ -25,6 +28,7 @@ public class Activity_entity implements KvmSerializable, Serializable {
         this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
         this.ActTypeId = sobj.getProperty("ActTypeId").toString();
         this.Abbr = sobj.getProperty("Abbr").toString();
+
     }
 
     public Activity_entity(SoapObject sobj,String str) {
@@ -208,5 +212,27 @@ public class Activity_entity implements KvmSerializable, Serializable {
         this._RegisterId = _RegisterId;
     }
 
+    public String getMinRange() {
+        return MinRange;
+    }
 
+    public void setMinRange(String minRange) {
+        MinRange = minRange;
+    }
+
+    public String getMaxRange() {
+        return MaxRange;
+    }
+
+    public void setMaxRange(String maxRange) {
+        MaxRange = maxRange;
+    }
+
+    public String getFieldNAme() {
+        return FieldNAme;
+    }
+
+    public void setFieldNAme(String fieldNAme) {
+        FieldNAme = fieldNAme;
+    }
 }

@@ -198,12 +198,13 @@ public class SplashActivity extends Activity {
         return identifier;
     }
 
-    protected void checkOnline() {
+    protected void checkOnline()
+    {
         // TODO Auto-generated method stub
         super.onResume();
 
-        if (Utiilties.isOnline(SplashActivity.this) == false) {
-
+        if (Utiilties.isOnline(SplashActivity.this) == false)
+        {
             AlertDialog.Builder ab = new AlertDialog.Builder(SplashActivity.this);
             ab.setTitle("Alert Dialog !!!");
             ab.setMessage(Html.fromHtml("<font color=#000000>Internet Connection is not avaliable... \n Please Turn ON Network Connection \n To Turn ON Network Connection Press Yes Button Else To Exit Press Cancel Button.</font>"));
@@ -227,15 +228,17 @@ public class SplashActivity extends Activity {
 //            });
             ab.show();
 
-        } else {
-
+        }
+        else
+        {
             GlobalVariables.isOffline = false;
             //new CheckUpdate().execute();
             checkAppVersion();
         }
     }
 
-    public void checkAppVersion(){
+    public void checkAppVersion()
+    {
 //        Api request = RetrofitClient.getRetrofitInstance().create(Api.class);
 //        Call<AppVersion> call = request.getAppVersion();
 //
@@ -252,7 +255,6 @@ public class SplashActivity extends Activity {
 //                start();
 //            }
 //        });
-
         new CheckUpdate().execute();
     }
 
@@ -313,32 +315,34 @@ public class SplashActivity extends Activity {
         }
     }
 
-
-    public String getappversion() {
+    public String getappversion()
+    {
         String versionCode = null;
         PackageManager manager = this.getPackageManager();
-        try {
+        try
+        {
             PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
             String packageName = info.packageName;
             versionCode = String.valueOf(info.versionCode);
             String versionName = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
             // TODO Auto-generated catch block
         }
         return versionCode;
     }
 
-
-
-    private void showDailog(AlertDialog.Builder ab, final Versioninfo versioninfo) {
-
-        if (versioninfo.isVerUpdated()) {
-
-            if (versioninfo.getPriority() == 0) {
-
+    private void showDailog(AlertDialog.Builder ab, final Versioninfo versioninfo)
+    {
+        if (versioninfo.isVerUpdated())
+        {
+            if (versioninfo.getPriority() == 0)
+            {
                 dothis();
-            } else if (versioninfo.getPriority() == 1) {
-
+            }
+            else if (versioninfo.getPriority() == 1)
+            {
                 ab.setTitle(versioninfo.getUpdateTile());
                 ab.setMessage(versioninfo.getUpdateMsg());
 
@@ -348,24 +352,20 @@ public class SplashActivity extends Activity {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
 
-                                Intent launchIntent = getPackageManager()
-                                        .getLaunchIntentForPackage(
-                                                "com.android.vending");
-                                ComponentName comp = new ComponentName(
-                                        "com.android.vending",
-                                        "com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package
+                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+                                ComponentName comp = new ComponentName("com.android.vending","com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package
 
                                 launchIntent.setComponent(comp);
                                 launchIntent.setData(Uri.parse("market://details?id=" + getApplicationContext().getPackageName()));
 
-                                try {
+                                try
+                                {
                                     startActivity(launchIntent);
                                     finish();
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(
-                                            Intent.ACTION_VIEW, Uri
-                                            .parse(versioninfo
-                                                    .getAppUrl())));
+                                }
+                                catch (android.content.ActivityNotFoundException anfe)
+                                {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(versioninfo.getAppUrl())));
                                     finish();
                                 }
 
@@ -385,8 +385,9 @@ public class SplashActivity extends Activity {
 
                 ab.show();
 
-            } else if (versioninfo.getPriority() == 2) {
-
+            }
+            else if (versioninfo.getPriority() == 2)
+            {
                 ab.setTitle(versioninfo.getUpdateTile());
                 ab.setMessage(versioninfo.getUpdateMsg());
                 // ab.setMessage("Please update your App its required. Click on Update button");
@@ -397,25 +398,20 @@ public class SplashActivity extends Activity {
                             public void onClick(DialogInterface dialog,
                                                 int whichButton) {
 
-                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(
-                                        "com.android.vending");
-                                ComponentName comp = new ComponentName(
-                                        "com.android.vending",
-                                        "com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package
+                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+                                ComponentName comp = new ComponentName("com.android.vending","com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package
 
                                 launchIntent.setComponent(comp);
-                                launchIntent.setData(Uri.parse("market://details?id="
-                                        + getApplicationContext()
-                                        .getPackageName()));
+                                launchIntent.setData(Uri.parse("market://details?id="+ getApplicationContext().getPackageName()));
 
-                                try {
+                                try
+                                {
                                     startActivity(launchIntent);
                                     finish();
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(
-                                            Intent.ACTION_VIEW, Uri
-                                            .parse(versioninfo
-                                                    .getAppUrl())));
+                                }
+                                catch (android.content.ActivityNotFoundException anfe)
+                                {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(versioninfo.getAppUrl())));
                                     finish();
                                 }
 
@@ -425,26 +421,26 @@ public class SplashActivity extends Activity {
                         });
                 ab.show();
             }
-        } else {
+        }
+        else
+        {
             dothis();
         }
 
     }
 
     @Override
-    protected void onDestroy() {
-
+    protected void onDestroy()
+    {
         super.onDestroy();
-
     }
 
-    private void dothis() {
-
-        if (!Utiilties.isOnline(SplashActivity.this)) {
-
+    private void dothis()
+    {
+        if (!Utiilties.isOnline(SplashActivity.this))
+        {
             AlertDialog.Builder ab = new AlertDialog.Builder(SplashActivity.this);
-            ab.setMessage(Html.fromHtml(
-                    "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
+            ab.setMessage(Html.fromHtml("<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
             ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -452,46 +448,45 @@ public class SplashActivity extends Activity {
                     startActivity(I);
                 }
             });
-
             ab.create();
             ab.show();
-
-        } else {
+        }
+        else
+        {
             start();
         }
     }
 
-    private void start() {
-
+    private void start()
+    {
         //prefs = PreferenceManager.getDefaultSharedPreferences(this);
         UserDetails userInfo = CommonPref.getUserDetails(getApplicationContext());
-
         Intent i;
         if(userInfo.getIsAuthenticated())
         {
-          i = new Intent(getApplicationContext(), UserHomeActivity.class);
-                startActivity(i);
-                finish();
+            i = new Intent(getApplicationContext(), UserHomeActivity.class);
+            startActivity(i);
+            finish();
         }
         else
         {
             i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
             finish();
-       }
+        }
     }
 
     public  boolean hasPermissions(Context context, String... allPermissionNeeded)
     {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && context != null && allPermissionNeeded != null)
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&& context != null && allPermissionNeeded != null)
             for (String permission : allPermissionNeeded)
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
                     return false;
         return true;
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener)
+    {
         new AlertDialog.Builder(this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
@@ -499,5 +494,7 @@ public class SplashActivity extends Activity {
                 .create()
                 .show();
     }
+
+
 
 }

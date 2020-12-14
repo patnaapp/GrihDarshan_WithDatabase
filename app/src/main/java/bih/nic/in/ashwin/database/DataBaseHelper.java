@@ -783,7 +783,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             dh.createDataBase();
 
 
-        } catch (IOException e1) {
+        }
+        catch (IOException e1)
+        {
             // TODO Auto-generated catch block
             e1.printStackTrace();
             return -1;
@@ -793,9 +795,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //db.delete("Panchayat",null,null);
-        if (info != null) {
-            try {
-                for (int i = 0; i < info.size(); i++) {
+        if (info != null)
+        {
+            try
+            {
+                for (int i = 0; i < info.size(); i++)
+                {
 
                     values.put("Activity_Id", info.get(i).get_ActivityId());
                     values.put("Activity_Desc", info.get(i).get_ActivityDesc());
@@ -806,12 +811,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("AcitivtyType", info.get(i).getAcitivtyType());
                     values.put("ActTypeId", info.get(i).getActTypeId());
                     values.put("Abbr", info.get(i).getAbbr());
+                    values.put("MinRange", info.get(i).getMinRange());
+                    values.put("MaxRange", info.get(i).getMaxRange());
+                    values.put("FieldName", info.get(i).getFieldNAme());
 
                     String[] whereArgs = new String[]{info.get(i).get_ActivityId()};
 
                     c = db.update("ActivityList_Master", values, "Activity_Id=?", whereArgs);
-                    if (!(c > 0)) {
-
+                    if (!(c > 0))
+                    {
                         c = db.insert("ActivityList_Master", null, values);
                     }
 
@@ -819,28 +827,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 }
                 db.close();
 
-
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
                 return c;
             }
         }
         return c;
-
-
     }
 
-    public long setActivityCategoryList_Local(ArrayList<ActivityCategory_entity> list) {
-
-
+    public long setActivityCategoryList_Local(ArrayList<ActivityCategory_entity> list)
+    {
         long c = -1;
 
         DataBaseHelper dh = new DataBaseHelper(myContext);
-        try {
+        try
+        {
             dh.createDataBase();
 
-
-        } catch (IOException e1) {
+        }
+        catch (IOException e1)
+        {
             // TODO Auto-generated catch block
             e1.printStackTrace();
             return -1;
