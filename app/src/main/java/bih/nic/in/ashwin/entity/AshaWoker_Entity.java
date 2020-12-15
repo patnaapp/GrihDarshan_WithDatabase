@@ -11,7 +11,7 @@ public class AshaWoker_Entity implements KvmSerializable, Serializable {
 
     public static Class<AshaWoker_Entity> ASHA_WORKER_CLASS = AshaWoker_Entity.class;
 
-    private String _ASHAID, _Asha_Name,_Asha_Name_Hn,_svr_id;
+    private String _ASHAID, _Asha_Name,_Asha_Name_Hn,_svr_id,AshaFcId;
 
     public AshaWoker_Entity(SoapObject sobj) {
         this._ASHAID = sobj.getProperty("ASHAID").toString();
@@ -28,6 +28,15 @@ public class AshaWoker_Entity implements KvmSerializable, Serializable {
         this._svr_id = sobj.getProperty("SvrID").toString();
 
     }
+
+    public AshaWoker_Entity(SoapObject sobj,String str,String str1) {
+        this._ASHAID = sobj.getProperty("AshaWorkerID").toString();
+        this._Asha_Name = sobj.getProperty("Name").toString();
+        this.AshaFcId = sobj.getProperty("AshaFacilitatorID").toString();
+
+
+    }
+
 
     public AshaWoker_Entity() {
 
@@ -83,5 +92,13 @@ public class AshaWoker_Entity implements KvmSerializable, Serializable {
 
     public void set_svr_id(String _svr_id) {
         this._svr_id = _svr_id;
+    }
+
+    public String getAshaFcId() {
+        return AshaFcId;
+    }
+
+    public void setAshaFcId(String ashaFcId) {
+        AshaFcId = ashaFcId;
     }
 }

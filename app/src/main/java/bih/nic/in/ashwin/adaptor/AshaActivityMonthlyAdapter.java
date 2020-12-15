@@ -69,6 +69,15 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
 //        holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_amount.setText("\u20B9"+info.getActivityAmt());
         holder.tv_activity_desc.setText(info.getActivityDesc());
+
+        if (info.getActivityId().equals("101")||info.getActivityId().equals("102")||info.getActivityId().equals("103"))
+        {
+            holder.rl_nofben.setVisibility(View.VISIBLE);
+            holder.tv_noofben.setText(info.getNoOfBeneficiary());
+        }
+        else {
+            holder.rl_nofben.setVisibility(View.GONE);
+        }
 //        holder.tv_regname.setText(info.getRegisterDesc());
 //        holder.tv_volume.setText(info.getVolume());
 //        holder.tv_slno.setText(info.getPageSerialNo());
@@ -488,11 +497,11 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
       // final TextView tv_workcategory,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
-        RelativeLayout sblist;
+        RelativeLayout sblist,rl_nofben;
         Button btn_accpt,btn_rjct,btn_accp_rjct;
         LinearLayout ll_btn,ll_asha_final;
 
-        final TextView tv_activity_desc,tv_count,tv_amount,tv_status,tv_asha_final;
+        final TextView tv_activity_desc,tv_count,tv_amount,tv_status,tv_asha_final,tv_noofben;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -513,8 +522,10 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             ll_btn = itemView.findViewById(R.id.ll_btn);
             tv_activity_desc = itemView.findViewById(R.id.tv_activity_desc);
             tv_amount = itemView.findViewById(R.id.tv_amount1);
+            tv_noofben = itemView.findViewById(R.id.tv_noofben);
             tv_asha_final = itemView.findViewById(R.id.tv_asha_final);
             ll_asha_final = itemView.findViewById(R.id.ll_asha_final);
+            rl_nofben = itemView.findViewById(R.id.rl_nofben);
             //itemView.setOnClickListener(this);
         }
 
