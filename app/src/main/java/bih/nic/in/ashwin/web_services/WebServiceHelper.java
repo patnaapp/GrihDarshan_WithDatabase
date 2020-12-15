@@ -1424,9 +1424,15 @@ public class WebServiceHelper
             Element vLebel = doc.createElement("ActivityAmt");
             vLebel.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
             pdElement.appendChild(vLebel);
+
             Element vLebel1 = doc.createElement("ActTypeId");
             vLebel1.appendChild(doc.createTextNode(list.get(x).getActTypeId()));
             pdElement.appendChild(vLebel1);
+
+            Element vLebel2 = doc.createElement("NoOfBeneficiary");
+            vLebel2.appendChild(doc.createTextNode(list.get(x).getNoOfBen() == null ? "" : list.get(x).getNoOfBen()));
+            pdElement.appendChild(vLebel2);
+
             pdlsElement.appendChild(pdElement);
         }
         poleElement.appendChild(pdlsElement);

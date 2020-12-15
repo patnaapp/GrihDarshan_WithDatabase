@@ -903,29 +903,37 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type) {
+    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type, String noOfBen) {
         if(type.contains("PC1") || type.contains("PI1")){
             Activity_entity activity = mnthlyActList.get(position);
             activity.setChecked(isChecked);
-
+            activity.setNoOfBen(noOfBen);
+            Double amount = Double.parseDouble(activity.get_ActivityAmt());
+            activity.set_ActivityAmt(String.valueOf(Integer.parseInt(noOfBen)*amount));
             if(activity.getVerificationStatus() == null){
                 activity.setVerificationStatus("P");
             }
-            mnthlyActList.set(position, activity);
 
+            mnthlyActList.set(position, activity);
+            //rv_data.getAdapter().notifyDataSetChanged();
         }else if (type.contains("PC2") || type.contains("PI2")){
             Activity_entity activity = stateContibActList.get(position);
             activity.setChecked(isChecked);
-
+            activity.setNoOfBen(noOfBen);
             if(activity.getVerificationStatus() == null){
                 activity.setVerificationStatus("P");
             }
             stateContibActList.set(position, activity);
+            //rv_data_sc.getAdapter().notifyDataSetChanged();
         }
-
 
         btn_proceed.setVisibility(View.VISIBLE);
         btn_proceed.setText("सुरक्षित करें");
+    }
+
+    @Override
+    public void onActivityCheckboxChanged(int position, String noOfBen) {
+
     }
 
     @Override
@@ -1140,6 +1148,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 int position = mnthlyActList.indexOf(item);
                 item.setVerificationStatus(mItem.getVerificationStatus());
                 item.setIsFinalize(mItem.getIsFinalize());
+                item.setNoOfBen(mItem.getNoOfBeneficiary());
                 item.setChecked(true);
                 mnthlyActList.set(position,item);
                 break;
@@ -1153,6 +1162,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 int position = stateContibActList.indexOf(item);
                 item.setVerificationStatus(mItem.getVerificationStatus());
                 item.setIsFinalize(mItem.getIsFinalize());
+                item.setNoOfBen(mItem.getNoOfBeneficiary());
                 item.setChecked(true);
                 stateContibActList.set(position,item);
                 break;

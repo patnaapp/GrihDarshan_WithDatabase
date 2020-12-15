@@ -461,13 +461,18 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type)
+    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type, String noOfBen)
     {
         Activity_entity activity = activityArray.get(position);
         activity.setChecked(isChecked);
         activityArray.set(position, activity);
 
         updateTotalAmount();
+    }
+
+    @Override
+    public void onActivityCheckboxChanged(int position, String noOfBen) {
+
     }
 
     public void updateTotalAmount()
