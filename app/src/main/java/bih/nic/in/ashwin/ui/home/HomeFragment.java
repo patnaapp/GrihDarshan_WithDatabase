@@ -1156,7 +1156,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 item.setIsFinalize(mItem.getIsFinalize());
                 item.setNoOfBen(mItem.getNoOfBeneficiary());
                 //Double amount = Double.parseDouble(mItem.getActivityRate());
-                //item.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+                item.setTotalAmnt(mItem.getActivityAmt());
                 item.setChecked(true);
                 mnthlyActList.set(position,item);
                 break;
@@ -1171,6 +1171,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 item.setVerificationStatus(mItem.getVerificationStatus());
                 item.setIsFinalize(mItem.getIsFinalize());
                 item.setNoOfBen(mItem.getNoOfBeneficiary());
+                item.setTotalAmnt(mItem.getActivityAmt());
                 item.setChecked(true);
                 stateContibActList.set(position,item);
                 break;

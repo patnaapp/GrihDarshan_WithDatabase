@@ -99,17 +99,31 @@
                 android:padding="8dp"
                 android:background="@drawable/shape_adapter_cell"
                 android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
                 <TextView
+                    android:layout_weight="1"
                     android:id="@+id/tv_ben_no"
                     android:layout_marginLeft="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="लाभार्थी की संख्या"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorGreyDark"/>
+
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/tv_total_amount"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="राशि"
                     android:textStyle="normal"
                     android:textSize="15sp"
                     android:textColor="@color/colorGreyDark"/>

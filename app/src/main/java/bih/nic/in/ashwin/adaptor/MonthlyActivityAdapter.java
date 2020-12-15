@@ -70,6 +70,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 
         if((info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103")) && info.getNoOfBen()!= null){
             holder.tv_ben_no.setText("लाभार्थी की संख्या: "+info.getNoOfBen());
+            holder.tv_total_amount.setText("राशि: "+getTotalAmount(info.getNoOfBen(),info.get_ActivityAmt()));
             holder.ll_no_of_ben.setVisibility(View.VISIBLE);
 
 //            if(isFinalize || isPreview){
@@ -103,101 +104,90 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.ch_activity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b && (info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103"))){
+                if((info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103"))){
 
-                    if(info.getMinRange().equals(info.getMaxRange())){
-                        listener.onActivityCheckboxChanged(position, true, info.getAbbr(),info.getMaxRange());
-                    }else{
-                        final EditText edittext = new EditText(context);
-                        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                        alert.setMessage(info.getAbbr()+" - "+info.get_ActivityDesc());
-                        alert.setTitle("लाभार्थियों की संख्या डालें");
+                    if(b){
 
-                        alert.setView(edittext);
-                        alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int whichButton)
+                        if(info.getMinRange().equals(info.getMaxRange())){
+                            listener.onActivityCheckboxChanged(position, true, info.getAbbr(),info.getMaxRange());
+                            holder.tv_ben_no.setText("लाभार्थी की संख्या: "+info.getMinRange());
+                            holder.tv_total_amount.setText("राशि: "+getTotalAmount(info.getMinRange(),info.get_ActivityAmt()));
+                            holder.ll_no_of_ben.setVisibility(View.VISIBLE);
+                        }else{
+                            final EditText edittext = new EditText(context);
+                            edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                            alert.setMessage(info.getAbbr()+" - "+info.get_ActivityDesc());
+                            alert.setTitle("लाभार्थियों की संख्या डालें");
+
+                            alert.setView(edittext);
+                            alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
                             {
-
-                                String YouEditTextValue = edittext.getText().toString();
-                                if (!YouEditTextValue.equals(""))
+                                public void onClick(DialogInterface dialog, int whichButton)
                                 {
 
-                                    if (!YouEditTextValue.isEmpty() && Integer.parseInt(YouEditTextValue)>=Integer.parseInt(info.getMinRange()) && Integer.parseInt(YouEditTextValue)<=Integer.parseInt(info.getMaxRange()))
+                                    String nOfBen = edittext.getText().toString();
+                                    if (!nOfBen.equals(""))
                                     {
-                                        dialog.dismiss();
-                                        listener.onActivityCheckboxChanged(position, true, info.getAbbr(),YouEditTextValue);
+
+                                        if (!nOfBen.isEmpty() && Integer.parseInt(nOfBen)>=Integer.parseInt(info.getMinRange()) && Integer.parseInt(nOfBen)<=Integer.parseInt(info.getMaxRange()))
+                                        {
+                                            dialog.dismiss();
+                                            holder.tv_ben_no.setText("लाभार्थी की संख्या: "+nOfBen);
+                                            holder.tv_total_amount.setText("राशि: "+getTotalAmount(nOfBen,info.get_ActivityAmt()));
+                                            holder.ll_no_of_ben.setVisibility(View.VISIBLE);
+                                            listener.onActivityCheckboxChanged(position, true, info.getAbbr(),nOfBen);
+
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(context, info.getMinRange()+" से कम और "+info.getMaxRange()+" से ज्यदा संख्या अमान्य है", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                            //listener.onActivityCheckboxChanged(position, false, info.getAbbr(),"");
+                                            holder.ch_activity.setChecked(false);
+                                        }
 
                                     }
                                     else
                                     {
-                                        Toast.makeText(context, info.getMaxRange()+" से ज्यदा संख्या अमान्य है", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                        //listener.onActivityCheckboxChanged(position, false, info.getAbbr(),"");
-                                        holder.ch_activity.setChecked(false);
+                                        edittext.setError("Required field");
                                     }
-
                                 }
-                                else
-                                {
-                                    edittext.setError("Required field");
-                                }
-                            }
-                        });
+                            });
 
-                        alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int whichButton)
+                            alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
                             {
-                                dialog.dismiss();
-                            }
-                        });
+                                public void onClick(DialogInterface dialog, int whichButton)
+                                {
+                                    dialog.dismiss();
+                                }
+                            });
 
-                        alert.show();
+                            alert.show();
 
+                        }
+                    }else{
+                        holder.ll_no_of_ben.setVisibility(View.GONE);
+                        listener.onActivityCheckboxChanged(position, b, info.getAbbr(),"1");
                     }
-
                 }else{
                     listener.onActivityCheckboxChanged(position, b, info.getAbbr(),"1");
+
                 }
 
                 //listener.onActivityCheckboxChanged(position,noof_ben);
             }
         });
+    }
 
-//        holder.edt_ben_no.addTextChangedListener(new TextWatcher(){
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-//            {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-//            {
-////                if (!holder.edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(holder.edt_ben_no.getText().toString())>=Integer.parseInt(info.getMinRange()) && Integer.parseInt(holder.edt_ben_no.getText().toString())<=Integer.parseInt(info.getMaxRange()))
-////                {
-//////                    noof_ben=holder.edt_ben_no.getText().toString();
-//////                    listener.onActivityCheckboxChanged(position, true, info.getAbbr(),noof_ben);
-////                    holder.ch_activity.setChecked(true);
-////                }
-////                else
-////                {
-////                    noof_ben="";
-////                    holder.edt_ben_no.setText("");
-////                    holder.ch_activity.setChecked(false);
-////                    //listener.onActivityCheckboxChanged(position, true, info.getAbbr(),noof_ben);
-////                    Toast.makeText(context, info.getFieldNAme()+" से ज्यदा संख्या अमान्य है", Toast.LENGTH_SHORT).show();
-////                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable)
-//            {
-//
-//            }
-//        });
+    public String getTotalAmount(String noof_ben, String Amnt){
+        Double amount = 0.0;
+        try{
+            amount = Integer.parseInt(noof_ben)*Double.parseDouble(Amnt);
+            return amount.toString();
+        }catch (Exception e){
+            return Amnt;
+        }
     }
 
 
@@ -224,7 +214,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_name,tv_amount,tv_count,tv_status,tv_ben_no;
+        TextView tv_name,tv_amount,tv_count,tv_status,tv_ben_no,tv_total_amount;
         CheckBox ch_activity;
         RelativeLayout sblist;
         LinearLayout ll_no_of_ben;
@@ -241,6 +231,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
             ll_no_of_ben = itemView.findViewById(R.id.ll_no_of_ben);
             edt_ben_no = itemView.findViewById(R.id.edt_ben_no);
             tv_ben_no = itemView.findViewById(R.id.tv_ben_no);
+            tv_total_amount = itemView.findViewById(R.id.tv_total_amount);
 
             //itemView.setOnClickListener(this);
         }
