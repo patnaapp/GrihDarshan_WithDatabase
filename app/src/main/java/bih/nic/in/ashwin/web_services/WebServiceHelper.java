@@ -1421,8 +1421,13 @@ public class WebServiceHelper
             Element fid = doc.createElement("AcitivtyId");
             fid.appendChild(doc.createTextNode(list.get(x).get_ActivityId()));
             pdElement.appendChild(fid);
+
+            Element vLebel11 = doc.createElement("ActivityRate");
+            vLebel11.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
+            pdElement.appendChild(vLebel11);
+
             Element vLebel = doc.createElement("ActivityAmt");
-            vLebel.appendChild(doc.createTextNode(list.get(x).get_ActivityAmt()));
+            vLebel.appendChild(doc.createTextNode(list.get(x).getTotalAmnt()));
             pdElement.appendChild(vLebel);
 
             Element vLebel1 = doc.createElement("ActTypeId");

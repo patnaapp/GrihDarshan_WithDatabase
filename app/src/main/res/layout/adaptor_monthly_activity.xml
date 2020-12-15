@@ -99,9 +99,8 @@
                 android:padding="8dp"
                 android:background="@drawable/shape_adapter_cell"
                 android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="4dp"
-                android:layout_width="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 

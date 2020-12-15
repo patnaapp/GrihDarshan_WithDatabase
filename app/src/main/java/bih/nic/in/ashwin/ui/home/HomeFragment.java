@@ -906,10 +906,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void onActivityCheckboxChanged(int position, Boolean isChecked, String type, String noOfBen) {
         if(type.contains("PC1") || type.contains("PI1")){
             Activity_entity activity = mnthlyActList.get(position);
+
             activity.setChecked(isChecked);
             activity.setNoOfBen(noOfBen);
             Double amount = Double.parseDouble(activity.get_ActivityAmt());
-            activity.set_ActivityAmt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+            activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+
             if(activity.getVerificationStatus() == null){
                 activity.setVerificationStatus("P");
             }
@@ -918,8 +920,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             //rv_data.getAdapter().notifyDataSetChanged();
         }else if (type.contains("PC2") || type.contains("PI2")){
             Activity_entity activity = stateContibActList.get(position);
+
             activity.setChecked(isChecked);
             activity.setNoOfBen(noOfBen);
+            Double amount = Double.parseDouble(activity.get_ActivityAmt());
+            activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+
             if(activity.getVerificationStatus() == null){
                 activity.setVerificationStatus("P");
             }
@@ -1149,6 +1155,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 item.setVerificationStatus(mItem.getVerificationStatus());
                 item.setIsFinalize(mItem.getIsFinalize());
                 item.setNoOfBen(mItem.getNoOfBeneficiary());
+                //Double amount = Double.parseDouble(mItem.getActivityRate());
+                //item.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
                 item.setChecked(true);
                 mnthlyActList.set(position,item);
                 break;
