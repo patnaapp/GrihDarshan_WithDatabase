@@ -655,6 +655,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
             String devicename=getDeviceName();
             String app_version=getAppVersion();
             result = WebServiceHelper.UploadMntlyRejectedRecordsFromANM(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context));
+
             return result;
 
         }

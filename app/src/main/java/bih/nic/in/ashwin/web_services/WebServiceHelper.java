@@ -50,6 +50,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
+
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
@@ -669,6 +670,7 @@ public class WebServiceHelper
 
         SoapObject res1;
         res1 = getServerData(Activity_LIST_METHOD, Activity_entity.Activity_CLASS);
+
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<Activity_entity> fieldList = new ArrayList<Activity_entity>();
