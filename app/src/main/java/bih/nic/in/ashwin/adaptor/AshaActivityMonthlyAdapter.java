@@ -576,7 +576,7 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadAcceptedRecordsFromPacs(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context));
+            result = WebServiceHelper.AcceptedMnthlyRecordsFromANM(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context));
 
             return result;
         }
@@ -654,7 +654,8 @@ public class AshaActivityMonthlyAdapter extends RecyclerView.Adapter<AshaActivit
         protected String doInBackground(String... param) {
             String devicename=getDeviceName();
             String app_version=getAppVersion();
-            result = WebServiceHelper.UploadRejectedRecordsFromPacs(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context));
+            result = WebServiceHelper.UploadMntlyRejectedRecordsFromANM(data,CommonPref.getUserDetails(context).getUserID(),app_version,Utiilties.getDeviceIMEI(context));
+
             return result;
 
         }

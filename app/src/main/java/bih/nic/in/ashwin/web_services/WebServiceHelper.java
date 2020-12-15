@@ -50,6 +50,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
+
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
@@ -669,6 +670,7 @@ public class WebServiceHelper
 
         SoapObject res1;
         res1 = getServerData(Activity_LIST_METHOD, Activity_entity.Activity_CLASS);
+
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<Activity_entity> fieldList = new ArrayList<Activity_entity>();
@@ -1632,6 +1634,51 @@ public class WebServiceHelper
         return rest;
     }
 
+    public static String AcceptedMnthlyRecordsFromANM(AshaWorkEntity data,String userid,String app_ver,String deviceid)
+    {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+        request.addProperty("VerificationStatus","A");
+        request.addProperty("VerificationBy",userid);
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RegisterId",data.getRegisterId());
+        request.addProperty("VOlume",data.getVolume());
+        if (data.getNoOfBeneficiary().equals("NA")){
+            request.addProperty("NoofBeneficiary","");
+        }
+        else {
+            request.addProperty("NoofBeneficiary",data.getNoOfBeneficiary());
+        }
+
+        request.addProperty("Remarks",data.getRemarks());
+        request.addProperty("RegisterDate",data.getRegisterDate());
+        String[] amt=data.getActivityAmt().split("\\.");
+
+        request.addProperty("ActivityAmt",amt[0]);
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return rest;
+    }
+
     public static String UploadAcceptedFcActFromBCM(AshaFascilitatorWorkEntity data,String userid,String app_ver,String deviceid)
     {
         SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctFcFROMBCM);
@@ -1747,6 +1794,51 @@ public class WebServiceHelper
         request.addProperty("RegisterId",data.getRegisterId());
         request.addProperty("VOlume",data.getVolume());
         request.addProperty("NoofBeneficiary",data.getNoOfBenif());
+        request.addProperty("Remarks",data.getRemarks());
+        request.addProperty("RegisterDate",data.getRegisterDate());
+        String[] amt=data.getActivityAmt().split("\\.");
+        request.addProperty("ActivityAmt",amt[0]);
+        request.addProperty("RejectedReason",data.get_rejectedRemarks());
+
+        try
+        {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AcceptRjctRecordsFromPacs,envelope);
+            // res2 = (SoapObject) envelope.getResponse();
+            rest = envelope.getResponse().toString();
+
+            // rest=res2.toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+        return rest;
+
+    }
+
+    public static String UploadMntlyRejectedRecordsFromANM(AshaWorkEntity data, String userid,String app_ver,String deviceid)
+    {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AcceptRjctRecordsFromPacs);
+        request.addProperty("AshaActivityId", data.getAshaActivityId());
+        request.addProperty("VerificationStatus","R");
+        request.addProperty("VerificationBy",userid);
+        request.addProperty("MobVersion",app_ver);
+        request.addProperty("MobDeviceId",deviceid);
+        request.addProperty("RegisterId",data.getRegisterId());
+        request.addProperty("VOlume",data.getVolume());
+        if (data.getNoOfBeneficiary().equals("NA")){
+            request.addProperty("NoofBeneficiary","");
+        }
+        else {
+            request.addProperty("NoofBeneficiary",data.getNoOfBeneficiary());
+        }
         request.addProperty("Remarks",data.getRemarks());
         request.addProperty("RegisterDate",data.getRegisterDate());
         String[] amt=data.getActivityAmt().split("\\.");
