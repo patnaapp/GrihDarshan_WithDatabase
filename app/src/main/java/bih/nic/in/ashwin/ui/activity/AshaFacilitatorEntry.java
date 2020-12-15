@@ -726,8 +726,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
             }
             else {
-
-                Toast.makeText(getApplicationContext(), "No Asha Worker List Mapped with this facilitator", Toast.LENGTH_SHORT).show();
+                Utiilties.showErrorAlet(AshaFacilitatorEntry.this, "सूचना","आपके साथ कोई आशा कार्यकर्ता सूची मैप नहीं की गई हैं");
+                //Toast.makeText(getApplicationContext(), "No Asha Worker List Mapped with this facilitator", Toast.LENGTH_SHORT).show();
             }
 
         }

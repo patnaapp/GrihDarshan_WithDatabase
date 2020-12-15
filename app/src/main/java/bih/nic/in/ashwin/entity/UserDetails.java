@@ -85,9 +85,9 @@ public class UserDetails implements KvmSerializable, Serializable {
             this.setEmail(obj.getProperty("EmailId").toString());
         }
 
-         //this.set_is_passwordChanged(obj.getProperty("IsChangePassword").toString());
+         this.set_is_passwordChanged(obj.getProperty("IsChangePassword").toString());
 
-        this.set_is_passwordChanged("Y");
+        //this.set_is_passwordChanged("Y");
     }
 
     public static Class<UserDetails> getUserClass() {
