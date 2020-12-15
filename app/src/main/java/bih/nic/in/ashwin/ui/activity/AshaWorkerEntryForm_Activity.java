@@ -1249,7 +1249,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 validate = false;
             }else if(Integer.parseInt(edt_ben_no.getText().toString()) > Integer.parseInt(activityEntity.getMaxRange())){
                 edt_ben_no.setError(activityEntity.getFieldNAme()+" "+activityEntity.getMaxRange()+" से ज्यदा मान्य नहीं है");
-                Toast.makeText(this, activityEntity.getFieldNAme()+" "+activityEntity.getMaxRange()+" से ज्यदा मान्य नहीं है", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, activityEntity.getFieldNAme()+" "+activityEntity.getMaxRange()+" से ज्यदा अमान्य है", Toast.LENGTH_SHORT).show();
 
                 focusView = edt_ben_no;
                 validate = false;
