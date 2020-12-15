@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -902,6 +903,55 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return array;
     }
 
+    public void uncheckMonthlyId(String actId1, String actId2){
+        Boolean act1 = false, act2 = false;
+        for(Activity_entity info: mnthlyActList){
+            if(info.get_ActivityId().equals(actId1)){
+                Activity_entity act = info;
+                act.setChecked(false);
+                act.setNoOfBen(null);
+
+                act1 = true;
+                int position = mnthlyActList.indexOf(info);
+
+                mnthlyActList.set(position, act);
+
+                rv_data.getAdapter().notifyItemChanged(position);
+            }
+
+            if(info.get_ActivityId().equals(actId2)){
+                Activity_entity act = info;
+                act.setChecked(false);
+                act.setNoOfBen(null);
+
+                act2 = true;
+                int position = mnthlyActList.indexOf(info);
+
+                mnthlyActList.set(position, act);
+
+                rv_data.getAdapter().notifyItemChanged(position);
+            }
+
+            if(act1 && act2){
+                break;
+            }
+        }
+    }
+
+    public void validateMonthlyBenNoEntry(String activityId){
+        switch (activityId){
+            case "101":
+                uncheckMonthlyId("102", "103");
+                break;
+            case "102":
+                uncheckMonthlyId("101", "103");
+                break;
+            case "103":
+                uncheckMonthlyId("101", "102");
+                break;
+        }
+    }
+
     @Override
     public void onActivityCheckboxChanged(int position, Boolean isChecked, String type, String noOfBen) {
         if(type.contains("PC1") || type.contains("PI1")){
@@ -917,6 +967,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
 
             mnthlyActList.set(position, activity);
+
+
+            if(isChecked && (activity.get_ActivityId().equals("101") || activity.get_ActivityId().equals("102") || activity.get_ActivityId().equals("103"))){
+                validateMonthlyBenNoEntry(activity.get_ActivityId());
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        rv_data.getAdapter().notifyDataSetChanged();
+//                    }
+//                },400);
+
+            }
+
+
             //rv_data.getAdapter().notifyDataSetChanged();
         }else if (type.contains("PC2") || type.contains("PI2")){
             Activity_entity activity = stateContibActList.get(position);
@@ -1265,7 +1329,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             {
                 if(result.contains("0"))
                 {
-                    Toast.makeText(getContext(), "Failed to upload data to server!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed Upload! "+result, Toast.LENGTH_SHORT).show();
                 }
                 else if(result.contains("1"))
                 {

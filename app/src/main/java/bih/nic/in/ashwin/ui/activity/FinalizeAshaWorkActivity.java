@@ -488,7 +488,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         for(Activity_entity info: activityArray)
         {
             if(info.getVerificationStatus().equals("A"))
-                amount += Double.parseDouble(info.get_ActivityAmt());
+                amount += Double.parseDouble(info.getTotalAmnt());
         }
         return amount;
     }

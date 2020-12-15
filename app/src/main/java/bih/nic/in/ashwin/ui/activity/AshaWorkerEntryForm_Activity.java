@@ -989,7 +989,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     edt_abbr.setText(activityEntity.getAbbr());
                     tv_ben_no_field.setText(activityEntity.getFieldNAme());
                     edt_ben_no.setHint(activityEntity.getFieldNAme()+" डालें");
-                    edt_ben_no.setText(activityEntity.getMinRange());
+
+                    if(!entryType.equals("U")){
+                        edt_ben_no.setText(activityEntity.getMinRange());
+                    }
 
                     if(entryType.equals("U") && info.getIsFinalize().equals("Y")){
 
@@ -1443,7 +1446,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         new AlertDialog.Builder(this)
                 .setTitle("Success")
                 .setIcon(R.drawable.asha)
-                .setMessage("Data Uploaded Successfully.")
+                .setMessage("डेटा सफलतापूर्वक अपलोड हो गया।")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener()
                 {

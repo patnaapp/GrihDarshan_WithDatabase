@@ -109,7 +109,7 @@ public class WebServiceHelper
     public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
-    public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivity";
+    public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivityNew";
     public static final String FINALIZEASHAACTIVITY_METHOD = "FinalizeAshaActivity";
     public static final String FINALASHAACTIVITY_METHOD = "FinalAshaActivity";
     public static final String GET_METHOD = "getOTP";
@@ -1415,11 +1415,11 @@ public class WebServiceHelper
         poleElement.appendChild(getSoapPropert(doc, "MobDeviceId", data.getIemi()));
         poleElement.appendChild(getSoapPropert(doc, "AcitivtyType", list.get(0).getAcitivtyType()));
         //--------------Array-----------------//
-        Element pdlsElement = doc.createElement("InsertAmountdetails");
+        Element pdlsElement = doc.createElement("InsertAmountdetailsNew");
 
         for(int x=0;x<list.size();x++)
         {
-            Element pdElement = doc.createElement("InsertAmount");
+            Element pdElement = doc.createElement("InsertAmountnew");
             Element fid = doc.createElement("AcitivtyId");
             fid.appendChild(doc.createTextNode(list.get(x).get_ActivityId()));
             pdElement.appendChild(fid);
@@ -1539,7 +1539,7 @@ public class WebServiceHelper
             builder = factory.newDocumentBuilder();
             is = new InputSource(new StringReader(xml));
             Document doc = builder.parse(is);
-            NodeList list = doc.getElementsByTagName("InsertMonthWiseAshaActivityResult");
+            NodeList list = doc.getElementsByTagName("InsertMonthWiseAshaActivityNewResult");
             result = list.item(0).getTextContent();
             //System.out.println(list.item(0).getTextContent());
         }

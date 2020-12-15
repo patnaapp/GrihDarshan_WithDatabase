@@ -69,8 +69,11 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_amount.setText(info.getActivityAmt());
         holder.tv_regname.setText(info.getRegisterDesc());
-        holder.tv_volume.setText(info.getVolume());
+        holder.tv_no_of_benif.setText(info.getFieldName());
+        holder.tv_volume.setText(info.getNoOfBeneficiary());
         //holder.tv_slno.setText(info.getPageSerialNo());
+
+
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_count.setText(String.valueOf(position+1)+".");
         holder.tv_status.setText(Utiilties.getAshaWorkActivityStatus(info.getVerificationStatus()));
@@ -99,7 +102,30 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DeleteAshaActivity(info, position).execute();
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setMessage("क्या आप "+ info.getActivityDesc() +" कार्य को हटाना चाहते हैं?");
+                //alert.setMessage("क्या आप वाकई इस कार्य को हटाना चाहते हैं?");
+                alert.setTitle("पुष्टि करें");
+
+                alert.setPositiveButton("हाँ", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        new DeleteAshaActivity(info, position).execute();
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.setNegativeButton("नहीं", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int whichButton)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+
             }
         });
     }
@@ -127,7 +153,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status;
+        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
         RelativeLayout sblist;
         ImageView iv_delete;
 
@@ -139,6 +165,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
+            tv_no_of_benif = itemView.findViewById(R.id.tv_no_of_benif);
             //tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);
             tv_count = itemView.findViewById(R.id.tv_count);

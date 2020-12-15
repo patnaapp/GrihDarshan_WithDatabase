@@ -68,7 +68,7 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
         holder.tv_amount.setText("\u20B9"+info.get_ActivityAmt());
         holder.tv_count.setText(String.valueOf(position+1)+".");
 
-        if((info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103")) && info.getNoOfBen()!= null){
+        if((info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103")) && info.getChecked() && info.getNoOfBen()!= null){
             holder.tv_ben_no.setText("लाभार्थी की संख्या: "+info.getNoOfBen());
             holder.tv_total_amount.setText("राशि: "+getTotalAmount(info.getNoOfBen(),info.get_ActivityAmt()));
             holder.ll_no_of_ben.setVisibility(View.VISIBLE);
@@ -76,6 +76,8 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
 //            if(isFinalize || isPreview){
 //                holder.edt_ben_no.setEnabled(false);
 //            }
+        }else{
+            holder.ll_no_of_ben.setVisibility(View.GONE);
         }
 
         if(isFinalize){
@@ -178,6 +180,29 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
                 //listener.onActivityCheckboxChanged(position,noof_ben);
             }
         });
+    }
+
+    public void uncheckMonthlyId(String activityId1, String actId2){
+        Boolean act1 = false, act2 = false;
+        for(Activity_entity info: mData){
+            if(info.get_ActivityId().equals(act1)){
+                Activity_entity act = info;
+                act.setChecked(false);
+                mData.set(mData.indexOf(info), act);
+                act1 = true;
+            }
+
+            if(info.get_ActivityId().equals(act2)){
+                Activity_entity act = info;
+                act.setChecked(false);
+                mData.set(mData.indexOf(info), act);
+                act1 = true;
+            }
+
+            if(act1 && act2){
+                break;
+            }
+        }
     }
 
     public String getTotalAmount(String noof_ben, String Amnt){

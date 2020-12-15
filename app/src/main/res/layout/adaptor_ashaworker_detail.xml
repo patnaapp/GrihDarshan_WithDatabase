@@ -88,7 +88,7 @@
                             android:layout_height="wrap_content"
                             android:text="कार्य का श्रेणी"
                             android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
+                            android:textSize="13sp"/>
 
                         <TextView
                             android:id="@+id/tv_workcategory"
@@ -111,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:text="कार्य"
                             android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
+                            android:textSize="13sp"/>
 
                         <TextView
                             android:id="@+id/tv_work"
@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="पंजी का नाम"
                                 android:textColor="@color/colorGreyDark"
-                                android:textSize="12sp"/>
+                                android:textSize="13sp"/>
 
                             <TextView
                                 android:id="@+id/tv_regname"
@@ -165,11 +165,12 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_no_of_benif"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="खंड"
                                 android:textColor="@color/colorGreyDark"
-                                android:textSize="12sp"/>
+                                android:textSize="13sp"/>
 
                             <TextView
                                 android:id="@+id/tv_volume"
@@ -191,7 +192,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="दावा की गयी राशी"
                                 android:textColor="@color/colorGreyDark"
-                                android:textSize="12sp"/>
+                                android:textSize="13sp"/>
 
                             <TextView
                                 android:id="@+id/tv_amount"
@@ -234,7 +235,7 @@
                             android:layout_height="wrap_content"
                             android:text="पंजी का दिनांक"
                             android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
+                            android:textSize="13sp"/>
 
                         <TextView
                             android:id="@+id/tv_reg_date"
@@ -254,9 +255,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="कार्य पूर्ण की तिथि"
+                            android:text="कार्य पूर्ण तिथि"
                             android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
+                            android:textSize="13sp"/>
 
                         <TextView
                             android:id="@+id/tv_workcompldate"
@@ -278,7 +279,7 @@
                             android:layout_height="wrap_content"
                             android:text="स्थिति"
                             android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
+                            android:textSize="13sp"/>
 
                         <TextView
                             android:id="@+id/tv_status"
