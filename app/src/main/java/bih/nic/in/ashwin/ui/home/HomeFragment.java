@@ -461,6 +461,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
 
+        Log.e("Block", userInfo.getBlockCode());
+
         if (userInfo.getUserrole().equals("BLKBCM")|| userInfo.getUserrole().equals("BLKBHM")|| userInfo.getUserrole().equals("BLKMO"))
         {
             tv_district.setText(userInfo.getDistName());

@@ -517,6 +517,7 @@
             android:layout_above="@+id/btn_ashafc"
             android:background="@drawable/buttonshape"
             android:text="     आशा कार्यकर्ता     "
+            android:textStyle="bold"
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 
@@ -530,6 +531,7 @@
             android:layout_marginRight="32dp"
             android:background="@drawable/buttonshape"
             android:text="     आशा फैसिलिटेटर     "
+            android:textStyle="bold"
             android:textColor="@color/color_white"
             android:textSize="15sp" />
 

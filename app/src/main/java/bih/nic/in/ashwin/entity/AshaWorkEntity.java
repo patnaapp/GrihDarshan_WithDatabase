@@ -48,7 +48,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         //this.IsForwaded = sobj.getProperty("IsForwaded").toString();
 
     }
-    public AshaWorkEntity(SoapObject sobj ,String monthly) {
+    public  AshaWorkEntity(SoapObject sobj ,String monthly) {
         if (monthly.equals("1"))
         {
             this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -102,7 +102,13 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.OtherDist = sobj.getProperty("OtherDist").toString();
             this.OtherBlock = sobj.getProperty("OtherBlock").toString();
             this.IsForwaded = sobj.getProperty("IsForwaded").toString();
-            this.FieldName = sobj.getProperty("FieldName").toString();
+
+            try{
+                this.FieldName = sobj.getProperty("FieldName").toString();
+            }catch (Exception e){
+                this.FieldName = "लाभार्थी की संख्या";
+            }
+
         }
 
 

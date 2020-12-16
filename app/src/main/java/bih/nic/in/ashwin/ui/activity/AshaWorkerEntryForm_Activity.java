@@ -120,22 +120,25 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
             {
-                if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0)
+
+                try
                 {
-                    try
+                    if (!edt_ben_no.getText().toString().isEmpty() && Integer.parseInt(edt_ben_no.getText().toString())>0)
                     {
                         edt_amount_total.setText(String.valueOf(Integer.parseInt(edt_ben_no.getText().toString().trim()) * Integer.parseInt(activityEntity.get_ActivityAmt())));
                     }
-                    catch (Exception e)
+                    else
                     {
                         edt_amount_total.setText("0");
-                        Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
                     }
+
                 }
-                else
+                catch (Exception e)
                 {
                     edt_amount_total.setText("0");
+                    Toast.makeText(AshaWorkerEntryForm_Activity.this, "Amount Calculation Failed!!", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -747,10 +750,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         for (Block_List info: blockArray)
         {
             array.add(info.getBlock_NAME_HN());
-            if (entryType.equals("U") && placeTypeCode.equals("1") && info.getBlk_Code().equals(this.info.getOtherBlock()))
+            if (entryType.equals("U") && (placeTypeCode.equals("1") || placeTypeCode.equals("4")) && info.getBlk_Code().equals(this.info.getOtherBlock()))
             {
                 pos=blockArray.indexOf(info);
                 pos+=1;
+            }else if (entryType.equals("I") && info.getBlk_Code().equals(CommonPref.getUserDetails(this).getBlockCode())){
+                pos=blockArray.indexOf(info)+1;
             }
         }
 
@@ -759,7 +764,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_place_type.setAdapter(adaptor);
         sp_place_type.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U"))
+        if(pos > 0)
         {
             sp_place_type.setSelection(pos);
         }
@@ -1065,12 +1070,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             case R.id.sp_work_place:
                 placeTypeCode = String.valueOf(i);
                 switch (i){
-                    case 1:
+                    case 1: case 4:
                         tv_place_type.setText("प्रखंड : [*]");
                         setBlockSpinner(CommonPref.getUserDetails(this).getDistrictCode());
                         ll_place_type.setVisibility(View.VISIBLE);
                         break;
-                    case 2:
+                    case 2: case 3:
                         tv_place_type.setText("ज़िला : [*]");
                         setDistrictSpinner();
                         ll_place_type.setVisibility(View.VISIBLE);
@@ -1081,7 +1086,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 }
                 break;
             case R.id.sp_place_type:
-                if (i > 0 && placeTypeCode.equals("1")) {
+                if (i > 0 && (placeTypeCode.equals("1") || placeTypeCode.equals("4"))) {
                     otherBlock = blockArray.get(i-1);
                     tv_place_type.setError(null);
                 }else{
@@ -1145,7 +1150,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //                entity.setOtherBlock(CommonPref.getUserDetails(this).getBlockCode());
 //                entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
 //            }else
-            if(placeTypeCode.equals("1"))
+            if(placeTypeCode.equals("1") || placeTypeCode.equals("4"))
                 {
                     entity.setOtherBlock(otherBlock.getBlk_Code());
                     entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());

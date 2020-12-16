@@ -656,4 +656,21 @@ public class Utiilties {
         }
 
     }
+
+    public static String getPlcaeTypeName(String code){
+        switch (code){
+            case "0":
+                return "अपने प्रखंड में";
+            case "1":
+                return "दूसरे प्रखंड में";
+            case "2":
+                return "ज़िला अस्पताल";
+            case "3":
+                return "चिकित्सा महाविद्यालय";
+            case "4":
+                return "अनुमंडलीय अस्पताल";
+            default:
+                return "NA";
+        }
+    }
 }
