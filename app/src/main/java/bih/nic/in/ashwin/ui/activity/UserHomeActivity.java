@@ -679,7 +679,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                         if(dialog.isShowing())
                             dialog.dismiss();
 
-                        homeFrag.setFYearSpinner();
+                        if(homeFrag.isVisible())
+                            homeFrag.setFYearSpinner();
                     }
 
                     Toast.makeText(getApplicationContext(), "centre amount details loaded", Toast.LENGTH_SHORT).show();
@@ -783,7 +784,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-                homeFrag.setFYearSpinner();
+                if(homeFrag.isVisible())
+                    homeFrag.setFYearSpinner();
             }
         }
     }
@@ -825,7 +827,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                     Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
 
-                homeFrag.setFYearSpinner();
+                if(homeFrag.isVisible())
+                    homeFrag.setFYearSpinner();
             }
         }
     }

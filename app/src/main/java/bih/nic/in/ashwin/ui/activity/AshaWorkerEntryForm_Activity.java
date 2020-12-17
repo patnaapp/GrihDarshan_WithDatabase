@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -964,6 +965,21 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }
     };
 
+    public void setBenNoEntryLimit(){
+        try {
+            Integer maxLimit = Integer.parseInt(activityEntity.getMaxRange());
+            if(maxLimit < 10){
+                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
+            }else if(maxLimit < 100){
+                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
+            }else{
+                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Failed to Set TextField Limit", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()){
@@ -994,6 +1010,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     edt_abbr.setText(activityEntity.getAbbr());
                     tv_ben_no_field.setText(activityEntity.getFieldNAme());
                     edt_ben_no.setHint(activityEntity.getFieldNAme()+" डालें");
+
+                    setBenNoEntryLimit();
 
                     if(!entryType.equals("U")){
                         edt_ben_no.setText(activityEntity.getMinRange());
@@ -1533,19 +1551,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 }
                 else
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this);
-                    builder.setIcon(R.drawable.ashwin_logo);
-                    builder.setTitle("Failed");
-                    // Ask the final question
-                    builder.setMessage("failed");
-                    builder.setPositiveButton("ओके", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which)
-                        {
-                            dialog.dismiss();
-                        }
-                    });
+                    Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this, "Failed!!","रिकॉर्ड अपडेट नहीं हुआ!!");
                 }
 
             }
