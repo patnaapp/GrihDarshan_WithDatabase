@@ -97,6 +97,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     AshaWorkEntity info;
     ArrayList<String> list;
 
+    Double totalAmount = 0.0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -551,6 +553,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         entryType =  getIntent().getStringExtra("Type");
 
         workdmCode =  getIntent().getStringExtra("WorkDMType");
+        totalAmount = getIntent().getDoubleExtra("actTotalAmnt",0.0);
         //role =  getIntent().getStringExtra("role");
         role =  CommonPref.getUserDetails(this).getUserrole();
 
@@ -662,6 +665,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
             edt_amount_total.setText(info.getActivityAmt());
             edt_reg_date.setText(Utiilties.convertDateStringFormet("dd/MM/yyyy","yyyy-MM-dd",info.getRegisterDate()));
+
+            try{
+                totalAmount -= Double.parseDouble(info.getActivityAmt());
+            }catch (Exception e){
+                Toast.makeText(this, "Failed In Checking Total Amount!!", Toast.LENGTH_SHORT).show();
+            }
 
             if(info.getIsFinalize().equals("Y"))
             {
@@ -1283,6 +1292,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
                 focusView = edt_ben_no;
                 validate = false;
+            }else if(Double.parseDouble(edt_amount_total.getText().toString())+totalAmount>6000){
+                //focusView = edt_ben_no;
+                validate = false;
+                Toast.makeText(this, "इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम दावा की गयी राशि 6000 से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             Toast.makeText(this, "Failed in parsing activity ben range!!", Toast.LENGTH_SHORT).show();

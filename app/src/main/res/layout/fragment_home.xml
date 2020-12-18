@@ -390,6 +390,29 @@
             </LinearLayout>
         </LinearLayout>
 
+        <RelativeLayout
+            android:visibility="gone"
+            android:background="@drawable/shape_adapter_cell"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="4dp"
+            android:id="@+id/rl_total_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="कुल दावा राशि(दैनिक+मासिक): 24134"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                android:textColor="@color/color_black"/>
+
+        </RelativeLayout>
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_dmf_tab"

@@ -86,15 +86,15 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.sblist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
-                intent.putExtra("FYear", fyear);
-                intent.putExtra("FMonth", fmonth);
-                intent.putExtra("Type", "U");
-                intent.putExtra("data", info);
-                intent.putExtra("WorkDMType", "D");
-                intent.putExtra("role", CommonPref.getUserDetails(context).getUserrole());
-                context.startActivity(intent);
+                listener.onEditAshaWork(info);
+//                Intent intent = new Intent(context, AshaWorkerEntryForm_Activity.class);
+//                intent.putExtra("FYear", fyear);
+//                intent.putExtra("FMonth", fmonth);
+//                intent.putExtra("Type", "U");
+//                intent.putExtra("data", info);
+//                intent.putExtra("WorkDMType", "D");
+//                intent.putExtra("role", CommonPref.getUserDetails(context).getUserrole());
+//                context.startActivity(intent);
 
             }
         });

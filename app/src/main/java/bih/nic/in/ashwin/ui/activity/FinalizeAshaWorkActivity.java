@@ -581,6 +581,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     }
 
+    @Override
+    public void onEditAshaWork(AshaWorkEntity info) {
+
+    }
+
     public void onGetVerifyOtp(View view) {
         if(isValidated()){
             //if(getOtp){

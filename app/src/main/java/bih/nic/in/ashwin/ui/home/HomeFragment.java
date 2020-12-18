@@ -1,10 +1,13 @@
 package bih.nic.in.ashwin.ui.home;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +59,7 @@ import bih.nic.in.ashwin.ui.activity.FcSalary_ByBHM_MOIC_Activity;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.OtherBLockActivityVerificationList;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.GlobalVariables;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
@@ -66,8 +71,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
-    TextView tv_daily,tv_monthly,tv_finalize,tv_rr,tv_sc;
+    TextView tv_daily,tv_monthly,tv_finalize,tv_rr,tv_sc,tv_total;
     LinearLayout ll_dmf_tab;
+    RelativeLayout rl_total_amount;
+
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_hsc;
     RecyclerView rv_data,rv_data_sc;
     //Spinner sp_facilitator;
@@ -101,8 +108,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayList<AshaFascilitatorWorkEntity> ashaFcWorkData = new ArrayList<>();
 
     private ProgressDialog dialog;
-
-
+    Double totalAmount = 0.0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -145,6 +151,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         intent.putExtra("FMonth", fmonth);
                         intent.putExtra("Type", "I");
                         intent.putExtra("WorkDMType", "D");
+                        intent.putExtra("actTotalAmnt", totalAmount);
                         intent.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
                         getContext().startActivity(intent);
                     }
@@ -342,6 +349,33 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         return root;
     }
 
+    public Double getAshaTotalEntryAmount(){
+        Double amount = 0.0;
+        try{
+            for(AshaWorkEntity entity: ashaWorkData){
+                amount += Double.parseDouble(entity.getActivityAmt());
+            }
+
+            for(Activity_entity monthly: mnthlyActList){
+                if(monthly.getChecked()){
+                    Integer benNo = 1;
+                    try{
+                        benNo = Integer.parseInt(monthly.getNoOfBen());
+                    }
+                    catch (Exception e){
+                        Log.e("Number Parsing Error", "");
+                    }
+                    Double mnthAmnt = Double.parseDouble(monthly.get_ActivityAmt()) * benNo;
+                    amount += mnthAmnt;
+                }
+            }
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Failed in calculating asha Montly activity amount!!", Toast.LENGTH_SHORT).show();
+        }
+        Log.e("Total Amount", ""+amount);
+        return amount;
+    }
+
     public ArrayList<Activity_entity> getSelectedMonthlyActivity()
     {
         ArrayList<Activity_entity> list = new ArrayList<>();
@@ -371,6 +405,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_block = root.findViewById(R.id.tv_block);
         tv_panchayat = root.findViewById(R.id.tv_panchayat);
         tv_note = root.findViewById(R.id.tv_note);
+        tv_total = root.findViewById(R.id.tv_total);
 
         tv_rr = root.findViewById(R.id.tv_rr);
         tv_sc = root.findViewById(R.id.tv_sc);
@@ -397,6 +432,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         rv_data = root.findViewById(R.id.rv_data);
         rv_data_sc = root.findViewById(R.id.rv_data_sc);
+
+        rl_total_amount = root.findViewById(R.id.rl_total_amount);
 
         btn_proceed = root.findViewById(R.id.btn_proceed);
         btn_ashafc = root.findViewById(R.id.btn_ashafc);
@@ -457,7 +494,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void setUserDetail()
     {
         UserDetails userInfo = CommonPref.getUserDetails(getContext());
-        tv_username.setText(userInfo.getUserName());
+        tv_username.setText(userInfo.getUserName()+" - "+userInfo.getUserID().toUpperCase());
         tv_aanganwadi.setText(userInfo.getAwcName());
         tv_hscname.setText(userInfo.getHSCName());
 
@@ -780,9 +817,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
 
+    public void updateAshaTotalAmount(){
+        totalAmount = getAshaTotalEntryAmount();
+        tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
+    }
+
     public void setupRecuyclerView()
     {
+
         ll_dmf_tab.setVisibility(View.VISIBLE);
+        updateAshaTotalAmount();
+        rl_total_amount.setVisibility(View.VISIBLE);
 
         isFinalize = isAshaFinalizeWork();
         tabType = "D";
@@ -794,15 +839,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.VISIBLE);
         }
-        if(isFinalize)
-        {
+
+        if(isFinalize){
             //btn_proceed.setVisibility(View.GONE);
             ll_floating_btn.setVisibility(View.GONE);
+            tv_note.setText("नोट: इस कार्य सूची को अंतिम रूप दें दिया गया है और इसलिए इसमें संसोधन नहीं किया जा सकता");
             tv_note.setVisibility(View.VISIBLE);
             // tv_finalize.setVisibility(View.GONE);
-        }
-        else
-        {
+        }else if (totalAmount>=6000){
+            ll_floating_btn.setVisibility(View.GONE);
+            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+            tv_note.setVisibility(View.VISIBLE);
+        }else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
@@ -852,7 +900,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_sc.setVisibility(View.GONE);
                 rv_data_sc.setVisibility(View.GONE);
 
-                if(!isFinalize)
+                if(!isFinalize && totalAmount<6000)
                     ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
                 break;
@@ -954,36 +1002,59 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
+    public Boolean isActivityAmountExceedTotal(Double amountToAdd){
+        if(getAshaTotalEntryAmount() > 6000){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     @Override
-    public void onActivityCheckboxChanged(int position, Boolean isChecked, String type, String noOfBen) {
+    public void onActivityCheckboxChanged(final int position, Boolean isChecked, String type, String noOfBen) {
         if(type.contains("PC1") || type.contains("PI1")){
             Activity_entity activity = mnthlyActList.get(position);
 
             activity.setChecked(isChecked);
             activity.setNoOfBen(noOfBen);
             Double amount = Double.parseDouble(activity.get_ActivityAmt());
-            activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
 
-            if(activity.getVerificationStatus() == null){
-                activity.setVerificationStatus("P");
+            if(isChecked && isActivityAmountExceedTotal(amount)){
+                activity.setChecked(false);
+                mnthlyActList.set(position, activity);
+
+                AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+                ab.setCancelable(false);
+                ab.setTitle("सूचना !!");
+                ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि 6000 है");
+                ab.setPositiveButton("ओके",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+
+                                rv_data.getAdapter().notifyItemChanged(position);
+                            }
+                        });
+                ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
+                ab.show();
+            }else{
+
+                activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+
+                if(activity.getVerificationStatus() == null){
+                    activity.setVerificationStatus("P");
+                }
+
+                mnthlyActList.set(position, activity);
+
+
+                if(isChecked && (activity.get_ActivityId().equals("101") || activity.get_ActivityId().equals("102") || activity.get_ActivityId().equals("103"))){
+                    validateMonthlyBenNoEntry(activity.get_ActivityId());
+                }
+
             }
 
-            mnthlyActList.set(position, activity);
-
-
-            if(isChecked && (activity.get_ActivityId().equals("101") || activity.get_ActivityId().equals("102") || activity.get_ActivityId().equals("103"))){
-                validateMonthlyBenNoEntry(activity.get_ActivityId());
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        rv_data.getAdapter().notifyDataSetChanged();
-//                    }
-//                },400);
-
-            }
-
-
-            //rv_data.getAdapter().notifyDataSetChanged();
         }else if (type.contains("PC2") || type.contains("PI2")){
             Activity_entity activity = stateContibActList.get(position);
 
@@ -1048,6 +1119,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     @Override
+    public void onEditAshaWork(AshaWorkEntity info) {
+        Intent intent = new Intent(getContext(), AshaWorkerEntryForm_Activity.class);
+        intent.putExtra("FYear", fyear);
+        intent.putExtra("FMonth", fmonth);
+        intent.putExtra("Type", "U");
+        intent.putExtra("data", info);
+        intent.putExtra("WorkDMType", "D");
+        intent.putExtra("actTotalAmnt", totalAmount);
+        intent.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
+        startActivity(intent);
+    }
+
+    @Override
     public void onEditFCWork(AshaFascilitatorWorkEntity info) {
         Intent intent = new Intent(getContext(), AshaFacilitatorEntry.class);
         intent.putExtra("FYear", fyear);
@@ -1064,6 +1148,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
             ashaWorkData.remove(position);
             rv_data.getAdapter().notifyItemRemoved(position);
+            updateAshaTotalAmount();
+            if (totalAmount>=6000){
+                ll_floating_btn.setVisibility(View.GONE);
+                tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+                tv_note.setVisibility(View.VISIBLE);
+            }else{
+                ll_floating_btn.setVisibility(View.VISIBLE);
+                tv_note.setVisibility(View.GONE);
+            }
         }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
             ashaFcWorkData.remove(position);
             rv_data.getAdapter().notifyItemRemoved(position);
@@ -1338,6 +1431,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     //onDataUploaded();
                     Toast.makeText(getContext(), "मासिक कार्य सूची सफलतापूर्वक संचित कर लिया गया है", Toast.LENGTH_SHORT).show();
                     btn_proceed.setVisibility(View.GONE);
+                    updateAshaTotalAmount();
                 }else{
                     Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
                 }
