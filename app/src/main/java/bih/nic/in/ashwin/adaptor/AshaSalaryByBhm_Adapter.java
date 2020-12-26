@@ -143,27 +143,27 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
                 holder.ll_btn.setVisibility(View.GONE);
-                holder.btn_rjct.setVisibility(View.GONE);
-                holder.btn_accpt.setVisibility(View.GONE);
-                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
+                holder.btn_rjct.setVisibility(View.VISIBLE);
+                holder.btn_accpt.setVisibility(View.VISIBLE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
                // holder.btn_accp_rjct.setVisibility(View.GONE);
             }
             else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA")))
             {
-                holder.btn_accp_rjct.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
                 holder.ll_btn.setVisibility(View.GONE);
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-                // holder.btn_rjct.setVisibility(View.VISIBLE);
+                //holder.btn_rjct.setVisibility(View.VISIBLE);
             }
             else if (info.getVerificationStatus().contains("R"))
             {
-                holder.btn_accp_rjct.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("अनुशंषित करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                 holder.ll_btn.setVisibility(View.GONE);

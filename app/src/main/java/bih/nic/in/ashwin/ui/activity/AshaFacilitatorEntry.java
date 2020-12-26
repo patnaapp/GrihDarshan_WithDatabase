@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.UserDetails;
+import bih.nic.in.ashwin.utility.AppConstant;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -56,6 +58,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     Spinner sp_panchayt_type,sp_work_categ,sp_work,sp_asha;
     TextView tv_cat_title,tv_activity,tv_panchayt,tv_asha_title,tv_hsc_name,tv_note;
     Button btn_proceed;
+    LinearLayout ll_asha;
 
     ArrayList<Panchayat_List> panchayatEntitylist;
     Panchayat_List panchayatTypeEntity;
@@ -158,6 +161,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
         edt_ben_no=findViewById(R.id.edt_ben_no);
         edt_remark=findViewById(R.id.edt_remark);
+
+        ll_asha=findViewById(R.id.ll_asha);
 
         btn_proceed=findViewById(R.id.btn_proceed);
     }
@@ -316,15 +321,26 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
+        int mYear =Integer.parseInt(fyear.getYear_Id())-1;
         int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
         //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
 
-        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
-        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
+        if(mnth > 2){ //From April To Dec
+
+            datedialog.getDatePicker().setMinDate(new GregorianCalendar(mYear, mnth-1, 26).getTimeInMillis());
+            datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth, 25).getTimeInMillis());
+
+        }else{ //From Jan To March
+            mYear += 1;
+
+            datedialog.getDatePicker().setMinDate(new GregorianCalendar(mYear, mnth-1, 26).getTimeInMillis());
+            datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth, 25).getTimeInMillis());
+        }
+//        datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth, 1).getTimeInMillis());
+//        datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
 
         datedialog.show();
     }
@@ -389,6 +405,12 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
                     activityEntity = ActivityEntityList.get(i - 1);
                     tv_activity.setError(null);
                     edt_abbr.setText(activityEntity.getAbbr());
+
+                    if(activityEntity.getAbbr().equals(AppConstant.ASHA_DIWAS_UPASTITHI)){
+                        ll_asha.setVisibility(View.GONE);
+                    }else{
+                        ll_asha.setVisibility(View.VISIBLE);
+                    }
                 }
                 else
                 {
@@ -452,7 +474,8 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             focusView = tv_panchayt;
             validate = false;
         }
-        if (ashaworkerEntity == null)
+
+        if (!activityEntity.getAbbr().equals(AppConstant.ASHA_DIWAS_UPASTITHI) && ashaworkerEntity == null)
         {
             tv_asha_title.setError("कृप्या आशा का चयन करें");
             focusView = tv_asha_title;
@@ -485,7 +508,11 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             entity.setBlockCode(userDetails.getBlockCode());
             //entity.setHSCCODE(hscEntity.get_HSCCode());
             entity.setPanchayatCode(panchayatTypeEntity.getPanchayat_code());
-            entity.setAshaID(ashaworkerEntity.get_ASHAID());
+
+            if(!activityEntity.getAbbr().equals(AppConstant.ASHA_DIWAS_UPASTITHI)){
+                entity.setAshaID(ashaworkerEntity.get_ASHAID());
+            }
+
             entity.setAshaFacilitatorId(userDetails.getSVRID());
             entity.setFCAcitivtyId(activityEntity.get_ActivityId());
             entity.setNumberOfBen(edt_ben_no.getText().toString());

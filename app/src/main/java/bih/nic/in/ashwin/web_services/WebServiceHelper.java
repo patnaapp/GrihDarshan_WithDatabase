@@ -59,6 +59,7 @@ import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
 import bih.nic.in.ashwin.entity.AshaWorkerSalary_Entity;
+import bih.nic.in.ashwin.entity.BlockListDCM;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
 import bih.nic.in.ashwin.entity.DefaultResponse;
@@ -102,6 +103,7 @@ public class WebServiceHelper
     public static final String RegisterMapping_METHOD = "msActivityRegisterMapping";
     public static final String Strate_METHOD = "StateAmount";
     public static final String Asha_worker_LIST_METHOD = "getAshaWorkers";
+    public static final String Asha_worker_LISTDCM_METHOD = "getAshaListForDCM";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String Hsc_LIST_METHOD = "getHSCList";
     public static final String Hsc_LIST_other_METHOD = "getHSCOtherList";
@@ -152,6 +154,8 @@ public class WebServiceHelper
     public static final String CheckActivityCOunt_Service = "occurancetime";
     public static final String Asha_worker_LISTFCWISE_METHOD = "getAshaFacilatorWiseList";
     public static final String Hsc_LISTANM_METHOD = "getHscListAnmWise";
+    public static final String BLOCKLISTFORDCM = "GetBlockListForDCMMonthYearOther";
+    public static final String HSCLISTFORDCM = "GetHscListForDCM";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -842,6 +846,30 @@ public class WebServiceHelper
 
         SoapObject res1;
         res1 = getServerData(Asha_worker_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "Distcode","blockcode","HscCode", distcode,blkcode,hsccode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWoker_Entity sm = new AshaWoker_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<AshaWoker_Entity> getAshaWorkerListDCM(String distcode,String blkcode,String hsccode,String FYearId,String MonthId) {
+
+        SoapObject res1;
+        res1 = getServerData(Asha_worker_LISTDCM_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "Distcode","blockcode","HscCode","FYearId","MonthId", distcode,blkcode,hsccode,FYearId,MonthId);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
@@ -2358,6 +2386,54 @@ public class WebServiceHelper
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     HscList_Entity sm = new HscList_Entity(final_object,"1","1");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<HscList_Entity> getHSCListDCM(String mnthId, String yearId, String blockCode) {
+
+        SoapObject res1;
+        res1 = getServerData(HSCLISTFORDCM, HscList_Entity.Hsc_CLASS, "MonthId","FYearId", "blockcode",mnthId,yearId, blockCode);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<HscList_Entity> fieldList = new ArrayList<HscList_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    HscList_Entity sm = new HscList_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static ArrayList<BlockListDCM> getBlockListDCM(String mnthId, String yearId, String distId) {
+
+        SoapObject res1;
+        res1 = getServerData(BLOCKLISTFORDCM, BlockListDCM.BlockListDCM_CLASS, "MonthId","FYearId", "DistCode",mnthId,yearId, distId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<BlockListDCM> fieldList = new ArrayList<BlockListDCM>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    BlockListDCM sm = new BlockListDCM(final_object);
                     fieldList.add(sm);
                 }
             } else

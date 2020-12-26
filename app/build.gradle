@@ -8,8 +8,8 @@ android {
         applicationId "bih.nic.in.ashwin"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.7"
+        versionCode 10
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'

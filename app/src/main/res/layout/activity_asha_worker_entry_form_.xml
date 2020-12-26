@@ -574,7 +574,7 @@
                             android:id="@+id/tv_volume"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="खंड: [*]"
+                            android:text="खंड/Volume: [*]"
                             android:textColor="@color/color_black"
                             android:textSize="12sp"/>
 
@@ -736,7 +736,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="अभियुक्ती"
+                        android:text="अभियुक्ती/Remark"
                         android:textColor="@color/color_black"
                         android:textSize="12sp"/>
 

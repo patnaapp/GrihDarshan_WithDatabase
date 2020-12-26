@@ -669,6 +669,8 @@ public class Utiilties {
                 return "चिकित्सा महाविद्यालय";
             case "4":
                 return "अनुमंडलीय अस्पताल";
+            case "5":
+                return "रेफरल अस्पताल";
             default:
                 return "NA";
         }

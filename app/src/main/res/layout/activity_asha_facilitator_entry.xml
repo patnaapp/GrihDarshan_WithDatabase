@@ -203,37 +203,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_asha_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="आशा : [*]"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp"/>
-
-                    <Spinner
-                        android:background="@drawable/spinner_bg1"
-                        android:layout_marginTop="4dp"
-                        android:id="@+id/sp_asha"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <TextView
                         android:id="@+id/tv_cat_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -249,9 +218,16 @@
                         android:layout_height="36dp" />
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
                 <LinearLayout
                     android:layout_marginBottom="12dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -274,6 +250,31 @@
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_asha"
+                android:visibility="gone"
+                android:layout_marginBottom="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_asha_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="आशा : [*]"
+                    android:textColor="@color/color_black"
+                    android:textSize="12sp"/>
+
+                <Spinner
+                    android:background="@drawable/spinner_bg1"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/sp_asha"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp" />
             </LinearLayout>
 
             <LinearLayout

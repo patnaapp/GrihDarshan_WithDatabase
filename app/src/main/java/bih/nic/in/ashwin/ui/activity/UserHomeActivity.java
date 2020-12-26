@@ -125,6 +125,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
 
         homeFrag = new HomeFragment();
+        //homeFrag = new HomeFragment(this);
         displaySelectedFragment(homeFrag);
 
     }
@@ -150,6 +151,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_home:
                 toolbar.setTitle("Ashwin Home");
                 homeFrag = new HomeFragment();
+                //homeFrag = new HomeFragment(this);
                 displaySelectedFragment(homeFrag);
                 break;
             case R.id.nav_sync:
@@ -217,6 +219,11 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 .show();
     }
 
+    @Override
+    public void onSyncMasterData() {
+        syncData();
+    }
+
     private void syncData()
     {
         if(Utiilties.isOnline(this)){
@@ -225,11 +232,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             Utiilties.showInternetAlert(this);
         }
 
-    }
-
-    @Override
-    public void onSyncMasterData() {
-        syncData();
     }
 
 
@@ -526,7 +528,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     private class GetRegisterActMappingDetails extends AsyncTask<String, Void, ArrayList<RegisteMappingEbtity>> {
 
         @Override
@@ -640,7 +641,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-
     private class GetCentreAmount extends AsyncTask<String, Void, ArrayList<Centralamount_entity>> {
 
         @Override
@@ -748,8 +748,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>
-    {
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>{
 
         @Override
         protected void onPreExecute()

@@ -39,14 +39,23 @@ import bih.nic.in.ashwin.adaptor.MonthlyActivityAdapter;
 import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
 import bih.nic.in.ashwin.adaptor.UserHomeListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.ActivityCategory_entity;
+import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
+import bih.nic.in.ashwin.entity.Block_List;
+import bih.nic.in.ashwin.entity.Centralamount_entity;
+import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
+import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
+import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorEntry;
@@ -58,6 +67,8 @@ import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
 import bih.nic.in.ashwin.ui.activity.FcSalary_ByBHM_MOIC_Activity;
 import bih.nic.in.ashwin.ui.activity.FinalizeAshaWorkActivity;
 import bih.nic.in.ashwin.ui.activity.OtherBLockActivityVerificationList;
+import bih.nic.in.ashwin.ui.activity.UserHomeActivity;
+import bih.nic.in.ashwin.utility.AppConstant;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.GlobalVariables;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -72,7 +83,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     FloatingActionButton floating_action_button;
     TextView tv_username,tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_spworker,tv_note;
     TextView tv_daily,tv_monthly,tv_finalize,tv_rr,tv_sc,tv_total;
-    LinearLayout ll_dmf_tab;
+    LinearLayout ll_dmf_tab,ll_block;
     RelativeLayout rl_total_amount;
 
     Spinner sp_fn_year,sp_fn_month,sp_userrole,sp_worker,sp_hsc;
@@ -110,10 +121,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private ProgressDialog dialog;
     Double totalAmount = 0.0;
 
+//    public HomeFragment(UserHomeListener listenr) {
+//        this.listenr = listenr;
+//    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
-        homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
+        //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(root);
@@ -254,13 +269,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
 
-                if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getContext()).getUserrole().equals("DSTADM"))
                 {
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
                     // i.putExtra("role", userRole);
-                    i.putExtra("role", "BLKBCM");
+                    i.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
 
                     // i.putExtra("ashaid", asha_id);
                     // i.putExtra("ashanm", ashaname);
@@ -429,6 +444,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_floating_btn = root.findViewById(R.id.ll_floating_btn);
         ll_hsc_list = root.findViewById(R.id.ll_hsc_list);
         ll_div_zone = root.findViewById(R.id.ll_div_zone);
+        ll_block = root.findViewById(R.id.ll_block);
 
         rv_data = root.findViewById(R.id.rv_data);
         rv_data_sc = root.findViewById(R.id.rv_data_sc);
@@ -475,6 +491,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             btn_asha_fc.setVisibility(View.VISIBLE);
             btn_other_blk.setVisibility(View.VISIBLE);
             btn_ashafc.setVisibility(View.GONE);
+        }else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("DSTADM"))
+        {
+            ll_floating_btn.setVisibility(View.GONE);
+            ll_pan.setVisibility(View.GONE);
+            ll_div_zone.setVisibility(View.GONE);
+            ll_division.setVisibility(View.GONE);
+            btn_proceed.setVisibility(View.GONE);
+            btn_proceed1.setVisibility(View.VISIBLE);
+            btn_asha_fc.setVisibility(View.GONE);
+            btn_other_blk.setVisibility(View.GONE);
+            btn_ashafc.setVisibility(View.GONE);
+            ll_block.setVisibility(View.GONE);
         }
 
         else
@@ -525,7 +553,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     public void setFYearSpinner()
     {
         fYearArray = dbhelper.getFinancialYearList();
-        //if(fYearArray.size() > 0){
+        if(fYearArray.size() > 0){
             ArrayList array = new ArrayList<String>();
             array.add("-Select-");
 
@@ -541,9 +569,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_fn_year.setAdapter(adaptor);
             sp_fn_year.setOnItemSelectedListener(this);
-//        }else{
-//            listenr.onSyncMasterData();
-//        }
+        }else{
+            syncData();
+        }
 
     }
 
@@ -692,6 +720,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             btn_other_blk.setVisibility(View.VISIBLE);
                             btn_ashafc.setVisibility(View.GONE);
                             ll_floating_btn.setVisibility(View.GONE);
+                        }else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("DSTADM"))
+                        {
+                            btn_proceed1.setVisibility(View.VISIBLE);
                         }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
                         {
                             new SyncAshaActivityList().execute();
@@ -846,11 +877,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setText("नोट: इस कार्य सूची को अंतिम रूप दें दिया गया है और इसलिए इसमें संसोधन नहीं किया जा सकता");
             tv_note.setVisibility(View.VISIBLE);
             // tv_finalize.setVisibility(View.GONE);
-        }else if (totalAmount>=6000){
+        }
+//        else if (totalAmount>=6000){
+//            ll_floating_btn.setVisibility(View.GONE);
+//            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+//            tv_note.setVisibility(View.VISIBLE);
+//        }
+        else if (totalAmount>= AppConstant.ASHATOTALAMOUNT){
             ll_floating_btn.setVisibility(View.GONE);
-            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
             tv_note.setVisibility(View.VISIBLE);
-        }else{
+        }
+        else{
 //            btn_proceed.setVisibility(View.VISIBLE);
 //            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
@@ -900,7 +938,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_sc.setVisibility(View.GONE);
                 rv_data_sc.setVisibility(View.GONE);
 
-                if(!isFinalize && totalAmount<6000)
+                if(!isFinalize && totalAmount<AppConstant.ASHATOTALAMOUNT)
                     ll_floating_btn.setVisibility(View.VISIBLE);
                 loadDailyRecyclerData();
                 break;
@@ -1003,7 +1041,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public Boolean isActivityAmountExceedTotal(Double amountToAdd){
-        if(getAshaTotalEntryAmount() > 6000){
+        if(getAshaTotalEntryAmount() > AppConstant.ASHATOTALAMOUNT){
             return true;
         }else{
             return false;
@@ -1026,7 +1064,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
                 ab.setCancelable(false);
                 ab.setTitle("सूचना !!");
-                ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि 6000 है");
+                ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि "+ AppConstant.ASHATOTALAMOUNT +" है");
                 ab.setPositiveButton("ओके",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -1149,9 +1187,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             ashaWorkData.remove(position);
             rv_data.getAdapter().notifyItemRemoved(position);
             updateAshaTotalAmount();
-            if (totalAmount>=6000){
+            if (totalAmount>=AppConstant.ASHATOTALAMOUNT){
                 ll_floating_btn.setVisibility(View.GONE);
-                tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+                tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
                 tv_note.setVisibility(View.VISIBLE);
             }else{
                 ll_floating_btn.setVisibility(View.VISIBLE);
@@ -1547,4 +1585,610 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //            }
 //        }
 //    }
+
+
+    private void syncData()
+    {
+        if(Utiilties.isOnline(getContext())){
+            new GetFinYear().execute();
+        }else{
+            Utiilties.showInternetAlert(getContext());
+        }
+
+    }
+
+
+    private class GetFinYear extends AsyncTask<String, Void, ArrayList<Financial_Year>> {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading financial year...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Financial_Year> doInBackground(String... param)
+        {
+            return WebServiceHelper.getFinancialYear();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Financial_Year> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+
+                long i = helper.setFinyr_Local(result);
+                if (i > 0) {
+                    new GetFinMonth().execute();
+                    Toast.makeText(getContext(), "Financial year loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetFinMonth extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading financial month...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Financial_Month> doInBackground(String... param) {
+
+            return WebServiceHelper.getFinancialMonth();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Financial_Month> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setFinMonth_Local(result);
+                if (i > 0) {
+
+                    new GetActivityList().execute();
+                    Toast.makeText(getContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Activity list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Activity_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_entity> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setActivityList_Local(result);
+                if (i > 0) {
+
+                    new GetActivityCategoryList().execute();
+                    Toast.makeText(getContext(), "Activity List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetActivityCategoryList extends AsyncTask<String, Void, ArrayList<ActivityCategory_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Category list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<ActivityCategory_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityCAtegoryList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ActivityCategory_entity> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setActivityCategoryList_Local(result);
+                if (i > 0) {
+
+                    new GetActivityTypeList().execute();
+                    Toast.makeText(getContext(), "Activity Category List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    new GetActivityTypeList().execute();
+
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetActivityTypeList extends AsyncTask<String, Void, ArrayList<Activity_Type_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Activity Type list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Activity_Type_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityTypeList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_Type_entity> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setActivityType_Local(result);
+                if (i > 0) {
+
+                    new GetDistrictList().execute();
+                    Toast.makeText(getContext(), "Activity Type List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetDistrictList extends AsyncTask<String, Void, ArrayList<District_list>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading District list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<District_list> doInBackground(String... param) {
+
+            return WebServiceHelper.getDistrictList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<District_list> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setDistrictList_Local(result);
+                if (i > 0) {
+
+                    new GetBLOCKTDATA().execute();
+                    Toast.makeText(getContext(), "District List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetBLOCKTDATA extends AsyncTask<String, Void, ArrayList<Block_List>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Panchayat...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Block_List> doInBackground(String... param) {
+
+            return WebServiceHelper.getBlockList(CommonPref.getUserDetails(getContext()).getDistrictCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Block_List> result) {
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setBlockLocal(result,CommonPref.getUserDetails(getContext()).getDistrictCode());
+                if (i > 0) {
+                    new GetPANCHAYATDATA().execute();
+
+                    Toast.makeText(getContext(), "Block loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetPANCHAYATDATA extends AsyncTask<String, Void, ArrayList<Panchayat_List>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Panchayat...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Panchayat_List> doInBackground(String... param) {
+
+            return WebServiceHelper.getPanchayatName(CommonPref.getUserDetails(getContext()).getBlockCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Panchayat_List> result)
+        {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setPanchayatName(result,CommonPref.getUserDetails(getContext()).getBlockCode());
+                if (i > 0)
+                {
+                    new GetRegisterActMappingDetails().execute();
+                    Toast.makeText(getContext(), "Panchayat loaded", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    new GetRegisterDetails().execute();
+                }
+
+            }
+        }
+    }
+
+    private class GetRegisterActMappingDetails extends AsyncTask<String, Void, ArrayList<RegisteMappingEbtity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Register Mapping details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<RegisteMappingEbtity> doInBackground(String... param) {
+
+            return WebServiceHelper.getregisterActMappingDetails();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<RegisteMappingEbtity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setregisterMapping_Local(result);
+                if (i > 0) {
+                    new GetRegisterDetails().execute();
+                    Toast.makeText(getContext(), "Register Mapping details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetRegisterDetails extends AsyncTask<String, Void, ArrayList<RegisterDetailsEntity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Register details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<RegisterDetailsEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getregisterDetails();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<RegisterDetailsEntity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setregisterDetails_Local(result);
+                if (i > 0) {
+                    new GetStateAmount().execute();
+                    Toast.makeText(getContext(), "Register details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetStateAmount extends AsyncTask<String, Void, ArrayList<Stateamount_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading state amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Stateamount_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getstateamount();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Stateamount_entity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setstateamount_Local(result);
+                if (i > 0) {
+
+                    new GetCentreAmount().execute();
+
+
+                    Toast.makeText(getContext(), "state amount details loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetCentreAmount extends AsyncTask<String, Void, ArrayList<Centralamount_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading central amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Centralamount_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getcentralamount();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Centralamount_entity> result) {
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setcentreamount_Local(result);
+                if (i > 0) {
+
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC"))
+                    {
+                        new GetAshaWorkersList().execute();
+                    }
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+                    {
+                        new GetHScList().execute();
+                    }
+                    else{
+                        if(dialog.isShowing())
+                            dialog.dismiss();
+
+                            setFYearSpinner();
+                    }
+
+                    Toast.makeText(getContext(), "centre amount details loaded", Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setMessage("Loading Asha details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
+
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+
+                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
+                if (i > 0) {
+
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+                        new GetAshaFacilitatorList().execute();
+                    }else{
+                        if(dialog.isShowing())
+                            dialog.dismiss();
+                        //refreshFragment();
+                    }
+                    Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM")){
+                        new GetAshaFacilitatorList().execute();
+                    }else{
+                        if(dialog.isShowing())
+                            dialog.dismiss();
+                        //refreshFragment();
+                    }
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Facilitator details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode(),CommonPref.getUserDetails(getContext()).getBlockCode());
+                if (i > 0) {
+
+                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+                setFYearSpinner();
+            }
+        }
+    }
+
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Hsc details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<HscList_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getHscList(CommonPref.getUserDetails(getContext()).getBlockCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HscList_Entity> result)
+        {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setHscList_Local(result,CommonPref.getUserDetails(getContext()).getUserID());
+                if (i > 0)
+                {
+                    Toast.makeText(getContext(), "Hsc list loaded", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+                setFYearSpinner();
+            }
+        }
+    }
 }

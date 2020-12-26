@@ -53,6 +53,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
+import bih.nic.in.ashwin.utility.AppConstant;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -85,7 +86,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     RegisteMappingEbtity registerDetailsEntity;
     Block_List otherBlock;
 
-    String placeypeArray[] = {"अपने प्रखंड में", "दूसरे प्रखंड में", "ज़िला अस्पताल", "चिकित्सा महाविद्यालय", "अनुमंडलीय अस्पताल"};
+    String placeypeArray[] = {"अपने प्रखंड में", "दूसरे प्रखंड में", "ज़िला अस्पताल", "चिकित्सा महाविद्यालय", "अनुमंडलीय अस्पताल", "रेफरल अस्पताल"};
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
@@ -264,6 +265,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                                     }
                                     else {
                                         edittext.setError("Required field");
+                                        Toast.makeText(AshaWorkerEntryForm_Activity.this, "कृपया रिजेक्शन रिमार्क्स डाले" +
+                                                "",Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -560,7 +563,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_fn_yr.setText("वित्तीय वर्ष: "+fyear.getFinancial_year());
         fn_mnth.setText("वित्तीय महीना: "+fmonth.get_MonthName());
 
-        if (role.equals("HSC") || role.equals("ANM") || role.equals("BLKBCM"))
+        if (role.equals("HSC") || role.equals("ANM") || role.equals("BLKBCM") || role.equals("DSTADM"))
         {
             btn_proceed.setVisibility(View.GONE);
             ll_btn.setVisibility(View.VISIBLE);
@@ -585,7 +588,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void setData()
     {
 
-        if (role.equals("HSC")|| role.equals("ANM") || role.equals("BLKBCM"))
+        if (role.equals("HSC")|| role.equals("ANM") || role.equals("BLKBCM") || role.equals("DSTADM"))
         {
 
             if (((info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA")) && info.getIsFinalize().equals("N"))){
@@ -760,7 +763,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         for (Block_List info: blockArray)
         {
             array.add(info.getBlock_NAME_HN());
-            if (entryType.equals("U") && (placeTypeCode.equals("1") || placeTypeCode.equals("4")) && info.getBlk_Code().equals(this.info.getOtherBlock()))
+            if (entryType.equals("U") && (placeTypeCode.equals("1") || placeTypeCode.equals("4") || placeTypeCode.equals("5")) && info.getBlk_Code().equals(this.info.getOtherBlock()))
             {
                 pos=blockArray.indexOf(info);
                 pos+=1;
@@ -919,19 +922,49 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
+        //int mYear = c.get(Calendar.YEAR);
+        int mYear =Integer.parseInt(fyear.getYear_Id())-1;
         int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
         //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
 
+
+//        if(mnth > 2){ //From April To Dec
+//
+//        }else{ //From Jan To March
+//            mYear += 1;
+//        }
+
         if(caltype==1){
-            datedialog.getDatePicker().setMinDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth-1, 1).getTimeInMillis());
-            datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
+            if(mnth > 2){ //From April To Dec
+
+                datedialog.getDatePicker().setMinDate(new GregorianCalendar(mYear, mnth-1, 26).getTimeInMillis());
+                datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth, 25).getTimeInMillis());
+
+            }else{ //From Jan To March
+                mYear += 1;
+
+                datedialog.getDatePicker().setMinDate(new GregorianCalendar(mYear, mnth-1, 26).getTimeInMillis());
+                datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth, 25).getTimeInMillis());
+            }
+
         }else{
-            datedialog.getDatePicker().setMaxDate(new GregorianCalendar(c.get(Calendar.YEAR), mnth+1, 0).getTimeInMillis());
+
+            if(mnth>2){
+                datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth+1, 0).getTimeInMillis());
+            }else{
+                mYear += 1;
+//                Toast.makeText(this, "Myear: "+mYear,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Mmnth: "+mnth,Toast.LENGTH_SHORT).show();
+                datedialog = new DatePickerDialog(this,mDateSetListener, mYear,mnth, mDay);
+                datedialog.getDatePicker().setMaxDate(new GregorianCalendar(mYear, mnth+1, 0).getTimeInMillis());
+            }
+
+            //datedialog.getDatePicker().set
         }
+
 
 
         datedialog.show();
@@ -1097,7 +1130,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             case R.id.sp_work_place:
                 placeTypeCode = String.valueOf(i);
                 switch (i){
-                    case 1: case 4:
+                    case 1: case 4: case 5:
                         tv_place_type.setText("प्रखंड : [*]");
                         setBlockSpinner(CommonPref.getUserDetails(this).getDistrictCode());
                         ll_place_type.setVisibility(View.VISIBLE);
@@ -1113,7 +1146,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 }
                 break;
             case R.id.sp_place_type:
-                if (i > 0 && (placeTypeCode.equals("1") || placeTypeCode.equals("4"))) {
+                if (i > 0 && (placeTypeCode.equals("1") || placeTypeCode.equals("4") || placeTypeCode.equals("5"))) {
                     otherBlock = blockArray.get(i-1);
                     tv_place_type.setError(null);
                 }else{
@@ -1177,7 +1210,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 //                entity.setOtherBlock(CommonPref.getUserDetails(this).getBlockCode());
 //                entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
 //            }else
-            if(placeTypeCode.equals("1") || placeTypeCode.equals("4"))
+            if(placeTypeCode.equals("1") || placeTypeCode.equals("4") || placeTypeCode.equals("5"))
                 {
                     entity.setOtherBlock(otherBlock.getBlk_Code());
                     entity.setOtherDist(CommonPref.getUserDetails(this).getDistrictCode());
@@ -1245,7 +1278,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             validate = false;
         }
 
-        if(placeTypeCode.equals("1") && otherBlock == null){
+        if((placeTypeCode.equals("1") || placeTypeCode.equals("4") || placeTypeCode.equals("5")) && otherBlock == null){
             tv_place_type.setError("कृप्या अन्य खंड का चयन करें");
             focusView = tv_place_type;
             validate = false;
@@ -1292,10 +1325,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
                 focusView = edt_ben_no;
                 validate = false;
-            }else if(Double.parseDouble(edt_amount_total.getText().toString())+totalAmount>6000){
+            }else if(Double.parseDouble(edt_amount_total.getText().toString())+totalAmount> AppConstant.ASHATOTALAMOUNT){
                 //focusView = edt_ben_no;
                 validate = false;
-                Toast.makeText(this, "इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम दावा की गयी राशि 6000 से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम दावा की गयी राशि "+ AppConstant.ASHATOTALAMOUNT +" से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             Toast.makeText(this, "Failed in parsing activity ben range!!", Toast.LENGTH_SHORT).show();
@@ -1627,7 +1660,21 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                     btn_accp_rjct.setText("स्वीकार करे");
                     btn_accp_rjct.setBackgroundResource(R.drawable.buttonshapeaccept);
                     // notifyDataSetChanged();
-                    Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this,"सूचना", "रिकॉर्ड अस्वीकृत किया गया");
+
+                    new AlertDialog.Builder(AshaWorkerEntryForm_Activity.this)
+                            .setTitle("सूचना")
+                            .setMessage("रिकॉर्ड अस्वीकृत किया गया")
+                            .setCancelable(true)
+                            .setPositiveButton("ओके", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+
+                                    finish();
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
                 }else{
                     Utiilties.showErrorAlet(AshaWorkerEntryForm_Activity.this,"सूचना", "विफल रहा");
                 }
