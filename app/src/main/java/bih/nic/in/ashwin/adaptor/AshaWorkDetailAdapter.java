@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +72,18 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
         holder.tv_regname.setText(info.getRegisterDesc());
         holder.tv_no_of_benif.setText(info.getFieldName());
         holder.tv_volume.setText(info.getNoOfBeneficiary());
+
+        if(!(info.getVerificationStatus().equals(""))) {
+            if ((info.getVerificationStatus().equals("R"))) {
+                holder.ll_remarks.setVisibility(View.VISIBLE);
+                holder.tv_remarks.setText(info.get_rejectedRemarks());
+
+            } else {
+                holder.ll_remarks.setVisibility(View.GONE);
+            }
+        }
+
+
         //holder.tv_slno.setText(info.getPageSerialNo());
 
 
@@ -140,6 +153,7 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
                 break;
             case "R":
                 tv.setTextColor(context.getResources().getColor(R.color.holo_red_dark));
+
                 break;
         }
     }
@@ -153,9 +167,10 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_workcategory,tv_category_type,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
+        TextView tv_workcategory,tv_remarks,tv_work,tv_workcompldate,tv_amount,tv_regname,tv_volume,tv_slno,tv_reg_date,tv_count,tv_status,tv_no_of_benif;
         RelativeLayout sblist;
         ImageView iv_delete;
+        LinearLayout ll_remarks;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -165,6 +180,8 @@ public class AshaWorkDetailAdapter extends RecyclerView.Adapter<AshaWorkDetailAd
             tv_amount = itemView.findViewById(R.id.tv_amount);
             tv_regname = itemView.findViewById(R.id.tv_regname);
             tv_volume = itemView.findViewById(R.id.tv_volume);
+            ll_remarks = itemView.findViewById(R.id.ll_remarks);
+            tv_remarks = itemView.findViewById(R.id.tv_remarks);
             tv_no_of_benif = itemView.findViewById(R.id.tv_no_of_benif);
             //tv_slno = itemView.findViewById(R.id.tv_slno);
             tv_reg_date = itemView.findViewById(R.id.tv_reg_date);

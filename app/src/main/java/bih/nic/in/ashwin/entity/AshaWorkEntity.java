@@ -45,6 +45,12 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         this.OtherDist = sobj.getProperty("OtherDist").toString();
         this.OtherBlock = sobj.getProperty("OtherBlock").toString();
         this.FieldName = sobj.getProperty("FieldName").toString();
+
+        try {
+            this._rejectedRemarks = sobj.getProperty("RejectedReason").toString();
+        }catch (Exception e){
+            this._rejectedRemarks="NA";
+        }
         //this.IsForwaded = sobj.getProperty("IsForwaded").toString();
 
     }
@@ -67,6 +73,11 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.Abbr = sobj.getProperty("Abbr").toString();
             this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
             this.ActivityRate = sobj.getProperty("ActivityRate").toString();
+            try {
+                this._rejectedRemarks = sobj.getProperty("RejectedReason").toString();
+            }catch (Exception e){
+                this._rejectedRemarks="NA";
+            }
             //this.IsFinalize = "N";
             //    this._IsANMFinalize =sobj.getProperty("ANMVerified").toString();
             // this._IsANMFinalize ="N";
@@ -102,6 +113,11 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.OtherDist = sobj.getProperty("OtherDist").toString();
             this.OtherBlock = sobj.getProperty("OtherBlock").toString();
             this.IsForwaded = sobj.getProperty("IsForwaded").toString();
+            try {
+                this._rejectedRemarks = sobj.getProperty("RejectedReason").toString();
+            }catch (Exception e){
+                this._rejectedRemarks="NA";
+            }
 
             try{
                 this.FieldName = sobj.getProperty("FieldName").toString();

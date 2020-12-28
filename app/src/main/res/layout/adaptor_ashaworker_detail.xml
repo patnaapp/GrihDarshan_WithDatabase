@@ -292,6 +292,30 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/ll_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="अभियुक्ति "
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_remarks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
             </LinearLayout>
 
