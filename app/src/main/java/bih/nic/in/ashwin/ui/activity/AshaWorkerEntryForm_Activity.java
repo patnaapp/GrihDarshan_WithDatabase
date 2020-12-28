@@ -62,7 +62,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     Spinner sp_work_categ,sp_work,sp_md,sp_work_categ_type,sp_reg_name,sp_volume,sp_work_place,sp_place_type;
     EditText edt_work_complt_date,edt_amount,edt_volume,edt_pageno,edt_slno,edt_reg_date,edt_ben_no,edt_remark,edt_amount_total,edt_abbr;
-    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname,tv_activity_type,tv_work_place,tv_place_type,tv_ben_no_field;
+    TextView tv_fn_yr,fn_mnth,tv_cat_title,tv_activity,tv_note,tv_volume,tv_regname,tv_activity_type,tv_work_place,tv_place_type,tv_ben_no_field,tv_remark_title;
     Button btn_proceed,btn_accpt,btn_rjct,btn_accp_rjct;
     ImageView img_date2,img_date1;
     LinearLayout ll_daily_content,ll_place_type,ll_place;
@@ -522,6 +522,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         tv_work_place = findViewById(R.id.tv_work_place);
         tv_place_type = findViewById(R.id.tv_place_type);
         tv_ben_no_field = findViewById(R.id.tv_ben_no_field);
+        tv_remark_title = findViewById(R.id.tv_remark_title);
 
         tv_fn_yr = findViewById(R.id.tv_fn_yr);
         fn_mnth = findViewById(R.id.fn_mnth);
@@ -567,6 +568,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         {
             btn_proceed.setVisibility(View.GONE);
             ll_btn.setVisibility(View.VISIBLE);
+            tv_remark_title.setText("आशा अभियुक्ती/Remark");
+            edt_remark.setEnabled(false);
         }
         else {
             btn_proceed.setVisibility(View.VISIBLE);
