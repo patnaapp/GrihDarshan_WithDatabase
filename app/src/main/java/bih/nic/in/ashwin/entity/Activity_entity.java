@@ -34,7 +34,8 @@ public class Activity_entity implements KvmSerializable, Serializable {
     public Activity_entity(SoapObject sobj,String str) {
         this._ActivityId = sobj.getProperty("ActivityId").toString();
         this._ActivityDesc = sobj.getProperty("ActivityDesc").toString();
-        this._ActivityAmt = sobj.getProperty("ActivityAmt").toString();
+        this._ActivityAmt = sobj.getProperty("ActivityRate").toString();
+        this.totalAmnt = sobj.getProperty("ActivityAmt").toString();
         this._AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
        // this._OrderStatus = sobj.getProperty("OrderStatus").toString();
       //  this._RegisterId = sobj.getProperty("RegisterId").toString();

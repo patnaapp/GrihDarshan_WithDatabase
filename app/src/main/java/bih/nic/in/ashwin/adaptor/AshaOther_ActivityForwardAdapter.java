@@ -80,6 +80,12 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         holder.tv_filed_name.setText(info.getFieldName());
         holder.tv_work_place.setText(Utiilties.getPlcaeTypeName(info.getActivityPlace()));
 
+        if(info.getActivityPlace().equals("1") || info.getActivityPlace().equals("4") || info.getActivityPlace().equals("5")){
+            holder.btn_forward.setText("BCM को फॉरवर्ड करे ");
+        }else{
+            holder.btn_forward.setText("DCM को फॉरवर्ड करे ");
+        }
+
         //  if ((info.getVerificationStatus().contains("P")||info.getVerificationStatus().contains("NA") && info.getIsFinalize().equals("Y") && info.get_IsANMFinalize().equals("N"))||(info.getVerificationStatus().contains("P") && info.getIsFinalize().equals("N") && info.get_IsANMFinalize().equals("N")))
         if (((info.getIsForwaded().contains("P")||info.getIsForwaded().contains("NA"))))
         {
@@ -96,7 +102,14 @@ public class AshaOther_ActivityForwardAdapter extends RecyclerView.Adapter<AshaO
         {
             holder.btn_forward.setVisibility(View.GONE);
             holder.ll_btn.setVisibility(View.GONE);
-            holder.tv_status.setText("BCM को फॉरवर्ड किया जा चूका है ");
+            if(info.getActivityPlace().equals("1") || info.getActivityPlace().equals("4") || info.getActivityPlace().equals("5")){
+                holder.tv_status.setText("BCM को फॉरवर्ड किया जा चूका है ");
+                holder.btn_forward.setText("BCM को फॉरवर्ड करे ");
+            }else{
+                holder.tv_status.setText("DCM को फॉरवर्ड किया जा चूका है ");
+                holder.btn_forward.setText("DCM को फॉरवर्ड करे ");
+            }
+
             holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
             // holder.btn_rjct.setVisibility(View.VISIBLE);
 

@@ -570,6 +570,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             ll_btn.setVisibility(View.VISIBLE);
             tv_remark_title.setText("आशा अभियुक्ती/Remark");
             edt_remark.setEnabled(false);
+            edt_remark.setBackgroundResource(R.drawable.textboxshape1);
         }
         else {
             btn_proceed.setVisibility(View.VISIBLE);
