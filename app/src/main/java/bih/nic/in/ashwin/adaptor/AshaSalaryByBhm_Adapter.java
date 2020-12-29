@@ -136,13 +136,14 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.edt_add_centre.setText(String.valueOf(info.get_AddAmt_Central()));
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
+
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM"))
         {
             if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
-                holder.ll_btn.setVisibility(View.GONE);
+                //holder.ll_btn.setVisibility(View.GONE);
                 holder.btn_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accpt.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setVisibility(View.GONE);

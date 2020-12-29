@@ -897,9 +897,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_reg_name.setAdapter(adaptor);
         sp_reg_name.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U"))
-        {
+        if(entryType.equals("U")){
             sp_reg_name.setSelection(pos);
+        }else if(registerArray.size() == 1){
+            sp_reg_name.setSelection(1);
         }
     }
 
