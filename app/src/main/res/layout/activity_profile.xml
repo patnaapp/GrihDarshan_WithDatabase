@@ -126,7 +126,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></TextView>
 
-
                 <LinearLayout
                     android:background="@drawable/shape_adapter_cell"
                     android:padding="8dp"
@@ -340,8 +339,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
-
 
                 <LinearLayout
                     android:visibility="gone"
