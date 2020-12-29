@@ -155,6 +155,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
                 displaySelectedFragment(homeFrag);
                 break;
             case R.id.nav_sync:
+
                 syncData();
                 break;
             case R.id.nav_change_password:
@@ -167,8 +168,12 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_profile:
                 if (CommonPref.getUserDetails(UserHomeActivity.this).getUserrole().equals("ASHA"))
                 {
-                    Intent i=new Intent(UserHomeActivity.this,ProfileActivity.class);
-                    startActivity(i);
+                    if(Utiilties.isOnline(UserHomeActivity.this)) {
+                        Intent i = new Intent(UserHomeActivity.this, ProfileActivity.class);
+                        startActivity(i);
+                    }else{
+                        Utiilties.showInternetAlert(this);
+                    }
                 }
                 break;
         }
