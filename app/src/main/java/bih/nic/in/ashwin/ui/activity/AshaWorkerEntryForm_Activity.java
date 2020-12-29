@@ -170,7 +170,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         @Override
                         public void run()
                         {
-                            setFieldAbbrWise(charSequence.toString());
+                            setFieldAbbrWise(charSequence.toString().toUpperCase());
                         }
                     }, 500);
                 }
@@ -1015,13 +1015,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void setBenNoEntryLimit(){
         try {
             Integer maxLimit = Integer.parseInt(activityEntity.getMaxRange());
-            if(maxLimit < 10){
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
-            }else if(maxLimit < 100){
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
-            }else{
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
-            }
+            edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLimit.toString().length())});
+//            if(maxLimit < 10){
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
+//            }else if(maxLimit < 100){
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
+//            }else{
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+//            }
         }catch (Exception e){
             Toast.makeText(this, "Failed to Set TextField Limit", Toast.LENGTH_SHORT).show();
         }

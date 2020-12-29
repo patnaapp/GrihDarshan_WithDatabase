@@ -39,6 +39,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
+import bih.nic.in.ashwin.utility.AppConstant;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
@@ -578,7 +579,19 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     @Override
     public void onDeleteFCWork(int position) {
+        try{
+            if(CommonPref.getUserDetails(this).getUserrole().equals("ASHA")){
+                ashaWorkData.remove(position);
+                rv_work.getAdapter().notifyItemRemoved(position);
 
+            }else if(CommonPref.getUserDetails(this).getUserrole().equals("ASHAFC")){
+                ashaFCWorkData.remove(position);
+                rv_work.getAdapter().notifyItemRemoved(position);
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Failed to update data list", Toast.LENGTH_SHORT).show();
+            rv_work.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override
