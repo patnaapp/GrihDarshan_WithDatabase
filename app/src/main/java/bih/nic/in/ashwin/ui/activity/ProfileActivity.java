@@ -42,14 +42,16 @@ import java.util.Locale;
 
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.database.DataBaseHelper;
+import bih.nic.in.ashwin.entity.Profile_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
+import bih.nic.in.ashwin.web_services.WebServiceHelper;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
 {
-    TextView tv_asha_name,tv_user_idme,tv_dist,tv_block,tv_hsc,tv_mobile,tv_email;
+    TextView tv_clickpic,tv_asha_name,tv_user_idme,tv_dist,tv_block,tv_hsc,tv_mobile,tv_father_name,tv_name_as_per_aadhar,tv_aadhar_number,tv_ifsc,tv_account,tv_dob,tv_date_of_joining;
     CircleImageView img_ash_selfie;
     private final static int CAMERA_PIC = 99;
     Intent imageData1;
@@ -63,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private String imgPath = null;
     private final int PICK_IMAGE_CAMERA = 1, PICK_IMAGE_GALLERY = 2;
     String encoded_base64_img="";
+    private ProgressDialog dialog;
 
 
     @Override
@@ -70,11 +73,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
 
         dataBaseHelper = new DataBaseHelper(this);
 
         inititlize();
-        setUserDetail();
+        new GetAasha_AashaFaci_Details().execute();
+        //setUserDetail();
     }
 
     public void inititlize()
@@ -85,10 +91,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tv_block=findViewById(R.id.tv_block);
         tv_hsc=findViewById(R.id.tv_hsc);
         tv_mobile=findViewById(R.id.tv_mobile);
-        tv_email=findViewById(R.id.tv_email);
         img_ash_selfie=findViewById(R.id.img_ash_selfie);
+        tv_name_as_per_aadhar=findViewById(R.id.tv_name_as_per_aadhar);
+        tv_aadhar_number=findViewById(R.id.tv_aadhar_number);
+        tv_ifsc=findViewById(R.id.tv_ifsc);
+        tv_account=findViewById(R.id.tv_account);
+        tv_father_name=findViewById(R.id.tv_father_name);
+        tv_dob=findViewById(R.id.tv_dob);
+        tv_date_of_joining=findViewById(R.id.tv_date_of_joining);
+        tv_clickpic=findViewById(R.id.tv_clickpic);
 
         img_ash_selfie.setOnClickListener(ProfileActivity.this);
+        img_ash_selfie.setVisibility(View.GONE);
+        tv_clickpic.setVisibility(View.GONE);
     }
 
     @Override
@@ -234,7 +249,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tv_hsc.setText(userInfo.getHSCName());
         tv_mobile.setText(userInfo.getMobileNo());
 
-        tv_email.setText(userInfo.getEmail());
 
 //        String imagesr=dataBaseHelper.getAshaImg(userInfo.getUserID());
 //
@@ -289,6 +303,73 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         else
         {
             Toast.makeText(ProfileActivity.this, "Asha Image not saved ", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private class GetAasha_AashaFaci_Details extends AsyncTask<String, Void, Profile_entity> {
+
+        GetAasha_AashaFaci_Details()
+        {
+
+        }
+        @Override
+        protected void onPreExecute() {
+            try {
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setMessage("लोड हो रहा है...");
+                dialog.show();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        @Override
+        protected Profile_entity doInBackground(String... param)
+        {
+            return WebServiceHelper.getAshaWorkerAndAshaFcList(CommonPref.getUserDetails(ProfileActivity.this).getSVRID(),CommonPref.getUserDetails(ProfileActivity.this).getUserrole());
+        }
+
+        @Override
+        protected void onPostExecute(Profile_entity result)
+        {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+            if (result != null)
+
+                if (result != null)
+                {
+                    tv_dist.setText(result.getDistrictName().toUpperCase());
+                    tv_block.setText(result.getBlockName().toUpperCase());
+                    tv_hsc.setText(result.getHSCName().toUpperCase());
+                    tv_user_idme.setText(result.getASHAID().toUpperCase());
+                    //tv_user_idme.setText(result.getASHAFacilitatorID().toUpperCase());
+                    tv_asha_name.setText(result.getName().toUpperCase());
+                    tv_mobile.setText(result.getMobileNo());
+                    tv_name_as_per_aadhar.setText(result.getName_AsPerAadhaar());
+                    tv_aadhar_number.setText(result.getAadhaarNo());
+                    tv_ifsc.setText(result.getIFSCCode());
+                    tv_account.setText(result.getBenAccountNo());
+                    tv_father_name.setText(result.getFHName());
+                    tv_dob.setText(result.getDateofBirth());
+                    tv_date_of_joining.setText(result.getDateofJoining());
+                }
+                else
+                {
+                    Utiilties.showErrorAlet(ProfileActivity.this, "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+                }
+            else
+            {
+                if (dialog.isShowing())
+                {
+                    dialog.dismiss();
+                }
+                Toast.makeText(getApplicationContext(), "Response NULL.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

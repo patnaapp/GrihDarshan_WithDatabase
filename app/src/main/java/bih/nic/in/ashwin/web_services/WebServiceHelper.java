@@ -72,6 +72,7 @@ import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Panchayat_List;
+import bih.nic.in.ashwin.entity.Profile_entity;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
@@ -156,6 +157,7 @@ public class WebServiceHelper
     public static final String Hsc_LISTANM_METHOD = "getHscListAnmWise";
     public static final String BLOCKLISTFORDCM = "GetBlockListForDCMMonthYearOther";
     public static final String HSCLISTFORDCM = "GetHscListForDCM";
+    public static final String AshaWorkerAndAshaFcList = "getAshaWorkerAndAshaFcList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -1238,6 +1240,39 @@ public class WebServiceHelper
 
 
         return fieldList;
+    }
+    public static Profile_entity getAshaWorkerAndAshaFcList(String Id,String Role)
+    {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, AshaWorkerAndAshaFcList);
+
+        request.addProperty("Id", Id);
+        request.addProperty("Role", Role);
+
+        Profile_entity userDetails;
+        SoapObject res1;
+        try {
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            envelope.addMapping(SERVICENAMESPACE, Profile_entity.PROFILE_CLASS.getSimpleName(), Profile_entity.PROFILE_CLASS);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + AshaWorkerAndAshaFcList, envelope);
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            userDetails = new Profile_entity(res1);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return userDetails;
+
     }
 
     public static String CheckActivityCount(AshaWorkEntity data)
