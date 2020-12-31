@@ -51,7 +51,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
     String version="";
-    Spinner sp_worker,sp_hsc_list,sp_block;
+    Spinner sp_worker,sp_hsc_list,sp_block,sp_workCat,sp_work;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     ArrayList<HscList_Entity> hscList = new ArrayList<HscList_Entity>();
     ArrayList<BlockListDCM> blockList = new ArrayList<BlockListDCM>();
@@ -60,6 +60,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     String tabType = "D";
     String hscname="",hsccode="";
     private ProgressDialog dialog;
+    String Dist_Code="",Blk_Code="",Role="",HSCCode="";
 
     BlockListDCM block;
 
@@ -71,6 +72,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
         dbhelper=new DataBaseHelper(this);
+        Dist_Code=CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getDistrictCode();
+        Blk_Code=CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode();
+        Role=CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole();
+        HSCCode=CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCCode();
 
         initialise();
 
@@ -84,12 +89,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("BLKBCM")){
             ll_hsc.setVisibility(View.VISIBLE);
-            hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(), CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
-            if(hscList.size() > 0){
-                loadHscList();
-            }else{
-                new GetHScListBlockWise().execute();
-            }
+            new GetHScListActivityEntryWise().execute();
+
+
+//            hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(), CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
+//            if(hscList.size() > 0){
+//                loadHscList();
+//            }else{
+//                new GetHScListBlockWise().execute();
+//            }
 
         }
         else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC") || CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("ANM"))
@@ -254,6 +262,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         sp_worker = findViewById(R.id.sp_worker);
         sp_hsc_list = findViewById(R.id.sp_hsc_list);
         sp_block = findViewById(R.id.sp_block);
+        sp_workCat = findViewById(R.id.sp_workCat);
+        sp_work = findViewById(R.id.sp_work);
 
         ll_monthly = findViewById(R.id.ll_monthly);
         ll_daily = findViewById(R.id.ll_daily);
@@ -327,11 +337,28 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
                     hsccode = role.get_HSCCode();
-                    new GetAshaWorkersList().execute();
+                    //new GetAshaWorkersList().execute();
+                    new getAshaListActivityEntryWise().execute();
 
                 }
                 break;
             case R.id.sp_block:
+                if (position > 0)
+                {
+                    block = blockList.get(position - 1);
+                    new SyncHSCListForDCM().execute();
+
+                }
+                break;
+            case R.id.sp_workCat:
+                if (position > 0)
+                {
+                    block = blockList.get(position - 1);
+                    new SyncHSCListForDCM().execute();
+
+                }
+                break;
+            case R.id.sp_work:
                 if (position > 0)
                 {
                     block = blockList.get(position - 1);
@@ -625,6 +652,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     }
 
 
+
     public void handleTabView()
     {
         switch (tabType)
@@ -854,6 +882,66 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 }
                 hscList = result;
                 loadHscList();
+            }
+        }
+    }
+    private class GetHScListActivityEntryWise extends AsyncTask<String, Void, ArrayList<HscList_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Hsc details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<HscList_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.GetHScListActivityWise(Dist_Code,Blk_Code,fmonth.get_MonthId(),fyear.getYear_Id(),Role);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HscList_Entity> result)
+        {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                hscList = result;
+                loadHscList();
+            }
+        }
+    }
+    private class getAshaListActivityEntryWise extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Asha List Activity details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWoker_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getAshaListActivityEntryWise(fyear.getYear_Id(),fmonth.get_MonthId(),hsccode,Role);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWoker_Entity> result)
+        {
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                Log.d("Resultgfg", "" + result);
+
+                ashaworkerList = result;
+                loadWorkerFascilatorData();
             }
         }
     }
