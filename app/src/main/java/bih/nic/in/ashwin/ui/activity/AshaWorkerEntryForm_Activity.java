@@ -174,8 +174,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         }
                     }, 500);
                 }
-                else
-                {
+                else{
                     edt_amount_total.setText("0");
                 }
             }
