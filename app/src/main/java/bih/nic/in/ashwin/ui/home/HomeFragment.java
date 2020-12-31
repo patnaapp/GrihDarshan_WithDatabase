@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -122,14 +119,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Double totalAmount = 0.0;
     String OtherBlockOneTime="";
 
-//    public HomeFragment(UserHomeListener listenr) {
-//        this.listenr = listenr;
-//    }
-
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
-        //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(root);
@@ -153,10 +145,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                         Intent intent = new Intent(getContext(), AshaFacilitatorEntry.class);
                         UserDetails userInfo = CommonPref.getUserDetails(getContext());
 
-                        // Log.d("jvjbvj",fyear+""+fmonth);
                         intent.putExtra("FYear", fyear);
                         intent.putExtra("FMonth", fmonth);
-                        //intent.putExtra("HSC",hscEntity);
                         intent.putExtra("entryType","I");
                         intent.putExtra("monthlyAddedWork",getAshaFCMonthlyActivity());
                         getContext().startActivity(intent);
@@ -205,16 +195,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 Intent i = new Intent(getContext(), OtherBLockActivityVerificationList.class);
                 i.putExtra("fyear", fyear);
                 i.putExtra("fmonth", fmonth);
-                // i.putExtra("role", userRole);
                 i.putExtra("role", "BLKBCM");
-
-                // i.putExtra("ashaid", asha_id);
-                // i.putExtra("ashanm", ashaname);
-
-
-                // i.putExtra("_faciltator_id", facilator_id);
-                // i.putExtra("_faciltator_nm", facilator_name);
-                //   i.putExtra("svr",svri_id);
                 startActivity(i);
             }
         });
@@ -229,7 +210,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), FcSalary_ByBHM_MOIC_Activity.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", "BLKBHM");
 
                     startActivity(i);
@@ -239,7 +219,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), FcSalary_ByBHM_MOIC_Activity.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", "BLKMO");
 
                     startActivity(i);
@@ -249,16 +228,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), AshaFcAccpRjct_ActivityList.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", "BLKBCM");
-
-                    // i.putExtra("ashaid", asha_id);
-                    // i.putExtra("ashanm", ashaname);
-
-
-                    // i.putExtra("_faciltator_id", facilator_id);
-                    // i.putExtra("_faciltator_nm", facilator_name);
-                    //   i.putExtra("svr",svri_id);
                     startActivity(i);
                 }
 
@@ -275,16 +245,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", CommonPref.getUserDetails(getContext()).getUserrole());
 
-                    // i.putExtra("ashaid", asha_id);
-                    // i.putExtra("ashanm", ashaname);
-
-
-                    // i.putExtra("_faciltator_id", facilator_id);
-                    // i.putExtra("_faciltator_nm", facilator_name);
-                    //   i.putExtra("svr",svri_id);
                     startActivity(i);
                 }
                 else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
@@ -302,13 +264,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Intent i = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", "ASHA");
-                    // i.putExtra("ashaid", asha_id);
-                    // i.putExtra("ashanm", ashaname);
-                    // i.putExtra("_faciltator_id", facilator_id);
-                    // i.putExtra("_faciltator_nm", facilator_name);
-                    //   i.putExtra("svr",svri_id);
                     startActivity(i);
                 }
 
@@ -323,17 +279,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View view) {
 
-
                     Intent i = new Intent(getContext(), AshaFacilitatorNoOfDays_Activity.class);
                     i.putExtra("fyear", fyear);
                     i.putExtra("fmonth", fmonth);
-                    // i.putExtra("role", userRole);
                     i.putExtra("role", "ASHAFC");
-                    // i.putExtra("ashaid", asha_id);
-                    // i.putExtra("ashanm", ashaname);
-                    // i.putExtra("_faciltator_id", facilator_id);
-                    // i.putExtra("_faciltator_nm", facilator_name);
-                    //   i.putExtra("svr",svri_id);
                     startActivity(i);
 
             }
@@ -386,11 +335,26 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     amount += mnthAmnt;
                 }
             }
+
+            amount += getStateAmount();
         }catch (Exception e){
             Toast.makeText(getContext(), "Failed in calculating asha Montly activity amount!!", Toast.LENGTH_SHORT).show();
         }
         Log.e("Total Amount", ""+amount);
         return amount;
+    }
+
+    public Double getStateAmount(){
+        int count = 0;
+        for(Activity_entity item:stateContibActList){
+            if(item.getChecked()){
+                count += 1;
+                if(count >= 4){
+                    break;
+                }
+            }
+        }
+        return count >= 4 ? 1000.0 : 0.0;
     }
 
     public ArrayList<Activity_entity> getSelectedMonthlyActivity()
@@ -1063,23 +1027,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 activity.setChecked(false);
                 mnthlyActList.set(position, activity);
 
-                AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-                ab.setCancelable(false);
-                ab.setTitle("सूचना !!");
-                ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि "+ AppConstant.ASHATOTALAMOUNT +" है");
-                ab.setPositiveButton("ओके",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-
-                                rv_data.getAdapter().notifyItemChanged(position);
-                            }
-                        });
-                ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
-                ab.show();
+                alertForExceedAmount(position, true);
             }else{
-
                 activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
 
                 if(activity.getVerificationStatus() == null){
@@ -1087,7 +1036,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
 
                 mnthlyActList.set(position, activity);
-
 
                 if(isChecked && (activity.get_ActivityId().equals("101") || activity.get_ActivityId().equals("102") || activity.get_ActivityId().equals("103"))){
                     validateMonthlyBenNoEntry(activity.get_ActivityId());
@@ -1101,17 +1049,48 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             activity.setChecked(isChecked);
             activity.setNoOfBen(noOfBen);
             Double amount = Double.parseDouble(activity.get_ActivityAmt());
-            activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
 
-            if(activity.getVerificationStatus() == null){
-                activity.setVerificationStatus("P");
+            if(isChecked && isActivityAmountExceedTotal(amount)){
+                activity.setChecked(false);
+                stateContibActList.set(position, activity);
+
+                alertForExceedAmount(position, false);
+            }else{
+                activity.setTotalAmnt(String.valueOf(Integer.parseInt(noOfBen)*amount));
+
+                if(activity.getVerificationStatus() == null){
+                    activity.setVerificationStatus("P");
+                }
+                stateContibActList.set(position, activity);
             }
-            stateContibActList.set(position, activity);
             //rv_data_sc.getAdapter().notifyDataSetChanged();
         }
 
         btn_proceed.setVisibility(View.VISIBLE);
         btn_proceed.setText("सुरक्षित करें");
+    }
+
+    public void alertForExceedAmount(final int position, final Boolean isRoutine){
+        AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+        ab.setCancelable(false);
+        ab.setTitle("सूचना !!");
+        ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि "+ AppConstant.ASHATOTALAMOUNT +" है");
+        ab.setPositiveButton("ओके",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int whichButton) {
+
+                        if(isRoutine){
+                            rv_data.getAdapter().notifyItemChanged(position);
+                        }else{
+                            rv_data_sc.getAdapter().notifyItemChanged(position);
+                        }
+
+                    }
+                });
+        ab.create().getWindow().getAttributes().windowAnimations = R.style.AppTheme;
+        ab.show();
     }
 
     @Override
