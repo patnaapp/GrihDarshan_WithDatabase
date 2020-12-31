@@ -270,7 +270,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
-        new OtherBlockOneTimeDetils(fyear, fmonth).execute();
+        // new OtherBlockOneTimeDetils(fyear, fmonth).execute();
 
 
 
@@ -354,7 +354,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
             }
         }
-        return count >= 4 ? 1000.0 : 0.0;
+        return count >= 4 ? AppConstant.STATEAMOUNT : 0.0;
     }
 
     public ArrayList<Activity_entity> getSelectedMonthlyActivity()
@@ -816,7 +816,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void updateAshaTotalAmount(){
         totalAmount = getAshaTotalEntryAmount();
-        tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
+        if(OtherBlockOneTime.equals("1")){
+            tv_total.setText("कुल राशि (दैनिक+मासिक+अन्य क्षेत्र): \u20B9"+totalAmount);
+        }else{
+            tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
+        }
+
     }
 
     public void setupRecuyclerView()
@@ -850,9 +855,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 //            tv_note.setVisibility(View.VISIBLE);
 //        }
         else if (totalAmount>= AppConstant.ASHATOTALAMOUNT){
-            ll_floating_btn.setVisibility(View.GONE);
-            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
-            tv_note.setVisibility(View.VISIBLE);
+            setLimitExceedNote();
         }
         else{
 //            btn_proceed.setVisibility(View.VISIBLE);
@@ -862,6 +865,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             //tv_finalize.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    public void setLimitExceedNote(){
+        ll_floating_btn.setVisibility(View.GONE);
+        tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+        tv_note.setVisibility(View.VISIBLE);
     }
 
     public void loadDailyRecyclerData()
@@ -906,6 +915,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 if(!isFinalize && totalAmount<AppConstant.ASHATOTALAMOUNT)
                     ll_floating_btn.setVisibility(View.VISIBLE);
+                else{
+                    setLimitExceedNote();
+                }
                 loadDailyRecyclerData();
                 break;
             case "M":
