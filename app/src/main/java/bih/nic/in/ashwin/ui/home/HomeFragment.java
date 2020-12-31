@@ -120,6 +120,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private ProgressDialog dialog;
     Double totalAmount = 0.0;
+    String OtherBlockOneTime="";
 
 //    public HomeFragment(UserHomeListener listenr) {
 //        this.listenr = listenr;
@@ -313,6 +314,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
+        new OtherBlockOneTimeDetils(fyear, fmonth).execute();
 
 
 
@@ -2188,6 +2190,61 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
 
                 setFYearSpinner();
+            }
+        }
+    }
+
+    private class OtherBlockOneTimeDetils extends AsyncTask<String, Void, String>{
+        Financial_Year Financial_year;
+        Financial_Month Financial_month;
+
+        private final ProgressDialog dialog = new ProgressDialog(getContext());
+
+        public OtherBlockOneTimeDetils(Financial_Year financial_year, Financial_Month financial_month) {
+                 this.Financial_year=financial_year;
+                 this.Financial_month=financial_month;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("अपलोड हो राहा है...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... param)
+        {
+            return WebServiceHelper.getOtherBlockOneTimeDetils(CommonPref.getUserDetails(getContext()).getSVRID(),Financial_year,Financial_month);
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            if (this.dialog.isShowing())
+            {
+                this.dialog.dismiss();
+            }
+            Log.d("Responsevalue",""+result);
+
+            if (result != null)
+            {
+                if(result.contains("0"))
+                {
+                    OtherBlockOneTime=result;
+                    Toast.makeText(getContext(), "Failed Upload! "+result, Toast.LENGTH_SHORT).show();
+                }
+                else if(result.contains("1"))
+                {
+                    OtherBlockOneTime=result;
+                }else{
+                    Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+
+                Toast.makeText(getContext(), "null record", Toast.LENGTH_SHORT).show();
             }
         }
     }

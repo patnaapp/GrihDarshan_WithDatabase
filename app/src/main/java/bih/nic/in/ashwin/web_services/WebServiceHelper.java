@@ -158,6 +158,7 @@ public class WebServiceHelper
     public static final String BLOCKLISTFORDCM = "GetBlockListForDCMMonthYearOther";
     public static final String HSCLISTFORDCM = "GetHscListForDCM";
     public static final String AshaWorkerAndAshaFcList = "getAshaWorkerAndAshaFcList";
+    public static final String OtherBlockOneTime = "OtherBlockOneTime";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -1272,6 +1273,32 @@ public class WebServiceHelper
             return null;
         }
         return userDetails;
+
+    }
+    public static String getOtherBlockOneTimeDetils(String Id,Financial_Year financial_year,Financial_Month fmonth)
+    {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, OtherBlockOneTime);
+
+        request.addProperty("AshaWorkerId", Id);
+        request.addProperty("Monthid", fmonth.get_MonthId());
+        request.addProperty("FYearID", financial_year.getYear_Id());
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + OtherBlockOneTime, envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+
+        return rest;
 
     }
 
