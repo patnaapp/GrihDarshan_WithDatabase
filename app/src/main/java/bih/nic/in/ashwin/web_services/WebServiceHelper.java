@@ -107,6 +107,8 @@ public class WebServiceHelper
     public static final String Asha_worker_LISTDCM_METHOD = "getAshaListForDCM";
     public static final String Facilitator_LIST_METHOD = "getAshaFacilitator";
     public static final String Hsc_LIST_METHOD = "getHSCList";
+    public static final String Hsc_Activity_LIST_METHOD = "getHscActivityEntryWise";
+    public static final String ASHA_LIST_ACTIVITY_ENTRYWISE_METHOD = "getAshaListActivityEntryWise";  //getAshaListActivityEntryWise
     public static final String Hsc_LIST_other_METHOD = "getHSCOtherList";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
@@ -1275,14 +1277,14 @@ public class WebServiceHelper
         return userDetails;
 
     }
-    public static String getOtherBlockOneTimeDetils(String Id,Financial_Year financial_year,Financial_Month fmonth)
+    public static String getOtherBlockOneTimeDetils(String Id,String month,String year)
     {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, OtherBlockOneTime);
 
         request.addProperty("AshaWorkerId", Id);
-        request.addProperty("Monthid", fmonth.get_MonthId());
-        request.addProperty("FYearID", financial_year.getYear_Id());
+        request.addProperty("Monthid", month);
+        request.addProperty("FYearID", year);
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
@@ -2423,6 +2425,52 @@ public class WebServiceHelper
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     HscList_Entity sm = new HscList_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<HscList_Entity> GetHScListActivityWise(String DistCode,String blkcode,String month,String year,String role) {
+
+        SoapObject res1;
+        res1 = getServerData(Hsc_Activity_LIST_METHOD, HscList_Entity.Hsc_CLASS,"Distcode", "blockcode","FYearId","MonthId","Role",DistCode,blkcode,year,month,role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<HscList_Entity> fieldList = new ArrayList<HscList_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    HscList_Entity sm = new HscList_Entity(final_object,1);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<AshaWoker_Entity> getAshaListActivityEntryWise(String FYearId,String MonthId,String HSCCode,String Role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHA_LIST_ACTIVITY_ENTRYWISE_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS,"FYearId", "MonthId","HSCCode","Role",FYearId,MonthId,HSCCode,Role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWoker_Entity sm = new AshaWoker_Entity(final_object);
                     fieldList.add(sm);
                 }
             } else

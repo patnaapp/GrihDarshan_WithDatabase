@@ -39,6 +39,11 @@ public class HscList_Entity implements KvmSerializable, Serializable {
         this.ANmId = sobj.getProperty("ANMMapId").toString();
         this._HSCCode = sobj.getProperty("HSCCode").toString();
         this._HSCName_Hn = sobj.getProperty("HSCName").toString();
+    }
+
+    public HscList_Entity(SoapObject sobj,int value) {
+        this._HSCName_Hn = sobj.getProperty("HSCName_Hn").toString();
+        this._HSCCode = sobj.getProperty("HSCCode").toString();
 
     }
 

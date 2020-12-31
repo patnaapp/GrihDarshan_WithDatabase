@@ -270,7 +270,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         });
-        // new OtherBlockOneTimeDetils(fyear, fmonth).execute();
+
 
 
 
@@ -1313,6 +1313,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             {
                 markSelectedMonthlyActivity(result);
                 setupRecuyclerView();
+                new OtherBlockOneTimeDetils(fyear, fmonth).execute();
             }else{
                 Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
@@ -2212,7 +2213,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected String doInBackground(String... param)
         {
-            return WebServiceHelper.getOtherBlockOneTimeDetils(CommonPref.getUserDetails(getContext()).getSVRID(),Financial_year,Financial_month);
+            return WebServiceHelper.getOtherBlockOneTimeDetils(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
         }
 
         @Override
