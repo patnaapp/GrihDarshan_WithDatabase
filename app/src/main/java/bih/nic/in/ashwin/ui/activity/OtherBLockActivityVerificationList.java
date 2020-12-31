@@ -353,9 +353,9 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
     public void onBackPressed()
     {
         super.onBackPressed();
-        Intent i=new Intent(OtherBLockActivityVerificationList.this, UserHomeActivity.class);
-        startActivity(i);
-        finish();
+//        Intent i=new Intent(OtherBLockActivityVerificationList.this, UserHomeActivity.class);
+//        startActivity(i);
+//        finish();
     }
 
     @Override

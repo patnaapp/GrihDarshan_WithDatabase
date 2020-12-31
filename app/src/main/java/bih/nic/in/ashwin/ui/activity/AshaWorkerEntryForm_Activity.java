@@ -170,12 +170,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         @Override
                         public void run()
                         {
-                            setFieldAbbrWise(charSequence.toString());
+                            setFieldAbbrWise(charSequence.toString().toUpperCase());
                         }
                     }, 500);
                 }
-                else
-                {
+                else{
                     edt_amount_total.setText("0");
                 }
             }
@@ -897,9 +896,10 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         sp_reg_name.setAdapter(adaptor);
         sp_reg_name.setOnItemSelectedListener(this);
 
-        if(entryType.equals("U"))
-        {
+        if(entryType.equals("U")){
             sp_reg_name.setSelection(pos);
+        }else if(registerArray.size() == 1){
+            sp_reg_name.setSelection(1);
         }
     }
 
@@ -1014,13 +1014,14 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     public void setBenNoEntryLimit(){
         try {
             Integer maxLimit = Integer.parseInt(activityEntity.getMaxRange());
-            if(maxLimit < 10){
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
-            }else if(maxLimit < 100){
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
-            }else{
-                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
-            }
+            edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLimit.toString().length())});
+//            if(maxLimit < 10){
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(1)});
+//            }else if(maxLimit < 100){
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(2)});
+//            }else{
+//                edt_ben_no.setFilters(new InputFilter[] {new InputFilter.LengthFilter(3)});
+//            }
         }catch (Exception e){
             Toast.makeText(this, "Failed to Set TextField Limit", Toast.LENGTH_SHORT).show();
         }

@@ -1378,7 +1378,6 @@ public class WebServiceHelper
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + INSERTASHAWORK_METHOD,envelope);
             rest = envelope.getResponse().toString();
-
         }
         catch (Exception e)
         {

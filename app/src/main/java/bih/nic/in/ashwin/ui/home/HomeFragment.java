@@ -1185,21 +1185,26 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     @Override
     public void onDeleteFCWork(int position) {
-        if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
-            ashaWorkData.remove(position);
-            rv_data.getAdapter().notifyItemRemoved(position);
-            updateAshaTotalAmount();
-            if (totalAmount>=AppConstant.ASHATOTALAMOUNT){
-                ll_floating_btn.setVisibility(View.GONE);
-                tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
-                tv_note.setVisibility(View.VISIBLE);
-            }else{
-                ll_floating_btn.setVisibility(View.VISIBLE);
-                tv_note.setVisibility(View.GONE);
+        try{
+            if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")){
+                ashaWorkData.remove(position);
+                rv_data.getAdapter().notifyItemRemoved(position);
+                updateAshaTotalAmount();
+                if (totalAmount>=AppConstant.ASHATOTALAMOUNT){
+                    ll_floating_btn.setVisibility(View.GONE);
+                    tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+                    tv_note.setVisibility(View.VISIBLE);
+                }else{
+                    ll_floating_btn.setVisibility(View.VISIBLE);
+                    tv_note.setVisibility(View.GONE);
+                }
+            }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
+                ashaFcWorkData.remove(position);
+                rv_data.getAdapter().notifyItemRemoved(position);
             }
-        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC")){
-            ashaFcWorkData.remove(position);
-            rv_data.getAdapter().notifyItemRemoved(position);
+        }catch (Exception e){
+            Toast.makeText(getContext(), "Failed to update data list", Toast.LENGTH_SHORT).show();
+            rv_data.getAdapter().notifyDataSetChanged();
         }
     }
 
