@@ -69,6 +69,7 @@ import bih.nic.in.ashwin.entity.FCSalByBhmMOIC_Entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
+import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
 import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Panchayat_List;
@@ -160,7 +161,7 @@ public class WebServiceHelper
     public static final String BLOCKLISTFORDCM = "GetBlockListForDCMMonthYearOther";
     public static final String HSCLISTFORDCM = "GetHscListForDCM";
     public static final String AshaWorkerAndAshaFcList = "getAshaWorkerAndAshaFcList";
-    public static final String OtherBlockOneTime = "OtherBlockOneTime";
+    public static final String OtherBlockOneTime = "getTotalAmountOneTimeList";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -1277,7 +1278,7 @@ public class WebServiceHelper
         return userDetails;
 
     }
-    public static String getOtherBlockOneTimeDetils(String Id,String month,String year)
+    public static MonthlyAmountLimitEntity getAllowedAmountDetail(String Id, String month, String year, String activityId)
     {
 
         SoapObject request = new SoapObject(SERVICENAMESPACE, OtherBlockOneTime);
@@ -1285,6 +1286,11 @@ public class WebServiceHelper
         request.addProperty("AshaWorkerId", Id);
         request.addProperty("Monthid", month);
         request.addProperty("FYearID", year);
+        request.addProperty("AshaActivityID", activityId);
+
+        MonthlyAmountLimitEntity info;
+        SoapObject res1;
+
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
@@ -1293,14 +1299,20 @@ public class WebServiceHelper
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + OtherBlockOneTime, envelope);
-            rest = envelope.getResponse().toString();
+            //rest = envelope.getResponse().toString();
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            info = new MonthlyAmountLimitEntity(res1);
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "0";
+            return null;
         }
 
-        return rest;
+        return info;
 
     }
 

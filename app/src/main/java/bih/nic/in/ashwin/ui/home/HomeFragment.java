@@ -49,6 +49,7 @@ import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
+import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
@@ -117,7 +118,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     private ProgressDialog dialog;
     Double totalAmount = 0.0;
-    String OtherBlockOneTime="";
+    String OtherBlockOneTime="0";
+    private MonthlyAmountLimitEntity allowedAmount = new MonthlyAmountLimitEntity();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -790,6 +792,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     {
         ll_dmf_tab.setVisibility(View.VISIBLE);
         tv_monthly.setVisibility(View.GONE);
+        tv_note.setVisibility(View.GONE);
 
         isFinalize = isAshaFCFinalizeWork();
         tabType = "D";
@@ -816,7 +819,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void updateAshaTotalAmount(){
         totalAmount = getAshaTotalEntryAmount();
-        if(OtherBlockOneTime.equals("1")){
+        if(allowedAmount.getLimitamount()>7000.0){
             tv_total.setText("कुल राशि (दैनिक+मासिक+अन्य क्षेत्र): \u20B9"+totalAmount);
         }else{
             tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
@@ -849,27 +852,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             tv_note.setVisibility(View.VISIBLE);
             // tv_finalize.setVisibility(View.GONE);
         }
-//        else if (totalAmount>=6000){
-//            ll_floating_btn.setVisibility(View.GONE);
-//            tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि 6000 हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
-//            tv_note.setVisibility(View.VISIBLE);
-//        }
-        else if (totalAmount>= AppConstant.ASHATOTALAMOUNT){
+        else if (totalAmount>= allowedAmount.getLimitamount()){
             setLimitExceedNote();
         }
         else{
-//            btn_proceed.setVisibility(View.VISIBLE);
-//            btn_proceed.setText("स्थायी करें");
             ll_floating_btn.setVisibility(View.VISIBLE);
             tv_note.setVisibility(View.GONE);
-            //tv_finalize.setVisibility(View.VISIBLE);
         }
 
     }
 
     public void setLimitExceedNote(){
         ll_floating_btn.setVisibility(View.GONE);
-        tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+        tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ allowedAmount.getLimitamount() +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
         tv_note.setVisibility(View.VISIBLE);
     }
 
@@ -913,11 +908,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 tv_sc.setVisibility(View.GONE);
                 rv_data_sc.setVisibility(View.GONE);
 
-                if(!isFinalize && totalAmount<AppConstant.ASHATOTALAMOUNT)
+                if(!isFinalize )
                     ll_floating_btn.setVisibility(View.VISIBLE);
-                else{
+
+                if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA")  && totalAmount >= allowedAmount.getLimitamount()){
                     setLimitExceedNote();
                 }
+
                 loadDailyRecyclerData();
                 break;
             case "M":
@@ -1019,7 +1016,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public Boolean isActivityAmountExceedTotal(Double amountToAdd){
-        if(getAshaTotalEntryAmount() > AppConstant.ASHATOTALAMOUNT){
+        if(getAshaTotalEntryAmount() > allowedAmount.getLimitamount()){
             return true;
         }else{
             return false;
@@ -1086,7 +1083,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
         ab.setCancelable(false);
         ab.setTitle("सूचना !!");
-        ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि "+ AppConstant.ASHATOTALAMOUNT +" है");
+        ab.setMessage("इस कार्य को जोड़ नहीं सकते क्योंकि अधिकतम कार्य राशि "+ allowedAmount.getLimitamount() +" है");
         ab.setPositiveButton("ओके",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -1181,9 +1178,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 ashaWorkData.remove(position);
                 rv_data.getAdapter().notifyItemRemoved(position);
                 updateAshaTotalAmount();
-                if (totalAmount>=AppConstant.ASHATOTALAMOUNT){
+                if (totalAmount >= allowedAmount.getLimitamount()){
                     ll_floating_btn.setVisibility(View.GONE);
-                    tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ AppConstant.ASHATOTALAMOUNT +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
+                    tv_note.setText("नोट: इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम कार्य की कुल राशि "+ allowedAmount.getLimitamount() +" हो चुकी है! इसलिए अब नया कार्य जोड़ा नहीं जा सकता");
                     tv_note.setVisibility(View.VISIBLE);
                 }else{
                     ll_floating_btn.setVisibility(View.VISIBLE);
@@ -1304,36 +1301,61 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         @Override
         protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
-            if (dialog.isShowing())
-            {
-                dialog.dismiss();
-            }
+//            if (dialog.isShowing())
+//            {
+//                dialog.dismiss();
+//            }
 
             if (result != null)
             {
                 markSelectedMonthlyActivity(result);
-                setupRecuyclerView();
-                new OtherBlockOneTimeDetils(fyear, fmonth).execute();
+                //setupRecuyclerView();
+                new AllowedAmountDetils().execute();
+
             }else{
                 Utiilties.showErrorAlet(getContext(), "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
         }
     }
 
-    public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
+    private class AllowedAmountDetils extends AsyncTask<String, Void, MonthlyAmountLimitEntity>{
 
-//        for(AshaWorkEntity mItem: list){
-//            for(Activity_entity item: mnthlyActList){
-//
-//                if(mItem.getActivityId().equals(item.get_ActivityId())){
-//                    int position = mnthlyActList.indexOf(item);
-//                    item.setVerificationStatus(mItem.getVerificationStatus());
-//                    item.setIsFinalize(mItem.getIsFinalize());
-//                    item.setChecked(true);
-//                    mnthlyActList.set(position,item);
-//                }
-//            }
-//        }
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("स्वीकृत राशि लोड हो राहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected MonthlyAmountLimitEntity doInBackground(String... param)
+        {
+            return WebServiceHelper.getAllowedAmountDetail(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id(), "0");
+        }
+
+        @Override
+        protected void onPostExecute(MonthlyAmountLimitEntity result)
+        {
+            if (dialog.isShowing()){
+                dialog.dismiss();
+            }
+
+            Log.d("Responsevalue",""+result);
+
+            if (result != null){
+                allowedAmount = result;
+                setupRecuyclerView();
+                updateAshaTotalAmount();
+            }
+            else {
+
+                Toast.makeText(getContext(), "Null Record: Failed to fetch Allowed Amount", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void markSelectedMonthlyActivity(ArrayList<AshaWorkEntity> list){
 
         for(AshaWorkEntity mItem: list){
             if(mItem.getAbbr().contains("PC1") || mItem.getAbbr().contains("PI1")){
@@ -1469,6 +1491,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Toast.makeText(getContext(), "मासिक कार्य सूची सफलतापूर्वक संचित कर लिया गया है", Toast.LENGTH_SHORT).show();
                     btn_proceed.setVisibility(View.GONE);
                     updateAshaTotalAmount();
+
+                    if (totalAmount>= allowedAmount.getLimitamount()){
+                        setLimitExceedNote();
+                    }else{
+                        tv_note.setVisibility(View.GONE);
+                    }
                 }else{
                     Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
                 }
@@ -1479,111 +1507,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
     }
-
-//    private class GetAshaWorkersList extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>> {
-//
-//        private final ProgressDialog dialog = new ProgressDialog(getContext());
-//
-//        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
-//
-//        @Override
-//        protected void onPreExecute() {
-//
-//            this.dialog.setCanceledOnTouchOutside(false);
-//            this.dialog.setMessage("Loading Asha details...");
-//            this.dialog.show();
-//            // sync.setBackgroundResource(R.drawable.syncr);
-//        }
-//
-//        @Override
-//        protected ArrayList<AshaWoker_Entity> doInBackground(String... param) {
-//
-//
-//            return WebServiceHelper.getAshaWorkerList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<AshaWoker_Entity> result) {
-//            if (this.dialog.isShowing())
-//            {
-//                this.dialog.dismiss();
-//            }
-//
-//            if (result != null)
-//            {
-//                Log.d("Resultgfg", "" + result);
-//
-//                DataBaseHelper helper = new DataBaseHelper(getContext());
-//
-//
-//                long i = helper.setAshaWorkerList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
-//                if (i > 0) {
-//                    loadWorkerFascilatorData();
-//
-//                    Toast.makeText(getContext(), "Asha worker list loaded", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//
-//                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        }
-//    }
-
-
-//    private class GetAshaFacilitatorList extends AsyncTask<String, Void, ArrayList<AshaFacilitator_Entity>> {
-//
-//        private final ProgressDialog dialog = new ProgressDialog(getContext());
-//
-//        private final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
-//
-//        @Override
-//        protected void onPreExecute() {
-//
-//            this.dialog.setCanceledOnTouchOutside(false);
-//            this.dialog.setMessage("Loading Facilitator details...");
-//            this.dialog.show();
-//            // sync.setBackgroundResource(R.drawable.syncr);
-//        }
-//
-//        @Override
-//        protected ArrayList<AshaFacilitator_Entity> doInBackground(String... param) {
-//
-//            return WebServiceHelper.getFacilitatorList(CommonPref.getUserDetails(getContext()).getDistrictCode(),CommonPref.getUserDetails(getContext()).getBlockCode(),CommonPref.getUserDetails(getContext()).getHSCCode());
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<AshaFacilitator_Entity> result) {
-//            if (this.dialog.isShowing())
-//            {
-//                this.dialog.dismiss();
-//            }
-//
-//            if (result != null)
-//            {
-//                Log.d("Resultgfg", "" + result);
-//
-//                DataBaseHelper helper = new DataBaseHelper(getContext());
-//
-//                long i = helper.setFacilitatorList_Local(result,CommonPref.getUserDetails(getContext()).getHSCCode());
-//                if (i > 0)
-//                {
-//                    loadWorkerFascilatorData();
-//                    Toast.makeText(getContext(), "Facilitator list loaded", Toast.LENGTH_SHORT).show();
-//                }
-//                else
-//                {
-//                    loadWorkerFascilatorData();
-//
-//                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                //displaySelectedFragment(new HomeFragment());
-//            }
-//        }
-//    }
 
 
     private void syncData()
@@ -2187,61 +2110,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 }
 
                 setFYearSpinner();
-            }
-        }
-    }
-
-    private class OtherBlockOneTimeDetils extends AsyncTask<String, Void, String>{
-        Financial_Year Financial_year;
-        Financial_Month Financial_month;
-
-        private final ProgressDialog dialog = new ProgressDialog(getContext());
-
-        public OtherBlockOneTimeDetils(Financial_Year financial_year, Financial_Month financial_month) {
-                 this.Financial_year=financial_year;
-                 this.Financial_month=financial_month;
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            this.dialog.setCanceledOnTouchOutside(false);
-            this.dialog.setMessage("अपलोड हो राहा है...");
-            this.dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... param)
-        {
-            return WebServiceHelper.getOtherBlockOneTimeDetils(CommonPref.getUserDetails(getContext()).getSVRID(),fmonth.get_MonthId(),fyear.getYear_Id());
-        }
-
-        @Override
-        protected void onPostExecute(String result)
-        {
-            if (this.dialog.isShowing())
-            {
-                this.dialog.dismiss();
-            }
-            Log.d("Responsevalue",""+result);
-
-            if (result != null)
-            {
-                if(result.contains("0"))
-                {
-                    OtherBlockOneTime=result;
-                    Toast.makeText(getContext(), "Failed Upload! "+result, Toast.LENGTH_SHORT).show();
-                }
-                else if(result.contains("1"))
-                {
-                    OtherBlockOneTime=result;
-                }else{
-                    Toast.makeText(getContext(), "Failed!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else {
-
-                Toast.makeText(getContext(), "null record", Toast.LENGTH_SHORT).show();
             }
         }
     }

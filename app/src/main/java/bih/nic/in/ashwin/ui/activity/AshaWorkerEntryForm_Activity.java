@@ -51,6 +51,7 @@ import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.utility.AppConstant;
@@ -100,6 +101,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     Double totalAmount = 0.0;
 
+    private ProgressDialog dialog;
+    private MonthlyAmountLimitEntity allowedAmount = new MonthlyAmountLimitEntity();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -113,6 +117,12 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         setCategoryTypeSpinner();
 
         //setPlaceTypeSpinner();
+        if(CommonPref.getUserDetails(this).getUserrole().equals("ASHA")){
+            new SyncAllowedAmountDetils(CommonPref.getUserDetails(AshaWorkerEntryForm_Activity.this).getSVRID()).execute();
+        }else{
+            new SyncAllowedAmountDetils(info.getAshaWorkerId()).execute();
+        }
+
 
         edt_ben_no.addTextChangedListener(new TextWatcher(){
             @Override
@@ -183,13 +193,11 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             public void afterTextChanged(Editable editable){}
         });
 
-        btn_accp_rjct.setOnClickListener(new View.OnClickListener()
-        {
+        btn_accp_rjct.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view)
-            {
-                if (isDataValidated())
-                {
+            public void onClick(View view){
+
+                if (isDataValidated()){
                     info.setRegisterId(registerDetailsEntity.get_RegisterId());
                     info.setRegisterDesc(registerDetailsEntity.get_RegisterDesc());
                     info.setVolume(volume);
@@ -502,6 +510,9 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
     void initializeViews(){
         dbhelper = new DataBaseHelper(this);
+
+        dialog = new ProgressDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
 
         edt_work_complt_date = findViewById(R.id.edt_work_complt_date);
         edt_amount = findViewById(R.id.edt_amount);
@@ -1330,10 +1341,17 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
 
                 focusView = edt_ben_no;
                 validate = false;
-            }else if(Double.parseDouble(edt_amount_total.getText().toString())+totalAmount> AppConstant.ASHATOTALAMOUNT){
-                //focusView = edt_ben_no;
-                validate = false;
-                Toast.makeText(this, "इस वित्तीय वर्ष और माह में आपके द्वारा जोड़ी गयी अधिकतम दावा की गयी राशि "+ AppConstant.ASHATOTALAMOUNT +" से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
+            }else{
+                if(entryType.equals("U") ){
+                    Double amount = Double.parseDouble(edt_amount_total.getText().toString())+allowedAmount.getMaxamount()-Double.parseDouble(info.getActivityAmt());
+                    if(amount > allowedAmount.getLimitamount()){
+                        validate = false;
+                        Toast.makeText(this, "इस वित्तीय वर्ष और माह में जोड़ी गयी अधिकतम दावा की गयी राशि "+ allowedAmount.getLimitamount() +" से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
+                    }
+                }else if((Double.parseDouble(edt_amount_total.getText().toString())+allowedAmount.getMaxamount()) > allowedAmount.getLimitamount()){
+                    validate = false;
+                    Toast.makeText(this, "इस वित्तीय वर्ष और माह में जोड़ी गयी अधिकतम दावा की गयी राशि "+ allowedAmount.getLimitamount() +" से ज्यदा जोड़ी नहीं जा सकती", Toast.LENGTH_SHORT).show();
+                }
             }
         }catch (Exception e){
             Toast.makeText(this, "Failed in parsing activity ben range!!", Toast.LENGTH_SHORT).show();
@@ -1719,6 +1737,47 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             {
                 registerArray = getRegisterRegisterDataAsMappingWise(result);
                 setRegisterSpinner();
+            }
+        }
+    }
+
+    private class SyncAllowedAmountDetils extends AsyncTask<String, Void, MonthlyAmountLimitEntity>{
+
+        private String userId;
+
+        public SyncAllowedAmountDetils(String userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("स्वीकृत राशि लोड हो राहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected MonthlyAmountLimitEntity doInBackground(String... param)
+        {
+            return WebServiceHelper.getAllowedAmountDetail(userId,fmonth.get_MonthId(),fyear.getYear_Id(), "0");
+        }
+
+        @Override
+        protected void onPostExecute(MonthlyAmountLimitEntity result)
+        {
+            if (dialog.isShowing()){
+                dialog.dismiss();
+            }
+
+            Log.d("Responsevalue",""+result);
+
+            if (result != null){
+                allowedAmount = result;
+            }
+            else {
+
+                Toast.makeText(AshaWorkerEntryForm_Activity.this, "Null Record: Failed to fetch Allowed Amount", Toast.LENGTH_SHORT).show();
             }
         }
     }
