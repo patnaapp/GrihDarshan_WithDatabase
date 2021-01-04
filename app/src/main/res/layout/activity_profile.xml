@@ -389,7 +389,6 @@
                                     android:text="532823598"
                                     android:textColor="#151B54"
                                     android:textSize="15sp"
-                                    android:maxLength="10"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -457,7 +456,6 @@
                                     android:text="532823598"
                                     android:textColor="@color/colorPrimary"
                                     android:textSize="15sp"
-                                    android:maxLength="10"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -524,7 +522,6 @@
                                     android:text="532823598"
                                     android:textColor="#151B54"
                                     android:textSize="14sp"
-                                    android:maxLength="10"
                                     android:textStyle="bold" />
                             </LinearLayout>
 

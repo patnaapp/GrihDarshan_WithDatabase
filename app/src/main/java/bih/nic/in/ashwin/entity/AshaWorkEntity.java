@@ -13,7 +13,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
-    private String ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr,FieldName;
+    private String FYearId,MonthId,ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr,FieldName,Name_Hn;
 
     public AshaWorkEntity(SoapObject sobj) {
         this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
@@ -126,7 +126,30 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             }
 
         }
-
+        else if (monthly.equals("4")) {
+            this.Name_Hn = sobj.getProperty("Name_Hn").toString();
+            this.MonthId = sobj.getProperty("MonthId").toString();
+            this.FYearId = sobj.getProperty("FYearId").toString();
+            this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
+            this.ActivityId = sobj.getProperty("ActivityId").toString();
+            this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
+            this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
+            this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
+            this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
+            this.MonthName = sobj.getProperty("MonthName").toString();
+            this.FinYear = sobj.getProperty("FinYear").toString();
+            this.ActivityDate = sobj.getProperty("ActivityDate").toString();
+            this.RegisterId = sobj.getProperty("RegisterId").toString();
+            this.Volume = sobj.getProperty("Volume").toString();
+            this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
+            this.ActivityRate = sobj.getProperty("ActivityRate").toString();
+            this.RegisterPageNo = sobj.getProperty("RegisterPageNo").toString();
+            this.RegisterDesc = sobj.getProperty("RegisterDesc").toString();
+            //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+            this.PageSerialNo = sobj.getProperty("PageSerialNo").toString();
+            this.RegisterDate = sobj.getProperty("RegisterDate").toString();
+            this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+        }
 
     }
 
@@ -515,5 +538,29 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public void setFieldName(String fieldName) {
         FieldName = fieldName;
+    }
+
+    public String getFYearId() {
+        return FYearId;
+    }
+
+    public void setFYearId(String FYearId) {
+        this.FYearId = FYearId;
+    }
+
+    public String getMonthId() {
+        return MonthId;
+    }
+
+    public void setMonthId(String monthId) {
+        MonthId = monthId;
+    }
+
+    public String getName_Hn() {
+        return Name_Hn;
+    }
+
+    public void setName_Hn(String name_Hn) {
+        Name_Hn = name_Hn;
     }
 }

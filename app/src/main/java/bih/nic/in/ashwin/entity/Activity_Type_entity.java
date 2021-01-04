@@ -21,6 +21,10 @@ public class Activity_Type_entity implements KvmSerializable {
         this.abbr = sobj.getProperty("abbr").toString();
 
     }
+    public Activity_Type_entity(SoapObject sobj,int i) {
+        this._ActTypeId = sobj.getProperty("AcitivtyCategoryId").toString();
+        this._Actname = sobj.getProperty("AcitivtyCategoryDesc").toString();
+    }
 
     public Activity_Type_entity() {
 
