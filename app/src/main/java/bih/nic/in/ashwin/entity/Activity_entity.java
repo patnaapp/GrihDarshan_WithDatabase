@@ -61,6 +61,12 @@ public class Activity_entity implements KvmSerializable, Serializable {
             this._ActivityDesc = sobj.getProperty("FCActivityDesc").toString();
             this.Abbr = sobj.getProperty("Abbr").toString();
         }
+        else if(i == 3)
+        {
+            this._ActivityId = sobj.getProperty("ActivityId").toString();
+            this._ActivityDesc = sobj.getProperty("ActivityDesc").toString();
+
+        }
 
     }
 

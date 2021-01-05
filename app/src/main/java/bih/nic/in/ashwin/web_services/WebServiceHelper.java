@@ -54,6 +54,7 @@ import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
+import bih.nic.in.ashwin.entity.AshaReport_entity;
 import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
@@ -112,8 +113,12 @@ public class WebServiceHelper
     public static final String Hsc_Activity_LIST_METHOD = "getHscActivityEntryWise";
     public static final String ASHA_LIST_ACTIVITY_ENTRYWISE_METHOD = "getAshaListActivityEntryWise";  //getAshaListActivityEntryWise
     public static final String Hsc_LIST_other_METHOD = "getHSCOtherList";
+    public static final String ASHA_ACTIVITY_CATEGORY_LIST_METHOD = "getAshaActvityCategoryListEntryWise";
+    public static final String ASHA_ACTIVITY_LIST_ENTRY_WISE_METHOD = "getAshaActvityListEntryWise";
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
+    public static final String ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD = "getAshaAcitivtyCategoryMonthWise";
     public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
+    public static final String ASHA_LIST_METHOD = "getAshaList";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivityNew";
@@ -1164,6 +1169,34 @@ public class WebServiceHelper
         return fieldList;
     }
 
+    public static ArrayList<AshaReport_entity> getAshaList(String DistCode, String BlockCode, String Role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHA_LIST_METHOD, AshaReport_entity.ASHA_REPORT_CLASS, "DistrictCode","BlockCode","Role", DistCode,BlockCode,Role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaReport_entity> fieldList = new ArrayList<AshaReport_entity>();
+
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject)
+                {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaReport_entity sm = new AshaReport_entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
     public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId,String userrole) {
 
         SoapObject res1;
@@ -1178,6 +1211,29 @@ public class WebServiceHelper
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     AshaWorkEntity sm = new AshaWorkEntity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"4");
                     fieldList.add(sm);
                 }
             } else
@@ -2523,6 +2579,52 @@ public class WebServiceHelper
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
                     AshaWoker_Entity sm = new AshaWoker_Entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<Activity_Type_entity> getAshaActvityCategoryListEntryWise(String FYearId,String MonthId,String asha_worker_id,String Role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHA_ACTIVITY_CATEGORY_LIST_METHOD, Activity_Type_entity.ActivityType_CLASS,"FYearId", "MonthId","AshaWorkerId","Role",FYearId,MonthId,asha_worker_id,Role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Activity_Type_entity> fieldList = new ArrayList<Activity_Type_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Activity_Type_entity sm = new Activity_Type_entity(final_object,1);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<Activity_entity> getAshaActvityListEntryWise(String FYearId,String MonthId,String asha_worker_id,String CategoryId,String Role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHA_ACTIVITY_LIST_ENTRY_WISE_METHOD, Activity_Type_entity.ActivityType_CLASS,"FYearId", "MonthId","AshaWorkerId","CategoryId","Role",FYearId,MonthId,asha_worker_id,CategoryId,Role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Activity_entity> fieldList = new ArrayList<Activity_entity>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    Activity_entity sm = new Activity_entity(final_object,3);
                     fieldList.add(sm);
                 }
             } else
