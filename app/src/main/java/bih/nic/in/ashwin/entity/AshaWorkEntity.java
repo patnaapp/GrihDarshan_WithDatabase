@@ -128,27 +128,42 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
         }
         else if (monthly.equals("4")) {
             this.Name_Hn = sobj.getProperty("Name_Hn").toString();
-            this.MonthId = sobj.getProperty("MonthId").toString();
-            this.FYearId = sobj.getProperty("FYearId").toString();
+
+            this.districtCode = sobj.getProperty("DistrictCode").toString();
+            this.blockCode = sobj.getProperty("BlockCode").toString();
             this.AshaActivityId = sobj.getProperty("AshaActivityId").toString();
-            this.ActivityId = sobj.getProperty("ActivityId").toString();
-            this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
             this.AcitivtyCategoryDesc = sobj.getProperty("AcitivtyCategoryDesc").toString();
             this.ActivityDesc = sobj.getProperty("ActivityDesc").toString();
             this.ActivityAmt = sobj.getProperty("ActivityAmt").toString();
             this.MonthName = sobj.getProperty("MonthName").toString();
             this.FinYear = sobj.getProperty("FinYear").toString();
-            this.ActivityDate = sobj.getProperty("ActivityDate").toString();
-            this.RegisterId = sobj.getProperty("RegisterId").toString();
-            this.Volume = sobj.getProperty("Volume").toString();
+           // this.ActivityDate = sobj.getProperty("ActivityDate").toString();
+            this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+            this.AcitivtyCategoryId = sobj.getProperty("AcitivtyCategoryId").toString();
+            this.ActivityId = sobj.getProperty("ActivityId").toString();
+            //this.ActivityId = sobj.getProperty("Sal_a_Id").toString();
+            this.ActTypeId = sobj.getProperty("ActTypeId").toString();
+            this.AcitivtyType = sobj.getProperty("AcitivtyType").toString();
+            this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
+            this.IsFinalize = sobj.getProperty("IsFinalize").toString();
+            this.ActivityPlace = sobj.getProperty("ActivityPlace").toString();
+            this.OtherDist = sobj.getProperty("OtherDist").toString();
+            this.OtherBlock = sobj.getProperty("OtherBlock").toString();
+            this.Abbr = sobj.getProperty("Abbr").toString();
             this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
             this.ActivityRate = sobj.getProperty("ActivityRate").toString();
-            this.RegisterPageNo = sobj.getProperty("RegisterPageNo").toString();
-            this.RegisterDesc = sobj.getProperty("RegisterDesc").toString();
-            //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
-            this.PageSerialNo = sobj.getProperty("PageSerialNo").toString();
-            this.RegisterDate = sobj.getProperty("RegisterDate").toString();
-            this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+
+//            this.MonthId = sobj.getProperty("MonthId").toString();
+//            this.FYearId = sobj.getProperty("FYearId").toString();
+//
+//            this.RegisterId = sobj.getProperty("RegisterId").toString();
+//            this.Volume = sobj.getProperty("Volume").toString();
+//            this.RegisterPageNo = sobj.getProperty("RegisterPageNo").toString();
+//            this.RegisterDesc = sobj.getProperty("RegisterDesc").toString();
+//            //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
+//            this.PageSerialNo = sobj.getProperty("PageSerialNo").toString();
+//            this.RegisterDate = sobj.getProperty("RegisterDate").toString();
+
         }
 
     }

@@ -54,6 +54,7 @@ import bih.nic.in.ashwin.entity.Activity_Type_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
+import bih.nic.in.ashwin.entity.AshaReport_entity;
 import bih.nic.in.ashwin.entity.AshaSalByBhm_Entity;
 import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
@@ -116,6 +117,7 @@ public class WebServiceHelper
     public static final String ASHAWORK_LIST_METHOD = "getAshaListMonthYear";
     public static final String ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD = "getAshaAcitivtyCategoryMonthWise";
     public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
+    public static final String ASHA_LIST_METHOD = "getAshaList";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivityNew";
@@ -1127,6 +1129,34 @@ public class WebServiceHelper
         return fieldList;
     }
 
+    public static ArrayList<AshaReport_entity> getAshaList(String DistCode, String BlockCode, String Role) {
+
+        SoapObject res1;
+        res1 = getServerData(ASHA_LIST_METHOD, AshaReport_entity.ASHA_REPORT_CLASS, "DistrictCode","BlockCode","Role", DistCode,BlockCode,Role);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaReport_entity> fieldList = new ArrayList<AshaReport_entity>();
+
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject)
+                {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaReport_entity sm = new AshaReport_entity(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
     public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId,String userrole) {
 
         SoapObject res1;
@@ -1153,7 +1183,7 @@ public class WebServiceHelper
     public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole) {
 
         SoapObject res1;
-        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole);
+        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
