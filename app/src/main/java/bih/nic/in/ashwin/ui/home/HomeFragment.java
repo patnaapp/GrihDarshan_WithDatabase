@@ -61,6 +61,7 @@ import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorEntry;
 import bih.nic.in.ashwin.ui.activity.AshaFacilitatorNoOfDays_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaFcAccpRjct_ActivityList;
+import bih.nic.in.ashwin.ui.activity.AshaReportActivity;
 import bih.nic.in.ashwin.ui.activity.AshaSalary_ByBhm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorkerEntryForm_Activity;
 import bih.nic.in.ashwin.ui.activity.AshaWorker_Facilitator_Activity_List;
@@ -319,10 +320,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
+
+
         rl_total_asha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent =
+                String type = "0";
+                if(rb_asha.isChecked()){
+                    type = "0";
+                }else if(rb_asha_fc.isChecked()){
+                    type = "1";
+                }
+                Intent intent = new Intent(getContext(), AshaReportActivity.class);
+                intent.putExtra(AppConstant.USERTYPE, type);
+                startActivity(intent);
             }
         });
         return root;

@@ -9,5 +9,7 @@ public class AppConstant {
     public static String USERTYPE = "userType";
     public static String ASHA = "asha";
     public static String FASCILITATOR = "fascilitator";
+    public static String BLOCKCODE = "blockCode";
+
 
 }
