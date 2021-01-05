@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import bih.nic.in.ashwin.entity.AshaWoker_Entity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.Block_List;
 import bih.nic.in.ashwin.entity.Centralamount_entity;
+import bih.nic.in.ashwin.entity.DashboardEntity;
 import bih.nic.in.ashwin.entity.District_list;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
@@ -91,6 +93,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc,btn_other_blk;
     LinearLayout ll_hsc_list;
 
+    LinearLayout ll_dashboard_report;
+    TextView tv_total_asha,tv_asha_entered_activity,tv_total_activity,tv_community_activity,tv_institutional_activity,tv_total_pending,tv_total_verified,tv_total_rejected;
+    RadioButton rb_asha,rb_asha_fc;
+    RelativeLayout rl_total_asha;
+
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
     ArrayList<HscList_Entity> hscListArray;
@@ -127,12 +134,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         initializeViews(root);
+
         btn_proceed.setVisibility(View.GONE);
         btn_proceed1.setVisibility(View.GONE);
         btn_asha_fc.setVisibility(View.GONE);
         btn_ashafc.setVisibility(View.GONE);
         btn_other_blk.setVisibility(View.GONE);
         ll_floating_btn.setVisibility(View.GONE);
+        ll_dashboard_report.setVisibility(View.GONE);
 
         setUserDetail();
         setFYearSpinner();
@@ -273,10 +282,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
-
-
-
-
         btn_ashafc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -314,6 +319,12 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
+        rl_total_asha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent intent =
+            }
+        });
         return root;
     }
 
@@ -430,6 +441,22 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         btn_asha_fc.setVisibility(View.GONE);
         btn_other_blk.setVisibility(View.GONE);
 
+
+        //DashBoard Report For BCM,ANM,DCM,BHM,MOIC
+        ll_dashboard_report = root.findViewById(R.id.ll_dashboard_report);
+        tv_total_asha = root.findViewById(R.id.tv_total_asha);
+        tv_total_activity = root.findViewById(R.id.tv_total_activity);
+        tv_asha_entered_activity = root.findViewById(R.id.tv_asha_entered_activity);
+        tv_community_activity = root.findViewById(R.id.tv_community_activity);
+        tv_institutional_activity = root.findViewById(R.id.tv_institutional_activity);
+        tv_total_pending = root.findViewById(R.id.tv_total_pending);
+        tv_total_verified = root.findViewById(R.id.tv_total_verified);
+        tv_total_rejected = root.findViewById(R.id.tv_total_rejected);
+
+        rl_total_asha = root.findViewById(R.id.rl_total_asha);
+
+        rb_asha_fc = root.findViewById(R.id.rb_asha_fc);
+        rb_asha = root.findViewById(R.id.rb_asha);
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
 
@@ -659,7 +686,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 {
                     if(Utiilties.isOnline(getContext())){
                         fmonth = fMonthArray.get(i-1);
-                        if (CommonPref.getUserDetails(getContext()).getUserrole().equals("HSC") || CommonPref.getUserDetails(getContext()).getUserrole().equals("ANM"))
+                        String userRole = CommonPref.getUserDetails(getContext()).getUserrole();
+
+                        if (userRole.equals("HSC") || userRole.equals("ANM"))
                         {
                             loadUserRoleSpinnerdata();
 
@@ -671,7 +700,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             ll_floating_btn.setVisibility(View.GONE);
 
                         }
-                        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBHM")||CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKMO"))
+                        else if (userRole.equals("BLKBHM")|| userRole.equals("BLKMO"))
                         {
                             btn_proceed.setVisibility(View.GONE);
                             btn_proceed1.setVisibility(View.VISIBLE);
@@ -680,7 +709,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             btn_other_blk.setVisibility(View.GONE);
                             ll_floating_btn.setVisibility(View.GONE);
                         }
-                        else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("BLKBCM"))
+                        else if (userRole.equals("BLKBCM"))
                         {
                             btn_proceed.setVisibility(View.GONE);
                             btn_proceed1.setVisibility(View.VISIBLE);
@@ -688,17 +717,22 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                             btn_other_blk.setVisibility(View.VISIBLE);
                             btn_ashafc.setVisibility(View.GONE);
                             ll_floating_btn.setVisibility(View.GONE);
-                        }else if (CommonPref.getUserDetails(getContext()).getUserrole().equals("DSTADM"))
+                        }else if (userRole.equals("DSTADM"))
                         {
                             btn_proceed1.setVisibility(View.VISIBLE);
-                        }else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHA"))
+                        }else if(userRole.equals("ASHA"))
                         {
                             new SyncAshaActivityList().execute();
                         }
-                        else if(CommonPref.getUserDetails(getContext()).getUserrole().equals("ASHAFC"))
+                        else if(userRole.equals("ASHAFC"))
                         {
                             //ll_floating_btn.setVisibility(View.VISIBLE);
                             new SyncFCAshaActivityList().execute();
+                        }
+
+                        //
+                        if(userRole.equals("BLKBCM") || userRole.equals("ANM") || userRole.equals("DSTADM")){
+                            new getDashBoardReport().execute();
                         }
                     }else{
                         sp_fn_month.setSelection(0);
@@ -1517,6 +1551,48 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             Utiilties.showInternetAlert(getContext());
         }
 
+    }
+
+    private class getDashBoardReport extends AsyncTask<String, Void, DashboardEntity> {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("रिपोर्ट लोड हो  है");
+            dialog.show();
+        }
+
+        @Override
+        protected DashboardEntity doInBackground(String... param)
+        {
+            UserDetails user = CommonPref.getUserDetails(getContext());
+            return WebServiceHelper.getDashboardReport(fyear.getYear_Id(),fmonth.get_MonthId(), user.getDistrictCode(), user.getBlockCode(), user.getHSCCode(), user.getUserrole());
+        }
+
+        @Override
+        protected void onPostExecute(DashboardEntity result) {
+            if(dialog.isShowing()){
+                dialog.dismiss();
+            }
+            if (result != null) {
+                setDashBoardReport(result);
+            }else{
+                Toast.makeText(getContext(), "Null Record: Report Not Found!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void setDashBoardReport(DashboardEntity report){
+        tv_total_asha.setText(report.getTotalAsha());
+        tv_asha_entered_activity.setText(report.getTotalAshaEntredActivity());
+        tv_total_activity.setText(report.getTotalActivity());
+        tv_community_activity.setText(report.getTotalCommunity());
+        tv_institutional_activity.setText(report.getTotalInstitutional());
+        tv_total_pending.setText(report.getTotalpending());
+        tv_total_verified.setText(report.getTotalverified());
+        tv_total_rejected.setText(report.getTotalRejected());
+
+        ll_dashboard_report.setVisibility(View.VISIBLE);
     }
 
 
