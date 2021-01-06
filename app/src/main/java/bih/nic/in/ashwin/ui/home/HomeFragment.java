@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     LinearLayout ll_dashboard_report;
     TextView tv_total_asha,tv_asha_entered_activity,tv_total_activity,tv_community_activity,tv_institutional_activity,tv_total_pending,tv_total_verified,tv_total_rejected;
     RadioButton rb_asha,rb_asha_fc;
-    RelativeLayout rl_total_asha;
+    RelativeLayout rl_total_asha,rl_total_asha_enter;
 
     ArrayList<Financial_Year> fYearArray;
     ArrayList<Financial_Month> fMonthArray;
@@ -325,18 +325,35 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         rl_total_asha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String type = "0";
-                if(rb_asha.isChecked()){
-                    type = "0";
-                }else if(rb_asha_fc.isChecked()){
-                    type = "1";
-                }
                 Intent intent = new Intent(getContext(), AshaReportActivity.class);
-                intent.putExtra(AppConstant.USERTYPE, type);
+                intent.putExtra(AppConstant.USERTYPE, "0");
+                intent.putExtra(AppConstant.USER, getSelectedUser());
                 startActivity(intent);
             }
         });
+
+        rl_total_asha_enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AshaReportActivity.class);
+                intent.putExtra(AppConstant.USERTYPE, "1");
+                intent.putExtra(AppConstant.USER, getSelectedUser());
+                startActivity(intent);
+            }
+        });
+
         return root;
+    }
+
+    public String getSelectedUser(){
+        String user = AppConstant.ASHA;
+        if(rb_asha.isChecked()){
+            user = AppConstant.ASHA;
+        }else if(rb_asha_fc.isChecked()){
+            user = AppConstant.FASCILITATOR;
+        }
+
+        return user;
     }
 
     public Double getAshaTotalEntryAmount(){
@@ -351,10 +368,15 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                     Integer benNo = 1;
                     try{
                         benNo = Integer.parseInt(monthly.getNoOfBen());
+
+                        if(benNo == 0 && Double.parseDouble(monthly.get_ActivityAmt()) > 0.0){
+                            benNo = 1;
+                        }
                     }
                     catch (Exception e){
                         Log.e("Number Parsing Error", "");
                     }
+
                     Double mnthAmnt = Double.parseDouble(monthly.get_ActivityAmt()) * benNo;
                     amount += mnthAmnt;
                 }
@@ -465,6 +487,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_total_rejected = root.findViewById(R.id.tv_total_rejected);
 
         rl_total_asha = root.findViewById(R.id.rl_total_asha);
+        rl_total_asha_enter = root.findViewById(R.id.rl_total_asha_enter);
 
         rb_asha_fc = root.findViewById(R.id.rb_asha_fc);
         rb_asha = root.findViewById(R.id.rb_asha);
@@ -864,11 +887,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void updateAshaTotalAmount(){
         totalAmount = getAshaTotalEntryAmount();
-        if(allowedAmount.getLimitamount()>7000.0){
-            tv_total.setText("कुल राशि (दैनिक+मासिक+अन्य क्षेत्र): \u20B9"+totalAmount);
-        }else{
+//        if(allowedAmount.getLimitamount()>7000.0){
+//            tv_total.setText("कुल राशि (दैनिक+मासिक+अन्य क्षेत्र): \u20B9"+totalAmount);
+//        }else{
             tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
-        }
+        //}
 
     }
 
