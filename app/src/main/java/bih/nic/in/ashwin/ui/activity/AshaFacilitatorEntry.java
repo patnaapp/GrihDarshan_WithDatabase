@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -475,7 +476,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             validate = false;
         }
 
-        if (!activityEntity.getAbbr().equals(AppConstant.ASHA_DIWAS_UPASTITHI) && ashaworkerEntity == null)
+        if (activityEntity != null && !activityEntity.getAbbr().equals(AppConstant.ASHA_DIWAS_UPASTITHI) && ashaworkerEntity == null)
         {
             tv_asha_title.setError("कृप्या आशा का चयन करें");
             focusView = tv_asha_title;
@@ -489,11 +490,20 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             validate = false;
         }
 
-        if (edt_ben_no.getText().toString().equals(""))
-        {
-            edt_ben_no.setError("कृप्या लाभार्थियों की संख्या डालें");
-            focusView = edt_ben_no;
-            validate = false;
+        try{
+            if (edt_ben_no.getText().toString().equals(""))
+            {
+                edt_ben_no.setError("कृप्या लाभार्थियों की संख्या डालें");
+                focusView = edt_ben_no;
+                validate = false;
+            }else if (Integer.parseInt(edt_ben_no.getText().toString()) < 1)
+            {
+                edt_ben_no.setError("कृप्या लाभार्थियों की सही संख्या डालें");
+                focusView = edt_ben_no;
+                validate = false;
+            }
+        }catch (Exception e){
+            Toast.makeText(this, "Failed parsing no of ben", Toast.LENGTH_SHORT).show();
         }
 
         return validate;
