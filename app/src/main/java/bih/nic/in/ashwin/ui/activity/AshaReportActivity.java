@@ -40,7 +40,7 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
         DistCode= CommonPref.getUserDetails(AshaReportActivity.this).getDistrictCode();
         Block_Code= CommonPref.getUserDetails(AshaReportActivity.this).getBlockCode();
         Role= CommonPref.getUserDetails(AshaReportActivity.this).getUserrole();
-       // entered_Aasha=getIntent().getStringExtra(AppConstant.);
+        entered_Aasha=getIntent().getStringExtra(AppConstant.USERTYPE);
 
         new SyncAashaList().execute();
     }

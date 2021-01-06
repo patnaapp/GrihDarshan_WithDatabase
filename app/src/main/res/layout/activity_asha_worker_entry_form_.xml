@@ -181,6 +181,7 @@
                             android:background="@drawable/spinner_bg1"
                             android:layout_marginTop="4dp"
                             android:id="@+id/sp_work_categ"
+                            android:spinnerMode="dialog"
                             android:layout_width="match_parent"
                             android:layout_height="36dp" />
                     </LinearLayout>
@@ -236,6 +237,7 @@
                             android:background="@drawable/spinner_bg1"
                             android:layout_marginTop="4dp"
                             android:id="@+id/sp_work"
+                            android:spinnerMode="dialog"
                             android:layout_width="match_parent"
                             android:layout_height="36dp" />
 
