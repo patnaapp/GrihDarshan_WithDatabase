@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -320,7 +321,23 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
+        rb_asha.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    new getDashBoardReport().execute();
+                }
+            }
+        });
 
+        rb_asha_fc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+
+                }
+            }
+        });
 
         rl_total_asha.setOnClickListener(new View.OnClickListener() {
             @Override
