@@ -30,6 +30,7 @@ import bih.nic.in.ashwin.adaptor.MonthlyActivityListener;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.ActvityAmount;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkEntity;
 import bih.nic.in.ashwin.entity.AshaWorkFinalizeEntity;
@@ -76,6 +77,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     private ProgressDialog dialog;
     Boolean getOtp = true;
     String otp;
+
+    ActvityAmount actvityAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,7 +230,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public void loadAshaFCData(){
         //totalWorkAmount = getTotalWorkAmount();
-        totalWorkAmount = getTotalCentralAmount();
+        //totalWorkAmount = getTotalCentralAmount();
+//        try{
+//            totalWorkAmount = actvityAmount.getTotalAmount();
+//        }
+
         totalStateAmount = getTotalFCStateAmount();
 
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
@@ -779,7 +786,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             {
                 stateAmountArray = result;
                 if (userInfo.getUserrole().equals("ASHAFC")){
-                    new GetCentreAmount().execute();
+                    //new GetCentreAmount().execute();
+                    new SyncFascilitatorActivityAmount(userInfo.getSVRID());
                 }
                 else{
                     loadAshaData();
@@ -818,6 +826,43 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 centralAmountArray = result;
                 loadAshaFCData();
                 Toast.makeText(getApplicationContext(), "central amount details loaded", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Null Record, Try Again", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class SyncFascilitatorActivityAmount extends AsyncTask<String, Void, ActvityAmount> {
+
+        String userId;
+
+        public SyncFascilitatorActivityAmount(String userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading central amount details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ActvityAmount doInBackground(String... param) {
+
+            return WebServiceHelper.getFCActivtiyAmount(userId,fmonth.get_MonthId(),fyear.getYear_Id());
+        }
+
+        @Override
+        protected void onPostExecute(ActvityAmount result) {
+
+            if(dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null)
+            {
+                actvityAmount = result;
+                loadAshaFCData();
+                //Toast.makeText(getApplicationContext(), "Activity amount details loaded", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(getApplicationContext(), "Null Record, Try Again", Toast.LENGTH_SHORT).show();
             }

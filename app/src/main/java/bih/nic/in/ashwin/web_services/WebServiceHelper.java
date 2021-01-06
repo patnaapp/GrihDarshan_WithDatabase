@@ -52,6 +52,7 @@ import bih.nic.in.ashwin.entity.ActivityCategory_entity;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
 
 import bih.nic.in.ashwin.entity.Activity_entity;
+import bih.nic.in.ashwin.entity.ActvityAmount;
 import bih.nic.in.ashwin.entity.AshaFacilitator_Entity;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaReport_entity;
@@ -131,6 +132,7 @@ public class WebServiceHelper
     public static final String FinalizeActivityByAnm = "SalaryVerificationByANM";
     public static final String ASHAFcNoOfDays_LIST_METHOD = "getAshaFacilitatorAbsenty";
     public static final String Centre_METHOD = "CentralAmount";
+    public static final String FCACTIVITYAMOUNT_METHOD = "getFacilatorMonthlyAmount";
     public static final String FacilitatorSalaryByANM = "CentralAmount";
     public static final String Activity_Type_LIST_METHOD = "getActType";
     public static final String ASHAWORK_Month_LIST_METHOD = "getAshaListMonthWise";
@@ -670,6 +672,41 @@ public class WebServiceHelper
 
 
         return fieldList;
+    }
+
+    public static ActvityAmount getFCActivtiyAmount(String AshaFacilitatorId, String MonthId, String FYearID) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, FCACTIVITYAMOUNT_METHOD);
+
+        request.addProperty("AshaFacilitatorId", AshaFacilitatorId);
+        request.addProperty("MonthId", MonthId);
+        request.addProperty("FYearID", FYearID);
+
+        ActvityAmount info;
+        SoapObject res1;
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + FCACTIVITYAMOUNT_METHOD, envelope);
+            //rest = envelope.getResponse().toString();
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            info = new ActvityAmount(res1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return info;
     }
 
     public static ArrayList<Centralamount_entity> getcentralamount() {
