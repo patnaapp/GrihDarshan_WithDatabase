@@ -144,7 +144,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_training_amnt = findViewById(R.id.tv_training_amnt);
         tv_travel_amnt = findViewById(R.id.tv_travel_amnt);
 
-        if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO")|| CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBCM"))
+        String role = CommonPref.getUserDetails(this).getUserrole();
+
+        if (role.equals("BLKBHM") || role.equals("BLKMO") || role.equals("BLKBCM") || role.equals("ANM"))
         {
             ll_div_zone.setVisibility(View.GONE);
         }
@@ -181,7 +183,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
             ll_division.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
-        }else if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
+        }else if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM") || userInfo.getUserrole().equals("ANM")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
             ArrayList<Activity_entity> monthly = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
@@ -298,7 +300,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isReadyForFinalize(){
-        if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
+        if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM") || userInfo.getUserrole().equals("ANM")){
             return false;
 
         }else if(userInfo.getUserrole().equals("ASHA")) {
@@ -353,7 +355,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isDataFinalize(){
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM") || userInfo.getUserrole().equals("ANM")){
             if(ashaWorkData.size()> 0){
                 for(AshaWorkEntity work: ashaWorkData)
                 {
