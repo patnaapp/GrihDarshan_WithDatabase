@@ -1221,6 +1221,20 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
 
+        if(mnthlyActList.size()>0){
+            for(Activity_entity info: mnthlyActList){
+                if(info.getChecked() && info.getIsFinalize().equals("Y"))
+                    return true;
+            }
+        }
+
+        if(stateContibActList.size()>0){
+            for(Activity_entity info: stateContibActList){
+                if(info.getChecked() && info.getIsFinalize().equals("Y"))
+                    return true;
+            }
+        }
+
         return false;
     }
 

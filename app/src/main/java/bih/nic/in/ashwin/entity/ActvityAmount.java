@@ -10,11 +10,13 @@ public class ActvityAmount implements KvmSerializable {
 
     public static Class<ActvityAmount> ActvityAmount_CLASS = ActvityAmount.class;
 
-    private String TotalACtivityDayNo, TotalAmount;
+    private String TotalAmount, TrainingAmount,TravalingAmount,FinalAmount;
 
     public ActvityAmount(SoapObject sobj) {
-        this.TotalACtivityDayNo = sobj.getProperty("TotalACtivityDayNo").toString();
         this.TotalAmount = sobj.getProperty("TotalAmount").toString();
+        this.TrainingAmount = sobj.getProperty("TrainingAmount").toString();
+        this.TravalingAmount = sobj.getProperty("TravalingAmount").toString();
+        this.FinalAmount = sobj.getProperty("FinalAmount").toString();
 
     }
 
@@ -22,12 +24,28 @@ public class ActvityAmount implements KvmSerializable {
 
     }
 
-    public String getTotalACtivityDayNo() {
-        return TotalACtivityDayNo;
+    public String getTrainingAmount() {
+        return TrainingAmount;
     }
 
-    public void setTotalACtivityDayNo(String totalACtivityDayNo) {
-        TotalACtivityDayNo = totalACtivityDayNo;
+    public void setTrainingAmount(String trainingAmount) {
+        TrainingAmount = trainingAmount;
+    }
+
+    public String getTravalingAmount() {
+        return TravalingAmount;
+    }
+
+    public void setTravalingAmount(String travalingAmount) {
+        TravalingAmount = travalingAmount;
+    }
+
+    public String getFinalAmount() {
+        return FinalAmount;
+    }
+
+    public void setFinalAmount(String finalAmount) {
+        FinalAmount = finalAmount;
     }
 
     public String getTotalAmount() {

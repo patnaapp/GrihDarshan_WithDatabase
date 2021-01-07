@@ -245,7 +245,8 @@
 
 
                     <LinearLayout
-                        android:visibility="visible"
+                        android:id="@+id/ll_asha_amnt_prv"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_username"
@@ -322,6 +323,125 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="14sp"/>
                         </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:id="@+id/ll_ashafc_amnt_prv"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ll_username"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:visibility="visible"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="केंद्र राशि [प्रति दिन]"
+                                android:textColor="@color/colorGreyDark"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/tv_center_amt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Text"
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="4dp"
+                            android:visibility="visible"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="दावा राशि"
+                                android:textColor="@color/colorGreyDark"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/tv_claim_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Text"
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="4dp"
+                            android:visibility="visible"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="प्रशिक्षण भत्ता"
+                                android:textColor="@color/colorGreyDark"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/tv_training_amnt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Text"
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="4dp"
+                            android:visibility="visible"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="यात्रा भत्ता"
+                                android:textColor="@color/colorGreyDark"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/tv_travel_amnt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Text"
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp"/>
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_marginTop="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50% आशा को प्रोत्साहन मिलने पर ही राज्य प्रोत्साहन ₹1000 मिलेगा "
+                            android:textStyle="bold"
+                            android:textColor="@color/holo_green_dark"
+                            android:textSize="13sp"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

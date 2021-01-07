@@ -56,6 +56,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     Button btn_verify_otp;
     EditText edt_otp;
 
+    LinearLayout ll_asha_amnt_prv,ll_ashafc_amnt_prv;
+    //Fascilitator
+    TextView tv_center_amt,tv_claim_amount,tv_training_amnt,tv_travel_amnt;
+
     DataBaseHelper dbhelper;
     Financial_Year fyear;
     Financial_Month fmonth;
@@ -130,6 +134,15 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         btn_verify_otp = findViewById(R.id.btn_verify_otp);
         edt_otp = findViewById(R.id.edt_otp);
+
+        //Fascilitatr
+        ll_asha_amnt_prv = findViewById(R.id.ll_asha_amnt_prv);
+        ll_ashafc_amnt_prv = findViewById(R.id.ll_ashafc_amnt_prv);
+
+        tv_center_amt = findViewById(R.id.tv_center_amt);
+        tv_claim_amount = findViewById(R.id.tv_claim_amount);
+        tv_training_amnt = findViewById(R.id.tv_training_amnt);
+        tv_travel_amnt = findViewById(R.id.tv_travel_amnt);
 
         if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO"))
         {
@@ -218,7 +231,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
-
+        ll_asha_amnt_prv.setVisibility(View.VISIBLE);
         updateTotalAmount();
 
         if(!isDataFinalize() && isReadyForFinalize())
@@ -232,20 +245,24 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void loadAshaFCData(){
         //totalWorkAmount = getTotalWorkAmount();
         //totalWorkAmount = getTotalCentralAmount();
-        try{
-            totalWorkAmount = Double.parseDouble(actvityAmount.getTotalAmount());
-        }catch (Exception e){
-            totalWorkAmount = 0.0;
-            Toast.makeText(this,"Error Parsing activity Amount: "+actvityAmount.getTotalAmount(), Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            totalWorkAmount = Double.parseDouble(actvityAmount.getTotalAmount());
+//        }catch (Exception e){
+//            totalWorkAmount = 0.0;
+//            Toast.makeText(this,"Error Parsing activity Amount: "+actvityAmount.getTotalAmount(), Toast.LENGTH_SHORT).show();
+//        }
 
         totalStateAmount = getTotalFCStateAmount();
-        //tv_central_amt_title.setText("केंद्र राशि [प्रति दिन]");
-        tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
-        tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
-
+        tv_center_amt.setText("\u20B9"+getTotalCentralAmount());
+        tv_claim_amount.setText("\u20B9"+actvityAmount.getTotalAmount());
+        tv_training_amnt.setText("\u20B9"+actvityAmount.getTrainingAmount());
+        tv_travel_amnt.setText("\u20B9"+actvityAmount.getTravalingAmount());
         //tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
-        tv_total_amnt.setText("\u20B9"+(totalWorkAmount));
+
+
+        ll_ashafc_amnt_prv.setVisibility(View.VISIBLE);
+
+        tv_total_amnt.setText("\u20B9"+(actvityAmount.getFinalAmount()));
 
         setFCActivityRecycler();
 
@@ -281,16 +298,21 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     }
 
     public Boolean isReadyForFinalize(){
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")) {
+        if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
+            return false;
+
+        }else if(userInfo.getUserrole().equals("ASHA")) {
+
             if (ashaWorkData.size() > 0) {
                 for (AshaWorkEntity work : ashaWorkData) {
                     if (work.getVerificationStatus().equals("P") || work.getVerificationStatus().equals("NA")) {
                         return false;
                     }
                 }
-            } else {
-                return false;
             }
+//            else {
+//                return false;
+//            }
 
             if (activityArray.size() > 0) {
                 for (Activity_entity work : activityArray) {
@@ -310,6 +332,9 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 //            else {
 //                return false;
 //            }
+            if(ashaWorkData.size() == 0 && activityArray.size() == 0 && stateContArray.size() == 0){
+                return false;
+            }
 
         }else if (userInfo.getUserrole().equals("ASHAFC")){
             if (ashaFCWorkData.size() > 0) {
@@ -322,13 +347,14 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 return false;
             }
         }
+
+
         return true;
     }
 
     public Boolean isDataFinalize(){
-        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
-            if(ashaWorkData.size()> 0)
-            {
+        if(userInfo.getUserrole().equals("ASHA") || userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
+            if(ashaWorkData.size()> 0){
                 for(AshaWorkEntity work: ashaWorkData)
                 {
                     if(work.getIsFinalize().equals("Y"))
@@ -337,10 +363,10 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                     }
                 }
             }
-            else
-            {
-                return false;
-            }
+//            else
+//            {
+//                return false;
+//            }
 
             if(activityArray.size()> 0){
                 for(Activity_entity work: activityArray)
@@ -792,7 +818,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                 stateAmountArray = result;
                 if (userInfo.getUserrole().equals("ASHAFC")){
                     //new GetCentreAmount().execute();
-                    new SyncFascilitatorActivityAmount(userInfo.getSVRID());
+                    new SyncFascilitatorActivityAmount(userInfo.getSVRID()).execute();
                 }
                 else{
                     loadAshaData();
@@ -847,7 +873,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         @Override
         protected void onPreExecute() {
-            dialog.setMessage("Loading central amount details...");
+            dialog.setMessage("Loading Activity Amounts...");
             dialog.show();
         }
 
