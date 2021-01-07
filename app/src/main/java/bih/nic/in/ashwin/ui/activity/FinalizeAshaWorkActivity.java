@@ -49,7 +49,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     TextView tv_fn_yr,fn_mnth,tv_total_work,tv_total_central_amnt,tv_total_state_amnt;
     TextView tv_monthly_amnt,tv_total_amnt,tv_rr,tv_sc;
-    TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat;
+    TextView tv_aanganwadi,tv_hscname,tv_district,tv_block,tv_panchayat,tv_central_amt_title;
     RecyclerView rv_data,rv_work,rv_data_sc;
     CheckBox ch_1,ch_2,ch_3;
     LinearLayout ll_btn_bottom,ll_declaration,ll_div_zone,ll_otp,ll_pan,ll_division,ll_monthly;
@@ -107,6 +107,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_district = findViewById(R.id.tv_district);
         tv_block = findViewById(R.id.tv_block);
         tv_panchayat = findViewById(R.id.tv_panchayat);
+        tv_central_amt_title = findViewById(R.id.tv_central_amt_title);
 
         tv_rr = findViewById(R.id.tv_rr);
         tv_sc = findViewById(R.id.tv_sc);
@@ -231,16 +232,20 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
     public void loadAshaFCData(){
         //totalWorkAmount = getTotalWorkAmount();
         //totalWorkAmount = getTotalCentralAmount();
-//        try{
-//            totalWorkAmount = actvityAmount.getTotalAmount();
-//        }
+        try{
+            totalWorkAmount = Double.parseDouble(actvityAmount.getTotalAmount());
+        }catch (Exception e){
+            totalWorkAmount = 0.0;
+            Toast.makeText(this,"Error Parsing activity Amount: "+actvityAmount.getTotalAmount(), Toast.LENGTH_SHORT).show();
+        }
 
         totalStateAmount = getTotalFCStateAmount();
-
+        //tv_central_amt_title.setText("केंद्र राशि [प्रति दिन]");
         tv_total_central_amnt.setText("\u20B9"+totalWorkAmount);
         tv_total_state_amnt.setText("\u20B9"+totalStateAmount);
 
-        tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
+        //tv_total_amnt.setText("\u20B9"+(totalWorkAmount+totalStateAmount));
+        tv_total_amnt.setText("\u20B9"+(totalWorkAmount));
 
         setFCActivityRecycler();
 
