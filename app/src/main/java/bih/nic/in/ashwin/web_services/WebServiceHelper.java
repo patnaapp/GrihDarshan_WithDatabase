@@ -1245,10 +1245,10 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<AshaReport_entity> getAshaList(String DistCode, String BlockCode, String Role, String Enteredaasha) {
+    public static ArrayList<AshaReport_entity> getAshaList(String DistCode, String BlockCode, String Role, String Enteredaasha, String fyear, String fmonth) {
 
         SoapObject res1;
-        res1 = getServerData(ASHA_LIST_METHOD, AshaReport_entity.ASHA_REPORT_CLASS, "DistrictCode","BlockCode","Role","EnteredAsha", DistCode,BlockCode,Role,Enteredaasha);
+        res1 = getServerData(ASHA_LIST_METHOD, AshaReport_entity.ASHA_REPORT_CLASS, "DistrictCode","BlockCode","Role","EnteredAsha","FYearId","MonthId", DistCode,BlockCode,Role,Enteredaasha,fyear,fmonth);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaReport_entity> fieldList = new ArrayList<AshaReport_entity>();

@@ -12,10 +12,13 @@ public class AshaReport_entity implements KvmSerializable, Serializable {
     public static Class<AshaReport_entity> ASHA_REPORT_CLASS = AshaReport_entity.class;
 
     private String a_Id, ASHAID,ASHAFacilitatorID,DistrictCode,DistrictName,BlockCode,BlockName,HSCCode,HSCName,Name,Name_Hn,Name_AsPerAadhaar,AadhaarNo,BenAccountNo,IFSCCode,
-            FHName,FHName_Hn,DateofBirth,DateofJoining,MobileNo,AlternateMobileNo,Panchayat,Aaganwadi,PanchayatCode;
+            FHName,FHName_Hn,DateofBirth,DateofJoining,MobileNo,AlternateMobileNo,Panchayat,Aaganwadi,PanchayatCode,AWCID,Aaganwadi_Hn;
 
 
     public AshaReport_entity(SoapObject sobj) {
+        this.AWCID = sobj.getProperty("AWCID").toString();
+        this.Aaganwadi = sobj.getProperty("AWCName").toString();
+        this.Aaganwadi_Hn = sobj.getProperty("AWCNameHn").toString();
         this.a_Id = sobj.getProperty("a_Id").toString();
         this.ASHAID = sobj.getProperty("ASHAID").toString();
         //this.ASHAFacilitatorID = sobj.getProperty("ASHAFacilitatorID").toString();
@@ -258,5 +261,21 @@ public class AshaReport_entity implements KvmSerializable, Serializable {
 
     public void setPanchayatCode(String panchayatCode) {
         PanchayatCode = panchayatCode;
+    }
+
+    public String getAWCID() {
+        return AWCID;
+    }
+
+    public void setAWCID(String AWCID) {
+        this.AWCID = AWCID;
+    }
+
+    public String getAaganwadi_Hn() {
+        return Aaganwadi_Hn;
+    }
+
+    public void setAaganwadi_Hn(String aaganwadi_Hn) {
+        Aaganwadi_Hn = aaganwadi_Hn;
     }
 }
