@@ -248,7 +248,17 @@
                 <!--                    android:layout_width="match_parent"-->
                 <!--                    android:layout_height="36dp" />-->
             </LinearLayout>
+
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_view_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="कार्य विवरण देखने के लिए यहाँ क्लिक करे"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="13sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

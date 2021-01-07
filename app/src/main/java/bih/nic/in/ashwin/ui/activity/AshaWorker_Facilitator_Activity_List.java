@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import bih.nic.in.ashwin.R;
 import bih.nic.in.ashwin.adaptor.AshaActivityAccpRjctAdapter;
 import bih.nic.in.ashwin.adaptor.AshaActivityMonthlyAdapter;
+import bih.nic.in.ashwin.adaptor.AshaSalaryByBhm_Adapter;
 import bih.nic.in.ashwin.adaptor.AshaWorkDetailAdapter;
 import bih.nic.in.ashwin.database.DataBaseHelper;
 import bih.nic.in.ashwin.entity.Activity_Type_entity;
@@ -41,6 +42,7 @@ import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.UserRole;
 import bih.nic.in.ashwin.ui.home.HomeFragment;
 import bih.nic.in.ashwin.utility.CommonPref;
+import bih.nic.in.ashwin.utility.Utiilties;
 import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -67,6 +69,9 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     String Dist_Code="",Blk_Code="",Role="",HSCCode="";
 
     BlockListDCM block;
+    TextView tv_view_details;
+    ArrayList<AshaWorkEntity> ashaWorkData;
+    ArrayList<Activity_entity> monthlyData;
 
 
     @Override
@@ -104,6 +109,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //            }
 
         }
+
         else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC") || CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("ANM"))
         {
             ll_hsc.setVisibility(View.VISIBLE);
@@ -114,6 +120,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             ll_block.setVisibility(View.VISIBLE);
             new SyncBlockListForDCM().execute();
         }
+
+
 
 
         //loadWorkerFascilatorData();
@@ -257,6 +265,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         tv_role=findViewById(R.id.tv_role);
         tv_daily = findViewById(R.id.tv_daily);
         tv_monthly = findViewById(R.id.tv_monthly);
+        tv_view_details = findViewById(R.id.tv_view_details);
+        tv_view_details.setVisibility(View.GONE);
 
         rv_data = findViewById(R.id.recyclerview_data);
         rv_data_monthly = findViewById(R.id.recyclerview_data_monthly);
@@ -333,8 +343,16 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     tv_name.setText(asha_worker_nm);
                     ll_dmf_tab.setVisibility(View.VISIBLE);
                     new SynchronizeAshaActivityList().execute();
+                    tv_view_details.setVisibility(View.VISIBLE);
+                    tv_view_details.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            new SyncAshaActivityList(svrid).execute();
+                        }
+                    });
 
-
+                }else{
+                    tv_view_details.setVisibility(View.GONE);
                 }
                 break;
 
@@ -711,17 +729,24 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void loadHscList()
     {
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
 
-        for (HscList_Entity info: hscList)
-        {
+            ArrayList array = new ArrayList<String>();
+            array.add("-Select-");
+          if(hscList.size()== 0){
+            sp_hsc_list.setSelection(((ArrayAdapter<String>) sp_hsc_list.getAdapter()).getPosition(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getHSCName()));
+            sp_hsc_list.setEnabled(false);
+        }else{
+
+            for (HscList_Entity info: hscList)
+            {
                 array.add(info.get_HSCName_Hn());
+            }
+
+            ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
+            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sp_hsc_list.setAdapter(adaptor);
         }
 
-        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_hsc_list.setAdapter(adaptor);
     }
 
 
@@ -1130,5 +1155,81 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //        Intent i=new Intent(AshaWorker_Facilitator_Activity_List.this,UserHomeActivity.class);
 //        startActivity(i);
 //        finish();
+    }
+    private class SyncAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
+        String _svr_id="";
+        public SyncAshaActivityList(String svrid) {
+            _svr_id=svrid;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setMessage("दैनिक कार्य सूची लोड हो रहा है...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<AshaWorkEntity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkActivityList(_svr_id,fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AshaWorkEntity> result) {
+
+            if (result != null)
+            {
+                ashaWorkData = result;
+                new SyncSelectedMonthlyActivityList(_svr_id).execute();
+
+            }else{
+                Utiilties.showErrorAlet(AshaWorker_Facilitator_Activity_List.this, "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
+    }
+    private class SyncSelectedMonthlyActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+        String _srvr_id="";
+        public SyncSelectedMonthlyActivityList(String srvr_id) {
+            _srvr_id=srvr_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected ArrayList<Activity_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getAshaWorkMonthlyActivityListBHM(_srvr_id,fmonth.get_MonthId(),fyear.getYear_Id(),"ASHA");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_entity> result) {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+
+            if (result != null)
+            {
+                monthlyData=result;
+
+                Intent i = new Intent(AshaWorker_Facilitator_Activity_List.this, FinalizeAshaWorkActivity.class);
+                i.putExtra("fyear", fyear);
+                i.putExtra("fmonth", fmonth);
+                i.putExtra("workArray", ashaWorkData);
+                i.putExtra("monthly", monthlyData);
+
+                startActivity(i);
+
+            }
+            else
+            {
+                Utiilties.showErrorAlet(AshaWorker_Facilitator_Activity_List.this, "सर्वर कनेक्शन त्रुटि", "मासिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
+            }
+        }
     }
 }

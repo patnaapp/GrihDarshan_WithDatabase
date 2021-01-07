@@ -144,7 +144,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         tv_training_amnt = findViewById(R.id.tv_training_amnt);
         tv_travel_amnt = findViewById(R.id.tv_travel_amnt);
 
-        if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO"))
+        if (CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBHM") || CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKMO")|| CommonPref.getUserDetails(FinalizeAshaWorkActivity.this).getUserrole().equals("BLKBCM"))
         {
             ll_div_zone.setVisibility(View.GONE);
         }
@@ -181,7 +181,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
             ll_division.setVisibility(View.GONE);
             ll_pan.setVisibility(View.GONE);
-        }else if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO")){
+        }else if(userInfo.getUserrole().equals("BLKBHM") || userInfo.getUserrole().equals("BLKMO") || userInfo.getUserrole().equals("BLKBCM")){
             ashaWorkData =  (ArrayList<AshaWorkEntity>) getIntent().getSerializableExtra("workArray");
             ArrayList<Activity_entity> monthly = (ArrayList<Activity_entity>) getIntent().getSerializableExtra("monthly");
             ashaFCWorkData =  (ArrayList<AshaFascilitatorWorkEntity>) getIntent().getSerializableExtra("workFCArray");
