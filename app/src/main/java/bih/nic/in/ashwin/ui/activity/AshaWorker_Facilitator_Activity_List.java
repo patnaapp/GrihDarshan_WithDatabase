@@ -333,7 +333,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     tv_name.setText(asha_worker_nm);
                     ll_dmf_tab.setVisibility(View.VISIBLE);
                     new SynchronizeAshaActivityList().execute();
-                    new getAshaActvityCategoryListEntryWise().execute();
+
 
                 }
                 break;
@@ -416,6 +416,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             {
                 ashawork=result;
                 setupRecuyclerView(result);
+                //new getAshaActvityCategoryListEntryWise().execute();
 
                 //  new SynchronizeMonthlyAshaActivityList().execute();
 
@@ -685,8 +686,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             array.add(info.get_ActivityDesc());
         }
 
-        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this,R.layout.dropdownlist, array);
+        adaptor.setDropDownViewResource(R.layout.dropdownlist);
         sp_work.setAdapter(adaptor);
 
         // }
@@ -1014,6 +1015,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
                 ashaworkerList = result;
                 loadWorkerFascilatorData();
+                new getAshaActvityCategoryListEntryWise().execute();
             }
         }
     }

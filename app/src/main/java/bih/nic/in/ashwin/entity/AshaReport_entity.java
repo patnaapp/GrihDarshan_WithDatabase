@@ -11,17 +11,20 @@ public class AshaReport_entity implements KvmSerializable, Serializable {
 
     public static Class<AshaReport_entity> ASHA_REPORT_CLASS = AshaReport_entity.class;
 
-    private String a_Id, ASHAID,DistrictCode,DistrictName,BlockCode,BlockName,HSCCode,HSCName,Name,Name_Hn,Name_AsPerAadhaar,AadhaarNo,BenAccountNo,IFSCCode,
-            FHName,FHName_Hn,DateofBirth,DateofJoining,MobileNo,AlternateMobileNo,Panchayat,Aaganwadi;
+    private String a_Id, ASHAID,ASHAFacilitatorID,DistrictCode,DistrictName,BlockCode,BlockName,HSCCode,HSCName,Name,Name_Hn,Name_AsPerAadhaar,AadhaarNo,BenAccountNo,IFSCCode,
+            FHName,FHName_Hn,DateofBirth,DateofJoining,MobileNo,AlternateMobileNo,Panchayat,Aaganwadi,PanchayatCode;
 
 
     public AshaReport_entity(SoapObject sobj) {
         this.a_Id = sobj.getProperty("a_Id").toString();
         this.ASHAID = sobj.getProperty("ASHAID").toString();
+        //this.ASHAFacilitatorID = sobj.getProperty("ASHAFacilitatorID").toString();
         this.DistrictCode = sobj.getProperty("DistrictCode").toString();
         this.DistrictName = sobj.getProperty("DistrictName").toString();
         this.BlockCode = sobj.getProperty("BlockCode").toString();
         this.BlockName = sobj.getProperty("BlockName").toString();
+        this.Panchayat = sobj.getProperty("PanchayatName").toString();
+        this.PanchayatCode = sobj.getProperty("PanchayatCode").toString();
         this.HSCCode = sobj.getProperty("HSCCode").toString();
         this.HSCName = sobj.getProperty("HSCName").toString();
         this.Name = sobj.getProperty("Name").toString();
@@ -239,5 +242,21 @@ public class AshaReport_entity implements KvmSerializable, Serializable {
 
     public void setAaganwadi(String aaganwadi) {
         Aaganwadi = aaganwadi;
+    }
+
+    public String getASHAFacilitatorID() {
+        return ASHAFacilitatorID;
+    }
+
+    public void setASHAFacilitatorID(String ASHAFacilitatorID) {
+        this.ASHAFacilitatorID = ASHAFacilitatorID;
+    }
+
+    public String getPanchayatCode() {
+        return PanchayatCode;
+    }
+
+    public void setPanchayatCode(String panchayatCode) {
+        PanchayatCode = panchayatCode;
     }
 }

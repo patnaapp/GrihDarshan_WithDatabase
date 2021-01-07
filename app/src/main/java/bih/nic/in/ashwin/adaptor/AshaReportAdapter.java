@@ -68,7 +68,8 @@ public class AshaReportAdapter extends RecyclerView.Adapter<AshaReportAdapter.Vi
     {
         final AshaReport_entity info = mData.get(position);
 
-        holder.tv_username.setText(info.getName());
+        //holder.tv_username.setText(info.getName());
+        holder.tv_username.setText(info.getName()+" - "+info.getASHAID().toUpperCase());
         holder.tv_father.setText(info.getFHName());
         holder.tv_mobile.setText(info.getMobileNo());
         holder.tv_aadhar_num.setText(info.getAadhaarNo());

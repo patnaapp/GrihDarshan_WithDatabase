@@ -846,8 +846,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                 pos=categoryArray.indexOf(info)+1;
             }
         }
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adaptor = new ArrayAdapter(this, R.layout.dropdownlist, array);
+        adaptor.setDropDownViewResource(R.layout.dropdownlist);
         sp_work_categ.setAdapter(adaptor);
         sp_work_categ.setOnItemSelectedListener(this);
 
@@ -874,8 +874,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             }
         }
 
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter adaptor = new ArrayAdapter(this, R.layout.dropdownlist, array);
+        adaptor.setDropDownViewResource(R.layout.dropdownlist);
         sp_work.setAdapter(adaptor);
         sp_work.setOnItemSelectedListener(this);
 

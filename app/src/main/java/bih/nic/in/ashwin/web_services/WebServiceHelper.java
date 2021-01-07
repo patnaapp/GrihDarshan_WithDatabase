@@ -171,6 +171,7 @@ public class WebServiceHelper
     public static final String AshaWorkerAndAshaFcList = "getAshaWorkerAndAshaFcList";
     public static final String OtherBlockOneTime = "getTotalAmountOneTimeList";
     public static final String GETDASBOARD_REPORT = "getDashBoardRpt";
+    public static final String GETDASBOARD_FC_REPORT = "getDashBoardFCRpt";
 
     private static final String BLOCK_METHOD = "getBlock";
 
@@ -562,6 +563,44 @@ public class WebServiceHelper
             int TotalProperty = res1.getPropertyCount();
 
             info = new DashboardEntity(res1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return info;
+    }
+    public static DashboardEntity getDashboardFacilatorReport(String FYearId, String MonthId, String Dist_Code, String Block_Code, String HSCCODE, String Role)
+    {
+        Log.e("Dist-Block", Dist_Code+" - "+Block_Code);
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GETDASBOARD_FC_REPORT);
+
+        request.addProperty("FYearId", FYearId);
+        request.addProperty("MonthId", MonthId);
+        request.addProperty("Dist_Code", Dist_Code);
+        request.addProperty("Block_Code", Block_Code);
+        request.addProperty("HSCCODE", HSCCODE.equals("anyType{}") ? "" : HSCCODE);
+        request.addProperty("Role", Role);
+
+        DashboardEntity info;
+        SoapObject res1;
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + GETDASBOARD_FC_REPORT, envelope);
+            //rest = envelope.getResponse().toString();
+
+            res1 = (SoapObject) envelope.getResponse();
+
+            int TotalProperty = res1.getPropertyCount();
+
+            info = new DashboardEntity(res1,1);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,7 +11,7 @@ public class DashboardEntity implements KvmSerializable, Serializable {
 
     public static Class<DashboardEntity> DashboardEntity_CLASS = DashboardEntity.class;
 
-    private String TotalAsha, totalActivity,TotalAshaEntredActivity,TotalCommunity,TotalInstitutional,Totalverified,TotalRejected,Totalpending;
+    private String TotalAsha, totalActivity,TotalAshaEntredActivity,TotalCommunity,TotalInstitutional,Totalverified,TotalRejected,Totalpending,Totalmonthly,TotalDaily;
 
 
     public DashboardEntity(SoapObject sobj) {
@@ -20,6 +20,18 @@ public class DashboardEntity implements KvmSerializable, Serializable {
         this.TotalAshaEntredActivity = sobj.getProperty("TotalAshaEntredActivity").toString();
         this.TotalCommunity = sobj.getProperty("TotalCommunity").toString();
         this.TotalInstitutional = sobj.getProperty("TotalInstitutional").toString();
+        this.Totalverified = sobj.getProperty("Totalverified").toString();
+        this.TotalRejected = sobj.getProperty("TotalRejected").toString();
+        this.Totalpending = sobj.getProperty("Totalpending").toString();;
+
+    }
+
+    public DashboardEntity(SoapObject sobj,int i) {
+        this.TotalAsha = sobj.getProperty("TotalFacilator").toString();
+        this.totalActivity = sobj.getProperty("totalFcActivity").toString();
+        this.TotalAshaEntredActivity = sobj.getProperty("TotalFacilatorEntredActivity").toString();
+        this.TotalDaily = sobj.getProperty("TotalDaily").toString();
+        this.Totalmonthly = sobj.getProperty("Totalmonthly").toString();
         this.Totalverified = sobj.getProperty("Totalverified").toString();
         this.TotalRejected = sobj.getProperty("TotalRejected").toString();
         this.Totalpending = sobj.getProperty("Totalpending").toString();;
@@ -119,5 +131,19 @@ public class DashboardEntity implements KvmSerializable, Serializable {
 
     }
 
+    public String getTotalmonthly() {
+        return Totalmonthly;
+    }
 
+    public void setTotalmonthly(String totalmonthly) {
+        Totalmonthly = totalmonthly;
+    }
+
+    public String getTotalDaily() {
+        return TotalDaily;
+    }
+
+    public void setTotalDaily(String totalDaily) {
+        TotalDaily = totalDaily;
+    }
 }
