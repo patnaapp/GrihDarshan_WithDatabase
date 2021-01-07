@@ -279,7 +279,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     public Double getTotalCentralAmount(){
         Double amount = 0.0;
-        Integer count = 0;
+        Integer count = 1;
 
         try{
             for(Centralamount_entity amnt: centralAmountArray){
@@ -287,11 +287,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
                     amount += Double.parseDouble(amnt.get_CentralAmt());
             }
 
-            for(AshaFascilitatorWorkEntity info: ashaFCWorkData){
-                if(info.getVerificationStatus().equals("A")){
-                    count += 1;
-                }
-            }
+//            for(AshaFascilitatorWorkEntity info: ashaFCWorkData){
+//                if(info.getVerificationStatus().equals("A")){
+//                    count += 1;
+//                }
+//            }
         }catch (Exception e){
 
         }
