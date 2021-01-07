@@ -416,7 +416,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             {
                 ashawork=result;
                 setupRecuyclerView(result);
-                new getAshaActvityCategoryListEntryWise().execute();
+                //new getAshaActvityCategoryListEntryWise().execute();
 
                 //  new SynchronizeMonthlyAshaActivityList().execute();
 
@@ -1015,6 +1015,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
                 ashaworkerList = result;
                 loadWorkerFascilatorData();
+                new getAshaActvityCategoryListEntryWise().execute();
             }
         }
     }

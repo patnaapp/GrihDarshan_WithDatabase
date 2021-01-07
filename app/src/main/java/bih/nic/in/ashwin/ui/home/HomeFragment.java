@@ -334,7 +334,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-
+                    new getDashBoardFacilitatorReport().execute();
                 }
             }
         });
@@ -1632,6 +1632,34 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
     }
+    private class getDashBoardFacilitatorReport extends AsyncTask<String, Void, DashboardEntity> {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("रिपोर्ट लोड हो  है");
+            dialog.show();
+        }
+
+        @Override
+        protected DashboardEntity doInBackground(String... param)
+        {
+            UserDetails user = CommonPref.getUserDetails(getContext());
+            return WebServiceHelper.getDashboardFacilatorReport(fyear.getYear_Id(),fmonth.get_MonthId(), user.getDistrictCode(), user.getBlockCode(),"0", user.getUserrole());
+        }
+
+        @Override
+        protected void onPostExecute(DashboardEntity result) {
+            if(dialog.isShowing()){
+                dialog.dismiss();
+            }
+            if (result != null) {
+                setDashBoardFCReport(result);
+            }else{
+                Toast.makeText(getContext(), "Null Record: Report Not Found!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     public void setDashBoardReport(DashboardEntity report){
         tv_total_asha.setText(report.getTotalAsha());
@@ -1639,6 +1667,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         tv_total_activity.setText(report.getTotalActivity());
         tv_community_activity.setText(report.getTotalCommunity());
         tv_institutional_activity.setText(report.getTotalInstitutional());
+        tv_total_pending.setText(report.getTotalpending());
+        tv_total_verified.setText(report.getTotalverified());
+        tv_total_rejected.setText(report.getTotalRejected());
+
+        ll_dashboard_report.setVisibility(View.VISIBLE);
+    }
+    public void setDashBoardFCReport(DashboardEntity report){
+        tv_total_asha.setText(report.getTotalAsha());
+        tv_asha_entered_activity.setText(report.getTotalAshaEntredActivity());
+        tv_total_activity.setText(report.getTotalActivity());
+        tv_community_activity.setText(report.getTotalDaily());
+        tv_institutional_activity.setText(report.getTotalmonthly());
         tv_total_pending.setText(report.getTotalpending());
         tv_total_verified.setText(report.getTotalverified());
         tv_total_rejected.setText(report.getTotalRejected());
