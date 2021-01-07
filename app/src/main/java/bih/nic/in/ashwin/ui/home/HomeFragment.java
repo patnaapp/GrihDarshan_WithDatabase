@@ -345,8 +345,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 Intent intent = new Intent(getContext(), AshaReportActivity.class);
                 intent.putExtra(AppConstant.USERTYPE, "0");
                 intent.putExtra(AppConstant.USER, getSelectedUser());
-                intent.putExtra("fyear", fyear);
-                intent.putExtra("fmonth", fmonth);
+                intent.putExtra("fyear", fyear.getYear_Id());
+                intent.putExtra("fmonth", fmonth.get_MonthId());
                 startActivity(intent);
             }
         });
@@ -357,8 +357,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 Intent intent = new Intent(getContext(), AshaReportActivity.class);
                 intent.putExtra(AppConstant.USERTYPE, "1");
                 intent.putExtra(AppConstant.USER, getSelectedUser());
-                intent.putExtra("fyear", fyear);
-                intent.putExtra("fmonth", fmonth);
+                intent.putExtra("fyear", fyear.getYear_Id());
+                intent.putExtra("fmonth", fmonth.get_MonthId());
                 startActivity(intent);
             }
         });

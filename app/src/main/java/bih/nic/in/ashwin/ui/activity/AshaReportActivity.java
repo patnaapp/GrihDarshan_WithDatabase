@@ -25,7 +25,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaReportActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     RecyclerView rv_data;
     private ProgressDialog dialog;
-    String DistCode="",Block_Code="",Role="",entered_Aasha;
+    String DistCode="",Block_Code="",Role="",entered_Aasha,user_Type="",fyear="",fmonth="";
     ArrayList<AshaReport_entity> ashaReport_entities;
 
     @Override
@@ -41,6 +41,9 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
         Block_Code= CommonPref.getUserDetails(AshaReportActivity.this).getBlockCode();
         Role= CommonPref.getUserDetails(AshaReportActivity.this).getUserrole();
         entered_Aasha=getIntent().getStringExtra(AppConstant.USERTYPE);
+        user_Type=getIntent().getStringExtra(AppConstant.USER);
+        fyear=getIntent().getStringExtra("fyear");
+        fmonth=getIntent().getStringExtra("fmonth");
 
         new SyncAashaList().execute();
     }
@@ -69,7 +72,7 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
         @Override
         protected ArrayList<AshaReport_entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getAshaList(DistCode,Block_Code,Role,entered_Aasha);
+            return WebServiceHelper.getAshaList(DistCode,Block_Code,Role,entered_Aasha,fyear,fmonth);
         }
 
         @Override
