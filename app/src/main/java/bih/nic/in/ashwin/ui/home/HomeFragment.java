@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     Button btn_proceed,btn_ashafc,btn_proceed1,btn_asha_fc,btn_other_blk;
     LinearLayout ll_hsc_list;
 
-    LinearLayout ll_dashboard_report;
+    LinearLayout ll_dashboard_report,ll_accepted_work;
     TextView tv_total_asha,tv_asha_entered_activity,tv_total_activity,tv_community_activity,tv_institutional_activity,tv_total_pending,tv_total_verified,tv_total_rejected;
     RadioButton rb_asha,rb_asha_fc;
     RelativeLayout rl_total_asha,rl_total_asha_enter;
@@ -128,6 +128,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     private ProgressDialog dialog;
     Double totalAmount = 0.0;
     String OtherBlockOneTime="0";
+    TextView tv_total_aasha,tv_fil_dawa_paptra,tv_total_work,tv_comunity_work,tv_institution_work;
     private MonthlyAmountLimitEntity allowedAmount = new MonthlyAmountLimitEntity();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -334,7 +335,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-
+                    new getDashBoardFCReport().execute();
                 }
             }
         });
@@ -345,8 +346,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 Intent intent = new Intent(getContext(), AshaReportActivity.class);
                 intent.putExtra(AppConstant.USERTYPE, "0");
                 intent.putExtra(AppConstant.USER, getSelectedUser());
-                intent.putExtra("fyear", fyear.getYear_Id());
-                intent.putExtra("fmonth", fmonth.get_MonthId());
+                intent.putExtra("fyear", fyear);
+                intent.putExtra("fmonth", fmonth);
                 startActivity(intent);
             }
         });
@@ -357,8 +358,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 Intent intent = new Intent(getContext(), AshaReportActivity.class);
                 intent.putExtra(AppConstant.USERTYPE, "1");
                 intent.putExtra(AppConstant.USER, getSelectedUser());
-                intent.putExtra("fyear", fyear.getYear_Id());
-                intent.putExtra("fmonth", fmonth.get_MonthId());
+                intent.putExtra("fyear", fyear);
+                intent.putExtra("fmonth", fmonth);
+                startActivity(intent);
+            }
+        });
+        ll_accepted_work.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AshaWorker_Facilitator_Activity_List.class);
+                intent.putExtra(AppConstant.USERTYPE, "1");
+                intent.putExtra(AppConstant.USER, getSelectedUser());
+                intent.putExtra("fyear", fyear);
+                intent.putExtra("fmonth", fmonth);
                 startActivity(intent);
             }
         });
@@ -479,6 +491,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         ll_div_zone = root.findViewById(R.id.ll_div_zone);
         ll_block = root.findViewById(R.id.ll_block);
 
+        tv_total_aasha = root.findViewById(R.id.tv_total_aasha);
+        tv_fil_dawa_paptra = root.findViewById(R.id.tv_fil_dawa_paptra);
+        tv_total_work = root.findViewById(R.id.tv_total_work);
+        tv_comunity_work = root.findViewById(R.id.tv_comunity_work);
+        tv_institution_work = root.findViewById(R.id.tv_institution_work);
+
+
         rv_data = root.findViewById(R.id.rv_data);
         rv_data_sc = root.findViewById(R.id.rv_data_sc);
 
@@ -509,6 +528,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         rl_total_asha = root.findViewById(R.id.rl_total_asha);
         rl_total_asha_enter = root.findViewById(R.id.rl_total_asha_enter);
+        ll_accepted_work = root.findViewById(R.id.ll_accepted_work);
 
         rb_asha_fc = root.findViewById(R.id.rb_asha_fc);
         rb_asha = root.findViewById(R.id.rb_asha);
@@ -627,7 +647,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
     public void setFMonthSpinner()
     {
-        fMonthArray = dbhelper.getFinancialMonthList();
+        //fMonthArray = dbhelper.getFinancialMonthList();
         ArrayList array = new ArrayList<String>();
         array.add("-Select-");
 
@@ -732,7 +752,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
                 if (i > 0)
                 {
                     fyear = fYearArray.get(i-1);
-                    setFMonthSpinner();
+                    new GetFinMonth_new().execute();
+
+                   // setFMonthSpinner();
                 }
                 break;
 
@@ -1650,13 +1672,62 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
     }
+    private class getDashBoardFCReport extends AsyncTask<String, Void, DashboardEntity> {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("रिपोर्ट लोड हो  है");
+            dialog.show();
+        }
+
+        @Override
+        protected DashboardEntity doInBackground(String... param)
+        {
+            UserDetails user = CommonPref.getUserDetails(getContext());
+            return WebServiceHelper.getDashboardFacilatorReport(fyear.getYear_Id(),fmonth.get_MonthId(), user.getDistrictCode(), user.getBlockCode(), user.getHSCCode(), user.getUserrole());
+        }
+
+        @Override
+        protected void onPostExecute(DashboardEntity result) {
+            if(dialog.isShowing()){
+                dialog.dismiss();
+            }
+            if (result != null) {
+                setDashBoardFcReport(result);
+            }else{
+                Toast.makeText(getContext(), "Null Record: Report Not Found!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     public void setDashBoardReport(DashboardEntity report){
+        tv_total_aasha.setText("कुल आशा");
+        tv_fil_dawa_paptra.setText("दावा प्रपत्र भरने वाली आशा");
+        tv_comunity_work.setText("समुदायिक कार्य");
+        tv_institution_work.setText("संस्थागत कार्य");
+
         tv_total_asha.setText(report.getTotalAsha());
         tv_asha_entered_activity.setText(report.getTotalAshaEntredActivity());
         tv_total_activity.setText(report.getTotalActivity());
         tv_community_activity.setText(report.getTotalCommunity());
         tv_institutional_activity.setText(report.getTotalInstitutional());
+        tv_total_pending.setText(report.getTotalpending());
+        tv_total_verified.setText(report.getTotalverified());
+        tv_total_rejected.setText(report.getTotalRejected());
+
+        ll_dashboard_report.setVisibility(View.VISIBLE);
+    }
+    public void setDashBoardFcReport(DashboardEntity report){
+        tv_total_aasha.setText("कुल फैसिलिटेटर");
+        tv_fil_dawa_paptra.setText("दावा प्रपत्र भरने वाली फैसिलिटेटर");
+        tv_comunity_work.setText("मासिक कार्य");
+        tv_institution_work.setText("दैनिक कार्य");
+        tv_total_asha.setText(report.getTotalAsha());
+        tv_asha_entered_activity.setText(report.getTotalAshaEntredActivity());
+        tv_total_activity.setText(report.getTotalActivity());
+        tv_community_activity.setText(report.getTotalmonthly());
+        tv_institutional_activity.setText(report.getTotalDaily());
         tv_total_pending.setText(report.getTotalpending());
         tv_total_verified.setText(report.getTotalverified());
         tv_total_rejected.setText(report.getTotalRejected());
@@ -1726,6 +1797,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 long i = helper.setFinMonth_Local(result);
                 if (i > 0) {
+                    fMonthArray = result;
+                    setFMonthSpinner();
 
                     new GetActivityList().execute();
                     Toast.makeText(getContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
@@ -2258,4 +2331,44 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         }
     }
+    private class GetFinMonth_new extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading financial month...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Financial_Month> doInBackground(String... param) {
+
+            return WebServiceHelper.getFinancialMonth();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Financial_Month> result) {
+
+            if (result != null) {
+                if(dialog.isShowing())
+                    dialog.dismiss();
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getContext());
+
+                long i = helper.setFinMonth_Local(result);
+                if (i > 0) {
+                    fMonthArray = result;
+                    setFMonthSpinner();
+
+                    Toast.makeText(getContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
 }
+

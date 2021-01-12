@@ -120,6 +120,7 @@ public class WebServiceHelper
     public static final String ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD = "getAshaAcitivtyCategoryMonthWise";
     public static final String FCASHAWORK_LIST_METHOD = "geFCAshaActivityList";
     public static final String ASHA_LIST_METHOD = "getAshaList";
+    public static final String ALL_Facilitator_LIST_METHOD = "getFacilatorList";
     public static final String INSERTASHAWORK_METHOD = "InsertAshaActivity";
     public static final String INSERTFCASHAWORK_METHOD = "InsertFCAshaActivity";
     public static final String INSERTMONTHWISEASHAACTIVITY = "InsertMonthWiseAshaActivityNew";
@@ -499,6 +500,38 @@ public class WebServiceHelper
         }
         return res1;
     }
+    public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8,String param9, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9)
+    {
+        SoapObject res1;
+        try
+        {
+            SoapObject request = new SoapObject(SERVICENAMESPACE,methodName);
+            request.addProperty(param1,value1);
+            request.addProperty(param2,value2);
+            request.addProperty(param3,value3);
+            request.addProperty(param4,value4);
+            request.addProperty(param5,value5);
+            request.addProperty(param6,value6);
+            request.addProperty(param7,value7);
+            request.addProperty(param8,value8);
+            request.addProperty(param9,value9);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            envelope.addMapping(SERVICENAMESPACE,bindClass.getSimpleName(),bindClass);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + methodName,envelope);
+            res1 = (SoapObject) envelope.getResponse();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return res1;
+    }
+
 
     public static String ChangePassword(String uid, String password,String email,String mob,String userrole,String device_id,String ver,String username)
     {
@@ -1272,6 +1305,35 @@ public class WebServiceHelper
 
         return fieldList;
     }
+    //ALL_Facilitator_LIST_METHOD
+
+    public static ArrayList<AshaReport_entity> getFacilatorList(String DistCode, String BlockCode, String Role, String Enteredaasha, String fyear, String fmonth) {
+
+        SoapObject res1;
+        res1 = getServerData(ALL_Facilitator_LIST_METHOD, AshaReport_entity.ASHA_REPORT_CLASS, "DistrictCode","BlockCode","Role","EnteredAsha","FYearId","MonthId", DistCode,BlockCode,Role,Enteredaasha,fyear,fmonth);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<AshaReport_entity> fieldList = new ArrayList<AshaReport_entity>();
+
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject)
+                {
+                    SoapObject final_object = (SoapObject) property;
+                    AshaReport_entity sm = new AshaReport_entity(final_object,1);
+                    fieldList.add(sm);
+                }
+            } else
+
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
 
     public static ArrayList<AshaWorkEntity> getAshaWorkActivityList(String workId, String monthId, String yearId,String userrole) {
 
@@ -1296,10 +1358,10 @@ public class WebServiceHelper
 
         return fieldList;
     }
-    public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole) {
+    public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole,String HSCCODE,String BlockCode,String Status) {
 
         SoapObject res1;
-        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole);
+        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role","HSCCODE","BlockCode","Status", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole,HSCCODE,BlockCode,Status);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
