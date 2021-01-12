@@ -13,10 +13,10 @@ public class ActvityAmount implements KvmSerializable {
     private String TotalAmount, TrainingAmount,TravalingAmount,FinalAmount;
 
     public ActvityAmount(SoapObject sobj) {
-        this.TotalAmount = sobj.getProperty("TotalAmount").toString();
-        this.TrainingAmount = sobj.getProperty("TrainingAmount").toString();
-        this.TravalingAmount = sobj.getProperty("TravalingAmount").toString();
-        this.FinalAmount = sobj.getProperty("FinalAmount").toString();
+        this.TotalAmount = sobj.getProperty("TotalAmount").toString().equals("NA") ? "0" : sobj.getProperty("TotalAmount").toString();
+        this.TrainingAmount = sobj.getProperty("TrainingAmount").toString().equals("NA") ? "0" : sobj.getProperty("TrainingAmount").toString();
+        this.TravalingAmount = sobj.getProperty("TravalingAmount").toString().equals("NA") ? "0" : sobj.getProperty("TravalingAmount").toString();
+        this.FinalAmount = sobj.getProperty("FinalAmount").toString().equals("NA") ? "0" : sobj.getProperty("FinalAmount").toString();
 
     }
 
