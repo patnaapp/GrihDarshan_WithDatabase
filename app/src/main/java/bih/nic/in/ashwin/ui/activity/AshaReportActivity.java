@@ -13,10 +13,13 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 
 import bih.nic.in.ashwin.R;
+import bih.nic.in.ashwin.adaptor.AshaFCReportAdapter;
 import bih.nic.in.ashwin.adaptor.AshaFCWorkDetailAdapter;
 import bih.nic.in.ashwin.adaptor.AshaReportAdapter;
 import bih.nic.in.ashwin.entity.AshaFascilitatorWorkEntity;
 import bih.nic.in.ashwin.entity.AshaReport_entity;
+import bih.nic.in.ashwin.entity.Financial_Month;
+import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.utility.AppConstant;
 import bih.nic.in.ashwin.utility.CommonPref;
 import bih.nic.in.ashwin.utility.Utiilties;
@@ -25,8 +28,10 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaReportActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     RecyclerView rv_data;
     private ProgressDialog dialog;
-    String DistCode="",Block_Code="",Role="",entered_Aasha,user_Type="",fyear="",fmonth="";
+    String DistCode="",Block_Code="",Role="",entered_Aasha,user_Type="";
     ArrayList<AshaReport_entity> ashaReport_entities;
+    Financial_Year fyear;
+    Financial_Month fmonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +47,11 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
         Role= CommonPref.getUserDetails(AshaReportActivity.this).getUserrole();
         entered_Aasha=getIntent().getStringExtra(AppConstant.USERTYPE);
         user_Type=getIntent().getStringExtra(AppConstant.USER);
-        fyear=getIntent().getStringExtra("fyear");
-        fmonth=getIntent().getStringExtra("fmonth");
+        //fyear=getIntent().getStringExtra("fyear");
+        //fmonth=getIntent().getStringExtra("fmonth");
+
+        fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
+        fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
         new SyncAashaList().execute();
     }
@@ -72,7 +80,12 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
         @Override
         protected ArrayList<AshaReport_entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getAshaList(DistCode,Block_Code,Role,entered_Aasha,fyear,fmonth);
+            if(user_Type.equalsIgnoreCase(AppConstant.ASHA)){
+                return WebServiceHelper.getAshaList(DistCode,Block_Code,Role,entered_Aasha,fyear.getYear_Id(),fmonth.get_MonthId());
+            }else{
+                return WebServiceHelper.getFacilatorList(DistCode,Block_Code,Role,entered_Aasha,fyear.getYear_Id(),fmonth.get_MonthId());
+            }
+
         }
 
         @Override
@@ -85,7 +98,12 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
             if (result != null)
             {
                 ashaReport_entities = result;
-                setupFCAshaRecyclerView();
+                if(user_Type.equalsIgnoreCase(AppConstant.ASHA)){
+                    setupAshaRecyclerView();
+                }else{
+                    setupFCAshaRecyclerView();
+                }
+
             }
             else
             {
@@ -93,10 +111,16 @@ public class AshaReportActivity extends AppCompatActivity implements AdapterView
             }
         }
     }
-    public void setupFCAshaRecyclerView()
+    public void setupAshaRecyclerView()
     {
         rv_data.setLayoutManager(new LinearLayoutManager(AshaReportActivity.this));
         AshaReportAdapter adapter = new AshaReportAdapter(AshaReportActivity.this, ashaReport_entities);
+        rv_data.setAdapter(adapter);
+    }
+    public void setupFCAshaRecyclerView()
+    {
+        rv_data.setLayoutManager(new LinearLayoutManager(AshaReportActivity.this));
+        AshaFCReportAdapter adapter = new AshaFCReportAdapter(AshaReportActivity.this, ashaReport_entities);
         rv_data.setAdapter(adapter);
     }
 }

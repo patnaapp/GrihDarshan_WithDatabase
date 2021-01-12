@@ -402,6 +402,82 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_wo11"
+            android:weightSum="2"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_marginLeft="8dp"
+                android:id="@+id/ll_workCat11"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="स्थिति"
+                    android:textColor="@color/color_black"
+                    android:id="@+id/tv_workCat11"
+                    android:textSize="12sp"/>
+
+                <Spinner
+                    android:background="@drawable/spinner_bg1"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/sp_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp" />
+
+                <!--                <Spinner-->
+                <!--                    android:background="@drawable/spinner_bg1"-->
+                <!--                    android:layout_marginTop="4dp"-->
+                <!--                    android:id="@+id/sp_facilitator"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="36dp" />-->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="8dp"
+                android:id="@+id/ll_work11"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="कार्य"
+                    android:textColor="@color/color_black"
+                    android:id="@+id/tv_work11"
+                    android:textSize="12sp"/>
+
+                <Spinner
+                    android:background="@drawable/spinner_bg1"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/sp_work11"
+                    android:spinnerMode="dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp" />
+
+                <!--                <Spinner-->
+                <!--                    android:background="@drawable/spinner_bg1"-->
+                <!--                    android:layout_marginTop="4dp"-->
+                <!--                    android:id="@+id/sp_facilitator"-->
+                <!--                    android:visibility="gone"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="36dp" />-->
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:visibility="gone"

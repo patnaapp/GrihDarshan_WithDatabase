@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    <androidx.cardview.widget.CardView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+<!--    <RelativeLayout-->
+<!--        android:layout_marginLeft="6dp"-->
+<!--        android:layout_marginRight="6dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:id="@+id/sblist"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="5dp"-->
+<!--        android:paddingBottom="2dp"-->
+<!--        android:weightSum="2"-->
+<!--        android:background="@drawable/shape_adapter_cell1">-->
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:id="@+id/rl_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:padding="8dp"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:id="@+id/tv_count"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_username"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Username"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_dist_role"
+                    android:layout_below="@+id/ll_div_zone"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:id="@+id/ll_district"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="पिता / पति का नाम"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_father"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:id="@+id/ll_block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="मोबाइल नंबर"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_mobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:orientation="vertical"
+                    android:background="@color/color_white"/>
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_div_zone"
+                    android:layout_below="@+id/ll_username"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_zone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="आधार संख्या"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_aadhar_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_pan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IFSC कोड"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_ifsc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_division1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="बैंक खाता संख्या"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_bank_account"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/ll_div_zone1"
+                    android:layout_below="@+id/ll_username"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_zone1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="स्वास्थ्य उप केंद्र "
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hscname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_pan1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="पंचायत"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_panchayat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:id="@+id/ll_division"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="आंगनवाड़ी"
+                            android:textColor="@color/colorGreyDark"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_aanganwadi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Text"
+                            android:textColor="@android:color/black"
+                            android:textSize="10sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_next"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ll_content"
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3/19/2020 8:38:41 PM"
+            android:textColor="@color/colorGreyDark"
+            android:textSize="12sp"
+            android:layout_gravity="end"/>
+
+
+<!--    </RelativeLayout>-->
+    <!--    </androidx.cardview.widget.CardView>-->
+
+</LinearLayout>

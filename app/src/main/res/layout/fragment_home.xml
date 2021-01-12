@@ -518,6 +518,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="कुल आशा"
+                                        android:id="@+id/tv_total_aasha"
                                         android:textColor="@color/color_white"
                                         android:textStyle="normal"
                                         android:textSize="15sp"/>
@@ -576,6 +577,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="दावा प्रपत्र भरने वाली आशा"
+                                        android:id="@+id/tv_fil_dawa_paptra"
                                         android:textColor="@color/color_white"
                                         android:textStyle="normal"
                                         android:textSize="15sp"
@@ -632,6 +634,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="कुल कार्य"
+                                    android:id="@+id/tv_total_work"
                                     android:textColor="@color/color_white"
                                     android:textStyle="normal"
                                     android:textSize="15sp"/>
@@ -667,6 +670,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="समुदायिक कार्य"
+                                    android:id="@+id/tv_comunity_work"
                                     android:textColor="@color/color_white"
                                     android:textStyle="normal"
                                     android:textSize="15sp"/>
@@ -701,6 +705,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="संस्थागत कार्य"
+                                    android:id="@+id/tv_institution_work"
                                     android:textColor="@color/color_white"
                                     android:textStyle="normal"
                                     android:textSize="15sp"/>
@@ -737,6 +742,7 @@
                             <LinearLayout
                                 android:layout_gravity="center_vertical"
                                 android:layout_margin="8dp"
+                                android:id="@+id/ll_accepted_work"
                                 android:gravity="center_horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -746,6 +752,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="स्वीकृत कार्य"
+                                    android:id="@+id/tv_accepted_work"
                                     android:textColor="@color/color_white"
                                     android:textStyle="normal"
                                     android:textSize="15sp"/>
@@ -782,6 +789,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="विचाराधीन कार्य"
+                                    android:id="@+id/tv_prnding_work"
                                     android:textColor="@color/color_white"
                                     android:textStyle="normal"
                                     android:textSize="15sp"

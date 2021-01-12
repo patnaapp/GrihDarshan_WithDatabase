@@ -44,6 +44,32 @@ public class AshaReport_entity implements KvmSerializable, Serializable {
         this.AlternateMobileNo = sobj.getProperty("AlternateMobileNo").toString();
 
     }
+    public AshaReport_entity(SoapObject sobj,int i) {
+        this.a_Id = sobj.getProperty("a_Id").toString();
+        this.ASHAFacilitatorID = sobj.getProperty("ASHAFacilitatorID").toString();
+        //this.ASHAFacilitatorID = sobj.getProperty("ASHAFacilitatorID").toString();
+        this.DistrictCode = sobj.getProperty("DistrictCode").toString();
+        this.DistrictName = sobj.getProperty("DistrictName").toString();
+        this.BlockCode = sobj.getProperty("BlockCode").toString();
+        this.BlockName = sobj.getProperty("BlockName").toString();
+        //this.Panchayat = sobj.getProperty("PanchayatName").toString();
+        //this.PanchayatCode = sobj.getProperty("PanchayatCode").toString();
+        this.HSCCode = sobj.getProperty("HSCCode").toString();
+        this.HSCName = sobj.getProperty("HSCName").toString();
+        this.Name = sobj.getProperty("Name").toString();
+        this.Name_Hn = sobj.getProperty("Name_Hn").toString();
+        this.Name_AsPerAadhaar = sobj.getProperty("Name_AsPerAadhaar").toString();
+        this.AadhaarNo = sobj.getProperty("AadhaarNo").toString();
+        this.BenAccountNo = sobj.getProperty("BenAccountNo").toString();
+        this.IFSCCode = sobj.getProperty("IFSCCode").toString();
+        this.FHName = sobj.getProperty("FHName").toString();
+        this.FHName_Hn = sobj.getProperty("FHName_Hn").toString();
+        this.DateofBirth = sobj.getProperty("DateofBirth").toString();
+        this.DateofJoining = sobj.getProperty("DateofJoining").toString();
+        this.MobileNo = sobj.getProperty("MobileNo").toString();
+        this.AlternateMobileNo = sobj.getProperty("AlternateMobileNo").toString();
+
+    }
 
     public AshaReport_entity()
     {
