@@ -183,7 +183,8 @@
                             android:id="@+id/sp_work_categ"
                             android:spinnerMode="dialog"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp" />
+                            android:layout_height="wrap_content"
+                            android:minHeight="36dp"/>
                     </LinearLayout>
 
 <!--                    <LinearLayout-->
@@ -239,7 +240,8 @@
                             android:id="@+id/sp_work"
                             android:spinnerMode="dialog"
                             android:layout_width="match_parent"
-                            android:layout_height="36dp" />
+                            android:layout_height="wrap_content"
+                            android:minHeight="36dp"/>
 
 
                     </LinearLayout>
