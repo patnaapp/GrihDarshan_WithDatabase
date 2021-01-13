@@ -48,7 +48,7 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NoOfDaysInterface {
 
     String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
-    TextView tv_name,tv_year,tv_month,tv_role;
+    TextView tv_name,tv_year,tv_month,tv_role,tv_block;
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data;
@@ -78,8 +78,8 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         //   svrid=getIntent().getStringExtra("svr");
         fyear = (Financial_Year) getIntent().getSerializableExtra("fyear");
         fmonth = (Financial_Month) getIntent().getSerializableExtra("fmonth");
-
-        tv_role.setText(CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getUserrole());
+        tv_block.setText("प्रखंड");
+        tv_role.setText(CommonPref.getUserDetails(AshaSalary_ByBhm_Activity.this).getBlockName());
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
         // loadWorkerFascilatorData();
@@ -218,6 +218,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
         tv_year=findViewById(R.id.tv_year);
         tv_month=findViewById(R.id.tv_month);
         tv_role=findViewById(R.id.tv_role);
+        tv_block=findViewById(R.id.tv_block);
         rv_data = findViewById(R.id.recyclerview_data);
         btn_submit = findViewById(R.id.btn_submit);
         btn_preview = findViewById(R.id.btn_preview);

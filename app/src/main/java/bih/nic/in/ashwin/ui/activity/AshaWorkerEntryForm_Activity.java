@@ -122,6 +122,8 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         }else{
             new SyncAllowedAmountDetils(info.getAshaWorkerId()).execute();
         }
+        new GetActivityList().execute();
+
 
 
         edt_ben_no.addTextChangedListener(new TextWatcher(){
@@ -882,6 +884,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             sp_work.setSelection(pos+1);
         }
     }
+
 
     public void setRegisterSpinner(){
         //registerArray = dbhelper.getRegisterdescList(list);
@@ -1822,5 +1825,40 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
             e.printStackTrace();
         }
         return version;
+    }
+    private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Loading Activity list...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Activity_entity> doInBackground(String... param) {
+
+            return WebServiceHelper.getActivityList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Activity_entity> result) {
+            if(dialog.isShowing())
+                dialog.dismiss();
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+
+                long i = helper.setActivityList_Local(result);
+                if (i > 0) {
+
+                    Toast.makeText(getApplicationContext(), "Activity List loaded", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
     }
 }
