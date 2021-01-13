@@ -675,4 +675,11 @@ public class Utiilties {
                 return "NA";
         }
     }
+
+    public static String hasAnyTypeValue(String value){
+        if(value.equals("anyType{}")){
+            return "";
+        }
+        return value;
+    }
 }

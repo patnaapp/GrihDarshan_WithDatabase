@@ -152,6 +152,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.Abbr = sobj.getProperty("Abbr").toString();
             this.NoOfBeneficiary = sobj.getProperty("NoOfBeneficiary").toString();
             this.ActivityRate = sobj.getProperty("ActivityRate").toString();
+            this.Remarks = sobj.getProperty("Remarks").toString();
 
 //            this.MonthId = sobj.getProperty("MonthId").toString();
 //            this.FYearId = sobj.getProperty("FYearId").toString();
