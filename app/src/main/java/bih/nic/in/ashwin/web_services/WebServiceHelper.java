@@ -576,7 +576,7 @@ public class WebServiceHelper
         request.addProperty("FYearId", FYearId);
         request.addProperty("MonthId", MonthId);
         request.addProperty("Dist_Code", Dist_Code);
-        request.addProperty("Block_Code", Block_Code);
+        request.addProperty("Block_Code", Block_Code.equals("anyType{}") ? "0" : Block_Code);
         request.addProperty("HSCCODE", HSCCODE.equals("anyType{}") ? "" : HSCCODE);
         request.addProperty("Role", Role);
 
@@ -614,7 +614,7 @@ public class WebServiceHelper
         request.addProperty("FYearId", FYearId);
         request.addProperty("MonthId", MonthId);
         request.addProperty("Dist_Code", Dist_Code);
-        request.addProperty("Block_Code", Block_Code);
+        request.addProperty("Block_Code",Block_Code.equals("anyType{}") ? "0" : Block_Code);
         request.addProperty("HSCCODE", HSCCODE.equals("anyType{}") ? "" : HSCCODE);
         request.addProperty("Role", Role);
 
