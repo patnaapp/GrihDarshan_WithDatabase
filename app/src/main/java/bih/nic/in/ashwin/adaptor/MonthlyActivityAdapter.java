@@ -109,7 +109,6 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
                 if((info.get_ActivityId().equals("101") || info.get_ActivityId().equals("102") || info.get_ActivityId().equals("103"))){
 
                     if(b){
-
                         if(info.getMinRange().equals(info.getMaxRange())){
                             listener.onActivityCheckboxChanged(position, true, info.getAbbr(),info.getMaxRange());
                             holder.tv_ben_no.setText("लाभार्थी की संख्या: "+info.getMinRange());
@@ -161,7 +160,9 @@ public class MonthlyActivityAdapter extends RecyclerView.Adapter<MonthlyActivity
                             {
                                 public void onClick(DialogInterface dialog, int whichButton)
                                 {
+                                    listener.onActivityCheckboxChanged(position, false, info.getAbbr(),"1");
                                     dialog.dismiss();
+
                                 }
                             });
 
