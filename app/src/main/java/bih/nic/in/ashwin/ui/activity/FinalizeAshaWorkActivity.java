@@ -819,8 +819,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             {
                 stateAmountArray = result;
                 if (userInfo.getUserrole().equals("ASHAFC")){
-                    //new GetCentreAmount().execute();
-                    new SyncFascilitatorActivityAmount(userInfo.getSVRID()).execute();
+                    new GetCentreAmount().execute();
+                    //new SyncFascilitatorActivityAmount(userInfo.getSVRID()).execute();
                 }
                 else{
                     loadAshaData();
@@ -851,13 +851,21 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         @Override
         protected void onPostExecute(ArrayList<Centralamount_entity> result) {
 
-            if(dialog.isShowing())
-                dialog.dismiss();
 
             if (result != null)
             {
                 centralAmountArray = result;
-                loadAshaFCData();
+
+                if (userInfo.getUserrole().equals("ASHAFC")){
+                    new SyncFascilitatorActivityAmount(userInfo.getSVRID()).execute();
+                }else{
+                    if(dialog.isShowing())
+                        dialog.dismiss();
+
+                }
+
+
+                //loadAshaFCData();
                 Toast.makeText(getApplicationContext(), "central amount details loaded", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(getApplicationContext(), "Null Record, Try Again", Toast.LENGTH_SHORT).show();

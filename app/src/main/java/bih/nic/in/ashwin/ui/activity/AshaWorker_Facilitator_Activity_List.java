@@ -48,14 +48,13 @@ import bih.nic.in.ashwin.web_services.WebServiceHelper;
 
 public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    String faciltator_id="",facilitator_nm="",asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="";
+
     TextView tv_name,tv_year,tv_month,tv_role,tv_daily,tv_monthly;
     Financial_Year fyear;
     Financial_Month fmonth;
     RecyclerView rv_data,rv_data_monthly;
     Button btn_finalize;
     ArrayList<AshaWorkEntity> ashawork;
-    String version="",status_code;
     Spinner sp_worker,sp_hsc_list,sp_block,sp_workCat,sp_work,sp_status;
     ArrayList<AshaWoker_Entity> ashaworkerList = new ArrayList<AshaWoker_Entity>();
     ArrayList<Activity_Type_entity> AshaActvityCategoryList = new ArrayList<Activity_Type_entity>();
@@ -65,7 +64,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     DataBaseHelper dbhelper;
     LinearLayout ll_monthly,ll_daily,ll_dmf_tab,ll_hsc,ll_block;
     String tabType = "D";
-    String hscname="",hsccode="",AcitivtyCategoryId="0",AcitivtyCategoryDesc="",work_ActivityId="0",work_ActivityDesc="",status="0";
+    String hscname="",AcitivtyCategoryId="0",AcitivtyCategoryDesc="",work_ActivityId="0",work_ActivityDesc="",status="0";
     private ProgressDialog dialog;
     String Dist_Code="",Blk_Code="",Role="",HSCCode="",entered_Aasha="",user_Type="";
 
@@ -73,7 +72,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     TextView tv_view_details;
     ArrayList<AshaWorkEntity> ashaWorkData;
     ArrayList<Activity_entity> monthlyData;
-    String arr_status[] = {"Select","Pending","Accepted","Rejected"};
+    String arr_status[] = {"-सभी-","विचाराधीन","अनुशंषित","अस्वीकृत"};
+
+    String faciltator_id="",facilitator_nm="";
+    String asha_worker_id="",asha_worker_nm="",fyear_id="",month_id="",user_role="",svrid="0";
 
 
     @Override
@@ -94,44 +96,27 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         entered_Aasha=getIntent().getStringExtra(AppConstant.USERTYPE);
         user_Type=getIntent().getStringExtra(AppConstant.USER);
-        //   svrid=getIntent().getStringExtra("svr");
         fyear=(Financial_Year)getIntent().getSerializableExtra("fyear");
         fmonth=(Financial_Month)getIntent().getSerializableExtra("fmonth");
 
-        //  tv_role.setText("आशा कार्यकर्ता");
-        tv_role.setText(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
+        tv_role.setText(Role);
 
-        if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("BLKBCM")){
+        if (Role.equals("BLKBCM")){
             ll_hsc.setVisibility(View.VISIBLE);
             new GetHScListActivityEntryWise().execute();
 
-
-//            hscList = dbhelper.getHscList(CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getBlockCode(), CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserID());
-//            if(hscList.size() > 0){
-//                loadHscList();
-//            }else{
-//                new GetHScListBlockWise().execute();
-//            }
-
         }
 
-        else if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC") || CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("ANM"))
+        else if (Role.equals("HSC") || Role.equals("ANM"))
         {
             ll_hsc.setVisibility(View.VISIBLE);
             new GetHScListAnmWise().execute();
 
-        }else if (CommonPref.getUserDetails(this).getUserrole().equals("DSTADM")){
+        }else if (Role.equals("DSTADM")){
             ll_hsc.setVisibility(View.VISIBLE);
             ll_block.setVisibility(View.VISIBLE);
             new SyncBlockListForDCM().execute();
         }
-
-
-
-
-        //loadWorkerFascilatorData();
-      //  new GetAshaWorkersList().execute();
-
 
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
@@ -260,6 +245,13 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 }
             }
         });
+
+        tv_view_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new SyncAshaActivityList(svrid).execute();
+            }
+        });
     }
 
     public void initialise()
@@ -304,11 +296,12 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         sp_work.setOnItemSelectedListener(this);
         sp_status.setOnItemSelectedListener(this);
 
+    }
 
-        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this,R.layout.dropdownlist, arr_status);
-        //adaptor.setDropDownViewResource(R.layout.dropdownlist);
+    public void loadStatusSpinner(){
+        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this,android.R.layout.simple_spinner_item, arr_status);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_status.setAdapter(adaptor);
-
     }
 
     public void setupRecuyclerView(ArrayList<AshaWorkEntity> data)
@@ -350,20 +343,19 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 {
                     AshaWoker_Entity role = ashaworkerList.get(position - 1);
                     asha_worker_nm = role.get_Asha_Name_Hn();
-                    asha_worker_id = role.get_ASHAID();
+                    asha_worker_id = role.get_svr_id();
                     svrid = role.get_svr_id();
                     tv_name.setText(asha_worker_nm);
                     ll_dmf_tab.setVisibility(View.VISIBLE);
-                    new SynchronizeAshaActivityList().execute();
-                    tv_view_details.setVisibility(View.VISIBLE);
-                    tv_view_details.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new SyncAshaActivityList(svrid).execute();
-                        }
-                    });
-                    new AshaAcitivtyCategoryMonthWise("0","0","0","0").execute();
 
+                    tv_view_details.setVisibility(View.VISIBLE);
+
+                    new getAshaActvityCategoryListEntryWise().execute();
+
+                    loadFilterActivtyList();
+                }else if(position == 0){
+                    svrid = "0";
+                    loadFilterActivtyList();
                 }else{
                     tv_view_details.setVisibility(View.GONE);
                 }
@@ -374,12 +366,13 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 {
                     HscList_Entity role = hscList.get(position - 1);
                     hscname = role.get_HSCName_Hn();
-                    hsccode = role.get_HSCCode();
+                    HSCCode = role.get_HSCCode();
                     //new GetAshaWorkersList().execute();
                     new getAshaListActivityEntryWise().execute();
 
-                    new AshaAcitivtyCategoryMonthWise("0","0","0","0").execute();
-
+                }else{
+                    HSCCode = "0";
+                    //loadFilterActivtyList();
                 }
                 break;
             case R.id.sp_block:
@@ -387,7 +380,6 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 {
                     block = blockList.get(position - 1);
                     new SyncHSCListForDCM().execute();
-
                 }
                 break;
             case R.id.sp_workCat:
@@ -397,8 +389,11 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     AcitivtyCategoryId=activity_type_entity.get_ActTypeId();
                     AcitivtyCategoryDesc=activity_type_entity.get_Actname();
                     new AshaActvityListEntryWise().execute();
-                    new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,"0","0").execute();
 
+                    loadFilterActivtyList();
+                }else if(position == 0){
+                    AcitivtyCategoryId = "0";
+                    loadFilterActivtyList();
                 }
                 break;
             case R.id.sp_work:
@@ -407,23 +402,29 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     Activity_entity activity_type_entity = Activity_entityList.get(position-1);
                     work_ActivityId=activity_type_entity.get_ActivityId();
                     work_ActivityDesc=activity_type_entity.get_ActivityDesc();
-                    new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,work_ActivityId,"0").execute();
+
+                    loadFilterActivtyList();
+                }else if(position == 0){
+                    work_ActivityId = "0";
+                    loadFilterActivtyList();
                 }
                 break;
             case R.id.sp_status:
                 if (position > 0)
                 {
-
                     status = arr_status[position].toString();
-                    if(status.equalsIgnoreCase("Pending")){
-                        status_code="P";
-                    }else if(status.equalsIgnoreCase("Accepted")){
-                        status_code="A";
+                    if(status.equalsIgnoreCase("विचाराधीन")){
+                        status="P";
+                    }else if(status.equalsIgnoreCase("अनुशंषित")){
+                        status="A";
                     }
-                    else if(status.equalsIgnoreCase("Rejected")){
-                        status_code="R";
+                    else if(status.equalsIgnoreCase("अस्वीकृत")){
+                        status="R";
                     }
-                    new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,work_ActivityId,status_code);
+                    loadFilterActivtyList();
+                }else if(position == 0){
+                    status = "0";
+                    loadFilterActivtyList();
                 }
                 break;
         }
@@ -433,6 +434,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     public void onNothingSelected(AdapterView<?> adapterView)
     {
 
+    }
+
+    public void loadFilterActivtyList(){
+        new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,work_ActivityId,status).execute();
     }
 
     private class SynchronizeAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
@@ -648,6 +653,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         }
     }
     public String getAppVersion(){
+        String version="";
         try {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 
@@ -674,7 +680,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //        }
 
         ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
+        array.add("-All-");
 
         for (AshaWoker_Entity info: ashaworkerList){
             array.add(info.get_ASHAID()+":-"+info.get_Asha_Name_Hn());
@@ -704,7 +710,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //        }
 
         ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
+        array.add("-All-");
 
         for (Activity_Type_entity info: AshaActvityCategoryList){
             //array.add(info.get_ActnameHN()+":-"+info.get_Asha_Name_Hn());
@@ -735,7 +741,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //        }
 
         ArrayList array = new ArrayList<String>();
-        array.add("-Select-");
+        array.add("-सभी-");
 
         for (Activity_entity info: Activity_entityList){
             //array.add(info.get_ActnameHN()+":-"+info.get_Asha_Name_Hn());
@@ -767,20 +773,17 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
     public void loadHscList()
     {
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
 
-            ArrayList array = new ArrayList<String>();
-            array.add("-Select-");
+        for (HscList_Entity info: hscList)
+        {
+            array.add(info.get_HSCName_Hn());
+        }
 
-            for (HscList_Entity info: hscList)
-            {
-                array.add(info.get_HSCName_Hn());
-            }
-
-            ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
-            adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            sp_hsc_list.setAdapter(adaptor);
-
-
+        ArrayAdapter adaptor = new ArrayAdapter(AshaWorker_Facilitator_Activity_List.this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_hsc_list.setAdapter(adaptor);
     }
 
 
@@ -796,7 +799,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 rv_data_monthly.setVisibility(View.GONE);
 //                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
 //                {
-                new SynchronizeAshaActivityList().execute();
+                //new SynchronizeAshaActivityList().execute();
+                loadFilterActivtyList();
                 // }
 
                 break;
@@ -826,7 +830,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             String hsc_code = "";
 //            if (CommonPref.getUserDetails(getApplicationContext()).getUserrole().equals("BLKBCM"))
 //            {
-            hsc_code = hsccode;
+            hsc_code = HSCCode;
 
 //            }
 //            else {
@@ -1048,6 +1052,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             }
         }
     }
+
     private class getAshaListActivityEntryWise extends AsyncTask<String, Void, ArrayList<AshaWoker_Entity>>{
 
         @Override
@@ -1060,7 +1065,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         @Override
         protected ArrayList<AshaWoker_Entity> doInBackground(String... param)
         {
-            return WebServiceHelper.getAshaListActivityEntryWise(fyear.getYear_Id(),fmonth.get_MonthId(),hsccode,Role);
+            return WebServiceHelper.getAshaListActivityEntryWise(fyear.getYear_Id(),fmonth.get_MonthId(),HSCCode,Role);
         }
 
         @Override
@@ -1075,7 +1080,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
                 ashaworkerList = result;
                 loadWorkerFascilatorData();
-                new getAshaActvityCategoryListEntryWise().execute();
+                loadStatusSpinner();
             }
         }
     }
@@ -1117,13 +1122,21 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 
         private final AlertDialog alertDialog = new AlertDialog.Builder(AshaWorker_Facilitator_Activity_List.this).create();
 
-        String acitivtyCategoryId="",acitivtyId="",status_id="";
-        public AshaAcitivtyCategoryMonthWise(String AshaWorkerId,String acitivtyCategoryId,String AcitivtyId,String Status) {
-            svrid=AshaWorkerId;
-            AcitivtyCategoryId=acitivtyCategoryId;
-            work_ActivityId=AcitivtyId;
-            status_code=Status;
+        String acitivtyCategoryId,acitivtyId,status_id,AshaWorkerId;
+
+        public AshaAcitivtyCategoryMonthWise( String ashaWorkerId, String acitivtyCategoryId, String acitivtyId, String status_id) {
+            this.acitivtyCategoryId = acitivtyCategoryId;
+            this.acitivtyId = acitivtyId;
+            this.status_id = status_id;
+            AshaWorkerId = ashaWorkerId;
         }
+
+        //        public AshaAcitivtyCategoryMonthWise(String AshaWorkerId,String acitivtyCategoryId,String AcitivtyId,String Status) {
+//            svrid=AshaWorkerId;
+//            AcitivtyCategoryId=acitivtyCategoryId;
+//            work_ActivityId=AcitivtyId;
+//            status_code=Status;
+//        }
 
         @Override
         protected void onPreExecute() {
@@ -1138,7 +1151,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
         {
 
             // return WebServiceHelper.getAshaWorkActivityList(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole());
-            return WebServiceHelper.getAshaAcitivtyCategoryMonthWise(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),AcitivtyCategoryId,work_ActivityId,user_role,HSCCode,Blk_Code,status_code);
+            return WebServiceHelper.getAshaAcitivtyCategoryMonthWise(svrid,fmonth.get_MonthId(),fyear.getYear_Id(),AcitivtyCategoryId,work_ActivityId,Role,HSCCode,Blk_Code,Dist_Code,status_id);
         }
 
         @Override
@@ -1151,13 +1164,15 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             if (result != null)
             {
                 ashawork=result;
-                setupRecuyclerView(result);
-
                 //  new SynchronizeMonthlyAshaActivityList().execute();
-
+            }else{
+                ashawork = new ArrayList<>();
             }
+
+            setupRecuyclerView(ashawork);
         }
     }
+
     private class AshaActvityListEntryWise extends AsyncTask<String, Void, ArrayList<Activity_entity>>{
 
         @Override
@@ -1192,7 +1207,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     @Override
     protected void onResume() {
         super.onResume();
-        handleTabView();
+        //handleTabView();
     }
 
     @Override
@@ -1235,6 +1250,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
             }
         }
     }
+
     private class SyncSelectedMonthlyActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
         String _srvr_id="";
         public SyncSelectedMonthlyActivityList(String srvr_id) {

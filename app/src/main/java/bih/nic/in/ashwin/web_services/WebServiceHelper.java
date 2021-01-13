@@ -82,6 +82,7 @@ import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
+import bih.nic.in.ashwin.utility.Utiilties;
 
 
 import static org.apache.http.util.EntityUtils.getContentCharSet;
@@ -500,7 +501,7 @@ public class WebServiceHelper
         }
         return res1;
     }
-    public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8,String param9, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9)
+    public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8,String param9,String param10, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10)
     {
         SoapObject res1;
         try
@@ -515,6 +516,7 @@ public class WebServiceHelper
             request.addProperty(param7,value7);
             request.addProperty(param8,value8);
             request.addProperty(param9,value9);
+            request.addProperty(param10,value10);
 
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
@@ -1358,10 +1360,10 @@ public class WebServiceHelper
 
         return fieldList;
     }
-    public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole,String HSCCODE,String BlockCode,String Status) {
+    public static ArrayList<AshaWorkEntity> getAshaAcitivtyCategoryMonthWise(String workId, String monthId, String yearId,String AcitivtyCategoryId,String AcitivtyId,String userrole,String HSCCODE,String BlockCode, String distCode,String Status) {
 
         SoapObject res1;
-        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role","HSCCODE","BlockCode","Status", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole,HSCCODE,BlockCode,Status);
+        res1 = getServerData(ASHAWORK_CATEGORYWISE_MONTH_LIST_METHOD, AshaWorkEntity.AshaWorkEntity_CLASS, "FYearId","MonthId","AshaWorkerId","AcitivtyCategoryId","AcitivtyId","Role","HSCCODE","BlockCode", "DistrictCode","Status", yearId,monthId,workId,AcitivtyCategoryId,AcitivtyId,userrole, Utiilties.hasAnyTypeValue(HSCCODE),BlockCode,distCode,Status);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWorkEntity> fieldList = new ArrayList<AshaWorkEntity>();
@@ -1371,7 +1373,7 @@ public class WebServiceHelper
                 Object property = res1.getProperty(i);
                 if (property instanceof SoapObject) {
                     SoapObject final_object = (SoapObject) property;
-                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"4");
+                    AshaWorkEntity sm = new AshaWorkEntity(final_object,"2");
                     fieldList.add(sm);
                 }
             } else

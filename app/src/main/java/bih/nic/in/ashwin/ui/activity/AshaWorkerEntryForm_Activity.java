@@ -591,7 +591,6 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
         if (entryType.equals("U"))
         {
             info = (AshaWorkEntity)getIntent().getSerializableExtra("data");
-
             setData();
         }
         // registerArray = dbhelper.getRegisterMappedList(info.getActivityId());
