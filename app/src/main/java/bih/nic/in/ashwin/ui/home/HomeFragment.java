@@ -929,11 +929,17 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void updateAshaTotalAmount(){
-        totalAmount = getAshaTotalEntryAmount();
+
+        if(allowedAmount.getMaxamount()>0){
+            totalAmount = allowedAmount.getMaxamount();
+        }else{
+            totalAmount = getAshaTotalEntryAmount();
+        }
+
 //        if(allowedAmount.getLimitamount()>7000.0){
 //            tv_total.setText("कुल राशि (दैनिक+मासिक+अन्य क्षेत्र): \u20B9"+totalAmount);
 //        }else{
-            tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+totalAmount);
+            tv_total.setText("कुल राशि (दैनिक+मासिक): \u20B9"+allowedAmount.getMaxamount());
         //}
 
     }
@@ -1127,7 +1133,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public Boolean isActivityAmountExceedTotal(Double amountToAdd){
-        if(getAshaTotalEntryAmount() > allowedAmount.getLimitamount()){
+        if( (allowedAmount.getMaxamount()>0 ? allowedAmount.getMaxamount() : getAshaTotalEntryAmount())> allowedAmount.getLimitamount()){
             return true;
         }else{
             return false;
