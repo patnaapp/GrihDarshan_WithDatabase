@@ -577,7 +577,8 @@ public class WebServiceHelper
         request.addProperty("MonthId", MonthId);
         request.addProperty("Dist_Code", Dist_Code);
         request.addProperty("Block_Code", Block_Code.equals("anyType{}") ? "0" : Block_Code);
-        request.addProperty("HSCCODE", HSCCODE.equals("anyType{}") ? "" : HSCCODE);
+        //request.addProperty("HSCCODE", HSCCODE.equals("anyType{}") ? "" : HSCCODE);
+        request.addProperty("HSCCODE", "0");
         request.addProperty("Role", Role);
 
         DashboardEntity info;

@@ -483,6 +483,7 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
             validate = false;
         }
 
+
         if (edt_date.getText().toString().equals(""))
         {
             edt_date.setError("कृप्या कार्य तिथि का चयन करें");
@@ -760,7 +761,6 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
                 ashaworkerList = result;
                 loadashafcwiseData();
-
             }
             else {
                 Utiilties.showErrorAlet(AshaFacilitatorEntry.this, "सूचना","आपके साथ कोई आशा कार्यकर्ता सूची मैप नहीं की गई हैं");

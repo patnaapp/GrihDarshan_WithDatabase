@@ -1122,6 +1122,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                 i.putExtra("fyear", fyear);
                 i.putExtra("fmonth", fmonth);
                 i.putExtra("workArray", ashaWorkData);
+                i.putExtra("userId", _svr_id);
                 i.putExtra("monthly", getSelectedMonthlyActivity());
                 i.putExtra("workFCArray", ashaFcWorkData);
                 context.startActivity(i);
@@ -1131,6 +1132,10 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                 Utiilties.showErrorAlet(context, "सर्वर कनेक्शन त्रुटि", "दैनिक कार्य सूची लोड करने में विफल\n कृपया पुन: प्रयास करें");
             }
         }
+    }
+
+    public void test(){
+
     }
 
     public ArrayList<Activity_entity> getSelectedMonthlyActivity()
