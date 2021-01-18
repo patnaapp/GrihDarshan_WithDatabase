@@ -198,9 +198,11 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             if(ashaWorkData.size()>0 || monthly.size()>0){
                 setMonthlyActivity(monthly);
                 userInfo.setUserrole("ASHA");
+                userInfo.setSVRID(getIntent().getStringExtra("userId"));
                 ll_monthly.setVisibility(View.VISIBLE);
             }else if(ashaFCWorkData.size()>0){
                 userInfo.setUserrole("ASHAFC");
+                userInfo.setSVRID(getIntent().getStringExtra("userId"));
             }
         }
 

@@ -369,7 +369,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     HSCCode = role.get_HSCCode();
                     //new GetAshaWorkersList().execute();
                     new getAshaListActivityEntryWise().execute();
-
+                    ll_dmf_tab.setVisibility(View.VISIBLE);
                 }else{
                     HSCCode = "0";
                     //loadFilterActivtyList();
@@ -437,7 +437,9 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     }
 
     public void loadFilterActivtyList(){
-        new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,work_ActivityId,status).execute();
+        tabType = "D";
+        handleTabView();
+
     }
 
     private class SynchronizeAshaActivityList extends AsyncTask<String, Void, ArrayList<AshaWorkEntity>> {
@@ -800,7 +802,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
 //                if (CommonPref.getUserDetails(AshaWorker_Facilitator_Activity_List.this).getUserrole().equals("HSC"))
 //                {
                 //new SynchronizeAshaActivityList().execute();
-                loadFilterActivtyList();
+                new AshaAcitivtyCategoryMonthWise(svrid,AcitivtyCategoryId,work_ActivityId,status).execute();
                 // }
 
                 break;
@@ -1207,7 +1209,9 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     @Override
     protected void onResume() {
         super.onResume();
-        //handleTabView();
+
+        if(sp_hsc_list.getSelectedItemPosition()>0)
+            loadFilterActivtyList();
     }
 
     @Override
