@@ -2366,8 +2366,7 @@ public class WebServiceHelper
         //request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
 
         try {
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
             envelope.setOutputSoapObject(request);
