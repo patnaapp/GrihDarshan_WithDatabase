@@ -300,21 +300,26 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
         for(Activity_entity activty: list){
             for(AshaFascilitatorWorkEntity monthly: selectedMonthlyWork){
                 if(activty.get_ActivityId().equals(monthly.getFCAcitivtyId()) && (!entryType.equals("U") || !ashaFCWorkEntity.getFCAcitivtyId().equals(activty.get_ActivityId()))){
-                    //indexes.add(list.indexOf(activty));
-                    ActivityEntityList.remove(ActivityEntityList.indexOf(activty));
+                    indexes.add(list.indexOf(activty));
+                    //ActivityEntityList.remove(ActivityEntityList.indexOf(activty));
                     break;
                 }
             }
         }
 
-//        if(indexes.size() == ActivityEntityList.size()){
-//            ActivityEntityList.clear();
-//        }else{
-//            for(int index: indexes){
-//                ActivityEntityList.remove(index);
-//            }
-//        }
-        // return list;
+        if(indexes.size() == ActivityEntityList.size()){
+            ActivityEntityList.clear();
+        }else{
+            try{
+                for(int index: indexes){
+                    ActivityEntityList.remove(index);
+                }
+            }catch (Exception e){
+                Toast.makeText(this, "Failed in clearing entered activity", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+         //return list;
     }
 
 
