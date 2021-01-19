@@ -11,7 +11,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public static Class<AshaWorkEntity> AshaWorkEntity_CLASS = AshaWorkEntity.class;
 
-    private String AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
+    private String AshaWorkerName,AshaActivityId,ActivityDesc,AcitivtyCategoryId,AcitivtyCategoryDesc,ActivityAmt,MonthName,FinYear,ActivityDate,RegisterId,Volume,RegisterPageNo,RegisterDesc,PageSerialNo,RegisterDate,VerificationStatus,AshaWorkerId,IsFinalize,_IsANMFinalize,_anm_id,_rejectedRemarks;
     String appVersion,iemi,districtCode, blockCode, PanchayatCode, awcId,entryType,ActivityId, noOfBenif, remark,workdmCode;
     private String FYearId,MonthId,ActTypeId,NoOfBeneficiary,ActivityRate,Remarks,AcitivtyType,entryBy,HSCCODE,ActivityPlace,OtherDist,OtherBlock,IsForwaded,Abbr,FieldName,Name_Hn;
 
@@ -100,6 +100,7 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
             this.RegisterDate = sobj.getProperty("RegisterDate").toString();
             this.VerificationStatus = sobj.getProperty("VerificationStatus").toString();
             this.AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
+            this.AshaWorkerName = sobj.getProperty("Name").toString();
             this.IsFinalize = sobj.getProperty("IsFinalize").toString();
             this._IsANMFinalize = sobj.getProperty("ANMVerified").toString();
             //  this._anm_id = sobj.getProperty("Sal_a_Id").toString();
@@ -578,5 +579,13 @@ public class AshaWorkEntity implements KvmSerializable, Serializable {
 
     public void setName_Hn(String name_Hn) {
         Name_Hn = name_Hn;
+    }
+
+    public String getAshaWorkerName() {
+        return AshaWorkerName;
+    }
+
+    public void setAshaWorkerName(String ashaWorkerName) {
+        AshaWorkerName = ashaWorkerName;
     }
 }
