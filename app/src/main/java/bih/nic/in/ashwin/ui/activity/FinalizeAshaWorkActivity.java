@@ -557,7 +557,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         if(edt_otp.getText().toString().equals(otp))
         {
             //AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(totalWorkAmount+totalStateAmount),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
-            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),getTotalActivitiesWorkCount(),""+(actvityAmount.getFinalAmount()),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
+            //AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),"0",""+(actvityAmount.getFinalAmount()),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
+            AshaWorkFinalizeEntity entity = new AshaWorkFinalizeEntity(CommonPref.getUserDetails(this).getUserID().toUpperCase(),CommonPref.getUserDetails(this).getSVRID(),fyear.getYear_Id(),fmonth.get_MonthId(),"0",""+(0),CommonPref.getUserDetails(this).getSVRID(), Utiilties.getDeviceIMEI(this), Utiilties.getAppVersion(this),activityArray);
             entity.setUserRole(CommonPref.getUserDetails(this).getUserrole());
 
             if(Utiilties.isOnline(this)) {

@@ -15,6 +15,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
     private String _PanchayatCode = "";
     private String _AshaWorkerId = "";
     private String _HSCCode = "";
+    private String _HSCName = "";
     private String _Name = "";
     private String _FHName  = "";
     private String _FYearID = "";
@@ -49,6 +50,7 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
         this._PanchayatCode = sobj.getProperty("PanchayatCode").toString();
         this._AshaWorkerId = sobj.getProperty("AshaWorkerId").toString();
         this._HSCCode = sobj.getProperty("HSCCode").toString();
+        this._HSCName = sobj.getProperty("HSCName").toString();
 
         if (sobj.getProperty("Name").toString().equals("anyType{}")){
             this._Name="";
@@ -398,5 +400,13 @@ public class AshaSalByBhm_Entity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int i, Hashtable hashtable, PropertyInfo propertyInfo) {
 
+    }
+
+    public String get_HSCName() {
+        return _HSCName;
+    }
+
+    public void set_HSCName(String _HSCName) {
+        this._HSCName = _HSCName;
     }
 }

@@ -89,7 +89,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         {
             // totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
             totalamt=Integer.parseInt(holder.tv_dava_amt.getText().toString());
-            totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
+            //totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
             totalamt+=(getIntValue(holder.edt_add_state)-getIntValue(holder.edt_deduct_state));
             totalamt+=(getIntValue(holder.edt_add_centre)-getIntValue(holder.edt_deduct_centre));
         }
@@ -129,7 +129,8 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.tv_dava_amt.setText(String.valueOf(info.get_TotalAmt_Asha()));
         holder.tv_total_amt.setText(String.valueOf(info.getFinalAmt()));
         holder.tv_center_amt.setText(String.valueOf(info.get_TotalAmt_Central()));
-        holder.tv_state_amt.setText(String.valueOf(info.get_TotalAmt_State()));
+        //holder.tv_state_amt.setText(String.valueOf(info.get_TotalAmt_State()));
+        holder.tv_state_amt.setText(info.get_HSCName());
 
         //  holder.edt_no_days.setText(info.get_no_ofDays()==0? "":String.valueOf(info.get_no_ofDays()));
         //holder.edt_no_days.setText(String.valueOf(info.get_no_ofDays()));
