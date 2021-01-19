@@ -80,7 +80,7 @@ public class AshaActivityAccpRjctAdapter extends RecyclerView.Adapter<AshaActivi
         holder.tv_workcompldate.setText(info.getActivityDate());
         holder.tv_amount.setText(info.getActivityAmt());
         holder.tv_regname.setText(info.getRegisterDesc());
-        holder.tv_volume.setText(info.getVolume());
+        holder.tv_volume.setText(info.getAshaWorkerName());
 //        holder.tv_slno.setText(info.getPageSerialNo());
         holder.tv_reg_date.setText(info.getRegisterDate());
         holder.tv_no_of_benif.setText(info.getNoOfBeneficiary());
