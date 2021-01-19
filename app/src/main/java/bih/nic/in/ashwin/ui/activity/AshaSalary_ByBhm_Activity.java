@@ -65,6 +65,7 @@ public class AshaSalary_ByBhm_Activity extends AppCompatActivity implements Adap
     TextView tv_Norecord1;
     LinearLayout ll_btn,ll_blk;
     Spinner sp_block;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
