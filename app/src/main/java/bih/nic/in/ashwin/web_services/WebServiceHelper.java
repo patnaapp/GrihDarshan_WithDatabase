@@ -2100,8 +2100,7 @@ public class WebServiceHelper
         request.addProperty("DeviceIdUpdate",deviceid);
         request.addProperty("Userrolle",role);
 
-        try
-        {
+        try{
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.implicitTypes = true;
