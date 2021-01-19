@@ -699,8 +699,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
             {
                 if(result.contains(",")){
                     String[] res = result.split(",");
-                    if(res.length == 2)
-                    {
+                    if(res.length == 2){
                         showErrorAlet(FinalizeAshaWorkActivity.this, "Message", res[1]);
                     }
                     else
