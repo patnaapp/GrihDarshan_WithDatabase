@@ -295,23 +295,25 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
     }
 
     public void getNotAddedMonthlyActivity(ArrayList<Activity_entity> list){
+
         ArrayList<Integer> indexes = new ArrayList<>();
         for(Activity_entity activty: list){
             for(AshaFascilitatorWorkEntity monthly: selectedMonthlyWork){
                 if(activty.get_ActivityId().equals(monthly.getFCAcitivtyId()) && (!entryType.equals("U") || !ashaFCWorkEntity.getFCAcitivtyId().equals(activty.get_ActivityId()))){
-                    indexes.add(list.indexOf(activty));
+                    //indexes.add(list.indexOf(activty));
+                    ActivityEntityList.remove(ActivityEntityList.indexOf(activty));
                     break;
                 }
             }
         }
 
-        if(indexes.size() == ActivityEntityList.size()){
-            ActivityEntityList.clear();
-        }else{
-            for(int index: indexes){
-                ActivityEntityList.remove(index);
-            }
-        }
+//        if(indexes.size() == ActivityEntityList.size()){
+//            ActivityEntityList.clear();
+//        }else{
+//            for(int index: indexes){
+//                ActivityEntityList.remove(index);
+//            }
+//        }
         // return list;
     }
 
