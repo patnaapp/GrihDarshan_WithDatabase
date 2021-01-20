@@ -20,6 +20,7 @@ public class NoOfDays_Entity implements KvmSerializable, Serializable {
     private String MonthId = "";
     private String _Fc_Name = "";
     private String _Father_NAme = "";
+    private String _HSC_Name = "";
     private int _Centre_Amount = 0;
     private int _state_Amount = 0;
     private int _total_Amount = 0;
@@ -64,6 +65,7 @@ public class NoOfDays_Entity implements KvmSerializable, Serializable {
         this.AshaFacilitatorSalry_aId = sobj.getProperty("AshaFacilitatorSalry_aId").toString();
         this.FYearID = sobj.getProperty("FYearID").toString();
         this.MonthId = sobj.getProperty("MonthId").toString();
+        this._HSC_Name = sobj.getProperty("HSCName").toString();
         if (sobj.getProperty("TotalAmt_Central").toString().equals("NA")){
             this._Centre_Amount=0;
         }
@@ -321,5 +323,13 @@ public class NoOfDays_Entity implements KvmSerializable, Serializable {
     @Override
     public void getPropertyInfo(int i, Hashtable hashtable, PropertyInfo propertyInfo) {
 
+    }
+
+    public String get_HSC_Name() {
+        return _HSC_Name;
+    }
+
+    public void set_HSC_Name(String _HSC_Name) {
+        this._HSC_Name = _HSC_Name;
     }
 }
