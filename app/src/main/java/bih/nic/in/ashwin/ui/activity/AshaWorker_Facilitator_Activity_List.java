@@ -66,7 +66,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
     String tabType = "D";
     String hscname="",AcitivtyCategoryId="0",AcitivtyCategoryDesc="",work_ActivityId="0",work_ActivityDesc="",status="0";
     private ProgressDialog dialog;
-    String Dist_Code="",Blk_Code="",Role="",HSCCode="",entered_Aasha="",user_Type="";
+    String Dist_Code="",Blk_Code="",Role="",HSCCode="0",entered_Aasha="",user_Type="";
 
     BlockListDCM block;
     TextView tv_view_details;
@@ -252,6 +252,8 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 new SyncAshaActivityList(svrid).execute();
             }
         });
+
+        //loadStatusSpinner();
     }
 
     public void initialise()
@@ -359,6 +361,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 }else{
                     tv_view_details.setVisibility(View.GONE);
                 }
+
                 break;
 
             case R.id.sp_hsc_list:
@@ -379,6 +382,7 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                 if (position > 0)
                 {
                     block = blockList.get(position - 1);
+                    Blk_Code = blockList.get(position - 1).getBlockCode();
                     new SyncHSCListForDCM().execute();
                 }
                 break;
@@ -423,8 +427,10 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     }
                     loadFilterActivtyList();
                 }else if(position == 0){
+
                     status = "0";
-                    loadFilterActivtyList();
+                    if(!HSCCode.equals("") || !HSCCode.equals("0"))
+                        loadFilterActivtyList();
                 }
                 break;
         }
