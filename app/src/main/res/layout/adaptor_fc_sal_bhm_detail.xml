@@ -169,31 +169,6 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"/>
                 </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="राज्य राशि"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_state_amt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
                 <LinearLayout
                     android:layout_weight="1"
                     android:layout_margin="2dp"
@@ -216,6 +191,32 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"/>
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HSC"
+                        android:textColor="@color/colorGreyDark"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_state_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Text"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_weight="1"
