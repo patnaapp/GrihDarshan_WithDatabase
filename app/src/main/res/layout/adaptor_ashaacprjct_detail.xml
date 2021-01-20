@@ -174,7 +174,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="आशा"
+                        android:text="आशा का नाम"
                         android:textColor="@color/colorGreyDark"
                         android:textSize="12sp"/>
 
@@ -183,8 +183,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Text"
+                        android:textStyle="bold"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
+                        android:textSize="13sp"/>
                 </LinearLayout>
             </LinearLayout>
 
