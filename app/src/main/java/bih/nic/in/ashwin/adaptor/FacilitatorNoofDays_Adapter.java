@@ -105,6 +105,7 @@ public class FacilitatorNoofDays_Adapter extends RecyclerView.Adapter<Facilitato
         holder.tv_father_name.setText(info.get_Father_NAme());
         holder.tv_total_amt.setText(String.valueOf(info.get_total_Amount()));
         holder.tv_center_amt.setText(String.valueOf(info.get_Centre_Amount()));
+        //holder.tv_state_amt.setText(String.valueOf(info.get_state_Amount()));
         holder.tv_state_amt.setText(String.valueOf(info.get_state_Amount()));
 
         holder.edt_no_days.setText(info.get_no_ofDays()==0? "":String.valueOf(info.get_no_ofDays()));
