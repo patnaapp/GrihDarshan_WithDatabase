@@ -566,9 +566,9 @@ public class Utiilties {
             switch (code)
             {
                 case "P":
-                    return "विचाराधीन";
+                    return "पेंडिंग";
                 case "NA":
-                    return "विचाराधीन";
+                    return "पेंडिंग";
                 case "A":
                     return "अनुशंषित";
                 case "R":
@@ -591,9 +591,9 @@ public class Utiilties {
             switch (code)
             {
                 case "P":
-                    return "विचाराधीन";
+                    return "पेंडिंग";
                 case "NA":
-                    return "विचाराधीन";
+                    return "पेंडिंग";
                 case "Y":
                     return "अनुशंषित";
                 case "R":
