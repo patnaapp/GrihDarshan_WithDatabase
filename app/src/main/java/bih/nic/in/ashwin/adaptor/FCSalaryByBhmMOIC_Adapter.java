@@ -90,7 +90,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
         {
             // totalamt=Integer.parseInt(holder.edt_no_days.getText().toString())*Integer.parseInt(holder.tv_center_amt.getText().toString());
             totalamt=Integer.parseInt(holder.tv_dava_amt.getText().toString());
-            totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
+            //totalamt+=Integer.parseInt(holder.tv_state_amt.getText().toString());
             totalamt+=(getIntValue(holder.edt_add_state)-getIntValue(holder.edt_deduct_state));
             totalamt+=(getIntValue(holder.edt_add_centre)-getIntValue(holder.edt_deduct_centre));
         }
