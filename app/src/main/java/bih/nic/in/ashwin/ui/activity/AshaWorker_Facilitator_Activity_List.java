@@ -427,7 +427,6 @@ public class AshaWorker_Facilitator_Activity_List extends AppCompatActivity impl
                     }
                     loadFilterActivtyList();
                 }else if(position == 0){
-
                     status = "0";
                     if(!HSCCode.equals("") || !HSCCode.equals("0"))
                         loadFilterActivtyList();
