@@ -78,7 +78,12 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         tv_role.setText(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getUserrole());
         tv_year.setText(fyear.getFinancial_year());
         tv_month.setText(fmonth.get_MonthName());
-        loadHscList();
+        //loadHscList();
+        if(Utiilties.isOnline(AshaFcAccpRjct_ActivityList.this)){
+            new GetHScList().execute();
+        }else{
+            Toast.makeText(getApplicationContext(), "Please Turn On Internet Connection", Toast.LENGTH_SHORT).show();
+        }
         //loadWorkerFascilatorData();
         tv_daily.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +182,24 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
         sp_asha_fc.setAdapter(adaptor);
 
         sp_asha_fc.setOnItemSelectedListener(this);
+    }
+    public void loadHSCData()
+    {
+        // facilitatorList = dbhelper.getAshaFacilitatorList(CommonPref.getUserDetails(AshaFcAccpRjct_ActivityList.this).getHSCCode());
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select-");
+        //    array.add("ALL");
+        for (HscList_Entity info: hscList)
+        {
+            // if(!info.getFinancial_year().equals("anyType{}")){
+            array.add(info.get_HSCName_Hn());
+            // }
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(AshaFcAccpRjct_ActivityList.this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_hsc_list.setAdapter(adaptor);
+
+        sp_hsc_list.setOnItemSelectedListener(this);
     }
 
 
@@ -324,5 +347,38 @@ public class AshaFcAccpRjct_ActivityList extends AppCompatActivity implements Ad
     {
         super.onResume();
         handleTabView();
+    }
+    private class GetHScList extends AsyncTask<String, Void, ArrayList<HscList_Entity>>{
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Hsc details...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<HscList_Entity> doInBackground(String... param)
+        {
+            return WebServiceHelper.getHscList(CommonPref.getUserDetails(getApplicationContext()).getBlockCode());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HscList_Entity> result) {
+            if (dialog.isShowing())
+                dialog.dismiss();
+
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+
+                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+                hscList = result;
+                loadHSCData();
+
+                Toast.makeText(getApplicationContext(), "Hsc list loaded", Toast.LENGTH_SHORT).show();
+
+
+            }
+        }
     }
 }
