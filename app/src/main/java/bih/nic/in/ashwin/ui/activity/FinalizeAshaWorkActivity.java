@@ -58,7 +58,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
     LinearLayout ll_asha_amnt_prv,ll_ashafc_amnt_prv;
     //Fascilitator
-    TextView tv_center_amt,tv_claim_amount,tv_training_amnt,tv_travel_amnt;
+    TextView tv_center_amt,tv_total_workday,tv_claim_amount,tv_training_amnt,tv_travel_amnt;
 
     DataBaseHelper dbhelper;
     Financial_Year fyear;
@@ -140,6 +140,7 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
         ll_ashafc_amnt_prv = findViewById(R.id.ll_ashafc_amnt_prv);
 
         tv_center_amt = findViewById(R.id.tv_center_amt);
+        tv_total_workday = findViewById(R.id.tv_total_workday);
         tv_claim_amount = findViewById(R.id.tv_claim_amount);
         tv_training_amnt = findViewById(R.id.tv_training_amnt);
         tv_travel_amnt = findViewById(R.id.tv_travel_amnt);
@@ -258,6 +259,8 @@ public class FinalizeAshaWorkActivity extends AppCompatActivity implements Month
 
         totalStateAmount = getTotalFCStateAmount();
         tv_center_amt.setText("\u20B9"+getTotalCentralAmount());
+        //tv_total_workday.setText("\u20B9"+actvityAmount.getTotalDaysAcc());
+        tv_total_workday.setText(actvityAmount.getTotalDaysAcc()+ "   " +"दिन");
         tv_claim_amount.setText("\u20B9"+actvityAmount.getTotalAmount());
         tv_training_amnt.setText("\u20B9"+actvityAmount.getTrainingAmount());
         tv_travel_amnt.setText("\u20B9"+actvityAmount.getTravalingAmount());

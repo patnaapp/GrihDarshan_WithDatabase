@@ -74,6 +74,7 @@ import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
+import bih.nic.in.ashwin.entity.Notification;
 import bih.nic.in.ashwin.entity.OtpEntitiy;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.Profile_entity;
@@ -99,6 +100,7 @@ public class WebServiceHelper
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String AUTHENTICATE_METHOD = "Authenticate";
     public static final String FinYear_LIST_METHOD = "FinYear";
+    public static final String Notification_LIST_METHOD = "getNotification";
     public static final String FinMonth_LIST_METHOD = "FinMonth";
     public static final String Activity_LIST_METHOD = "Activity";
     public static final String Activity_Category_LIST_METHOD = "ActivityCategory";
@@ -644,6 +646,36 @@ public class WebServiceHelper
         }
 
         return info;
+    }
+    public static ArrayList<Notification> getNotification()
+    {
+        SoapObject res1;
+        res1 = getServerData(Notification_LIST_METHOD, Notification.Notification_CLASS);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<Notification> fieldList = new ArrayList<Notification>();
+
+        for (int i = 0; i < TotalProperty; i++)
+        {
+            if (res1.getProperty(i) != null)
+            {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject)
+                {
+                    SoapObject final_object = (SoapObject) property;
+                    Notification sm = new Notification(final_object);
+                    fieldList.add(sm);
+                }
+            }
+            else
+            {
+                return fieldList;
+            }
+
+        }
+
+
+        return fieldList;
     }
 
     public static ArrayList<Financial_Year> getFinancialYear()

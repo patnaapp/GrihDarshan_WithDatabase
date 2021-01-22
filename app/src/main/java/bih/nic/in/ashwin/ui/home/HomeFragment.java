@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,7 @@ import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
+import bih.nic.in.ashwin.entity.Notification;
 import bih.nic.in.ashwin.entity.Panchayat_List;
 import bih.nic.in.ashwin.entity.RegisteMappingEbtity;
 import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
@@ -97,7 +99,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     LinearLayout ll_hsc_list;
 
     LinearLayout ll_dashboard_report,ll_accepted_work;
-    TextView tv_total_asha,tv_asha_entered_activity,tv_total_activity,tv_community_activity,tv_institutional_activity,tv_total_pending,tv_total_verified,tv_total_rejected;
+    TextView tv_report,tv_total_asha,tv_asha_entered_activity,tv_total_activity,tv_community_activity,tv_institutional_activity,tv_total_pending,tv_total_verified,tv_total_rejected;
     RadioButton rb_asha,rb_asha_fc;
     RelativeLayout rl_total_asha,rl_total_asha_enter;
 
@@ -106,6 +108,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
     ArrayList<HscList_Entity> hscListArray;
     ArrayList<Activity_entity> mnthlyActList = new ArrayList<>();
     ArrayList<Activity_entity> stateContibActList = new ArrayList<>();
+    ArrayList<Notification> Notification_List = new ArrayList<Notification>();
 
     HscList_Entity hscEntity;
     Financial_Year fyear;
@@ -533,6 +536,16 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         rb_asha_fc = root.findViewById(R.id.rb_asha_fc);
         rb_asha = root.findViewById(R.id.rb_asha);
+
+        tv_report = root.findViewById(R.id.tv_report);
+
+
+        new GetNotification().execute();
+
+
+
+
+
 
         floating_action_button = root.findViewById(R.id.floating_action_button);
 
@@ -1741,6 +1754,36 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
         ll_dashboard_report.setVisibility(View.VISIBLE);
     }
+    private class GetNotification extends AsyncTask<String, Void, ArrayList<Notification>> {
+
+        @Override
+        protected void onPreExecute()
+        {
+            dialog.setMessage("Loading Notification...");
+            dialog.show();
+        }
+
+        @Override
+        protected ArrayList<Notification> doInBackground(String... param)
+        {
+            return WebServiceHelper.getNotification();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Notification> result) {
+            if (dialog.isShowing())
+            {
+                dialog.dismiss();
+            }
+            if (result != null) {
+                Log.d("Resultgfg", "" + result);
+                Notification_List = result;
+
+                setNotification();
+                //Toast.makeText(getContext(), "Financial year loaded", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
     private class GetFinYear extends AsyncTask<String, Void, ArrayList<Financial_Year>> {
@@ -2375,6 +2418,18 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
             }
         }
+    }
+
+    public void setNotification()
+    {
+        String msg="";
+
+        for (Notification info: Notification_List){
+           msg += info.getNotification()+"\t";
+            tv_report.setText(msg);
+            tv_report.setSelected(true);
+        }
+
     }
 
 }

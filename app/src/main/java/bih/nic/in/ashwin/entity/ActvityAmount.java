@@ -10,13 +10,15 @@ public class ActvityAmount implements KvmSerializable {
 
     public static Class<ActvityAmount> ActvityAmount_CLASS = ActvityAmount.class;
 
-    private String TotalAmount, TrainingAmount,TravalingAmount,FinalAmount;
+    private String TotalAmount, TrainingAmount,TravalingAmount,FinalAmount,TotalDaysAcc,TotalDaysAll;
 
     public ActvityAmount(SoapObject sobj) {
         this.TotalAmount = sobj.getProperty("TotalAmount").toString().equals("NA") ? "0" : sobj.getProperty("TotalAmount").toString();
         this.TrainingAmount = sobj.getProperty("TrainingAmount").toString().equals("NA") ? "0" : sobj.getProperty("TrainingAmount").toString();
         this.TravalingAmount = sobj.getProperty("TravalingAmount").toString().equals("NA") ? "0" : sobj.getProperty("TravalingAmount").toString();
         this.FinalAmount = sobj.getProperty("FinalAmount").toString().equals("NA") ? "0" : sobj.getProperty("FinalAmount").toString();
+        this.TotalDaysAcc = sobj.getProperty("TotalDaysAcc").toString().equals("NA") ? "0" : sobj.getProperty("TotalDaysAcc").toString();
+        this.TotalDaysAll = sobj.getProperty("TotalDaysAll").toString().equals("NA") ? "0" : sobj.getProperty("TotalDaysAll").toString();
 
     }
 
@@ -54,6 +56,22 @@ public class ActvityAmount implements KvmSerializable {
 
     public void setTotalAmount(String totalAmount) {
         TotalAmount = totalAmount;
+    }
+
+    public String getTotalDaysAcc() {
+        return TotalDaysAcc;
+    }
+
+    public void setTotalDaysAcc(String totalDaysAcc) {
+        TotalDaysAcc = totalDaysAcc;
+    }
+
+    public String getTotalDaysAll() {
+        return TotalDaysAll;
+    }
+
+    public void setTotalDaysAll(String totalDaysAll) {
+        TotalDaysAll = totalDaysAll;
     }
 
     @Override
