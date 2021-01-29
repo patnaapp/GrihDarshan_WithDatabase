@@ -123,6 +123,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final AshaSalByBhm_Entity info = mData.get(position);
         dialog = new ProgressDialog(context);
+
         holder.tv_count.setText(String.valueOf(position+1));
         holder.tv_asha_name.setText(info.get_Name());
         holder.tv_father_name.setText(info.get_FHName());
@@ -673,7 +674,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                     listener.onNoOfDaysChanged(position,0);
                 }
 
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
 
             }
 
@@ -683,6 +684,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
             }
 
         });
+
         holder.edt_add_centre.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -698,7 +700,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     listener.onAdditionInCentre(position,Integer.parseInt(holder.edt_add_centre.getText().toString()));
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
 
             }
 
@@ -722,7 +724,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 if (holder.edt_deduct_centre.getText().toString().length()>0){
                     listener.onDeductionInCentre(position,Integer.parseInt(holder.edt_deduct_centre.getText().toString()));
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -748,7 +750,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     listener.onAdditionInState(position,Integer.parseInt(holder.edt_add_state.getText().toString()));
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
 //                holder.tv_state_amt.setText(addinstateAmount(holder));
             }
 
@@ -775,7 +777,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 {
                     listener.onDeductionInStatere(position,Integer.parseInt(holder.edt_deduct_state.getText().toString()));
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override

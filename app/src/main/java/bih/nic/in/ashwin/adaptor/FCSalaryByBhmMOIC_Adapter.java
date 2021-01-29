@@ -141,6 +141,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
         holder.edt_add_centre.setText(String.valueOf(info.get_AddAmt_Central()));
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
+
         if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM"))
         {
             if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
@@ -578,7 +579,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     listener.onNoOfDaysChanged(position,0);
                 }
 
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
 
             }
 
@@ -611,7 +612,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     }
 
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
 
             }
 
@@ -644,7 +645,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     }
 
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
@@ -677,7 +678,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     }
 
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+               // holder.tv_total_amt.setText(calculateAmount(holder));
 //                holder.tv_state_amt.setText(addinstateAmount(holder));
             }
 
@@ -711,7 +712,7 @@ public class FCSalaryByBhmMOIC_Adapter extends RecyclerView.Adapter<FCSalaryByBh
                     }
 
                 }
-                holder.tv_total_amt.setText(calculateAmount(holder));
+                //holder.tv_total_amt.setText(calculateAmount(holder));
             }
 
             @Override
