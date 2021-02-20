@@ -87,7 +87,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
     RegisteMappingEbtity registerDetailsEntity;
     Block_List otherBlock;
 
-    String placeypeArray[] = {"अपने प्रखंड में", "दूसरे प्रखंड में", "ज़िला अस्पताल", "चिकित्सा महाविद्यालय", "अनुमंडलीय अस्पताल", "रेफरल अस्पताल"};
+    String placeypeArray[] = {"अपने प्रखंड में", "दूसरे प्रखंड में", "ज़िला अस्पताल", "चिकित्सा महाविद्यालय", "अनुमंडलीय अस्पताल", "रेफरल अस्पताल","मातृ शिशु स्वास्थ्य"};
     String workDMTypeArray[] = {"Select", "Daily", "Monthly"};
     String volumeArray[] = {"Select", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
@@ -1153,7 +1153,7 @@ public class AshaWorkerEntryForm_Activity extends AppCompatActivity implements A
                         setBlockSpinner(CommonPref.getUserDetails(this).getDistrictCode());
                         ll_place_type.setVisibility(View.VISIBLE);
                         break;
-                    case 2: case 3:
+                    case 2: case 3: case 6:
                         tv_place_type.setText("ज़िला : [*]");
                         setDistrictSpinner();
                         ll_place_type.setVisibility(View.VISIBLE);

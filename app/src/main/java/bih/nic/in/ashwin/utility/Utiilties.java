@@ -671,6 +671,8 @@ public class Utiilties {
                 return "अनुमंडलीय अस्पताल";
             case "5":
                 return "रेफरल अस्पताल";
+            case "6":
+                return "मातृ शिशु स्वास्थ्य";
             default:
                 return "NA";
         }

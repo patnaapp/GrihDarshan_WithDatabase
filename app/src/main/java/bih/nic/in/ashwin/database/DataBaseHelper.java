@@ -794,7 +794,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<Activity_entity> info = list;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        //db.delete("Panchayat",null,null);
+        db.delete("ActivityList_Master",null,null);
         if (info != null)
         {
             try
@@ -817,11 +817,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     String[] whereArgs = new String[]{info.get(i).get_ActivityId()};
 
-                    c = db.update("ActivityList_Master", values, "Activity_Id=?", whereArgs);
-                    if (!(c > 0))
-                    {
+                    //c = db.update("ActivityList_Master", values, "Activity_Id=?", whereArgs);
+//                    if (!(c > 0))
+//                    {
                         c = db.insert("ActivityList_Master", null, values);
-                    }
+                   // }
 
 
                 }
