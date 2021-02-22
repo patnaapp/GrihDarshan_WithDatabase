@@ -139,9 +139,28 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
         holder.edt_deduct_centre.setText(String.valueOf(info.getDeductAmt_Central()));
         holder.edt_addremarks_centre.setText(info.getAddRemarks_Central());
 
-        if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM"))
-        {
-            if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
+        if (CommonPref.getUserDetails(context).getUserrole().equals("BLKBHM")){
+
+            if (info.get_HQADMVerified().equals("Y")){
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.btn_accpt.setVisibility(View.GONE);
+                holder.btn_rjct.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+//                if (info.get_HQADMVerified().equals("P"))
+//                {
+//                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+//                }
+                if (info.get_HQADMVerified().equals("Y"))
+                {
+                    holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                }
+                else if (info.get_HQADMVerified().equals("R"))
+                {
+                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+                }
+
+            }else if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -177,8 +196,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
             }
-            else if (info.get_MO_Verified().equals("Y") && info.get_HQADMVerified().equals("N"))
-            {
+            else if (info.get_MO_Verified().equals("Y") && info.get_HQADMVerified().equals("N")){
                 holder.ll_btn.setVisibility(View.GONE);
                 holder.btn_accpt.setVisibility(View.GONE);
                 holder.btn_rjct.setVisibility(View.GONE);
@@ -197,32 +215,30 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
                 }
             }
-
-            else if (info.get_HQADMVerified().equals("Y"))
-            {
-                holder.ll_btn.setVisibility(View.GONE);
-                holder.btn_accpt.setVisibility(View.GONE);
-                holder.btn_rjct.setVisibility(View.GONE);
-                holder.btn_accp_rjct.setVisibility(View.GONE);
-//                if (info.get_HQADMVerified().equals("P"))
-//                {
-//                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-//                }
-                if (info.get_HQADMVerified().equals("Y"))
-                {
-                    holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-                }
-                else if (info.get_HQADMVerified().equals("R"))
-                {
-                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-                }
-            }
         }
 
         else if (CommonPref.getUserDetails(context).getUserrole().equals("BLKMO"))
         {
-            if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA"))
+            if (info.get_HQADMVerified().equals("Y")){
+            holder.ll_btn.setVisibility(View.GONE);
+            holder.btn_accpt.setVisibility(View.GONE);
+            holder.btn_rjct.setVisibility(View.GONE);
+            holder.btn_accp_rjct.setVisibility(View.GONE);
+//                if (info.get_HQADMVerified().equals("P"))
+//                {
+//                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+//                }
+            if (info.get_HQADMVerified().equals("Y"))
+            {
+                holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+                holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+            }
+            else if (info.get_HQADMVerified().equals("R"))
+            {
+                holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
+            }
+
+        }else if (info.get_MO_Verified().contains("P") || info.get_MO_Verified().contains("NA"))
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.get_MO_Verified()));
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.colorGrey));
@@ -255,27 +271,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-            }
-            else if (info.get_HQADMVerified().equals("Y"))
-            {
-                holder.ll_btn.setVisibility(View.GONE);
-                holder.btn_accpt.setVisibility(View.GONE);
-                holder.btn_rjct.setVisibility(View.GONE);
-                holder.btn_accp_rjct.setVisibility(View.GONE);
-//                if (info.get_HQADMVerified().equals("P"))
-//                {
-//                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-//                }
-                if (info.get_HQADMVerified().equals("Y"))
-                {
-                    holder.tv_status.setText("HQ द्वारा "+Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-                }
-                else if (info.get_HQADMVerified().equals("R"))
-                {
-                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
-                }
-
             }
 //    else if (info.get_MO_Verified().equals("Y")) {
 //        holder.ll_btn.setVisibility(View.GONE);
