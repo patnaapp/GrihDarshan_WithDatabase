@@ -160,6 +160,25 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                     holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusHQ(info.get_HQADMVerified()));
                 }
 
+            } else if (info.get_MO_Verified().equals("Y")){
+                holder.ll_btn.setVisibility(View.GONE);
+                holder.btn_accpt.setVisibility(View.GONE);
+                holder.btn_rjct.setVisibility(View.GONE);
+                holder.btn_accp_rjct.setVisibility(View.GONE);
+
+                if (info.getVerificationStatus().equals("P"))
+                {
+                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                }
+                else if (info.getVerificationStatus().equals("Y"))
+                {
+                    holder.tv_status.setText("MO द्वारा "+Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
+                }
+                else if (info.getVerificationStatus().equals("R"))
+                {
+                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
+                }
             }else if (info.getVerificationStatus().contains("P") || info.getVerificationStatus().contains("NA"))
             {
                 holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
@@ -173,8 +192,7 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
 
                // holder.btn_accp_rjct.setVisibility(View.GONE);
             }
-            else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("N")||info.get_MO_Verified().contains("NA")))
-            {
+            else if (info.getVerificationStatus().contains("Y")&&(info.get_MO_Verified().contains("P")||info.get_MO_Verified().contains("NA"))){
                 holder.btn_accp_rjct.setVisibility(View.VISIBLE);
                 holder.btn_accp_rjct.setText("पुनः जाँच करे");
                 holder.btn_accp_rjct.setBackgroundResource(R.drawable.buttonbackshape1);
@@ -195,25 +213,6 @@ public class AshaSalaryByBhm_Adapter extends RecyclerView.Adapter<AshaSalaryByBh
                 holder.tv_status.setTextColor(context.getResources().getColor(R.color.color_red));
 //            holder.btn_rjct.setVisibility(View.GONE);
 //            holder.btn_accpt.setVisibility(View.VISIBLE);
-            }
-            else if (info.get_MO_Verified().equals("Y") && info.get_HQADMVerified().equals("N")){
-                holder.ll_btn.setVisibility(View.GONE);
-                holder.btn_accpt.setVisibility(View.GONE);
-                holder.btn_rjct.setVisibility(View.GONE);
-                holder.btn_accp_rjct.setVisibility(View.GONE);
-                if (info.getVerificationStatus().equals("P"))
-                {
-                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-                }
-                else if (info.getVerificationStatus().equals("Y"))
-                {
-                    holder.tv_status.setText("MO द्वारा "+Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-                    holder.tv_status.setTextColor(context.getResources().getColor(R.color.holo_green_dark));
-                }
-                else if (info.getVerificationStatus().equals("R"))
-                {
-                    holder.tv_status.setText(Utiilties.getAshaWorkActivityStatusBHM(info.getVerificationStatus()));
-                }
             }
         }
 
