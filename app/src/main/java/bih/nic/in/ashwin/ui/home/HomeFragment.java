@@ -253,7 +253,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
             }
         });
 
-
         btn_proceed1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
