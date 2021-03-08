@@ -20,6 +20,11 @@
             android:title="@string/menu_sync" />
 
         <item
+            android:id="@+id/nav_view_incentive_report"
+            android:icon="@drawable/ic_incentive_report"
+            android:title="@string/menu_incentive_report" />
+
+        <item
             android:id="@+id/nav_change_password"
             android:icon="@drawable/ic_lock"
             android:title="@string/menu_change_password" />

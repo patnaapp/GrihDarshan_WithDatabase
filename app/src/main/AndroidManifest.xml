@@ -55,7 +55,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.AshaReportActivity"></activity>
+        <activity android:name=".ui.activity.IncentiveReportActivity"></activity>
+        <activity android:name=".ui.activity.AshaReportActivity" />
         <activity android:name=".ui.activity.FcSalary_ByBHM_MOIC_Activity" />
         <activity android:name=".ui.activity.OtherBLockActivityVerificationList" />
         <activity android:name=".ui.activity.AshaFcAccpRjct_ActivityList" />

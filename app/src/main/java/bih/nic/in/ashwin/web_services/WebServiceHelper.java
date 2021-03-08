@@ -177,6 +177,8 @@ public class WebServiceHelper
     public static final String GETDASBOARD_REPORT = "getDashBoardRpt";
     public static final String GETDASBOARD_FC_REPORT = "getDashBoardFCRpt";
 
+    public static final String GLOBAL_MESSAGE = "GLOBAL_MESSAGE";
+
     private static final String BLOCK_METHOD = "getBlock";
 
     static String rest;

@@ -106,7 +106,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         navUsername.setText(user.getUserName());
         navMobileNum.setText(user.getMobileNo().equals("anyType{}")? "NA" : user.getMobileNo());
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_profile, R.id.nav_sync, R.id.nav_change_password, R.id.nav_logOut).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_profile, R.id.nav_sync, R.id.nav_view_incentive_report,R.id.nav_change_password, R.id.nav_logOut).setDrawerLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -157,6 +157,15 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_sync:
 
                 syncData();
+                break;
+
+            case R.id.nav_view_incentive_report:
+                if(Utiilties.isOnline(UserHomeActivity.this)) {
+                    Intent i = new Intent(UserHomeActivity.this, IncentiveReportActivity.class);
+                    startActivity(i);
+                }else{
+                    Utiilties.showInternetAlert(this);
+                }
                 break;
             case R.id.nav_change_password:
                 toolbar.setTitle("Change Password");
