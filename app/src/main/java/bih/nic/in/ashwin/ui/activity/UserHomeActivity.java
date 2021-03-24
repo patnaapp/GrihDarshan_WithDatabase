@@ -161,6 +161,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_view_incentive_report:
                 if(Utiilties.isOnline(UserHomeActivity.this)) {
                     Intent i = new Intent(UserHomeActivity.this, IncentiveReportActivity.class);
+
                     startActivity(i);
                 }else{
                     Utiilties.showInternetAlert(this);

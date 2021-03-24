@@ -8,9 +8,8 @@ android {
         applicationId "bih.nic.in.ashwin"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 22
-        versionName "3.1"
-
+        versionCode 23
+        versionName "3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
     }
@@ -45,7 +44,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-
     api 'com.squareup.picasso:picasso:2.4.0'
 
 

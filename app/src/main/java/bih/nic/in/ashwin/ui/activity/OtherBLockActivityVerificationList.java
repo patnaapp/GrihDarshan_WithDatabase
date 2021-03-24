@@ -256,7 +256,7 @@ public class OtherBLockActivityVerificationList extends AppCompatActivity implem
                 hsc_code=CommonPref.getUserDetails(getApplicationContext()).getHSCCode();
             }
 
-            return WebServiceHelper.getAshaWorkerList_Other(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code);
+            return WebServiceHelper.getAshaWorkerList_Other(CommonPref.getUserDetails(getApplicationContext()).getDistrictCode(),CommonPref.getUserDetails(getApplicationContext()).getBlockCode(),hsc_code,fyear.getFinancial_year(),fmonth.get_MonthId());
         }
 
         @Override

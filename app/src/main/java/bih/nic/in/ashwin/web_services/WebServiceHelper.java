@@ -83,6 +83,7 @@ import bih.nic.in.ashwin.entity.RegisterDetailsEntity;
 import bih.nic.in.ashwin.entity.Stateamount_entity;
 import bih.nic.in.ashwin.entity.UserDetails;
 import bih.nic.in.ashwin.entity.Versioninfo;
+import bih.nic.in.ashwin.entity.incentiveModelReport;
 import bih.nic.in.ashwin.utility.Utiilties;
 
 
@@ -145,7 +146,8 @@ public class WebServiceHelper
     public static final String AcceptRjctFcFROMBCM = "FCAshaActivityVerification";
  //   public static final String ASHASalByMO_LIST_METHOD = "getAshaSallaryListInMOCI";
  public static final String DeleteAsha_Fc_Activity = "DeletedFCAshaActivityAndAshaActiVity";
- public static final String Asha_worker_LIST_Other_METHOD = "getAshaWorkersOther";
+ //public static final String Asha_worker_LIST_Other_METHOD = "getAshaWorkersOther";
+ public static final String Asha_worker_LIST_Other_METHOD = "getAshaWorkersOtherNew";
  public static final String FrowardActivityToBCM = "ForwardAshaActivity";
 
     //e-Niwas
@@ -176,6 +178,8 @@ public class WebServiceHelper
     public static final String OtherBlockOneTime = "getTotalAmountOneTimeList";
     public static final String GETDASBOARD_REPORT = "getDashBoardRpt";
     public static final String GETDASBOARD_FC_REPORT = "getDashBoardFCRpt";
+    public static final String getMonthStatusReport = "getMonthStatusReport";
+    public static final String getAcountStatus = "getAcountStatus";
 
     public static final String GLOBAL_MESSAGE = "GLOBAL_MESSAGE";
 
@@ -1087,10 +1091,10 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<AshaWoker_Entity> getAshaWorkerList_Other(String distcode,String blkcode,String hsccode) {
+    public static ArrayList<AshaWoker_Entity> getAshaWorkerList_Other(String distcode,String blkcode,String hsccode,String yearId,String Monthid) {
 
         SoapObject res1;
-        res1 = getServerData(Asha_worker_LIST_Other_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "Distcode","blockcode","HscCode", distcode,blkcode,hsccode);
+        res1 = getServerData(Asha_worker_LIST_Other_METHOD, AshaWoker_Entity.ASHA_WORKER_CLASS, "Distcode","blockcode","HscCode","FYearId","MonthId", distcode,blkcode,hsccode,yearId,Monthid);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<AshaWoker_Entity> fieldList = new ArrayList<AshaWoker_Entity>();
@@ -3039,4 +3043,81 @@ public class WebServiceHelper
         return rest;
     }
 
+
+    //vijyashalinee
+
+    public static ArrayList<incentiveModelReport> getMonthStatusReport(String filterType, String filterText, String Designation,String DistId,String BlockId,String FyearId) {
+
+        SoapObject res1;
+        res1 = getServerData1(getMonthStatusReport, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation","DistCode","BlockCode","FYearID",filterType,filterText, Designation,DistId,BlockId,FyearId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<incentiveModelReport> fieldList = new ArrayList<incentiveModelReport>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    incentiveModelReport sm = new incentiveModelReport(final_object);
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+    public static ArrayList<incentiveModelReport> getAcountStatus(String filterType, String filterText, String Designation,String DistId,String BlockId) {
+
+        SoapObject res1;
+        res1 = getServerData(getAcountStatus, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation","DistCode","BlockCode",filterType,filterText, Designation,DistId,BlockId);
+        int TotalProperty = 0;
+        if (res1 != null) TotalProperty = res1.getPropertyCount();
+        ArrayList<incentiveModelReport> fieldList = new ArrayList<incentiveModelReport>();
+
+        for (int i = 0; i < TotalProperty; i++) {
+            if (res1.getProperty(i) != null) {
+                Object property = res1.getProperty(i);
+                if (property instanceof SoapObject) {
+                    SoapObject final_object = (SoapObject) property;
+                    incentiveModelReport sm = new incentiveModelReport(final_object,"1");
+                    fieldList.add(sm);
+                }
+            } else
+                return fieldList;
+        }
+
+
+        return fieldList;
+    }
+
+    public static SoapObject getServerData1(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5,String param6,String value1, String value2, String value3,String value4,String value5,String value6 )
+    {
+        SoapObject res1;
+        try
+        {
+            SoapObject request = new SoapObject(SERVICENAMESPACE,methodName);
+            request.addProperty(param1,value1);
+            request.addProperty(param2,value2);
+            request.addProperty(param3,value3);
+            request.addProperty(param4,value4);
+            request.addProperty(param5,value5);
+            request.addProperty(param6,value6);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.setOutputSoapObject(request);
+            envelope.addMapping(SERVICENAMESPACE,bindClass.getSimpleName(),bindClass);
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + methodName,envelope);
+            res1 = (SoapObject) envelope.getResponse();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return res1;
+    }
 }

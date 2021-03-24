@@ -458,6 +458,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return userRoleList;
     }
+    public ArrayList<UserRole> getUserRoleList1(){
+        ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
+
+        try {
+            String[] params = new String[]{"HSC"};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("Select * from UserRole WHERE UserRole!=?",params);
+            // Cursor cur = db.rawQuery("Select * from UserRole",null);
+            int x = cur.getCount();
+
+            while (cur.moveToNext())
+            {
+                UserRole userRole = new UserRole();
+                userRole.setRole(cur.getString(cur.getColumnIndex("UserRole")));
+                userRole.setRoleDesc(cur.getString(cur.getColumnIndex("RoleDesc")));
+                userRole.setRoleDescHN(cur.getString(cur.getColumnIndex("RoleDescHN")));
+                if(userRole.getRole().equalsIgnoreCase("DEPT")||userRole.getRole().equalsIgnoreCase("ANM")) {
+
+
+                }else {
+                    userRoleList.add(userRole);
+                }
+            }
+
+            cur.close();
+            db.close();
+            this.getReadableDatabase().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            //info = null;
+        }
+        return userRoleList;
+    }
 
     public long setregisterMapping_Local(ArrayList<RegisteMappingEbtity> list) {
 
