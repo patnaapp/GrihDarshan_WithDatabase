@@ -160,6 +160,19 @@
                 android:text="खोज करें"
                 android:textColor="@color/color_white"
                 android:textSize="17sp" />
+            <TextView
+
+                android:visibility="gone"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12dp"
+                android:id="@+id/norecord"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="No Record Found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -203,6 +216,7 @@
                     android:text="प्रोफ़ाइल की जानकारी :-"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+
 
 
                 <LinearLayout

@@ -3049,7 +3049,7 @@ public class WebServiceHelper
     public static ArrayList<incentiveModelReport> getMonthStatusReport(String filterType, String filterText, String Designation,String DistId,String BlockId,String FyearId) {
 
         SoapObject res1;
-        res1 = getServerData1(getMonthStatusReport, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation","DistCode","BlockCode","FYearID",filterType,filterText, Designation,DistId,BlockId,FyearId);
+        res1 = getServerData(getMonthStatusReport, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation","FYearID",filterType,filterText, Designation,FyearId);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<incentiveModelReport> fieldList = new ArrayList<incentiveModelReport>();
@@ -3072,7 +3072,7 @@ public class WebServiceHelper
     public static ArrayList<incentiveModelReport> getAcountStatus(String filterType, String filterText, String Designation,String DistId,String BlockId) {
 
         SoapObject res1;
-        res1 = getServerData(getAcountStatus, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation","DistCode","BlockCode",filterType,filterText, Designation,DistId,BlockId);
+        res1 = getServerData(getAcountStatus, incentiveModelReport.incentiveModelReport_CLASS, "FilterType","FilterText", "Designation",filterType,filterText, Designation);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<incentiveModelReport> fieldList = new ArrayList<incentiveModelReport>();
@@ -3093,7 +3093,7 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static SoapObject getServerData1(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5,String param6,String value1, String value2, String value3,String value4,String value5,String value6 )
+    public static SoapObject getServerData1(String methodName, Class bindClass, String param1, String param2, String param3, String param4,String param5,String value1, String value2, String value3,String value4,String value5 )
     {
         SoapObject res1;
         try
@@ -3104,7 +3104,7 @@ public class WebServiceHelper
             request.addProperty(param3,value3);
             request.addProperty(param4,value4);
             request.addProperty(param5,value5);
-            request.addProperty(param6,value6);
+
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.dotNet = true;
             envelope.setOutputSoapObject(request);

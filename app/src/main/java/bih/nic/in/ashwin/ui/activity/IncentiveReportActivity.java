@@ -54,7 +54,8 @@ public class IncentiveReportActivity extends AppCompatActivity {
     String DistId="",BlockId="";
     LinearLayout monthreport;
     LinearLayout lin_profile;
-
+    UserDetails userInfo;
+    TextView norecord;
     TextView tv_dist_block_name,tv_name_fathername,tv_name_as_bank,tv_account_ifsc,tv_dob_dateof_join,tv_qualification,tv_divgyaak,tv_mobile,tv_adhaar,tv_cur_work_status,tv_entry_date,tv_pfms_status;
 
     @Override
@@ -65,7 +66,7 @@ public class IncentiveReportActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
-        UserDetails userInfo = CommonPref.getUserDetails(getApplicationContext());
+        userInfo= CommonPref.getUserDetails(getApplicationContext());
         DistId=userInfo.getDistrictCode();
         BlockId=userInfo.getBlockCode();
         rv_data = findViewById(R.id.recyclerview_data);
@@ -156,11 +157,22 @@ public class IncentiveReportActivity extends AppCompatActivity {
                 }
             }
         });
+        if(userInfo.getUserrole().equalsIgnoreCase("ASHA")||userInfo.getUserrole().equalsIgnoreCase("ASHAFC")) {
+            filterText = userInfo.getUserID();
+            filterType = "3";
+            if (userInfo.getUserrole().equalsIgnoreCase("ASHA")) {
+                Designation = "1";
+            } else if (userInfo.getUserrole().equalsIgnoreCase("ASHAFC")) {
+                Designation = "2";
+            }
+            edt_worker.setText(userInfo.getUserID());
 
-
+            new getAcountStatus().execute();
+        }
     }
 
     private void Initialise(){
+        norecord=(TextView)findViewById(R.id.norecord);
         tv_dist_block_name=(TextView) findViewById(R.id.tv_dist_block_name);
         tv_name_fathername=(TextView) findViewById(R.id.tv_name_fathername);
         tv_name_as_bank=(TextView) findViewById(R.id.tv_name_as_bank);
@@ -203,6 +215,7 @@ public class IncentiveReportActivity extends AppCompatActivity {
             ArrayAdapter adaptor = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, array);
             adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_fyear.setAdapter(adaptor);
+            sp_fyear.setSelection(1);
 
         }else{
           //  syncData();
@@ -228,6 +241,13 @@ public class IncentiveReportActivity extends AppCompatActivity {
         roleAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, typeNameArray);
         roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_designation.setAdapter(roleAdapter);
+
+        if(userInfo.getUserrole().equalsIgnoreCase("ASHA")){
+            sp_designation.setSelection(2);
+
+        }else if(userInfo.getUserrole().equalsIgnoreCase("ASHAFC")){
+            sp_designation.setSelection(1);
+        }
     }
 
     private void loadFilterType() {
@@ -239,6 +259,13 @@ public class IncentiveReportActivity extends AppCompatActivity {
         ArrayAdapter adaptor = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, FilterType);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_filter_type.setAdapter(adaptor);
+        if(userInfo.getUserrole().equalsIgnoreCase("ASHA")){
+            sp_filter_type.setSelection(1);
+
+        }else if(userInfo.getUserrole().equalsIgnoreCase("ASHAFC")){
+            sp_filter_type.setSelection(1);
+        }
+
 
     }
 
@@ -287,6 +314,7 @@ public class IncentiveReportActivity extends AppCompatActivity {
         @Override
         protected ArrayList<incentiveModelReport> doInBackground(String... param)
         {
+            Log.d("vcgvchv",filterType+"*"+filterText+"*"+Designation+"*"+DistId+"*"+BlockId);
             return WebServiceHelper.getAcountStatus(filterType,filterText,Designation,DistId,BlockId);
         }
 
@@ -297,26 +325,33 @@ public class IncentiveReportActivity extends AppCompatActivity {
 
             if (result != null)
             {
-                Log.d("Resultgfg", "" + result);
-                for (int i=0;i<result.size();i++) {
+                if(result.size()>0) {
+                    norecord.setVisibility(View.GONE);
                     Log.d("Resultgfg", "" + result);
-                    monthreport.setVisibility(View.VISIBLE);
-                    lin_profile.setVisibility(View.VISIBLE);
-                    tv_dist_block_name.setText(result.get(i).getDistrictName()+"\n"+result.get(i).getBlockName()+"\n"+result.get(i).getHSCName());
-                    tv_name_fathername.setText(result.get(i).getName()+"\n"+result.get(i).getFHName());
-                    tv_name_as_bank.setText(result.get(i).getPfms_BenNameAsPerBank());
-                    tv_account_ifsc.setText(result.get(i).getBenAccountNo()+"\n"+result.get(i).getIFSCCode());
-                    tv_dob_dateof_join.setText(result.get(i).getDateofBirth()+"\n"+result.get(i).getDateofJoining());
-                    tv_qualification.setText(result.get(i).getQualificationDesc());
-                    tv_divgyaak.setText(result.get(i).getMinority());
-                    tv_adhaar.setText(result.get(i).getAadhaarNo());
-                    tv_cur_work_status.setText(result.get(i).getWorkStatus());
-                    tv_entry_date.setText(result.get(i).getEntryDate());
-                    tv_pfms_status.setText(result.get(i).getLocked());
-                    tv_mobile.setText(result.get(i).getMobileNo()+"\n"+result.get(i).getAlternateMobileNo());
+                    for (int i = 0; i < result.size(); i++) {
+                        Log.d("Resultgfg", "" + result);
+                        monthreport.setVisibility(View.VISIBLE);
+                        lin_profile.setVisibility(View.VISIBLE);
+                        tv_dist_block_name.setText(result.get(i).getDistrictName() + "\n" + result.get(i).getBlockName() + "\n" + result.get(i).getHSCName());
+                        tv_name_fathername.setText(result.get(i).getName() + "\n" + result.get(i).getFHName());
+                        tv_name_as_bank.setText(result.get(i).getPfms_BenNameAsPerBank());
+                        tv_account_ifsc.setText(result.get(i).getBenAccountNo() + "\n" + result.get(i).getIFSCCode());
+                        tv_dob_dateof_join.setText(result.get(i).getDateofBirth() + "\n" + result.get(i).getDateofJoining());
+                        tv_qualification.setText(result.get(i).getQualificationDesc());
+                        tv_divgyaak.setText(result.get(i).getMinority());
+                        tv_adhaar.setText(result.get(i).getAadhaarNo());
+                        tv_cur_work_status.setText(result.get(i).getWorkStatus());
+                        tv_entry_date.setText(result.get(i).getEntryDate());
+                        tv_pfms_status.setText(result.get(i).getLocked());
+                        tv_mobile.setText(result.get(i).getMobileNo() + "\n" + result.get(i).getAlternateMobileNo());
 
-                    new GetMonthStatusReportList().execute();
+                        new GetMonthStatusReportList().execute();
 
+                    }
+                }else {
+                    monthreport.setVisibility(View.GONE);
+                    lin_profile.setVisibility(View.GONE);
+                    norecord.setVisibility(View.VISIBLE);
                 }
              //   DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
 
@@ -325,6 +360,7 @@ public class IncentiveReportActivity extends AppCompatActivity {
             }else {
                 monthreport.setVisibility(View.GONE);
                 lin_profile.setVisibility(View.GONE);
+                norecord.setVisibility(View.VISIBLE);
             }
         }
     }
