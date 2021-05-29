@@ -102,7 +102,8 @@ public class WebServiceHelper
     public static final String AUTHENTICATE_METHOD = "Authenticate";
     public static final String FinYear_LIST_METHOD = "FinYear";
     public static final String Notification_LIST_METHOD = "getNotification";
-    public static final String FinMonth_LIST_METHOD = "FinMonth";
+    //public static final String FinMonth_LIST_METHOD = "FinMonth";
+    public static final String FinMonth_LIST_METHOD = "FinMonthNew";
     public static final String Activity_LIST_METHOD = "Activity";
     public static final String Activity_Category_LIST_METHOD = "ActivityCategory";
     public static final String District_LIST_METHOD = "getDistrict";
@@ -846,10 +847,10 @@ public class WebServiceHelper
         return fieldList;
     }
 
-    public static ArrayList<Financial_Month> getFinancialMonth() {
+    public static ArrayList<Financial_Month> getFinancialMonth(String yearId) {
 
         SoapObject res1;
-        res1 = getServerData(FinMonth_LIST_METHOD, Financial_Year.Financial_Year_CLASS);
+        res1 = getServerData(FinMonth_LIST_METHOD, Financial_Year.Financial_Year_CLASS, "Fyear", yearId);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<Financial_Month> fieldList = new ArrayList<Financial_Month>();
@@ -1757,8 +1758,7 @@ public class WebServiceHelper
         return rest;
     }
 
-    public static String uploadAshaMonthlyActivity(AshaWorkEntity data, ArrayList<Activity_entity> list)
-    {
+    public static String uploadAshaMonthlyActivity(AshaWorkEntity data, ArrayList<Activity_entity> list){
 
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
         dbfac.setNamespaceAware(true);
@@ -1937,8 +1937,7 @@ public class WebServiceHelper
         return result;
     }
 
-    public static Element getSoapPropert(Document doc, String key, String value)
-    {
+    public static Element getSoapPropert(Document doc, String key, String value){
         Element eid = doc.createElement(key);
         eid.appendChild(doc.createTextNode(value));
         return eid;
@@ -2402,6 +2401,7 @@ public class WebServiceHelper
         request.addProperty("MobVersion", data.getAppVersion());
         request.addProperty("MobDeviceId", data.getDeviceId());
         //request.addProperty("xmlMonthlyActDetails", getMonthlyActivityXML(data.getActivityArray()));
+        Log.e("Param: ",request.toString());
 
         try {
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -2615,8 +2615,7 @@ public class WebServiceHelper
     }
 
 
-    public static String parseRespnse1(String xml)
-    {
+    public static String parseRespnse1(String xml){
         String result = "Failed to parse";
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -2643,8 +2642,7 @@ public class WebServiceHelper
         return result;
     }
 
-    public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException
-    {
+    public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
 
         if (entity == null)
         {

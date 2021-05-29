@@ -329,7 +329,10 @@ public class AshaFacilitatorEntry extends AppCompatActivity implements AdapterVi
 
     public void viewCalender(){
         Calendar c = Calendar.getInstance();
-        int mYear =Integer.parseInt(fyear.getYear_Id())-1;
+        String year = fyear.getFinancial_year().split("-")[0];
+
+        //int mYear =Integer.parseInt(fyear.getYear_Id())-1;
+        int mYear =Integer.parseInt(year);
         int mnth = Integer.parseInt(fmonth.get_MonthId())-1;
         //int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);

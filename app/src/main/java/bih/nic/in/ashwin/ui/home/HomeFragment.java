@@ -1811,7 +1811,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
 
                 long i = helper.setFinyr_Local(result);
                 if (i > 0) {
-                    new GetFinMonth().execute();
+                    //new GetFinMonth().execute();
+                    new GetActivityList().execute();
                     Toast.makeText(getContext(), "Financial year loaded", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -1822,43 +1823,43 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
-    private class GetFinMonth extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Loading financial month...");
-            dialog.show();
-        }
-
-        @Override
-        protected ArrayList<Financial_Month> doInBackground(String... param) {
-
-            return WebServiceHelper.getFinancialMonth();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Financial_Month> result) {
-
-            if (result != null) {
-                Log.d("Resultgfg", "" + result);
-
-                DataBaseHelper helper = new DataBaseHelper(getContext());
-
-                long i = helper.setFinMonth_Local(result);
-                if (i > 0) {
-                    fMonthArray = result;
-                    setFMonthSpinner();
-
-                    new GetActivityList().execute();
-                    Toast.makeText(getContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-    }
+//    private class GetFinMonth extends AsyncTask<String, Void, ArrayList<Financial_Month>> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            dialog.setMessage("Loading financial month...");
+//            dialog.show();
+//        }
+//
+//        @Override
+//        protected ArrayList<Financial_Month> doInBackground(String... param) {
+//
+//            return WebServiceHelper.getFinancialMonth(fyear.getYear_Id());
+//        }
+//
+//        @Override
+//        protected void onPostExecute(ArrayList<Financial_Month> result) {
+//
+//            if (result != null) {
+//                Log.d("Resultgfg", "" + result);
+//
+//                DataBaseHelper helper = new DataBaseHelper(getContext());
+//
+//                long i = helper.setFinMonth_Local(result);
+//                if (i > 0) {
+//                    fMonthArray = result;
+//                    setFMonthSpinner();
+//
+//                    new GetActivityList().execute();
+//                    Toast.makeText(getContext(), "Financial month loaded", Toast.LENGTH_SHORT).show();
+//
+//                } else {
+//                    Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        }
+//    }
 
     private class GetActivityList extends AsyncTask<String, Void, ArrayList<Activity_entity>> {
 
@@ -2391,7 +2392,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemSelected
         @Override
         protected ArrayList<Financial_Month> doInBackground(String... param) {
 
-            return WebServiceHelper.getFinancialMonth();
+            return WebServiceHelper.getFinancialMonth(fyear.getYear_Id());
         }
 
         @Override
