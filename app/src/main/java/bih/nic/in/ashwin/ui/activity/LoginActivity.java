@@ -74,6 +74,7 @@ public class LoginActivity extends Activity {
     ArrayAdapter<String> roleAdapter;
     ArrayList<UserRole> userRoleList = new ArrayList<UserRole>();
     String userRole = "";
+    TextView tv_forgot_Password;
 
 
 
@@ -84,6 +85,7 @@ public class LoginActivity extends Activity {
 
         Button loginBtn = (Button) findViewById(R.id.btn_login);
         TextView signUpBtn = (TextView) findViewById(R.id.tv_signup);
+        TextView tv_forgot_Password = (TextView) findViewById(R.id.tv_forgot_Password);
         sp_userRole=findViewById(R.id.spinner_role);
         loadUserRoleSpinnerdata();
 
@@ -142,6 +144,14 @@ public class LoginActivity extends Activity {
 //                LoginActivity.this.startActivity(singUpInt);
 //            }
 //        });
+
+        tv_forgot_Password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(LoginActivity.this,ForgotPassword_Activity.class);
+                startActivity(i);
+            }
+        });
 
         try {
             version = getPackageManager().getPackageInfo(getPackageName(),
@@ -686,8 +696,7 @@ public class LoginActivity extends Activity {
         return userDetails;
     }
 
-    public void
-    loadUserRoleSpinnerdata() {
+    public void  loadUserRoleSpinnerdata() {
         localDBHelper = new DataBaseHelper(getApplicationContext());
         userRoleList = localDBHelper.getUserRoleList();
         String[] typeNameArray = new String[userRoleList.size() + 1];

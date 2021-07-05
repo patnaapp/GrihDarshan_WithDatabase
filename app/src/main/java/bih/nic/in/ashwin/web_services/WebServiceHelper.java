@@ -71,6 +71,7 @@ import bih.nic.in.ashwin.entity.FCActivityCategory_entity;
 import bih.nic.in.ashwin.entity.FCSalByBhmMOIC_Entity;
 import bih.nic.in.ashwin.entity.Financial_Month;
 import bih.nic.in.ashwin.entity.Financial_Year;
+import bih.nic.in.ashwin.entity.ForgotPasswordEntitiy;
 import bih.nic.in.ashwin.entity.HscList_Entity;
 import bih.nic.in.ashwin.entity.MonthlyAmountLimitEntity;
 import bih.nic.in.ashwin.entity.NoOfDays_Entity;
@@ -185,6 +186,7 @@ public class WebServiceHelper
     public static final String GLOBAL_MESSAGE = "GLOBAL_MESSAGE";
 
     private static final String BLOCK_METHOD = "getBlock";
+    private static final String ForgotPassword_Method = "ForgetPassword";
 
     static String rest;
 
@@ -2448,6 +2450,8 @@ public class WebServiceHelper
         return rest;
     }
 
+
+
     public static String getMonthlyActivityXML(ArrayList<Activity_entity> list){
         String param = "<AcitivtyMaster>";
 
@@ -3117,5 +3121,34 @@ public class WebServiceHelper
             return null;
         }
         return res1;
+    }
+
+
+    public static String ForgotPassword(ForgotPasswordEntitiy data) {
+
+        SoapObject request = new SoapObject(SERVICENAMESPACE, ForgotPassword_Method);
+
+        request.addProperty("Userolle", data.getUserRole());
+        request.addProperty("FilterType",data.getFilterType());
+        request.addProperty("Userid",data.getUserId());
+        request.addProperty("MobileNum", data.getMobNo());
+        request.addProperty("AadharNumber", data.getAadharNo());
+
+        try {
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                    SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + ForgotPassword_Method,envelope);
+            rest = envelope.getResponse().toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0";
+        }
+        return rest;
     }
 }
