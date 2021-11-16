@@ -3,12 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
-    <include
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        layout="@layout/header_main"/>
 
 
     <include
@@ -53,20 +47,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="15dp">
 
                 <ImageView
                     android:id="@+id/iv_logo"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/asha" />
+                    android:src="@drawable/logo" />
                 <ImageView
                     android:id="@+id/ashwin_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ashwin_logo" />
+                    android:src="@drawable/police_soft_banner" />
 
             </LinearLayout>
 
@@ -83,14 +77,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="यूज़र आईडी">
+                    android:hint="User Id">
 
                     <EditText
                         android:id="@+id/et_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
-                        android:inputType="textCapWords"
+                        android:inputType="textCapCharacters"
                         android:backgroundTint="@color/colorPrimary"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -99,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="पासवर्ड">
+                    android:hint="Password">
 
                     <EditText
                         android:id="@+id/et_password"
@@ -115,6 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp">
 
@@ -136,15 +131,6 @@
 
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_forgot_Password"
-                        android:layout_margin="12dp"
-                        android:text="पासवर्ड प्राप्त करे"
-                        android:textAlignment="center"
-                        android:textColor="@color/color_red"
-                        android:textSize="15sp"/>
 
 
 
@@ -156,20 +142,31 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginRight="32dp"
                     android:background="@drawable/buttonshape"
-                    android:text="लॉगिन करें"
+                    android:text="Log In"
                     android:textColor="@color/color_white"
                     android:textSize="17sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_forgot_Password"
+                    android:layout_margin="12dp"
+                    android:text="Forgot Password"
+                    android:textAlignment="textEnd"
+                    android:layout_gravity="end"
+                    android:textColor="@color/color_red"
+                    android:textSize="15sp"/>
+
 
                 <TextView
                     android:id="@+id/tv_signup"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="18dp"
                     android:textSize="16sp"
-                    android:text="New User? Sign Up"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textStyle="bold"
+                    android:text="New Thana User? Thana Sign Up"
+                    android:textColor="@color/color_red" />
             </LinearLayout>
         </RelativeLayout>
 

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:id="@+id/rl_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+ <LinearLayout
+     android:weightSum="1"
+     android:orientation="horizontal"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_weight="0.9"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+               android:visibility="gone"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="जीपीएस प्रकार"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/lbl_txt_plotno"
+
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="वितरणी का नाम"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/lbl_txt_channelNo"
+
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="वितरणी का नाम"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/themeBlue"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:id="@+id/ad_txt_plotno"
+                android:layout_weight="1"
+                android:text="Location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/themeBlue"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/themeBlue"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="Longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/ad_txt_lat"
+                android:layout_weight="1"
+                android:text="Gps Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:gravity="center"
+                android:id="@+id/ad_txt_long"
+                android:layout_weight="1"
+                android:text="PlotNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+     <LinearLayout
+         android:layout_weight="0.1"
+         android:layout_width="0dp"
+         android:layout_height="match_parent">
+         <ImageView
+             android:src="@drawable/ic_delete_forever_red_24dp"
+             android:id="@+id/icon_delete"
+             android:layout_width="match_parent"
+             android:layout_height="50dp"/>
+     </LinearLayout>
+ </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

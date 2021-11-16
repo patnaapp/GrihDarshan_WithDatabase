@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="bih.nic.in.ashwin.ui.home.HomeFragment"
+        android:name="bih.nic.in.policesoft.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
-        android:name="bih.nic.in.ashwin.ui.home.HomeSecondFragment"
+        android:name="bih.nic.in.policesoft.ui.home.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
@@ -31,13 +31,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="bih.nic.in.ashwin.ui.gallery.GalleryFragment"
+        android:name="bih.nic.in.policesoft.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_change_password"
-        android:name="bih.nic.in.ashwin.ui.changePassword.ChangePasswordFragment"
+        android:name="bih.nic.in.policesoft.ui.changePassword.ChangePasswordFragment"
         android:label="@string/menu_change_password"
         tools:layout="@layout/fragment_change_password" />
 </navigation>

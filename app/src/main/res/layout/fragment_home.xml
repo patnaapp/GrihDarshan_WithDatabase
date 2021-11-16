@@ -1,1038 +1,420 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:background="@color/holo_gray_bright">
-
-    <LinearLayout
-        android:layout_marginBottom="4dp"
-        android:layout_above="@+id/rl_bottom"
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="8dp"
-            android:id="@+id/rl_user_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/color_page"
+        tools:context=".ui.student.StudentDashboardActivity">
+        <ScrollView
             android:layout_below="@+id/header"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_adapter_cell">
-
-                <LinearLayout
-                    android:id="@+id/ll_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:textColor="@color/colorGreyDark"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Text"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:textSize="15sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ll_dist_role"
-                    android:layout_below="@+id/ll_div_zone"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:id="@+id/ll_district"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="जिला"
-                            android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_district"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Text"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_weight="1"
-                        android:id="@+id/ll_block"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="प्रखंड"
-                            android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_block"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Text"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_margin="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:orientation="vertical"
-                    android:background="@color/color_white"/>
-
-                <LinearLayout
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ll_div_zone"
-                    android:layout_below="@+id/ll_username"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:id="@+id/ll_zone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="स्वास्थ्य उप केंद्र"
-                            android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_hscname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Text"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:id="@+id/ll_pan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="पंचायत"
-                            android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_panchayat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Text"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:id="@+id/ll_division"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="आंगनवाड़ी"
-                            android:textColor="@color/colorGreyDark"
-                            android:textSize="12sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_aanganwadi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Text"
-                            android:textColor="@android:color/black"
-                            android:textSize="14sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_below="@+id/ll_pan"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_report"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:padding="5dp"
-                android:textColor="#DD4F42"
-                android:fadingEdge="horizontal"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="14sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
+            android:layout_height="match_parent"
+            android:fillViewport="true">
             <LinearLayout
-                android:layout_marginRight="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="वित्तीय वर्ष"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
+                    android:layout_height="match_parent">
 
-                <Spinner
-                    android:background="@drawable/spinner_bg1"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/sp_fn_year"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="वित्तीय महीना"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
-
-                <Spinner
-                    android:background="@drawable/spinner_bg1"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/sp_fn_month"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_hsc_list"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="स्वास्थ्य उप केंद्र"
-                android:textColor="@color/color_black"
-                android:textSize="12sp"/>
-
-            <Spinner
-                android:background="@drawable/spinner_bg1"
-                android:layout_marginTop="4dp"
-                android:id="@+id/sp_hsc"
-                android:layout_width="match_parent"
-                android:layout_height="36dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_margin="16dp"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ll_hsc"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_marginRight="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="यूजर रोल"
-                    android:textColor="@color/color_black"
-                    android:textSize="12sp"/>
-
-                <Spinner
-                    android:background="@drawable/spinner_bg1"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/sp_userrole"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="आशा वर्कर"
-                    android:textColor="@color/color_black"
-                    android:id="@+id/tv_spworker"
-                    android:textSize="12sp"/>
-
-                <Spinner
-                    android:background="@drawable/spinner_bg1"
-                    android:layout_marginTop="4dp"
-                    android:id="@+id/sp_worker"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp" />
-
-                <!--                <Spinner-->
-                <!--                    android:background="@drawable/spinner_bg1"-->
-                <!--                    android:layout_marginTop="4dp"-->
-                <!--                    android:id="@+id/sp_facilitator"-->
-                <!--                    android:visibility="gone"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="36dp" />-->
-            </LinearLayout>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:visibility="gone"
-            android:background="@drawable/shape_adapter_cell"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="4dp"
-            android:id="@+id/rl_total_amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:id="@+id/tv_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="कुल दावा राशि(दैनिक+मासिक): 24134"
-                android:textSize="13sp"
-                android:textStyle="normal"
-                android:textColor="@color/color_black"/>
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_dmf_tab"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="4dp"
-            android:background="@color/holo_gray_light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_daily"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="दैनिक कार्य"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorGreyDark"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_monthly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="मासिक कार्य"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorGreyDark"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
-                <TextView
-                    android:id="@+id/tv_finalize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="अंतिम रूप दें"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorGreyDark"/>
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Report-->
-                <LinearLayout
-                    android:background="@drawable/textboxshape"
-                    android:padding="8dp"
-                    android:visibility="visible"
-                    android:id="@+id/ll_dashboard_report"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_marginBottom="8dp"
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioGroup
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <RadioButton
-                                android:checked="true"
-                                android:id="@+id/rb_asha"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="आशा कार्यकर्ता"/>
-
-                            <RadioButton
-                                android:layout_marginLeft="20dp"
-                                android:id="@+id/rb_asha_fc"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="आशा फैसिलिटेटर"/>
-
-                        </RadioGroup>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_marginTop="230dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="30dp">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_marginRight="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:backgroundTint="#009688">
-
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="20dp">
                             <RelativeLayout
-                                android:id="@+id/rl_total_asha"
-                                android:layout_gravity="center_vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginBottom="30dp">
                                 <LinearLayout
-                                    android:layout_toLeftOf="@+id/iv_icon"
-                                    android:layout_margin="8dp"
-                                    android:gravity="center_horizontal"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_marginTop="30dp"
                                     android:orientation="vertical">
-
                                     <TextView
-                                        android:layout_width="wrap_content"
+                                        android:id="@+id/txt_Username"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="कुल आशा"
-                                        android:id="@+id/tv_total_aasha"
-                                        android:textColor="@color/color_white"
-                                        android:textStyle="normal"
-                                        android:textSize="15sp"/>
-
-                                    <TextView
-                                        android:id="@+id/tv_total_asha"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="00"
-                                        android:textColor="@color/color_white"
+                                        android:gravity="center"
+                                        android:textSize="16sp"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"/>
+                                        android:fontFamily="sans-serif-condensed-light"
+                                        android:maxLines="2"
+                                        android:padding="7dp"
+                                        android:textColor="@color/color_red"
+                                        android:text="User Name"/>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="10dp"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginTop="20dp"
+                                        android:orientation="vertical">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+                                            <LinearLayout
+                                                android:id="@+id/emailLayout"
+                                                android:layout_weight="1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+
+                                                android:orientation="vertical">
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Range "
+                                                    android:textStyle="bold"
+                                                    android:textColor="@color/color_red"
+                                                    android:paddingBottom="5dp"
+                                                    android:paddingLeft="7dp"
+                                                    android:textSize="12sp" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_range"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp"
+                                                    android:textStyle="bold"
+                                                    android:layout_gravity="center"
+                                                    android:fontFamily="sans-serif-condensed-medium"
+                                                    android:maxLines="1"
+                                                    android:gravity="center_vertical"
+                                                    android:paddingStart="7dp"
+                                                    android:paddingEnd="7dp"
+                                                    android:drawablePadding="10dp"
+                                                    android:textColor="@color/color_text" />
+                                            </LinearLayout>
+                                            <LinearLayout
+                                                android:id="@+id/thana_dist"
+                                                android:layout_weight="1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+
+                                                android:orientation="vertical">
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Thana District "
+                                                    android:textStyle="bold"
+                                                    android:textColor="@color/color_red"
+                                                    android:paddingBottom="5dp"
+                                                    android:paddingLeft="7dp"
+                                                    android:textSize="12sp" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_thana_dist"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp"
+                                                    android:textStyle="bold"
+                                                    android:layout_gravity="center"
+                                                    android:fontFamily="sans-serif-condensed-medium"
+                                                    android:maxLines="1"
+                                                    android:gravity="center_vertical"
+                                                    android:paddingStart="7dp"
+                                                    android:paddingEnd="7dp"
+                                                    android:drawablePadding="10dp"
+                                                    android:textColor="@color/color_text" />
+                                            </LinearLayout>
+
+                                        </LinearLayout>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+                                            <LinearLayout
+                                                android:id="@+id/mobileLayout"
+                                                android:layout_weight="1"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:orientation="vertical">
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Sub Division "
+                                                    android:paddingTop="5dp"
+                                                    android:textStyle="bold"
+                                                    android:textColor="@color/color_red"
+                                                    android:paddingBottom="5dp"
+                                                    android:paddingLeft="7dp"
+                                                    android:textSize="12sp" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_subdivision"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp"
+                                                    android:layout_gravity="center"
+                                                    android:drawablePadding="10dp"
+                                                    android:textStyle="bold"
+                                                    android:fontFamily="sans-serif-condensed-medium"
+                                                    android:maxLines="1"
+                                                    android:gravity="center_vertical"
+                                                    android:paddingStart="7dp"
+                                                    android:paddingEnd="7dp"
+                                                    android:textColor="@color/color_text" />
+                                            </LinearLayout>
+                                            <LinearLayout
+                                                android:id="@+id/mobileLayout11"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:orientation="vertical">
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Thana Name "
+                                                    android:paddingTop="5dp"
+                                                    android:textStyle="bold"
+                                                    android:textColor="@color/color_red"
+                                                    android:paddingBottom="5dp"
+                                                    android:paddingLeft="7dp"
+                                                    android:textSize="12sp" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_thana_name"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:textSize="12sp"
+                                                    android:layout_gravity="center"
+                                                    android:drawablePadding="10dp"
+                                                    android:textStyle="bold"
+                                                    android:fontFamily="sans-serif-condensed-medium"
+                                                    android:maxLines="1"
+                                                    android:gravity="center_vertical"
+                                                    android:paddingStart="7dp"
+                                                    android:paddingEnd="7dp"
+                                                    android:textColor="@color/color_text" />
+                                            </LinearLayout>
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/button_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:layout_marginTop="20dp"
+                                        android:layout_alignParentBottom="true"
+                                        android:orientation="horizontal">
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/edt_persn_details"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            app:cardCornerRadius="10dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginRight="5dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1">
+                                            <RelativeLayout
+                                                android:id="@+id/rl_addoutpost"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/card_top_wave"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/add_outpost"
+                                                android:gravity="center"
+                                                android:textColor="@color/color_text"
+                                                android:layout_gravity="center"
+                                                android:textSize="12sp"
+                                                android:paddingLeft="10dp"
+                                                android:paddingRight="10dp"
+                                                android:fontFamily="sans-serif-black"
+                                                android:textStyle="normal"/>
+
+                                        </androidx.cardview.widget.CardView>
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/apply_sclrshp"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            app:cardCornerRadius="10dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:id="@+id/rl_addcont"
+                                                android:background="@drawable/card_bottom_wave"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/add_contact"
+                                                android:gravity="center"
+                                                android:textColor="@color/color_text"
+                                                android:layout_gravity="center"
+                                                android:textSize="12sp"
+                                                android:paddingLeft="20dp"
+                                                android:paddingRight="20dp"
+                                                android:fontFamily="sans-serif-black"
+                                                android:textStyle="normal"/>
+
+                                        </androidx.cardview.widget.CardView>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginRight="20dp"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_marginBottom="30dp"
+                                        android:layout_alignParentBottom="true"
+                                        android:orientation="horizontal">
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/upload_doc"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            app:cardCornerRadius="10dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginRight="5dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:id="@+id/rl_addmajorutil"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/card_top_wave"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/major_utilities"
+                                                android:gravity="center"
+                                                android:textColor="@color/color_text"
+                                                android:layout_gravity="center"
+                                                android:textSize="12sp"
+                                                android:paddingLeft="10dp"
+                                                android:paddingRight="10dp"
+                                                android:fontFamily="sans-serif-black"
+                                                android:textStyle="normal"/>
+
+                                        </androidx.cardview.widget.CardView>
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/apply_list"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            app:cardCornerRadius="10dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1">
+                                            <RelativeLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:id="@+id/rl_addofficeunder"
+                                                android:background="@drawable/card_bottom_wave"/>
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/add_offices"
+                                                android:gravity="center"
+                                                android:textColor="@color/color_text"
+                                                android:layout_gravity="center"
+                                                android:textSize="12sp"
+                                                android:paddingLeft="20dp"
+                                                android:paddingRight="20dp"
+                                                android:fontFamily="sans-serif-black"
+                                                android:textStyle="normal"/>
+
+                                        </androidx.cardview.widget.CardView>
+                                    </LinearLayout>
+
                                 </LinearLayout>
 
-                                <ImageView
-                                    android:id="@+id/iv_icon"
-                                    android:layout_marginRight="4dp"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_keyboard_arrow"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:tint="@color/color_white"/>
                             </RelativeLayout>
 
                         </androidx.cardview.widget.CardView>
 
+                    </FrameLayout>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="@color/colorPrimary">
-
-                            <RelativeLayout
-                                android:id="@+id/rl_total_asha_enter"
-                                android:layout_gravity="center_vertical"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-
-                                <LinearLayout
-                                    android:layout_toLeftOf="@+id/iv_icon_asha"
-                                    android:layout_margin="8dp"
-                                    android:gravity="center_horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:textAlignment="center"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="दावा प्रपत्र भरने वाली आशा"
-                                        android:id="@+id/tv_fil_dawa_paptra"
-                                        android:textColor="@color/color_white"
-                                        android:textStyle="normal"
-                                        android:textSize="15sp"
-                                        android:gravity="center_horizontal" />
-
-                                    <TextView
-                                        android:id="@+id/tv_asha_entered_activity"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="00"
-                                        android:textColor="@color/color_white"
-                                        android:textStyle="bold"
-                                        android:textSize="15sp"/>
-                                </LinearLayout>
-
-                                <ImageView
-                                    android:id="@+id/iv_icon_asha"
-                                    android:layout_marginRight="4dp"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_keyboard_arrow"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:tint="@color/color_white"/>
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="12dp"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginTop="25dp"
+                        app:cardCornerRadius="15dp">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginRight="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="#E91E63">
-
-                            <LinearLayout
-                                android:layout_margin="8dp"
-                                android:gravity="center_horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="कुल कार्य"
-                                    android:id="@+id/tv_total_work"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"/>
-
-                                <TextView
-                                    android:id="@+id/tv_total_activity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginRight="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="@color/colorGreyDark">
-
-                            <LinearLayout
-                                android:layout_margin="8dp"
-                                android:gravity="center_horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="समुदायिक कार्य"
-                                    android:id="@+id/tv_comunity_work"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"/>
-
-                                <TextView
-                                    android:id="@+id/tv_community_activity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="@color/themeBlue">
-
-                            <LinearLayout
-                                android:layout_margin="8dp"
-                                android:gravity="center_horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="संस्थागत कार्य"
-                                    android:id="@+id/tv_institution_work"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"/>
-
-                                <TextView
-                                    android:id="@+id/tv_institutional_activity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="12dp"
+                    </androidx.cardview.widget.CardView>
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:layout_height="match_parent">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_marginRight="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="#4CAF50">
-
-                            <LinearLayout
-                                android:layout_gravity="center_vertical"
-                                android:layout_margin="8dp"
-                                android:id="@+id/ll_accepted_work"
-                                android:gravity="center_horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="स्वीकृत कार्य"
-                                    android:id="@+id/tv_accepted_work"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"/>
-
-                                <TextView
-                                    android:id="@+id/tv_total_verified"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_marginRight="6dp"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="#FF9800">
-
-                            <LinearLayout
-                                android:layout_margin="8dp"
-                                android:gravity="center_horizontal"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            android:layout_marginTop="20dp">
+                            <com.smarteist.autoimageslider.SliderView
+                                android:id="@+id/slider"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:layout_height="150dp"
+                                app:sliderAnimationDuration="600"
+                                app:sliderAutoCycleDirection="back_and_forth"
+                                app:sliderAutoCycleEnabled="true"
+                                app:sliderCircularHandlerEnabled="true"
+                                app:sliderIndicatorAnimationDuration="600"
+                                app:sliderIndicatorGravity="center_horizontal|bottom"
+                                app:sliderIndicatorMargin="5dp"
+                                app:sliderIndicatorOrientation="horizontal"
+                                app:sliderIndicatorPadding="3dp"
+                                app:sliderIndicatorRadius="1.5dp"
+                                app:sliderIndicatorSelectedColor="#5A5A5A"
+                                app:sliderIndicatorUnselectedColor="#FFF"
+                                app:sliderScrollTimeInSec="1"
+                                app:sliderStartAutoCycle="true" />
 
-                                <TextView
-                                    android:textAlignment="center"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="विचाराधीन कार्य"
-                                    android:id="@+id/tv_prnding_work"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"
-                                    android:gravity="center_horizontal" />
-
-                                <TextView
-                                    android:id="@+id/tv_total_pending"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_weight="1"
-                            app:cardCornerRadius="6dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_below="@+id/header"
-                            android:backgroundTint="#F44336">
 
-                            <LinearLayout
-                                android:layout_gravity="center_vertical"
-                                android:layout_margin="8dp"
-                                android:gravity="center_horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="200sp"
+                            android:layout_height="100sp"
+                            android:layout_marginTop="180dp"
+                            android:src="@drawable/logo"
+                            android:layout_gravity="center|top"
+                            />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="अस्वीकृत कार्य"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="normal"
-                                    android:textSize="15sp"/>
 
-                                <TextView
-                                    android:id="@+id/tv_total_rejected"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="00"
-                                    android:textColor="@color/color_white"
-                                    android:textStyle="bold"
-                                    android:textSize="15sp"/>
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
+                    </FrameLayout>
 
-                </LinearLayout>
-
-                <!-- Button-->
-                <LinearLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <Button
-                        android:layout_marginRight="4dp"
-                        android:layout_weight="1"
-                        android:id="@+id/btn_proceed1"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/buttonshape"
-                        android:text="     आशा कार्यकर्ता     "
-                        android:textStyle="bold"
-                        android:textColor="@color/color_white"
-                        android:textSize="15sp" />
-
-                    <Button
-                        android:layout_marginLeft="4dp"
-                        android:layout_weight="1"
-                        android:id="@+id/btn_asha_fc"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/buttonshape"
-                        android:text="     आशा फैसिलिटेटर     "
-                        android:textStyle="bold"
-                        android:textColor="@color/color_white"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_centerHorizontal="true"
-                    android:id="@+id/btn_other_blk"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/buttonshape"
-                    android:text="     अन्य प्रखंड का कार्य     "
-                    android:textStyle="bold"
-                    android:textColor="@color/color_white"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/tv_rr"
-                    android:layout_margin="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Routine &amp; Reccuring"
-                    android:textSize="17sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_data"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_sc"
-                    android:layout_margin="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="State Contribution"
-                    android:textSize="17sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_data_sc"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
+                </FrameLayout>
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_above="@+id/footer"
-        android:id="@+id/rl_bottom"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_centerHorizontal="true"
-            android:id="@+id/btn_proceed"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginRight="32dp"
-            android:layout_above="@+id/btn_ashafc"
-            android:background="@drawable/buttonshape"
-            android:text="     आशा कार्यकर्ता     "
-            android:textStyle="bold"
-            android:textColor="@color/color_white"
-            android:textSize="15sp" />
-
-        <Button
-            android:layout_centerHorizontal="true"
-            android:id="@+id/btn_ashafc"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/buttonshape"
-            android:text="     आशा फैसिलिटेटर     "
-            android:textStyle="bold"
-            android:textColor="@color/color_white"
-            android:textSize="15sp" />
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/tv_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="नोट: इस कार्य सूची को अंतिम रूप दें दिया गया है और इसलिए इसमें संसोधन नहीं किया जा सकता"
-            android:layout_margin="8dp"
-            android:textSize="13sp"
-            android:textColor="@color/holo_green_dark"/>
-
-    </LinearLayout>
-
-    <include
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        layout="@layout/footer"/>
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/ll_floating_btn"
-        android:layout_alignParentRight="true"
-        android:orientation="horizontal">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            app:srcCompat="@drawable/ic_add"
-            tools:ignore="VectorDrawableCompat"/>
-    </LinearLayout>
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
