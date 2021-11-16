@@ -1291,7 +1291,7 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Unit_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Sanction_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getSanction_Strength()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Working_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getWorking_Strength()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Photo", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getPhoto()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Photo", workDetail.getPhoto()));
             poleElement.appendChild(getSoapPropert(doc, "Latitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLatitude()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Longitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLongitude()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Entry_Mode",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));

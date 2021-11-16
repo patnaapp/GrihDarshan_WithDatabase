@@ -1244,6 +1244,11 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                 .setTitle("Failed!!")
                                 .setMessage(response)
                                 .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        finish();
+                                    }
+                                })
                                 .show();
                     }
 
