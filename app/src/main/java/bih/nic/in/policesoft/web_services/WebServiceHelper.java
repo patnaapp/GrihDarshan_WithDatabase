@@ -100,14 +100,17 @@ public class WebServiceHelper {
     public static Versioninfo CheckVersion(String version) {
         Versioninfo versioninfo;
         SoapObject res1;
-        try {
+        try
+        {
 
             res1 = getServerData(APPVERSION_METHOD, Versioninfo.Versioninfo_CLASS, "IMEI", "Ver", "0", version);
             SoapObject final_object = (SoapObject) res1.getProperty(0);
 
             versioninfo = new Versioninfo(final_object);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
@@ -1207,7 +1210,7 @@ public class WebServiceHelper {
 
         return fieldList;
     }
-    public static String UploadWorkSiteDetail(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements,String UserId,String IMEI,String App_Ver,String Device_Type,String token) {
+    public static String UploadOfficeUnderPolice_Details(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements,String UserId,String IMEI,String App_Ver,String Device_Type,String token) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERT_OFFICE);
 
         context=context;

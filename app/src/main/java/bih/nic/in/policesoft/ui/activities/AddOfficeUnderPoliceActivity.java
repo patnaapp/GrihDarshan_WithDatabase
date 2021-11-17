@@ -99,10 +99,12 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         load_spinner();
 
-
-        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
+        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this))
+        {
             new GetOfficeList(User_Id, Password, Token).execute();
-        } else {
+        }
+        else
+        {
 
         }
         binding.llOwnBuild.setVisibility(View.GONE);
@@ -126,7 +128,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.llEstablishYear.setVisibility(View.GONE);
         binding.llSanctionWorking.setVisibility(View.GONE);
         //binding.llSanctionWorking.setVisibility(View.GONE);
-
 
         binding.llOfficeName.setVisibility(View.GONE);
         binding.llLsQuarter.setVisibility(View.GONE);
@@ -1193,7 +1194,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         protected String doInBackground(String... param)
         {
 
-            return WebServiceHelper.UploadWorkSiteDetail(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("OrgId", ""),"","","","");
+            return WebServiceHelper.UploadOfficeUnderPolice_Details(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("OrgId", ""),"","","","");
         }
 
         @Override
@@ -1252,7 +1253,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                 .show();
                     }
 
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
 
