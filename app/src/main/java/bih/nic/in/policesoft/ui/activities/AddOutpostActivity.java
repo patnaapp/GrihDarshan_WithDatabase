@@ -238,7 +238,6 @@ public class AddOutpostActivity extends AppCompatActivity implements AdapterView
             }
         });
 
-
     }
 
     @Override

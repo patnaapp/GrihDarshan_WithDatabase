@@ -47,8 +47,6 @@ public class takegpsListAdaptor extends RecyclerView.Adapter<takegpsListAdaptor.
             ad_txt_long = (TextView) v.findViewById(R.id.ad_txt_long);
             icon_delete = (ImageView) v.findViewById(R.id.icon_delete);
 
-
-
         }
 
     }
@@ -69,13 +67,9 @@ public class takegpsListAdaptor extends RecyclerView.Adapter<takegpsListAdaptor.
         holder.ad_txt_long.setText(info.getLongitude());
 
 
-
-
-
         holder.icon_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setIcon(R.drawable.logo);
@@ -89,7 +83,6 @@ public class takegpsListAdaptor extends RecyclerView.Adapter<takegpsListAdaptor.
                         dialog.dismiss();
                         ListItem.remove(position);
                         notifyDataSetChanged();
-
 
                     }
 

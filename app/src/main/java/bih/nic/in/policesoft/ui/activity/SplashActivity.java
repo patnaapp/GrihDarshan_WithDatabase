@@ -363,8 +363,7 @@ public class SplashActivity extends Activity {
 //                    finish();
 //                }
 
-                if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("UserId", "").equals("") )
-                {
+                if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("UserId", "").equals("") ) {
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);

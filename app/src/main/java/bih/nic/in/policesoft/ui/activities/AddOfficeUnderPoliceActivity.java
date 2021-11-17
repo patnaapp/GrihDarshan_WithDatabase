@@ -79,7 +79,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     ArrayList<InspectionDetailsModel> listgps;
     Encriptor _encrptor;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +145,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             }
         });
+
         binding.btnPreview.setOnClickListener(view -> {
             String TrainingCourseName,TrainingCapacity,KhataNum, KhesraNum, TotalLandOfArea, OfficeName, Address, Remarks, LsQuarter, UsQuarter, MaleBarrack, FemaleBarrack, OngoingCivilWork, OfficerInCharge, MobileNumber, LandlineNum, EstablishYear, EmailAdd, SanctionStrength, WorkingStrength, DivisionFunction, MajorDevicesEqui;
             KhataNum = binding.etKhataNum.getText().toString().trim();

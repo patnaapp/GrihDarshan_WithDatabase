@@ -90,6 +90,8 @@ public class WebServiceHelper {
     private static final String SLIDER = "GetSliderList";
     private static final String INSERT_OFFICE = "InsertOffice_Under_PS";
     private static final String INSERT_OFFICE11 = "InsertOffice_Under_PS";
+    private static final String GET_FIRE_TYPE_LIST = "GetFireTypeList";
+    private static final String GET_TYPE_OF_HYDRANT_LIST = "GetTypeofHydrantList";
 
 
     private static Encriptor _encrptor;
@@ -1025,6 +1027,22 @@ public class WebServiceHelper {
             e.printStackTrace();
             return null;
         }
+        return pvmArrayList;
+    }
+
+    public static ArrayList<MajorUtilitiesFromServer> GetFireType(Context context, String Uid, String Password, String token){
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GET_FIRE_TYPE_LIST);
+        SoapObject res1;
+        ArrayList<MajorUtilitiesFromServer> pvmArrayList = new ArrayList<MajorUtilitiesFromServer>();
+
+        return pvmArrayList;
+    }
+
+    public static ArrayList<MajorUtilitiesFromServer> TypeofHydration(Context context, String Uid, String Password, String token){
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GET_TYPE_OF_HYDRANT_LIST);
+        SoapObject res1;
+        ArrayList<MajorUtilitiesFromServer> pvmArrayList = new ArrayList<MajorUtilitiesFromServer>();
+
         return pvmArrayList;
     }
 

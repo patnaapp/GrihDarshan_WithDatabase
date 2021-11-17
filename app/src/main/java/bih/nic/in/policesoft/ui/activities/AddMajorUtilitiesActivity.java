@@ -62,6 +62,7 @@ import bih.nic.in.policesoft.utility.GlobalVariables;
 import bih.nic.in.policesoft.utility.GpsTracker;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
+import butterknife.internal.Utils;
 
 public class AddMajorUtilitiesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
     String User_Id = "", Range_Code = "", Dist_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
@@ -75,6 +76,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     int ThumbnailSize = 500;
     String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "", Court_Code = "", Chronic_Disp_Code = "";
     String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc, jailType, courtType;
+    String[] status;
     MajorUtilEntry model;
     private GpsTracker gpsTracker;
     double take_latitude = 0.00;
@@ -124,6 +126,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llPhoto.setVisibility(View.GONE);
         binding.llLocation.setVisibility(View.GONE);
 
+        binding.llMajorFireType.setVisibility(View.GONE);
+        binding.llTypeFireHydrant.setVisibility(View.GONE);
+        binding.llHydrantName.setVisibility(View.GONE);
+        binding.llFireProneLocation.setVisibility(View.GONE);
+        binding.llFireStatus.setVisibility(View.GONE);
+
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(User_Id, Password, Token).execute();
@@ -150,7 +158,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks;
+            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks,Hydration_Name,Fire_Prone_Name;
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             LandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
             KabristhanName = binding.etKabristhanName.getText().toString().trim();
@@ -166,6 +174,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             HistoricalName = binding.etHistoricalName.getText().toString().trim();
             HistoricalAddress = binding.etHistoricalAddress.getText().toString().trim();
             Remarks = binding.etRemarks.getText().toString().trim();
+
+
+            Hydration_Name = binding.etHydrantName.getText().toString().trim();
+            Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
+
 
             boolean cancelRegistration = false;
             String isValied = "yes";
@@ -341,6 +354,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
+            if (Util_Code.equalsIgnoreCase("10")) {
+
+                if (TextUtils.isEmpty(Util_Code)) {
+                    binding.tvMajorFireType.setError(null);
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_fire_type), Toast.LENGTH_SHORT).show();
+                    focusView = binding.spnMajorFireType;
+                    cancelRegistration = true;
+                }
+            }
+
 
             if (Photo1.equals("") || Photo1 == null) {
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
@@ -394,6 +417,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     Util_Code = majorutilFromServer.getUtil_Code();
                     Util_Name = majorutilFromServer.getUtil_Name();
                     visibleTrueFalse();
+
                 } else {
                     Util_Code = null;
                 }
@@ -498,6 +522,28 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         //new MajorUtil().execute();
     }
 
+    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>>{
+        String userId, Password, Token;
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
+        @Override
+        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... strings) {
+            return WebServiceHelper.TypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
+
+        }
+    }
+
+    private class GetFireType extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>>{
+        String userId, Password, Token;
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
+        @Override
+        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
+
+        }
+    }
+
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
         String userId, Password, Token;
 
@@ -551,6 +597,34 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnMajorUtilities.setAdapter(adaptor);
         binding.spnMajorUtilities.setOnItemSelectedListener(this);
     }
+    public void setFireType(ArrayList<MajorUtilitiesFromServer> RangeList){
+        Major_Util_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Fire Type-");
+
+        for (MajorUtilitiesFromServer info : Major_Util_List){
+            array.add(info.getUtil_Name());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnMajorFireType.setAdapter(adaptor);
+        binding.spnMajorFireType.setOnItemSelectedListener(this);
+    }
+    public void TypeOfHydration(ArrayList<MajorUtilitiesFromServer> RangeList){
+        Major_Util_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Type of Hydration-");
+
+        for (MajorUtilitiesFromServer info : Major_Util_List){
+            array.add(info.getUtil_Name());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnTypeFireHydrant.setAdapter(adaptor);
+        binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
+    }
+
+
 
     public void visibleTrueFalse() {
         if (Util_Code.equals("1")) {
@@ -577,6 +651,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.GONE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
             load_Major_Crime();
 
 
@@ -604,6 +685,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.GONE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
             chronic_land();
 
         } else if (Util_Code.equals("3")) {
@@ -630,6 +718,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.VISIBLE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
             load_Land_Details();
             bounadry_Status();
 
@@ -657,6 +752,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.GONE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
             jail_Type();
 
         } else if (Util_Code.equals("5")) {
@@ -683,6 +785,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.GONE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
             Type_Court();
 
         } else if (Util_Code.equals("6")) {
@@ -710,6 +819,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
 
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("7")) {
             binding.llHistrocialPlaceName.setVisibility(View.VISIBLE);
             binding.llHistrocialPlaceAdd.setVisibility(View.VISIBLE);
@@ -734,6 +849,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
             binding.llLocation.setVisibility(View.GONE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("8")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
             binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
@@ -758,6 +880,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
             binding.llLocation.setVisibility(View.GONE);
+
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
 
         } else if (Util_Code.equals("9")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
@@ -784,7 +912,78 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llPhoto.setVisibility(View.VISIBLE);
             binding.llLocation.setVisibility(View.GONE);
 
+            binding.llMajorFireType.setVisibility(View.GONE);
+            binding.llTypeFireHydrant.setVisibility(View.GONE);
+            binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireProneLocation.setVisibility(View.GONE);
+            binding.llFireStatus.setVisibility(View.GONE);
+
+        }else if (Util_Code.equals("10")){
+            binding.llHistrocialPlaceName.setVisibility(View.GONE);
+            binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
+            binding.llMajorFairFestival.setVisibility(View.GONE);
+            binding.llMajorFairFestivalAdd.setVisibility(View.VISIBLE);
+            binding.llMajorCrimeHead.setVisibility(View.GONE);
+            binding.llMajorCrimeAdd.setVisibility(View.GONE);
+            binding.llChronicLandDisputs.setVisibility(View.GONE);
+            binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
+            binding.llKabristanName.setVisibility(View.GONE);
+            binding.llKabristanVillage.setVisibility(View.GONE);
+            binding.llKbrLandDetails.setVisibility(View.GONE);
+            binding.llBoundaryStatus.setVisibility(View.GONE);
+            binding.llJailType.setVisibility(View.GONE);
+            binding.llJailName.setVisibility(View.GONE);
+            binding.llJailAdd.setVisibility(View.GONE);
+            binding.llJailEstbl.setVisibility(View.GONE);
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtName.setVisibility(View.GONE);
+            binding.llCourtAdd.setVisibility(View.GONE);
+            binding.llRemarks.setVisibility(View.VISIBLE);
+            binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llLocation.setVisibility(View.GONE);
+
+            binding.llMajorFireType.setVisibility(View.VISIBLE);
+            binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
+            binding.llHydrantName.setVisibility(View.VISIBLE);
+            binding.llFireProneLocation.setVisibility(View.VISIBLE);
+            binding.llFireStatus.setVisibility(View.VISIBLE);
+            status();
         }
+    }
+
+
+    public void status(){
+        status = new String[]{
+                getResources().getString(R.string.txt_status),
+                getResources().getString(R.string.txt_true),
+                getResources().getString(R.string.txt_false),
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, status) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textview = (TextView) view;
+                if (position == 0) {
+                    textview.setTextColor(Color.RED);
+                } else {
+                    textview.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnFireStatus.setAdapter(adapter);
+        binding.spnFireStatus.setOnItemSelectedListener(this);
     }
 
     public void load_Major_Crime() {

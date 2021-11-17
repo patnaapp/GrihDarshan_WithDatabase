@@ -80,6 +80,155 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_major_fire_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_major_fire_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/major_public_fire_type"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_major_fire_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_type_fire_hydrant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_type_fire_hydrant"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/major_type_fire_hydrant"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_type_fire_hydrant"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_hydrant_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_hydrant_name"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_hydrant_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_fire_prone_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_fire_prone_location"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_fire_prone_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_fire_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_fire_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fire_status"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_fire_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:id="@+id/ll_histrocial_place_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
