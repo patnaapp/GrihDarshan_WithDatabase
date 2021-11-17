@@ -51,6 +51,7 @@ import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.MobileOTPModel;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
 import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
+import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.OutPostEntry;
 import bih.nic.in.policesoft.entity.PoliceStationSignup;
 import bih.nic.in.policesoft.entity.PoliceUser_Details;
@@ -92,6 +93,7 @@ public class WebServiceHelper {
     private static final String INSERT_OFFICE11 = "InsertOffice_Under_PS";
     private static final String GET_FIRE_TYPE_LIST = "GetFireTypeList";
     private static final String GET_TYPE_OF_HYDRANT_LIST = "GetTypeofHydrantList";
+    private static final String Office_NameList_Master = "GetMst_OfficeMasterList";
 
 
     private static Encriptor _encrptor;
@@ -1539,6 +1541,75 @@ public class WebServiceHelper {
         Element eid = doc.createElement(key);
         eid.appendChild(doc.createTextNode(value));
         return eid;
+    }
+
+    public static ArrayList<Office_Name_List_Modal> GetOffice_NameMaster_List(Context context, String dist, String office, String token) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Office_NameList_Master);
+        SoapObject res1;
+        ArrayList<Office_Name_List_Modal> pvmArrayList = new ArrayList<Office_Name_List_Modal>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_Dist, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_Dist = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(dist), RandomNo);
+            Enc_Office = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(office), RandomNo);
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("District_code", Enc_Dist);
+            request.addProperty("Office_Code", Enc_Office);
+            request.addProperty("cap", Enc_CapId);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, Office_Name_List_Modal.Office_Name_CLASS.getSimpleName(), Office_Name_List_Modal.Office_Name_CLASS);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Office_NameList_Master, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        Office_Name_List_Modal district = new Office_Name_List_Modal(final_object, CapId, context);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
     }
 
 }

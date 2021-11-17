@@ -40,6 +40,7 @@ import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
 import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
+import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.Police_District;
 import bih.nic.in.policesoft.entity.Range;
 import bih.nic.in.policesoft.entity.RangeUnderOffice;
@@ -60,6 +61,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     private ActivityAddOfficeUnderPoliceBinding binding;
     private CustomAlertDialog customAlertDialog;
     ArrayList<OfficeListFromServer> officesFromServersList;
+    ArrayList<Office_Name_List_Modal> officeNameListMaster;
     OfficeListFromServer officeFromServer = new OfficeListFromServer();
     Range range = new Range();
     String Other_office_Code = "", OwnBuild_Code = "", Office_Code = "", Office_Name = "", Office_type_Code = "", Office_type_Name = "", Range_Name = "", Houseing_Fac_Code = "", Armoury_Mazin_Code = "", Design_Code = "";
@@ -78,6 +80,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     takegpsListAdaptor mAdapter;
     ArrayList<InspectionDetailsModel> listgps;
     Encriptor _encrptor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +148,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             }
         });
-
         binding.btnPreview.setOnClickListener(view -> {
             String TrainingCourseName,TrainingCapacity,KhataNum, KhesraNum, TotalLandOfArea, OfficeName, Address, Remarks, LsQuarter, UsQuarter, MaleBarrack, FemaleBarrack, OngoingCivilWork, OfficerInCharge, MobileNumber, LandlineNum, EstablishYear, EmailAdd, SanctionStrength, WorkingStrength, DivisionFunction, MajorDevicesEqui;
             KhataNum = binding.etKhataNum.getText().toString().trim();
@@ -592,6 +594,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     officeFromServer = officesFromServersList.get(i - 1);
                     Office_type_Code = officeFromServer.getOffice_Code();
                     Office_type_Name = officeFromServer.getOffice_Name();
+                    new GetOfficeNameList_Master().execute();
                     truefalse();
                 } else {
                     Office_type_Code = null;
@@ -744,6 +747,21 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnOfficeType.setAdapter(adaptor);
         binding.spnOfficeType.setOnItemSelectedListener(this);
+    }
+
+    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList) {
+        officeNameListMaster = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Offices Name-");
+
+        for (Office_Name_List_Modal info : officeNameListMaster) {
+            array.add(info.getOfficeName());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnOffice.setAdapter(adaptor);
+        binding.spnOffice.setOnItemSelectedListener(this);
     }
 
     public void truefalse() {
@@ -1115,10 +1133,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         int height = size.y;
 
         ImageView imgview = (ImageView) dialogView.findViewById(R.id.imgview);
-        if (imageData1 != null) {
+        if (imageData1 != null)
+        {
             Bitmap bmp = BitmapFactory.decodeByteArray(imageData1, 0, imageData1.length);
-
-
             imgview.setImageBitmap(bmp);
 
         }
@@ -1209,7 +1226,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             {
 
                 String[] res = result.split(",");
-                try {
+                try
+                {
                     String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
                     String response = _encrptor.Decrypt(res[0], skey);
 
@@ -1236,8 +1254,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                     public void onClick(DialogInterface dialog, int id) {
                                         finish();
                                     }
-                                })
-                                .show();
+                                }).show();
                     }
                     else
                     {
@@ -1245,8 +1262,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                 .setTitle("Failed!!")
                                 .setMessage(response)
                                 .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int id)
+                                    {
                                         finish();
                                     }
                                 })
@@ -1269,4 +1288,43 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
 
     }
+
+
+    private class GetOfficeNameList_Master extends AsyncTask<String, Void, ArrayList<Office_Name_List_Modal>> {
+        String userId, Password, Token;
+
+        private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GetOfficeNameList_Master() {
+
+        }
+
+        @Override
+        protected ArrayList<Office_Name_List_Modal> doInBackground(String... param) {
+
+            return WebServiceHelper.GetOffice_NameMaster_List(AddOfficeUnderPoliceActivity.this, Dist_Code, Office_type_Code, CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Office_Name_List_Modal> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    officeNameListMaster = result;
+                    setOfficeNameSpinner(result);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Office name not found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
 }
