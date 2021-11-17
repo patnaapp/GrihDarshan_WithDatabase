@@ -1231,6 +1231,7 @@ public class WebServiceHelper {
     public static String UploadOfficeUnderPolice_Details(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements,String UserId,String IMEI,String App_Ver,String Device_Type,String token) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, INSERT_OFFICE);
 
+
         context=context;
         Object result11=new Object();
         SoapObject res1;
