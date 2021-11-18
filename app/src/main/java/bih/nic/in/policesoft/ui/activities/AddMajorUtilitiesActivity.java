@@ -141,7 +141,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llHistoricalImportance.setVisibility(View.GONE);
         binding.llBestPractices.setVisibility(View.GONE);
         binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
-
+        binding.llTypeFireHydrant.setVisibility(View.GONE);
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(User_Id, Password, Token).execute();
@@ -521,6 +521,25 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     }
                 } else {
                     Court_Code = null;
+                }
+                break;
+
+            case R.id.spn_major_fire_type:
+                if (i > 0) {
+                    fireTypeServer = FireType_List.get(i - 1);
+//                    Util_Code = fireTypeServer.getUtil_Code();
+//                    Util_Name = majorutilFromServer.getUtil_Name();
+                    if (fireTypeServer.getFireType_Code().equals("1"))
+                    {
+                        binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        binding.llTypeFireHydrant.setVisibility(View.GONE);
+                    }
+                   // visibleTrueFalse();
+
+                } else {
+                    Util_Code = null;
                 }
                 break;
         }

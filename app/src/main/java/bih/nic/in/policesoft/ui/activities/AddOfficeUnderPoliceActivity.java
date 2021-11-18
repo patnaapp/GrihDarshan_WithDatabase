@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +82,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     takegpsListAdaptor mAdapter;
     ArrayList<InspectionDetailsModel> listgps;
     Encriptor _encrptor;
+    boolean isStateOffice=false,isDistOffice=false;
+    String OfficeLevel="";
 
 
     @Override
@@ -109,6 +113,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         {
 
         }
+        binding.llOfficelevel.setVisibility(View.GONE);
+        binding.radioOfficeState.setVisibility(View.GONE);
+        binding.radioOfficeDist.setVisibility(View.GONE);
+        binding.llStateOffice.setVisibility(View.GONE);
+        binding.llDistOffice.setVisibility(View.GONE);
+
+
+
         binding.llOwnBuild.setVisibility(View.GONE);
         binding.llKhataKhesra.setVisibility(View.GONE);
         binding.llTotalAreaLand.setVisibility(View.GONE);
@@ -138,6 +150,32 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.llMajorEqui.setVisibility(View.GONE);
         binding.llLocation.setVisibility(View.GONE);
         // binding.llTypesOfTraing.setVisibility(View.GONE);
+
+        binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.radioOfficeState:
+                        isStateOffice = true;
+                        isDistOffice = false;
+                        OfficeLevel="S";
+                        binding.llStateOffice.setVisibility(View.VISIBLE);
+                        binding.llDistOffice.setVisibility(View.GONE);
+
+                        break;
+                    case R.id.radioOfficeDist:
+                        // do operations specific to this selection
+                        isDistOffice= true;
+                        isStateOffice= false;
+                        OfficeLevel="D";
+                        binding.llStateOffice.setVisibility(View.GONE);
+                        binding.llDistOffice.setVisibility(View.VISIBLE);
+
+                        break;
+
+                }
+            }
+        });
 
         binding.imgPic1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -536,6 +574,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 officeUnderPsEntity.setDivision_Fun(DivisionFunction);
                 officeUnderPsEntity.setMajor_Devices_Equi(MajorDevicesEqui);
                 officeUnderPsEntity.setPhoto(Photo1);
+                officeUnderPsEntity.setStateOfficeName(binding.etStOfficeName.getText().toString());
+                officeUnderPsEntity.setDistOfficeName(binding.etDistOfficeName.getText().toString());
+                officeUnderPsEntity.setOfficeLevel(OfficeLevel);
 
 
                 if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
@@ -727,7 +768,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     officesFromServersList = result;
                     setOfficeDetailsSpinner(result);
                 } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Office Type List not Loaded", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -942,7 +983,39 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
             load_designation();
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
 
+        }
+        else if (Office_type_Code.equals("8")) {
+            binding.llOwnBuild.setVisibility(View.GONE);
+            binding.llKhataKhesra.setVisibility(View.GONE);
+            binding.llTotalAreaLand.setVisibility(View.GONE);
+            binding.llOtherOffice.setVisibility(View.GONE);
+            binding.llOfficeName.setVisibility(View.GONE);
+            binding.llHousingFacil.setVisibility(View.GONE);
+            binding.llArmoury.setVisibility(View.GONE);
+            binding.llOwngoing.setVisibility(View.GONE);
+//            binding.llOfficeInCharge.setVisibility(View.VISIBLE);
+//            binding.llDesign.setVisibility(View.VISIBLE);
+//            binding.llOfficeChrgMobile.setVisibility(View.VISIBLE);
+            binding.llLandline.setVisibility(View.VISIBLE);
+            binding.llEstablish.setVisibility(View.GONE);
+            binding.llEmail.setVisibility(View.GONE);
+            binding.llSanctionWorking.setVisibility(View.GONE);
+            binding.llDevisionFun.setVisibility(View.GONE);
+            binding.llMajorEqui.setVisibility(View.GONE);
+            binding.llLsQuarter.setVisibility(View.GONE);
+            binding.llMalebarrack.setVisibility(View.GONE);
+            binding.llLocation.setVisibility(View.GONE);
+            binding.llTrainingCourseName.setVisibility(View.GONE);
+            binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            //load_designation();
+            binding.llOfficelevel.setVisibility(View.VISIBLE);
+            binding.radioOfficeState.setVisibility(View.VISIBLE);
+            binding.radioOfficeDist.setVisibility(View.VISIBLE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
 
         }
 

@@ -42,6 +42,34 @@ public class OfficeUnderPsEntity {
     private String Photo="";
     private String Latitude="";
     private String Longitude="";
+    private String stateOfficeName="";
+
+    public String getStateOfficeName() {
+        return stateOfficeName;
+    }
+
+    public void setStateOfficeName(String stateOfficeName) {
+        this.stateOfficeName = stateOfficeName;
+    }
+
+    public String getDistOfficeName() {
+        return distOfficeName;
+    }
+
+    public void setDistOfficeName(String distOfficeName) {
+        this.distOfficeName = distOfficeName;
+    }
+
+    public String getOfficeLevel() {
+        return officeLevel;
+    }
+
+    public void setOfficeLevel(String officeLevel) {
+        this.officeLevel = officeLevel;
+    }
+
+    private String distOfficeName="";
+    private String officeLevel="";
     Encriptor _encrptor;
 
     public String getOfficeType_Code() {

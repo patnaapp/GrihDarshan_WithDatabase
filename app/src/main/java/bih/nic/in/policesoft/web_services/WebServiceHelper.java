@@ -73,10 +73,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 
 public class WebServiceHelper {
-    public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-    //   public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-    //public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
-    public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
+   // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
+       public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
+    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
+       // public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
     public static final String RANGE_LIST_Master = "GetMst_RangeList";
@@ -1233,7 +1233,9 @@ public class WebServiceHelper {
             }
 
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
@@ -1308,6 +1310,8 @@ public class WebServiceHelper {
         }
         return pvmArrayList;
     }
+
+
     public static SliderModel GetSlider() {
         SoapObject res1;
         res1 = getServerData(SLIDER, SliderModel.SLIDER_CLASS);

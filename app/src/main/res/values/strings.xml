@@ -65,6 +65,8 @@
     <string name="land_avail">Thana Land Availability : [*]</string>
     <string name="outpost_land_avail">Outpost Land Availability : [*]</string>
     <string name="khata_num">Khata Number : [*]</string>
+    <string name="state_office_Name">State Level Office Name : [*]</string>
+    <string name="dist_office_Name">District Level Office Name : [*]</string>
     <string name="khesra_num">Khesra Number : [*]</string>
     <string name="password_en">Password: [*]</string>
     <string name="confirm_password_en">Confirm Password: [*]</string>
@@ -243,8 +245,9 @@
     <string name="enter_khesra_num"> Please Enter Khesra Number</string>
     <string name="capture_photo"> Please Capture Photo</string>
     <string name="add_office_type">Offices Under Police Department</string>
-    <string name="office_type">Offices Type : [*]</string>
+    <string name="office_type">Office Type : [*]</string>
     <string name="office_address">Address : [*]</string>
+    <string name="office_landline">Landline : [*]</string>
     <string name="own_build">Police Own Building ? : [*]</string>
     <string name="total_land_area">Total area of land on which office is built (in Square fit) : [*]</string>
     <string name="other_offices">Other Offices (if any) being operated in this building : [*]</string>
