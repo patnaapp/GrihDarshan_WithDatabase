@@ -48,6 +48,8 @@ import bih.nic.in.policesoft.databinding.ActivityAddMajorUtilitiesBinding;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
+import bih.nic.in.policesoft.entity.FireTypeServer;
+import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
@@ -69,7 +71,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     private CustomAlertDialog customAlertDialog;
     private ActivityAddMajorUtilitiesBinding binding;
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
+    ArrayList<GetTypeOfHydrantServer> TypeofHydration_List;
+    ArrayList<FireTypeServer> FireType_List;
     MajorUtilitiesFromServer majorutilFromServer = new MajorUtilitiesFromServer();
+    GetTypeOfHydrantServer typeofHydrationServer = new GetTypeOfHydrantServer();
+    FireTypeServer fireTypeServer = new FireTypeServer();
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
@@ -132,11 +138,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llFireProneLocation.setVisibility(View.GONE);
         binding.llFireStatus.setVisibility(View.GONE);
 
+        binding.llHistoricalImportance.setVisibility(View.GONE);
+        binding.llBestPractices.setVisibility(View.GONE);
+        binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(User_Id, Password, Token).execute();
-        } else {
 
+        } else {
+            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
         }
         binding.imgPic1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +169,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks,Hydration_Name,Fire_Prone_Name;
+            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks,Hydration_Name,Fire_Prone_Name,Historical_importance, Best_Practices, Reforms_Correctional;
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             LandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
             KabristhanName = binding.etKabristhanName.getText().toString().trim();
@@ -178,6 +189,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             Hydration_Name = binding.etHydrantName.getText().toString().trim();
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
+
+            Historical_importance = binding.etHistoricalImportance.getText().toString().trim();
+            Best_Practices = binding.etBestPractices.getText().toString().trim();
+            Reforms_Correctional = binding.etReformsCorrectionalActivities.getText().toString().trim();
 
 
             boolean cancelRegistration = false;
@@ -522,27 +537,111 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         //new MajorUtil().execute();
     }
 
-    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>>{
+    private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>>{
         String userId, Password, Token;
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
 
         @Override
-        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... strings) {
-            return WebServiceHelper.TypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
-
+        protected void onPreExecute(){
+            customAlertDialog.showDialog();
         }
-    }
-
-    private class GetFireType extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>>{
-        String userId, Password, Token;
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        public GetFireType(String userId, String password, String token){
+            this.userId = userId;
+            Token = token;
+            Password = password;
+        }
 
         @Override
-        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... strings) {
+        protected ArrayList<FireTypeServer> doInBackground(String... strings) {
             return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
 
         }
+        @Override
+        protected void onPostExecute(ArrayList<FireTypeServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    FireType_List = result;
+                    setFireType(result);
+                    new TypeofHydration(User_Id, Password, Token).execute();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
     }
+    public void setFireType(ArrayList<FireTypeServer> RangeList){
+        FireType_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Fire Type-");
+
+        for (FireTypeServer info : FireType_List){
+            array.add(info.getFireType_Name());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnMajorFireType.setAdapter(adaptor);
+        binding.spnMajorFireType.setOnItemSelectedListener(this);
+    }
+
+
+    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<GetTypeOfHydrantServer>>{
+        String userId, Password, Token;
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+        public TypeofHydration(String userId, String password, String token) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+        }
+
+
+        @Override
+        protected ArrayList<GetTypeOfHydrantServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetTypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
+
+        }
+        @Override
+        protected void onPostExecute(ArrayList<GetTypeOfHydrantServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    TypeofHydration_List = result;
+                    TypeOfHydration(result);
+
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    public void TypeOfHydration(ArrayList<GetTypeOfHydrantServer> RangeList){
+        TypeofHydration_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Type of Hydrant-");
+
+        for (GetTypeOfHydrantServer info : TypeofHydration_List){
+            array.add(info.getHydrant_Type());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnTypeFireHydrant.setAdapter(adaptor);
+        binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
+    }
+
+
 
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
         String userId, Password, Token;
@@ -597,33 +696,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnMajorUtilities.setAdapter(adaptor);
         binding.spnMajorUtilities.setOnItemSelectedListener(this);
     }
-    public void setFireType(ArrayList<MajorUtilitiesFromServer> RangeList){
-        Major_Util_List = RangeList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Fire Type-");
-
-        for (MajorUtilitiesFromServer info : Major_Util_List){
-            array.add(info.getUtil_Name());
-        }
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnMajorFireType.setAdapter(adaptor);
-        binding.spnMajorFireType.setOnItemSelectedListener(this);
-    }
-    public void TypeOfHydration(ArrayList<MajorUtilitiesFromServer> RangeList){
-        Major_Util_List = RangeList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Type of Hydration-");
-
-        for (MajorUtilitiesFromServer info : Major_Util_List){
-            array.add(info.getUtil_Name());
-        }
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnTypeFireHydrant.setAdapter(adaptor);
-        binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
-    }
-
 
 
     public void visibleTrueFalse() {
@@ -725,6 +797,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+
+
             load_Land_Details();
             bounadry_Status();
 
@@ -758,6 +832,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llHydrantName.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
+
+            binding.llHistoricalImportance.setVisibility(View.VISIBLE);
+            binding.llBestPractices.setVisibility(View.VISIBLE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.VISIBLE);
 
             jail_Type();
 
@@ -919,6 +997,18 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireStatus.setVisibility(View.GONE);
 
         }else if (Util_Code.equals("10")){
+
+            if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+
+                new GetFireType(User_Id, Password, Token).execute();
+
+
+            } else {
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            }
+            //new TypeofHydration(User_Id, Password, Token).execute();
+            //new GetFireType(User_Id, Password, Token).execute();
+
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
             binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
             binding.llMajorFairFestival.setVisibility(View.GONE);

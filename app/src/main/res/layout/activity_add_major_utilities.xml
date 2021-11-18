@@ -658,6 +658,126 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_historical_importance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/historical_importance"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_historical_importance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_best_practices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/best_practices"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_best_practices"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_reforms_correctional_activities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reforms_correctional_activities"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_reforms_correctional_activities"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
                     android:id="@+id/ll_jail_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

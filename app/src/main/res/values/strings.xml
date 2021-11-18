@@ -113,7 +113,10 @@
     <string name="kabristan_land_avail">Land Detail : [*]</string>
     <string name="boundary_wall_status">Boundary Wall Status : [*]</string>
     <string name="jail_name">Jail Name : [*]</string>
+    <string name="historical_importance">Historical importance of Prison : [*]</string>
     <string name="jail_address">Jail Address : [*]</string>
+    <string name="best_practices">Best Practices : [*]</string>
+    <string name="reforms_correctional_activities">Reforms/Correctional activities : [*]</string>
     <string name="establish_year">Established / Started Year : [*]</string>
     <string name="jail_type">Jail Type : [*]</string>
     <string name="jail_capacity">Jail Capacity : [*]</string>

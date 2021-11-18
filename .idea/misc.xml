@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/PoliceSoft/app/src/main/res/drawable/card_top_wave.xml" value="0.2846153846153846" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_major_utilities.xml" value="0.25" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_office_under_police.xml" value="0.27291666666666664" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/fragment_home.xml" value="0.27291666666666664" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/preview_addmajorutil_bottom_layout.xml" value="0.27291666666666664" />
       </map>
     </option>
