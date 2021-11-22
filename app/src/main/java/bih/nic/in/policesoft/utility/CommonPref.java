@@ -14,11 +14,13 @@ public class CommonPref {
     public static String CIPER_KEY ="DGRC@NIC2020";
     public static final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
-    CommonPref() {
+    CommonPref()
+    {
 
     }
 
-    CommonPref(Context context) {
+    CommonPref(Context context)
+    {
         CommonPref.context = context;
     }
 

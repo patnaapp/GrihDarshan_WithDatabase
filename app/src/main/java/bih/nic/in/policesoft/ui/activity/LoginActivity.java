@@ -186,6 +186,7 @@ public class LoginActivity extends Activity {
                         GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
                         CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId",username).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token",result.getToken()).commit();
                         Toast.makeText(LoginActivity.this, " Authentication Success", Toast.LENGTH_SHORT).show();
                         start();
 

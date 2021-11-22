@@ -128,12 +128,6 @@
                         android:layout_height="36dp" />
                 </LinearLayout>
 
-
-
-
-
-
-
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="match_parent"
@@ -165,7 +159,7 @@
                     android:layout_marginTop="18dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="New Thana User? Thana Sign Up"
+                    android:text="Sign Up"
                     android:textColor="@color/color_red" />
             </LinearLayout>
         </RelativeLayout>

@@ -44,6 +44,8 @@ import javax.xml.transform.stream.StreamResult;
 
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
+import bih.nic.in.policesoft.entity.CourtSubType_Entity;
+import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.DefaultResponse_New;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.FireTypeServer;
@@ -96,6 +98,8 @@ public class WebServiceHelper {
     private static final String GET_FIRE_TYPE_LIST = "GetFireTypeList";
     private static final String GET_TYPE_OF_HYDRANT_LIST = "GetTypeOfHydrantList";
     private static final String Office_NameList_Master = "GetMst_OfficeMasterList";
+    private static final String Get_CourtType_Master = "GetCourtTypeList";
+    private static final String Get_CourtSubType_Master = "GetSubCourtTypeList";
 
 
     private static Encriptor _encrptor;
@@ -1312,7 +1316,8 @@ public class WebServiceHelper {
     }
 
 
-    public static SliderModel GetSlider() {
+    public static SliderModel GetSlider()
+    {
         SoapObject res1;
         res1 = getServerData(SLIDER, SliderModel.SLIDER_CLASS);
         if(res1!=null){
@@ -1321,6 +1326,7 @@ public class WebServiceHelper {
             return null;
         }
     }
+
     public static ArrayList<Range> getRange_ListUnderPS(String dist_Code,String office_code) {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
@@ -1337,7 +1343,7 @@ public class WebServiceHelper {
 
         SoapObject res1;
 
-        res1 = getServerData(RANGE_LIST_Master, Range.RANGE_CLASS, "skey", "office_code","cap", _skey, office_code,_capId);
+        res1 = getServerData(RANGE_LIST, Range.RANGE_CLASS, "skey", "cap", _skey, _capId);
         int TotalProperty = 0;
         if (res1 != null) TotalProperty = res1.getPropertyCount();
         ArrayList<Range> fieldList = new ArrayList<Range>();
@@ -1670,7 +1676,7 @@ public class WebServiceHelper {
         return eid;
     }
 
-    public static ArrayList<Office_Name_List_Modal> GetOffice_NameMaster_List(Context context, String dist, String office, String token) {
+    public static ArrayList<Office_Name_List_Modal> GetOffice_NameMaster_List(Context context, String dist, String office, String token,String rangecode) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Office_NameList_Master);
         SoapObject res1;
         ArrayList<Office_Name_List_Modal> pvmArrayList = new ArrayList<Office_Name_List_Modal>();
@@ -1678,7 +1684,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_Dist, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office;
+        String Enc_Dist, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_Range;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -1686,6 +1692,7 @@ public class WebServiceHelper {
             Enc_Office = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(office), RandomNo);
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_Range = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(rangecode), RandomNo);
 
             request.addProperty("skey", Enc_SKey);
             request.addProperty("District_code", Enc_Dist);
@@ -1725,6 +1732,156 @@ public class WebServiceHelper {
                     if (property instanceof SoapObject) {
                         SoapObject final_object = (SoapObject) property;
                         Office_Name_List_Modal district = new Office_Name_List_Modal(final_object, CapId, context);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+    }
+
+
+    public static ArrayList<CourtType_Entity> GetCourtTypeMaster(Context context, String Userid, String password, String token, String court_category_id) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Get_CourtType_Master);
+        SoapObject res1;
+        ArrayList<CourtType_Entity> pvmArrayList = new ArrayList<CourtType_Entity>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_CourtCateg;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_userid = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Userid), RandomNo);
+
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_password = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(password), RandomNo);
+
+            Enc_CourtCateg = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(court_category_id), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("Userid", Enc_userid);
+            request.addProperty("password", Enc_password);
+            request.addProperty("cap", Enc_CapId);
+            request.addProperty("CourtCategory_Id", Enc_CourtCateg);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, CourtType_Entity.RANGE_CLASS.getSimpleName(), CourtType_Entity.RANGE_CLASS);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Get_CourtType_Master, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                       // CourtType_Entity district = new CourtType_Entity(final_object, CapId, context);
+                        CourtType_Entity district = new CourtType_Entity(final_object);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+    }
+
+
+    public static ArrayList<CourtSubType_Entity> GetCourtSubTypeMaster(Context context, String Userid, String password, String token, String parentId) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Get_CourtSubType_Master);
+        SoapObject res1;
+        ArrayList<CourtSubType_Entity> pvmArrayList = new ArrayList<CourtSubType_Entity>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_ParentId;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_userid = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Userid), RandomNo);
+
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_password = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(password), RandomNo);
+
+            Enc_ParentId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(parentId), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("Userid", Enc_userid);
+            request.addProperty("password", Enc_password);
+            request.addProperty("cap", Enc_CapId);
+            request.addProperty("Perent_Id", Enc_ParentId);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, CourtSubType_Entity.CourtSubType_CLASS.getSimpleName(), CourtSubType_Entity.CourtSubType_CLASS);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Get_CourtSubType_Master, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        // CourtType_Entity district = new CourtType_Entity(final_object, CapId, context);
+                        CourtSubType_Entity district = new CourtSubType_Entity(final_object);
                         pvmArrayList.add(district);
                     }
                 } else

@@ -43,6 +43,7 @@ public class OfficeUnderPsEntity {
     private String Latitude="";
     private String Longitude="";
     private String stateOfficeName="";
+    private String prosecutionOfficelevel="";
 
     public String getStateOfficeName() {
         return stateOfficeName;
@@ -350,5 +351,13 @@ public class OfficeUnderPsEntity {
 
     public void setTrainingCourseCapacity(String trainingCourseCapacity) {
         TrainingCourseCapacity = trainingCourseCapacity;
+    }
+
+    public String getProsecutionOfficelevel() {
+        return prosecutionOfficelevel;
+    }
+
+    public void setProsecutionOfficelevel(String prosecutionOfficelevel) {
+        this.prosecutionOfficelevel = prosecutionOfficelevel;
     }
 }

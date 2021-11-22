@@ -37,6 +37,8 @@ import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.takegpsListAdaptor;
 import bih.nic.in.policesoft.databinding.ActivityAddOfficeUnderPoliceBinding;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
+import bih.nic.in.policesoft.entity.CourtSubType_Entity;
+import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
@@ -64,7 +66,12 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     private CustomAlertDialog customAlertDialog;
     ArrayList<OfficeListFromServer> officesFromServersList;
     ArrayList<Office_Name_List_Modal> officeNameListMaster;
+    ArrayList<CourtType_Entity> courtTypeMaster;
+    ArrayList<CourtSubType_Entity> courtSubTypeMaster;
     OfficeListFromServer officeFromServer = new OfficeListFromServer();
+    Office_Name_List_Modal officename = new Office_Name_List_Modal();
+    CourtType_Entity courtType = new CourtType_Entity();
+    CourtSubType_Entity courtSubType = new CourtSubType_Entity();
     Range range = new Range();
     String Other_office_Code = "", OwnBuild_Code = "", Office_Code = "", Office_Name = "", Office_type_Code = "", Office_type_Name = "", Range_Name = "", Houseing_Fac_Code = "", Armoury_Mazin_Code = "", Design_Code = "";
     String[] yesNo, design;
@@ -83,7 +90,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     ArrayList<InspectionDetailsModel> listgps;
     Encriptor _encrptor;
     boolean isStateOffice=false,isDistOffice=false;
-    String OfficeLevel="";
+    String OfficeLevel="",range_Code="",range_Name="",prosecutor_office_level="",courtCateg="";
+    ArrayList officenamearray = new ArrayList<String>();
+    String courtType_Code="",courtType_Name="",courtSubType_Code="",courtSubType_Name="";
 
 
     @Override
@@ -101,7 +110,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         SubDiv_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getSub_Div_Code();
         Thana_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getThana_Code();
         Password = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getPassword();
-        Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
+        //Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
+        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         load_spinner();
 
@@ -113,14 +123,16 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         {
 
         }
+        binding.llRange.setVisibility(View.GONE);
+        binding.llRegualrHomegaurd.setVisibility(View.GONE);
+        binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
         binding.llOfficelevel.setVisibility(View.GONE);
         binding.radioOfficeState.setVisibility(View.GONE);
         binding.radioOfficeDist.setVisibility(View.GONE);
         binding.llStateOffice.setVisibility(View.GONE);
         binding.llDistOffice.setVisibility(View.GONE);
-
-
-
+        binding.llCourtCateg.setVisibility(View.GONE);
+        binding.llCourtType.setVisibility(View.GONE);
         binding.llOwnBuild.setVisibility(View.GONE);
         binding.llKhataKhesra.setVisibility(View.GONE);
         binding.llTotalAreaLand.setVisibility(View.GONE);
@@ -129,6 +141,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.llHousingFacil.setVisibility(View.GONE);
         binding.llArmoury.setVisibility(View.GONE);
         binding.llOwngoing.setVisibility(View.GONE);
+        binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
 //        binding.llOfficeInCharge.setVisibility(View.GONE);
 //        binding.llDesign.setVisibility(View.GONE);
 //        binding.llOfficeChrgMobile.setVisibility(View.GONE);
@@ -149,6 +162,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.llDevisionFun.setVisibility(View.GONE);
         binding.llMajorEqui.setVisibility(View.GONE);
         binding.llLocation.setVisibility(View.GONE);
+        binding.llCourtSubType.setVisibility(View.GONE);
         // binding.llTypesOfTraing.setVisibility(View.GONE);
 
         binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -171,6 +185,57 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.llStateOffice.setVisibility(View.GONE);
                         binding.llDistOffice.setVisibility(View.VISIBLE);
 
+                        break;
+
+                }
+            }
+        });
+
+        binding.radioGroupProsecution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.radioDirectorate:
+
+                        prosecutor_office_level="1";
+
+
+                        break;
+                    case R.id.radioDistProsecutor:
+                        // do operations specific to this selection
+
+                        prosecutor_office_level="2";
+
+
+                        break;
+                    case R.id.radioSubDivProsecutor:
+                        // do operations specific to this selection
+
+                        prosecutor_office_level="3";
+
+
+                        break;
+                }
+            }
+        });
+
+        binding.radioGroupCourt.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId)
+                {
+                    case R.id.radioCivilcourt:
+                        // do operations specific to this selection
+                        binding.llCourtSubType.setVisibility(View.VISIBLE);
+                        courtCateg="1";
+                        new GetCourtTypeMaster().execute();
+                        break;
+                    case R.id.radioJuvenileCourt:
+                        // do operations specific to this selection
+
+                        binding.llCourtSubType.setVisibility(View.GONE);
+                        courtCateg="2";
+                        new GetCourtTypeMaster().execute();
                         break;
 
                 }
@@ -574,9 +639,12 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 officeUnderPsEntity.setDivision_Fun(DivisionFunction);
                 officeUnderPsEntity.setMajor_Devices_Equi(MajorDevicesEqui);
                 officeUnderPsEntity.setPhoto(Photo1);
+                officeUnderPsEntity.setLatitude(latitude);
+                officeUnderPsEntity.setLongitude(longitude);
                 officeUnderPsEntity.setStateOfficeName(binding.etStOfficeName.getText().toString());
                 officeUnderPsEntity.setDistOfficeName(binding.etDistOfficeName.getText().toString());
                 officeUnderPsEntity.setOfficeLevel(OfficeLevel);
+                officeUnderPsEntity.setProsecutionOfficelevel(prosecutor_office_level);
 
 
                 if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
@@ -635,22 +703,48 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     officeFromServer = officesFromServersList.get(i - 1);
                     Office_type_Code = officeFromServer.getOffice_Code();
                     Office_type_Name = officeFromServer.getOffice_Name();
+                    Office_Code="";
+                    Office_Name="";
+                    if (officeNameListMaster!=null)
+                    {
+                        officeNameListMaster.clear();
+                        officenamearray.clear();
+
+                    }
+                    prosecutor_office_level="";
                     new GetOfficeNameList_Master().execute();
                     truefalse();
                 } else {
                     Office_type_Code = null;
                 }
                 break;
-            case R.id.spn_office:
+            case R.id.spn_range:
                 if (i > 0) {
-                    if (Office_type_Code.equals("1")) {
-                        range = range_List.get(i - 1);
-                        Office_Code = range.get_RangeCode();
-                        Office_Name = range.get_RangeName();
-                    }
+                    //if (Office_type_Code.equals("1")) {
+                    range = range_List.get(i - 1);
+                    range_Code = range.get_RangeCode();
+                    range_Name = range.get_RangeName();
+                    binding.llOfficeNmae.setVisibility(View.VISIBLE);
+                    new GetOfficeNameList_Master().execute();
+                    //  }
 
                 } else {
-                    Office_Code = null;
+                    range_Code = null;
+                    range_Name = null;
+                }
+
+                break;
+            case R.id.spn_office:
+                if (i > 0) {
+                    //if (Office_type_Code.equals("1")) {
+                    officename = officeNameListMaster.get(i - 1);
+                    Office_Code = officename.getOfficeCode();
+                    Office_Name = officename.getOfficeName();
+                    //  }
+
+                } else {
+                    range_Code = null;
+                    range_Name = null;
                 }
                 break;
             case R.id.spn_own_build:
@@ -704,6 +798,40 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     }
                 } else {
                     Armoury_Mazin_Code = null;
+                }
+                break;
+
+            case R.id.spn_court_type:
+                if (i > 0) {
+                    //if (Office_type_Code.equals("1")) {
+                    courtType = courtTypeMaster.get(i - 1);
+                    courtType_Code = courtType.get_CourtId();
+                    courtType_Name = courtType.get_CourtName();
+                    //  }
+
+                    if (courtCateg.equals("1"))
+                    {
+                        new GetCourtSubTypeMaster().execute();
+                    }
+
+                } else {
+                    courtType_Code = null;
+                    courtType_Name = null;
+                }
+                break;
+            case R.id.spn_court_sub_type:
+                if (i > 0) {
+                    //if (Office_type_Code.equals("1")) {
+                    courtSubType = courtSubTypeMaster.get(i - 1);
+                    courtSubType_Code = courtSubType.get_Court_Sub_Type_Id();
+                    courtSubType_Name = courtSubType.get_Court_Sub_Type_Name();
+
+
+                    //  }
+
+                } else {
+                    courtSubType_Code = null;
+                    courtSubType_Name = null;
                 }
                 break;
 //            case R.id.spn_design:
@@ -790,19 +918,59 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnOfficeType.setOnItemSelectedListener(this);
     }
 
-    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList) {
+    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList)
+    {
         officeNameListMaster = RangeList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Offices Name-");
 
-        for (Office_Name_List_Modal info : officeNameListMaster) {
-            array.add(info.getOfficeName());
+        officenamearray.add("-Select Offices Name-");
+
+        for (Office_Name_List_Modal info : officeNameListMaster)
+        {
+            officenamearray.add(info.getOfficeName());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, officenamearray);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnOffice.setAdapter(adaptor);
+        binding.spnOffice.setOnItemSelectedListener(this);
+    }
+
+    public void setCourtTypeSpinner(ArrayList<CourtType_Entity> CourtTypeList)
+    {
+
+        courtTypeMaster = CourtTypeList;
+        ArrayList array = new ArrayList<String>();
+
+        array.add("-Select Court Type-");
+
+        for (CourtType_Entity info : courtTypeMaster)
+        {
+            array.add(info.get_CourtName());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnOffice.setAdapter(adaptor);
-        binding.spnOffice.setOnItemSelectedListener(this);
+        binding.spnCourtType.setAdapter(adaptor);
+        binding.spnCourtType.setOnItemSelectedListener(this);
+    }
+
+    public void setCourtSubTypeSpinner(ArrayList<CourtSubType_Entity> CourtSubTypeList)
+    {
+
+        courtSubTypeMaster = CourtSubTypeList;
+        ArrayList array = new ArrayList<String>();
+
+        array.add("-Select Court Sub Type-");
+
+        for (CourtSubType_Entity info : courtSubTypeMaster)
+        {
+            array.add(info.get_Court_Sub_Type_Name());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnCourtSubType.setAdapter(adaptor);
+        binding.spnCourtSubType.setOnItemSelectedListener(this);
     }
 
     public void truefalse() {
@@ -828,6 +996,21 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.GONE);
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.VISIBLE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
+
             if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                 new GetRangeList().execute();
             } else {
@@ -858,6 +1041,20 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.GONE);
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
 
         } else if (Office_type_Code.equals("3")) {
             binding.llOwnBuild.setVisibility(View.VISIBLE);
@@ -881,6 +1078,21 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.GONE);
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
+
 
         } else if (Office_type_Code.equals("4")) {
             binding.llOwnBuild.setVisibility(View.GONE);
@@ -905,7 +1117,21 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.VISIBLE);
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
             load_designation();
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
 
         } else if (Office_type_Code.equals("5")) {
             binding.llOwnBuild.setVisibility(View.GONE);
@@ -930,7 +1156,21 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.GONE);
             binding.llTrainingCourseName.setVisibility(View.VISIBLE);
             binding.llTrainingCourseCapacity.setVisibility(View.VISIBLE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
             load_designation();
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
 
         } else if (Office_type_Code.equals("6")) {
             binding.llOwnBuild.setVisibility(View.VISIBLE);
@@ -955,9 +1195,17 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llLocation.setVisibility(View.GONE);
             binding.llTrainingCourseName.setVisibility(View.GONE);
             binding.llTrainingCourseCapacity.setVisibility(View.GONE);
-
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
             load_designation();
-
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
 
         } else if (Office_type_Code.equals("7")) {
             binding.llOwnBuild.setVisibility(View.GONE);
@@ -986,7 +1234,16 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.llOfficelevel.setVisibility(View.GONE);
             binding.radioOfficeState.setVisibility(View.GONE);
             binding.radioOfficeDist.setVisibility(View.GONE);
-
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.VISIBLE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
         }
         else if (Office_type_Code.equals("8")) {
             binding.llOwnBuild.setVisibility(View.GONE);
@@ -1016,7 +1273,117 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             binding.radioOfficeState.setVisibility(View.VISIBLE);
             binding.radioOfficeDist.setVisibility(View.VISIBLE);
             binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.VISIBLE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.VISIBLE);
 
+        }
+        else if (Office_type_Code.equals("9")) {
+            binding.llOwnBuild.setVisibility(View.GONE);
+            binding.llKhataKhesra.setVisibility(View.GONE);
+            binding.llTotalAreaLand.setVisibility(View.GONE);
+            binding.llOtherOffice.setVisibility(View.GONE);
+            binding.llOfficeName.setVisibility(View.GONE);
+            binding.llHousingFacil.setVisibility(View.GONE);
+            binding.llArmoury.setVisibility(View.GONE);
+            binding.llOwngoing.setVisibility(View.GONE);
+//            binding.llOfficeInCharge.setVisibility(View.VISIBLE);
+//            binding.llDesign.setVisibility(View.VISIBLE);
+//            binding.llOfficeChrgMobile.setVisibility(View.VISIBLE);
+            binding.llLandline.setVisibility(View.VISIBLE);
+            binding.llEstablish.setVisibility(View.GONE);
+            binding.llEmail.setVisibility(View.GONE);
+            binding.llSanctionWorking.setVisibility(View.GONE);
+            binding.llDevisionFun.setVisibility(View.GONE);
+            binding.llMajorEqui.setVisibility(View.GONE);
+            binding.llLsQuarter.setVisibility(View.GONE);
+            binding.llMalebarrack.setVisibility(View.GONE);
+            binding.llLocation.setVisibility(View.GONE);
+            binding.llTrainingCourseName.setVisibility(View.GONE);
+            binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+            //load_designation();
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+            binding.llCourtType.setVisibility(View.GONE);
+            binding.llCourtCateg.setVisibility(View.GONE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.VISIBLE);
+            binding.llCourtSubType.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
+            if(Dist_Code.equals("230"))
+            {
+                binding.radioDirectorate.setSelected(true);
+                binding.radioDistProsecutor.setSelected(false);
+                binding.radioSubDivProsecutor.setSelected(false);
+                binding.radioDirectorate.setEnabled(false);
+                binding.radioDistProsecutor.setEnabled(false);
+                binding.radioDistProsecutor.setEnabled(false);
+            }
+            else {
+                binding.radioDirectorate.setSelected(false);
+                binding.radioDistProsecutor.setSelected(false);
+                binding.radioSubDivProsecutor.setSelected(false);
+                binding.radioDirectorate.setEnabled(false);
+                binding.radioDistProsecutor.setEnabled(true);
+                binding.radioDistProsecutor.setEnabled(true);
+            }
+
+        }
+        else if (Office_type_Code.equals("10")) {
+            binding.llOwnBuild.setVisibility(View.GONE);
+            binding.llKhataKhesra.setVisibility(View.GONE);
+            binding.llTotalAreaLand.setVisibility(View.GONE);
+            binding.llOtherOffice.setVisibility(View.GONE);
+            binding.llOfficeName.setVisibility(View.GONE);
+            binding.llHousingFacil.setVisibility(View.GONE);
+            binding.llArmoury.setVisibility(View.GONE);
+            binding.llOwngoing.setVisibility(View.GONE);
+
+//            binding.llOfficeInCharge.setVisibility(View.VISIBLE);
+//            binding.llDesign.setVisibility(View.VISIBLE);
+//            binding.llOfficeChrgMobile.setVisibility(View.VISIBLE);
+
+            binding.llLandline.setVisibility(View.VISIBLE);
+            binding.llEstablish.setVisibility(View.GONE);
+            binding.llEmail.setVisibility(View.GONE);
+            binding.llSanctionWorking.setVisibility(View.GONE);
+            binding.llDevisionFun.setVisibility(View.GONE);
+            binding.llMajorEqui.setVisibility(View.GONE);
+            binding.llLsQuarter.setVisibility(View.GONE);
+            binding.llMalebarrack.setVisibility(View.GONE);
+            binding.llLocation.setVisibility(View.GONE);
+            binding.llTrainingCourseName.setVisibility(View.GONE);
+            binding.llTrainingCourseCapacity.setVisibility(View.GONE);
+
+            //load_designation();
+
+            binding.llOfficelevel.setVisibility(View.GONE);
+            binding.radioOfficeState.setVisibility(View.GONE);
+            binding.radioOfficeDist.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llRange.setVisibility(View.GONE);
+
+            binding.llCourtType.setVisibility(View.VISIBLE);
+            binding.llCourtCateg.setVisibility(View.VISIBLE);
+            binding.llCourtSubType.setVisibility(View.VISIBLE);
+            binding.llProsecutionOfficeLevel.setVisibility(View.GONE);
+            binding.llOfficeNmae.setVisibility(View.GONE);
+            binding.llDistOffice.setVisibility(View.GONE);
+            binding.llStateOffice.setVisibility(View.GONE);
+            binding.llRegualrHomegaurd.setVisibility(View.GONE);
+            binding.llVoluntaryHomegaurd.setVisibility(View.GONE);
         }
 
     }
@@ -1156,8 +1523,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnOffice.setAdapter(adaptor);
-        binding.spnOffice.setOnItemSelectedListener(this);
+        binding.spnRange.setAdapter(adaptor);
+        binding.spnRange.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -1369,7 +1736,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             customAlertDialog.showDialog();
         }
 
@@ -1378,9 +1746,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
 
         @Override
-        protected ArrayList<Office_Name_List_Modal> doInBackground(String... param) {
+        protected ArrayList<Office_Name_List_Modal> doInBackground(String... param)
+        {
 
-            return WebServiceHelper.GetOffice_NameMaster_List(AddOfficeUnderPoliceActivity.this, Dist_Code, Office_type_Code, CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken());
+            return WebServiceHelper.GetOffice_NameMaster_List(AddOfficeUnderPoliceActivity.this, Dist_Code, Office_type_Code, CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken(),range_Code);
         }
 
         @Override
@@ -1392,8 +1761,90 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
                     officeNameListMaster = result;
                     setOfficeNameSpinner(result);
-                } else {
+                } else
+                {
                     Toast.makeText(getApplicationContext(), "Office name not found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+
+    private class GetCourtTypeMaster extends AsyncTask<String, Void, ArrayList<CourtType_Entity>> {
+        // String userId, Password, Token;
+
+        private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            customAlertDialog.showDialog();
+        }
+
+        public GetCourtTypeMaster() {
+
+        }
+
+        @Override
+        protected ArrayList<CourtType_Entity> doInBackground(String... param)
+        {
+
+            return WebServiceHelper.GetCourtTypeMaster(AddOfficeUnderPoliceActivity.this, User_Id, Password,Token,courtCateg);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CourtType_Entity> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    courtTypeMaster = result;
+                    setCourtTypeSpinner(result);
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "Court Type List Not Loaded", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetCourtSubTypeMaster extends AsyncTask<String, Void, ArrayList<CourtSubType_Entity>> {
+        // String userId, Password, Token;
+
+        private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            customAlertDialog.showDialog();
+        }
+
+        public GetCourtSubTypeMaster() {
+
+        }
+
+        @Override
+        protected ArrayList<CourtSubType_Entity> doInBackground(String... param)
+        {
+
+            return WebServiceHelper.GetCourtSubTypeMaster(AddOfficeUnderPoliceActivity.this, User_Id, Password,Token,courtType_Code);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CourtSubType_Entity> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    courtSubTypeMaster = result;
+                    setCourtSubTypeSpinner(result);
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "Court Sub Type List Not Loaded", Toast.LENGTH_SHORT).show();
                 }
 
             }

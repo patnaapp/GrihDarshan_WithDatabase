@@ -22,7 +22,7 @@ public class Office_Name_List_Modal implements KvmSerializable, Serializable {
     private String Office_Type_Code="";
     private String Range_Code="";
     private String Subdivision_Code="";
-;
+    ;
     private String skey="";
     private String cap="";
 
@@ -33,7 +33,7 @@ public class Office_Name_List_Modal implements KvmSerializable, Serializable {
         _encrptor=new Encriptor();
         try {
             this.skey = _encrptor.Decrypt(obj.getProperty("skey").toString(), CommonPref.CIPER_KEY);
-         //   this.Status = _encrptor.Decrypt(obj.getProperty("Status").toString(),skey);
+            //   this.Status = _encrptor.Decrypt(obj.getProperty("Status").toString(),skey);
             if(skey!=null){
                 this.cap = _encrptor.Decrypt(obj.getProperty("cap").toString(),skey);
                 if(cap!=null && cap.equals(capid)){
@@ -45,12 +45,12 @@ public class Office_Name_List_Modal implements KvmSerializable, Serializable {
                     this.Subdivision_Code = _encrptor.Decrypt(obj.getProperty("Subdivision_Code").toString(),skey);
 
                 }else {
-                   // this.Message = context.getResources().getString(R.string.invalid_cap);
+                    // this.Message = context.getResources().getString(R.string.invalid_cap);
                     logoutFromApp = (LogoutFromApp) context;
                     logoutFromApp.Logout();
                 }
             }else {
-               // this.Message = context.getResources().getString(R.string.empty_skey);
+                // this.Message = context.getResources().getString(R.string.empty_skey);
             }
         }catch (Exception e){
             e.printStackTrace();
