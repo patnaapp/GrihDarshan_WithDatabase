@@ -315,7 +315,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                             cancelRegistration = true;
                         }
                     }
-
                 }
 
                 if (TextUtils.isEmpty(TotalLandOfArea)) {
@@ -1626,15 +1625,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     }
 
 
-    private class UploadOfficeUnderPS extends AsyncTask<String, Void, String>
-    {
+    private class UploadOfficeUnderPS extends AsyncTask<String, Void, String> {
         private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
 
         OfficeUnderPsEntity workInfo;
         ArrayList<InspectionDetailsModel> reqrmnts;
 
-        public UploadOfficeUnderPS(OfficeUnderPsEntity workInfo, ArrayList<InspectionDetailsModel> reqrmnts)
-        {
+        public UploadOfficeUnderPS(OfficeUnderPsEntity workInfo, ArrayList<InspectionDetailsModel> reqrmnts) {
             this.workInfo = workInfo;
             this.reqrmnts = reqrmnts;
         }
@@ -1648,15 +1645,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
 
         @Override
-        protected String doInBackground(String... param)
-        {
+        protected String doInBackground(String... param) {
 
             return WebServiceHelper.UploadOfficeUnderPolice_Details(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("OrgId", ""),"","","","");
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
             if (this.dialog.isShowing())
             {
                 this.dialog.dismiss();
@@ -1695,15 +1690,12 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                         finish();
                                     }
                                 }).show();
-                    }
-                    else
-                    {
+                    } else {
                         new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
                                 .setTitle("Failed!!")
                                 .setMessage(response)
                                 .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener()
-                                {
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id)
                                     {
                                         finish();
@@ -1712,18 +1704,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                 .show();
                     }
 
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(),"Failed!! Null Response. Try again later",Toast.LENGTH_LONG).show();
             }
-
 
         }
 

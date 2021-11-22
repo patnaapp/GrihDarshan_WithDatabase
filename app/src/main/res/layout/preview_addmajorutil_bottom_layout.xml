@@ -396,7 +396,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/kabristan_name"
+                            android:text="@string/religion_place"
                             android:textColor="@color/color_black"
                             android:textSize="12sp" />
 

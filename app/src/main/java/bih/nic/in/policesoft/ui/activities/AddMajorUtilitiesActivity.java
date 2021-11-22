@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -49,10 +50,13 @@ import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.FireTypeServer;
+import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
+import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
+import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
 import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
 import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetAddContact;
@@ -73,15 +77,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
     ArrayList<GetTypeOfHydrantServer> TypeofHydration_List;
     ArrayList<FireTypeServer> FireType_List;
+    ArrayList<GetPrisionypeServer> PrisionType_List;
     MajorUtilitiesFromServer majorutilFromServer = new MajorUtilitiesFromServer();
     GetTypeOfHydrantServer typeofHydrationServer = new GetTypeOfHydrantServer();
     FireTypeServer fireTypeServer = new FireTypeServer();
+
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
     int ThumbnailSize = 500;
-    String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "", Court_Code = "", Chronic_Disp_Code = "";
-    String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc, jailType, courtType;
+    String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "",Historical_importance, Best_practices, Reform_correctional,  Court_Code = "", Chronic_Disp_Code = "", Fire_Type = "", Religion_type;
+    String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc, jailType, courtType, religionPlace;
     String[] status;
     MajorUtilEntry model;
     private GpsTracker gpsTracker;
@@ -90,6 +96,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     takegpsListAdaptor mAdapter;
     ArrayList<InspectionDetailsModel> listgps;
     boolean doubleBackToExitPressedOnce = false;
+    Encriptor _encrptor;
 
 
     @Override
@@ -97,7 +104,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_major_utilities);
         customAlertDialog = new CustomAlertDialog(AddMajorUtilitiesActivity.this);
-        listgps= new  ArrayList<InspectionDetailsModel>();
+        listgps = new ArrayList<InspectionDetailsModel>();
 
 
         User_Id = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getUserID();
@@ -143,6 +150,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
         binding.llTypeFireHydrant.setVisibility(View.GONE);
 
+        binding.llReligionType.setVisibility(View.GONE);
+
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(User_Id, Password, Token).execute();
 
@@ -169,7 +178,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks,Hydration_Name,Fire_Prone_Name,Historical_importance, Best_Practices, Reforms_Correctional;
+            String MajorCrimeHeadAddress, LandDisputeAddress, KabristhanName, KabristhanVillage, JailName, JailAddress, EstablishYear, JailCapacity, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Hydration_Name, Fire_Prone_Name, Fire_Address, Historicalimportance, BestPractices, ReformsCorrectional;
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             LandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
             KabristhanName = binding.etKabristhanName.getText().toString().trim();
@@ -189,23 +198,29 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             Hydration_Name = binding.etHydrantName.getText().toString().trim();
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
+            Fire_Address = binding.etFairFestivalAddress.getText().toString();
 
-            Historical_importance = binding.etHistoricalImportance.getText().toString().trim();
-            Best_Practices = binding.etBestPractices.getText().toString().trim();
-            Reforms_Correctional = binding.etReformsCorrectionalActivities.getText().toString().trim();
+            Historicalimportance = binding.etHistoricalImportance.getText().toString().trim();
+            BestPractices = binding.etBestPractices.getText().toString().trim();
+            ReformsCorrectional = binding.etReformsCorrectionalActivities.getText().toString().trim();
 
 
             boolean cancelRegistration = false;
             String isValied = "yes";
             View focusView = null;
 
+/*
             if (TextUtils.isEmpty(Util_Code)) {
                 binding.tvMajorPublicUtilities.setError(null);
+                binding.tvMajorPublicUtilities.setError(getResources().getString(R.string.major_util_required_field));
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_required_field), Toast.LENGTH_SHORT).show();
                 focusView = binding.spnMajorUtilities;
                 cancelRegistration = true;
+
             }
-            if (Util_Code.equals("1")) {
+*/
+
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("1")) {
                 if (TextUtils.isEmpty(Crime_Code)) {
                     binding.tvMajorCrimeHead.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_crime_required_field), Toast.LENGTH_SHORT).show();
@@ -218,9 +233,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etMajorCrimeHeadAddress;
                     cancelRegistration = true;
                 }
-            }
-            if (Util_Code.equalsIgnoreCase("2")) {
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
 
+            }
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("2")) {
                 if (TextUtils.isEmpty(Chronic_Disp_Code)) {
                     binding.tvChronicLandDisputs.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.chronic_land_required_field), Toast.LENGTH_SHORT).show();
@@ -233,9 +255,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etLandDisputeAddress;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
+
 
             }
-            if (Util_Code.equalsIgnoreCase("3")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("3")) {
                 if (TextUtils.isEmpty(KabristhanName)) {
                     binding.etKabristhanName.setError(getResources().getString(R.string.kabristan_name_required_field));
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.kabristan_name_required_field), Toast.LENGTH_SHORT).show();
@@ -248,26 +278,58 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etKabristhanVillage;
                     cancelRegistration = true;
                 }
+
                 if (TextUtils.isEmpty(KbrLand_Code)) {
                     binding.tvMajorCrimeHead.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_crime_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.spnMajorCrimeHead;
                     cancelRegistration = true;
                 }
+
                 if (TextUtils.isEmpty(Boundary_Code)) {
                     binding.tvBoundaryStatus.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.boundary_wall_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.spnBoundaryStatus;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
+
             }
-            if (Util_Code.equalsIgnoreCase("4")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("4")) {
                 if (TextUtils.isEmpty(JailType_Code)) {
                     binding.tvJailType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.jail_type_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.spnJailType;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Historicalimportance)) {
+                    binding.etHistoricalImportance.setError(null);
+                    binding.etHistoricalImportance.setError(getResources().getString(R.string.valid_historical_importance));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_historical_importance), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etHistoricalImportance;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(BestPractices)) {
+                    binding.etBestPractices.setError(null);
+                    binding.etBestPractices.setError(getResources().getString(R.string.valid_best_practices));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_best_practices), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etBestPractices;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(ReformsCorrectional)) {
+                    binding.etReformsCorrectionalActivities.setError(null);
+                    binding.etReformsCorrectionalActivities.setError(getResources().getString(R.string.valid_reforms_correctional));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_reforms_correctional), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etReformsCorrectionalActivities;
+                    cancelRegistration = true;
+                }
+
                 if (TextUtils.isEmpty(JailName)) {
                     binding.etJailName.setError(null);
                     binding.etJailName.setError(getResources().getString(R.string.jail_required_field));
@@ -296,8 +358,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etJailCapacity;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
+
             }
-            if (Util_Code.equalsIgnoreCase("5")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("5")) {
                 if (TextUtils.isEmpty(Court_Code)) {
                     binding.tvCourtType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.court_type_required_field), Toast.LENGTH_SHORT).show();
@@ -318,8 +388,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etCourtAddress;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
             }
-            if (Util_Code.equalsIgnoreCase("6")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("6")) {
                 if (TextUtils.isEmpty(FairFestival)) {
                     binding.etFairFestival.setError(null);
                     binding.etFairFestival.setError(getResources().getString(R.string.fair_route_required_field));
@@ -334,8 +411,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etFairFestivalAddress;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
             }
-            if (Util_Code.equalsIgnoreCase("7")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("7")) {
                 if (TextUtils.isEmpty(HistoricalName)) {
                     binding.etHistoricalName.setError(null);
                     binding.etHistoricalName.setError(getResources().getString(R.string.historical_place__required_field));
@@ -350,8 +434,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etHistoricalAddress;
                     cancelRegistration = true;
                 }
-            }
-            if (Util_Code.equalsIgnoreCase("8")) {
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -360,7 +442,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (Util_Code.equalsIgnoreCase("9")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("8")) {
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -369,16 +451,53 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (Util_Code.equalsIgnoreCase("10")) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("9")) {
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
+            }
 
-                if (TextUtils.isEmpty(Util_Code)) {
+            if (Util_Code != null && Util_Code.equalsIgnoreCase("10")) {
+                if (TextUtils.isEmpty(Fire_Type)) {
                     binding.tvMajorFireType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_fire_type), Toast.LENGTH_SHORT).show();
                     focusView = binding.spnMajorFireType;
                     cancelRegistration = true;
                 }
-            }
+                if (TextUtils.isEmpty(Hydration_Name)) {
+                    binding.etHydrantName.setError(null);
+                    binding.etHydrantName.setError(getResources().getString(R.string.valid_hydrant_name));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_hydrant_name), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etHydrantName;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Fire_Prone_Name)) {
+                    binding.etFireProneLocation.setError(null);
+                    binding.etFireProneLocation.setError(getResources().getString(R.string.valid_fire_prone_name));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_fire_prone_name), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFireProneLocation;
+                    cancelRegistration = true;
+                }
 
+                if (TextUtils.isEmpty(FairFestivalAddress)) {
+                    binding.etFairFestivalAddress.setError(null);
+                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.valid_fire_add));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_fire_add), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFairFestivalAddress;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Remarks)) {
+                    binding.etRemarks.setError(null);
+                    binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRemarks;
+                    cancelRegistration = true;
+                }
+            }
 
             if (Photo1.equals("") || Photo1 == null) {
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
@@ -386,16 +505,68 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             if (cancelRegistration) {
                 // error in login
                 focusView.requestFocus();
+
             } else {
                 Utiilties.hideKeyboard(AddMajorUtilitiesActivity.this);
-                PreviewBottonSheetAddContact previewBottonSheet = new PreviewBottonSheetAddContact();
+               // PreviewBottonSheetAddContact previewBottonSheet = new PreviewBottonSheetAddContact();
                 Bundle bundle = new Bundle();
-                model = new MajorUtilEntry(Util_Code, Crime_Code, MajorCrimeHeadAddress, Chronic_Disp_Code, LandDisputeAddress, KabristhanName, KabristhanVillage, KbrLand_Code, Boundary_Code, JailType_Code, JailName, JailAddress, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, latitude, longitude, Photo1);
-                bundle.putParcelable(Constants.PS_PARAM, model);
-                previewBottonSheet.setArguments(bundle);
-                previewBottonSheet.show(getSupportFragmentManager(), "TAG");
+                model = new MajorUtilEntry(Util_Code, Crime_Code, MajorCrimeHeadAddress, Chronic_Disp_Code, LandDisputeAddress, KabristhanName, KabristhanVillage, KbrLand_Code, Boundary_Code, JailType_Code,Best_practices,Historical_importance,Reform_correctional,JailName, JailAddress, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, latitude, longitude, Photo1);
+               // bundle.putParcelable(Constants.PS_PARAM, model);
+//                previewBottonSheet.setArguments(bundle);
+//                previewBottonSheet.show(getSupportFragmentManager(), "TAG");
+
+                model.setUtil_Code(Util_Code);
+                model.setCrime_Code(Crime_Code);
+                model.setMajorCrimeHeadAddress(MajorCrimeHeadAddress);
+                model.setBoundary_Code(Chronic_Disp_Code);
+                model.setLandDisputeAddress(LandDisputeAddress);
+                model.setKabristhanName(KabristhanName);
+                model.setKabristhanVillage(KabristhanVillage);
+                model.setKbrLand_Code(KbrLand_Code);
+                model.setBoundary_Code(Boundary_Code);
+                model.setJailType_Code(JailType_Code);
+                model.setJailName(JailName);
+                model.setJailAddress(JailName);
+                model.setEstablishYear(EstablishYear);
+                model.setJailCapacity(JailCapacity);
+                model.setCourt_Code(Court_Code);
+                model.setNameCourt(NameCourt);
+                model.setCourtAddress(CourtAddress);
+                model.setFairFestival(FairFestival);
+                model.setFairFestivalAddress(FairFestivalAddress);
+                model.setHistoricalName(HistoricalName);
+                model.setHistoricalAddress(HistoricalAddress);
+                model.setBest_practices(Best_practices);
+                model.setHistorical_importance(Historical_importance);
+                model.setReform_correctional(Reform_correctional);
+                model.setRemarks(Remarks);
+
+
+                if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
+
+                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                    ab.setMessage(Html.fromHtml(
+                            "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
+                    ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+                            startActivity(I);
+                        }
+                    });
+
+                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                    ab.show();
+                }else{
+                    new UploadMajorUtilities(model,listgps).execute();
+                    //new stateData().execute();
+                }
             }
+
+
         });
+
+
 
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -465,6 +636,25 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     Chronic_Disp_Code = null;
                 }
                 break;
+            case R.id.spn_religion_type:
+                if (i > 0) {
+                    if (getResources().getString(R.string.temple).equals(religionPlace[i])) {
+                        Religion_type = "T";
+                    } else if (getResources().getString(R.string.churches).equals(religionPlace[i])) {
+                        Religion_type = "C";
+                    } else if (getResources().getString(R.string.mosques).equals(religionPlace[i])){
+                        Religion_type = "M";
+                    } else if (getResources().getString(R.string.gurdwaras).equals(religionPlace[i])){
+                        Religion_type = "G";
+                    } else if (getResources().getString(R.string.synagogues).equals(religionPlace[i])){
+                        Religion_type = "S";
+                    } else if (getResources().getString(R.string.kabristan).equals(religionPlace[i])){
+                        Religion_type = "K";
+                    }
+                } else {
+                    Religion_type = null;
+                }
+                break;
             case R.id.spn_kbr_land_detils:
                 if (i > 0) {
                     if (getResources().getString(R.string.govt).equals(govtPrivate[i])) {
@@ -476,6 +666,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     KbrLand_Code = null;
                 }
                 break;
+
             case R.id.spn_boundary_status:
                 if (i > 0) {
                     if (getResources().getString(R.string.pucca).equals(boundaryStatus[i])) {
@@ -527,16 +718,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             case R.id.spn_major_fire_type:
                 if (i > 0) {
                     fireTypeServer = FireType_List.get(i - 1);
-//                    Util_Code = fireTypeServer.getUtil_Code();
-//                    Util_Name = majorutilFromServer.getUtil_Name();
-                    if (fireTypeServer.getFireType_Code().equals("1"))
-                    {
+                    //Util_Code = fireTypeServer.getUtil_Code();
+                    //Util_Name = majorutilFromServer.getUtil_Name();
+                    if (fireTypeServer.getFireType_Code().equals("1")) {
                         binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                        binding.llFireProneLocation.setVisibility(View.GONE);
+                    } else {
                         binding.llTypeFireHydrant.setVisibility(View.GONE);
+                        binding.llHydrantName.setVisibility(View.GONE);
+                        binding.llFireProneLocation.setVisibility(View.VISIBLE);
                     }
-                   // visibleTrueFalse();
+                    // visibleTrueFalse();
 
                 } else {
                     Util_Code = null;
@@ -556,15 +748,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         //new MajorUtil().execute();
     }
 
-    private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>>{
+    private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>> {
         String userId, Password, Token;
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
-        public GetFireType(String userId, String password, String token){
+
+        public GetFireType(String userId, String password, String token) {
             this.userId = userId;
             Token = token;
             Password = password;
@@ -575,6 +768,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
 
         }
+
         @Override
         protected void onPostExecute(ArrayList<FireTypeServer> result) {
             customAlertDialog.dismisDialog();
@@ -593,12 +787,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
 
     }
-    public void setFireType(ArrayList<FireTypeServer> RangeList){
+
+    public void setFireType(ArrayList<FireTypeServer> RangeList) {
         FireType_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Fire Type-");
 
-        for (FireTypeServer info : FireType_List){
+        for (FireTypeServer info : FireType_List) {
             array.add(info.getFireType_Name());
         }
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -608,13 +803,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
 
-    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<GetTypeOfHydrantServer>>{
+    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<GetTypeOfHydrantServer>> {
         String userId, Password, Token;
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
+
         public TypeofHydration(String userId, String password, String token) {
             this.userId = userId;
             Token = token;
@@ -627,6 +824,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             return WebServiceHelper.GetTypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
 
         }
+
         @Override
         protected void onPostExecute(ArrayList<GetTypeOfHydrantServer> result) {
             customAlertDialog.dismisDialog();
@@ -646,12 +844,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
     }
 
-    public void TypeOfHydration(ArrayList<GetTypeOfHydrantServer> RangeList){
+    public void TypeOfHydration(ArrayList<GetTypeOfHydrantServer> RangeList) {
         TypeofHydration_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Type of Hydrant-");
 
-        for (GetTypeOfHydrantServer info : TypeofHydration_List){
+        for (GetTypeOfHydrantServer info : TypeofHydration_List) {
             array.add(info.getHydrant_Type());
         }
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
@@ -659,7 +857,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnTypeFireHydrant.setAdapter(adaptor);
         binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
     }
-
 
 
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
@@ -714,6 +911,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnMajorUtilities.setAdapter(adaptor);
         binding.spnMajorUtilities.setOnItemSelectedListener(this);
+
+
     }
 
 
@@ -749,6 +948,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
+
             load_Major_Crime();
 
 
@@ -783,6 +988,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
+
             chronic_land();
 
         } else if (Util_Code.equals("3")) {
@@ -816,10 +1027,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
+            binding.llReligionType.setVisibility(View.VISIBLE);
 
             load_Land_Details();
             bounadry_Status();
+            load_Religion_type();
 
         } else if (Util_Code.equals("4")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
@@ -856,6 +1072,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llBestPractices.setVisibility(View.VISIBLE);
             binding.llReformsCorrectionalActivities.setVisibility(View.VISIBLE);
 
+            binding.llReligionType.setVisibility(View.GONE);
+
             jail_Type();
 
         } else if (Util_Code.equals("5")) {
@@ -888,6 +1106,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llHydrantName.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
+
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
 
             Type_Court();
 
@@ -922,6 +1146,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("7")) {
             binding.llHistrocialPlaceName.setVisibility(View.VISIBLE);
             binding.llHistrocialPlaceAdd.setVisibility(View.VISIBLE);
@@ -952,6 +1182,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llHydrantName.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
+
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
 
         } else if (Util_Code.equals("8")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
@@ -984,6 +1220,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("9")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
             binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
@@ -1015,7 +1257,14 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
-        }else if (Util_Code.equals("10")){
+            binding.llHistoricalImportance.setVisibility(View.GONE);
+            binding.llBestPractices.setVisibility(View.GONE);
+            binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
+
+            binding.llReligionType.setVisibility(View.GONE);
+
+        } else if (Util_Code.equals("10")) {
+            binding.llReligionType.setVisibility(View.GONE);
 
             if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
 
@@ -1062,7 +1311,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
 
-    public void status(){
+    public void status() {
         status = new String[]{
                 getResources().getString(R.string.txt_status),
                 getResources().getString(R.string.txt_true),
@@ -1094,6 +1343,48 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnFireStatus.setAdapter(adapter);
         binding.spnFireStatus.setOnItemSelectedListener(this);
     }
+
+
+    public void load_Religion_type() {
+        religionPlace = new String[]{
+                getResources().getString(R.string.select),
+                getResources().getString(R.string.temple),
+                getResources().getString(R.string.churches),
+                getResources().getString(R.string.mosques),
+                getResources().getString(R.string.gurdwaras),
+                getResources().getString(R.string.synagogues),
+                getResources().getString(R.string.kabristan),
+
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, religionPlace) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textview = (TextView) view;
+                if (position == 0) {
+                    textview.setTextColor(Color.RED);
+                } else {
+                    textview.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnReligionType.setAdapter(adapter);
+        binding.spnReligionType.setOnItemSelectedListener(this);
+
+    }
+
 
     public void load_Major_Crime() {
         majorCrime = new String[]{
@@ -1436,6 +1727,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -1450,11 +1742,94 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
+
+    private class UploadMajorUtilities extends AsyncTask<String, Void, String>{
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
+        MajorUtilEntry majorUtilEntry;
+        ArrayList<InspectionDetailsModel> inspectionDetailsModelArrayList;
+
+        public UploadMajorUtilities(MajorUtilEntry majorUtilEntry, ArrayList<InspectionDetailsModel> inspectionDetailsModelArrayList) {
+            this.majorUtilEntry = majorUtilEntry;
+            this.inspectionDetailsModelArrayList = inspectionDetailsModelArrayList;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog.setMessage("Uploading");
+            this.dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return WebServiceHelper.UploadMajorUtilities_Details(AddMajorUtilitiesActivity.this,majorUtilEntry,inspectionDetailsModelArrayList, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("OrgId",""),"","","","");
+        }
+
+        @Override
+        protected void onPostExecute(String result){
+            if (this.dialog.isShowing()){
+                this.dialog.dismiss();
+            }
+            if (result != null){
+                String[] res = result.split(",");
+                try {
+                    String sKey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
+                    String response = _encrptor.Decrypt(res[0], sKey);
+
+                    if (response.equals("1")){
+                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                .setTitle("Success")
+                                .setMessage("Record Uploaded Successfully")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
+                                .show();
+                    }
+                    else if (response.equals("0")){
+                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                .setTitle("Failed")
+                                .setMessage("Record Not Upload Successfully")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                })
+                                .show();
+                    }
+                    else {
+                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                .setTitle("Failed!!")
+                                .setMessage(response)
+                                .setCancelable(true)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                })
+                                .show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Failed!! Null Response. Try again later", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }
-
-
 

@@ -13,7 +13,6 @@ import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.interfacep.LogoutFromApp;
 import bih.nic.in.policesoft.utility.CommonPref;
-
 public class FireTypeServer implements KvmSerializable, Serializable {
     LogoutFromApp logoutFromApp;
     private static final long serialVersionUID = 1L;
@@ -31,6 +30,7 @@ public class FireTypeServer implements KvmSerializable, Serializable {
 
     public FireTypeServer(SoapObject obj, String capid, Context context){
         _encrptor=new Encriptor();
+
         try {
             this.skey = _encrptor.Decrypt(obj.getProperty("skey").toString(), CommonPref.CIPER_KEY);
             //   this.Status = _encrptor.Decrypt(obj.getProperty("Status").toString(),skey);

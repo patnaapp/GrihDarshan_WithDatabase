@@ -432,7 +432,7 @@
                             android:background="@drawable/textboxshape"
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:maxLength="15"
                             android:padding="10dp"
                             android:singleLine="true"
@@ -495,7 +495,7 @@
                             android:background="@drawable/textboxshape"
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:maxLength="15"
                             android:padding="10dp"
                             android:singleLine="true"
@@ -508,6 +508,31 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_religion_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_religion_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/religion_type"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_religion_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:id="@+id/ll_kabristan_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -518,7 +543,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/kabristan_name"
+                        android:text="@string/religion_place"
                         android:textColor="@color/color_black"
                         android:textSize="12sp" />
 
@@ -545,6 +570,8 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/ll_kabristan_Village"
