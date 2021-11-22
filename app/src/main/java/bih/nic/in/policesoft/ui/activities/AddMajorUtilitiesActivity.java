@@ -50,7 +50,7 @@ import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.FireTypeServer;
-import bih.nic.in.policesoft.entity.GetPrisionypeServer;
+
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
@@ -77,7 +77,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
     ArrayList<GetTypeOfHydrantServer> TypeofHydration_List;
     ArrayList<FireTypeServer> FireType_List;
-    ArrayList<GetPrisionypeServer> PrisionType_List;
+
     MajorUtilitiesFromServer majorutilFromServer = new MajorUtilitiesFromServer();
     GetTypeOfHydrantServer typeofHydrationServer = new GetTypeOfHydrantServer();
     FireTypeServer fireTypeServer = new FireTypeServer();

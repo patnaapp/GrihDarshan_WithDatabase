@@ -45,6 +45,115 @@ public class OfficeUnderPsEntity {
     private String stateOfficeName="";
     private String prosecutionOfficelevel="";
 
+    public String getCourtCategId() {
+        return courtCategId;
+    }
+
+    public void setCourtCategId(String courtCategId) {
+        this.courtCategId = courtCategId;
+    }
+
+    public String getCourtTypeId() {
+        return courtTypeId;
+    }
+
+    public void setCourtTypeId(String courtTypeId) {
+        this.courtTypeId = courtTypeId;
+    }
+
+    public String getCourtSubTypeId() {
+        return courtSubTypeId;
+    }
+
+    public void setCourtSubTypeId(String courtSubTypeId) {
+        this.courtSubTypeId = courtSubTypeId;
+    }
+
+    public String getHGOfficeLevel_ID() {
+        return HGOfficeLevel_ID;
+    }
+
+    public void setHGOfficeLevel_ID(String HGOfficeLevel_ID) {
+        this.HGOfficeLevel_ID = HGOfficeLevel_ID;
+    }
+
+    public String getHGStateOffice() {
+        return HGStateOffice;
+    }
+
+    public void setHGStateOffice(String HGStateOffice) {
+        this.HGStateOffice = HGStateOffice;
+    }
+
+    public String getHGDistOffice() {
+        return HGDistOffice;
+    }
+
+    public void setHGDistOffice(String HGDistOffice) {
+        this.HGDistOffice = HGDistOffice;
+    }
+
+    public String getHG_regular_Male() {
+        return HG_regular_Male;
+    }
+
+    public void setHG_regular_Male(String HG_regular_Male) {
+        this.HG_regular_Male = HG_regular_Male;
+    }
+
+    public String getHG_regular_Female() {
+        return HG_regular_Female;
+    }
+
+    public void setHG_regular_Female(String HG_regular_Female) {
+        this.HG_regular_Female = HG_regular_Female;
+    }
+
+    public String getHG_regular_Others() {
+        return HG_regular_Others;
+    }
+
+    public void setHG_regular_Others(String HG_regular_Others) {
+        this.HG_regular_Others = HG_regular_Others;
+    }
+
+    public String getHG_volunatry_Male() {
+        return HG_volunatry_Male;
+    }
+
+    public void setHG_volunatry_Male(String HG_volunatry_Male) {
+        this.HG_volunatry_Male = HG_volunatry_Male;
+    }
+
+    public String getHG_volunatry_Female() {
+        return HG_volunatry_Female;
+    }
+
+    public void setHG_volunatry_Female(String HG_volunatry_Female) {
+        this.HG_volunatry_Female = HG_volunatry_Female;
+    }
+
+    public String getHG_volunatry_Others() {
+        return HG_volunatry_Others;
+    }
+
+    public void setHG_volunatry_Others(String HG_volunatry_Others) {
+        this.HG_volunatry_Others = HG_volunatry_Others;
+    }
+
+    private String courtCategId="";
+    private String courtTypeId="";
+    private String courtSubTypeId="";
+    private String HGOfficeLevel_ID="";
+    private String HGStateOffice="";
+    private String HGDistOffice="";
+    private String HG_regular_Male="";
+    private String HG_regular_Female="";
+    private String HG_regular_Others="";
+    private String HG_volunatry_Male="";
+    private String HG_volunatry_Female="";
+    private String HG_volunatry_Others="";
+
     public String getStateOfficeName() {
         return stateOfficeName;
     }

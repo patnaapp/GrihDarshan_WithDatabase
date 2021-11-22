@@ -11,7 +11,7 @@
         android:id="@+id/iv_logo"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/parichaylogo"/>
 
     <LinearLayout
         android:layout_toRightOf="@+id/iv_logo"

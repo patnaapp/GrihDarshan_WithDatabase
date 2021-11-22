@@ -48,6 +48,7 @@ import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.Police_District;
 import bih.nic.in.policesoft.entity.Range;
 import bih.nic.in.policesoft.entity.RangeUnderOffice;
+import bih.nic.in.policesoft.entity.ThanaNameList_Entity;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
 import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetAddContact;
@@ -68,8 +69,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     ArrayList<Office_Name_List_Modal> officeNameListMaster;
     ArrayList<CourtType_Entity> courtTypeMaster;
     ArrayList<CourtSubType_Entity> courtSubTypeMaster;
+    ArrayList<ThanaNameList_Entity> PSMaster;
     OfficeListFromServer officeFromServer = new OfficeListFromServer();
     Office_Name_List_Modal officename = new Office_Name_List_Modal();
+    ThanaNameList_Entity PSname = new ThanaNameList_Entity();
     CourtType_Entity courtType = new CourtType_Entity();
     CourtSubType_Entity courtSubType = new CourtSubType_Entity();
     Range range = new Range();
@@ -602,6 +605,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             }
             if (Photo1.equalsIgnoreCase("") || Photo1 == null) {
                 Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
+                focusView = binding.imgPic1;
+                cancelRegistration = true;
             }
             if (cancelRegistration) {
                 focusView.requestFocus();
@@ -640,10 +645,22 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 officeUnderPsEntity.setPhoto(Photo1);
                 officeUnderPsEntity.setLatitude(latitude);
                 officeUnderPsEntity.setLongitude(longitude);
-                officeUnderPsEntity.setStateOfficeName(binding.etStOfficeName.getText().toString());
-                officeUnderPsEntity.setDistOfficeName(binding.etDistOfficeName.getText().toString());
-                officeUnderPsEntity.setOfficeLevel(OfficeLevel);
+//                officeUnderPsEntity.setStateOfficeName(binding.etStOfficeName.getText().toString());
+//                officeUnderPsEntity.setDistOfficeName(binding.etDistOfficeName.getText().toString());
+//                officeUnderPsEntity.setOfficeLevel(OfficeLevel);
                 officeUnderPsEntity.setProsecutionOfficelevel(prosecutor_office_level);
+                officeUnderPsEntity.setCourtCategId(courtCateg);
+                officeUnderPsEntity.setCourtTypeId(courtType_Code);
+                officeUnderPsEntity.setCourtSubTypeId(courtSubType_Code);
+                officeUnderPsEntity.setHGOfficeLevel_ID(OfficeLevel);
+                officeUnderPsEntity.setHGStateOffice(binding.etStOfficeName.getText().toString());
+                officeUnderPsEntity.setHGDistOffice(binding.etDistOfficeName.getText().toString());
+                officeUnderPsEntity.setHG_regular_Male(binding.etRegularMale.getText().toString());
+                officeUnderPsEntity.setHG_regular_Female(binding.etRegularFemale.getText().toString());
+                officeUnderPsEntity.setHG_regular_Others(binding.etRegularOthers.getText().toString());
+                officeUnderPsEntity.setHG_volunatry_Male(binding.etVoluntaryMale.getText().toString());
+                officeUnderPsEntity.setHG_volunatry_Female(binding.etVoluntaryFemale.getText().toString());
+                officeUnderPsEntity.setHG_volunatry_Others(binding.etVoluntaryOthers.getText().toString());
 
 
                 if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
@@ -704,14 +721,24 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     Office_type_Name = officeFromServer.getOffice_Name();
                     Office_Code="";
                     Office_Name="";
-                    if (officeNameListMaster!=null)
-                    {
-                        officeNameListMaster.clear();
-                        officenamearray.clear();
 
-                    }
                     prosecutor_office_level="";
-                    new GetOfficeNameList_Master().execute();
+
+                    if (Office_type_Code.equals("2"))
+                    {
+                        new GetPoliceStationNameMaster().execute();
+                    }
+                    else
+                    {
+                        if (officeNameListMaster!=null)
+                        {
+                            officeNameListMaster.clear();
+                            officenamearray.clear();
+
+                        }
+                        new GetOfficeNameList_Master().execute();
+                    }
+
                     truefalse();
                 } else {
                     Office_type_Code = null;
@@ -735,11 +762,17 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 break;
             case R.id.spn_office:
                 if (i > 0) {
-                    //if (Office_type_Code.equals("1")) {
-                    officename = officeNameListMaster.get(i - 1);
-                    Office_Code = officename.getOfficeCode();
-                    Office_Name = officename.getOfficeName();
-                    //  }
+                    if (Office_type_Code.equals("2")) {
+                        PSname = PSMaster.get(i - 1);
+                        Office_Code = PSname.getPS_Code();
+                        Office_Name = PSname.getPolice_Station();
+                    }
+                    else {
+                        officename = officeNameListMaster.get(i - 1);
+                        Office_Code = officename.getOfficeCode();
+                        Office_Name = officename.getOfficeName();
+
+                    }
 
                 } else {
                     range_Code = null;
@@ -970,6 +1003,25 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnCourtSubType.setAdapter(adaptor);
         binding.spnCourtSubType.setOnItemSelectedListener(this);
+    }
+
+    public void setThanaSpinner(ArrayList<ThanaNameList_Entity> CourtSubTypeList)
+    {
+
+        PSMaster = CourtSubTypeList;
+        ArrayList array = new ArrayList<String>();
+
+        array.add("-Select PS Name-");
+
+        for (ThanaNameList_Entity info : PSMaster)
+        {
+            array.add(info.getPolice_Station());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnOffice.setAdapter(adaptor);
+        binding.spnOffice.setOnItemSelectedListener(this);
     }
 
     public void truefalse() {
@@ -1798,6 +1850,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
     }
 
+
+
     private class GetCourtSubTypeMaster extends AsyncTask<String, Void, ArrayList<CourtSubType_Entity>> {
         // String userId, Password, Token;
 
@@ -1832,6 +1886,46 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 } else
                 {
                     Toast.makeText(getApplicationContext(), "Court Sub Type List Not Loaded", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetPoliceStationNameMaster extends AsyncTask<String, Void, ArrayList<ThanaNameList_Entity>> {
+        // String userId, Password, Token;
+
+        private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            customAlertDialog.showDialog();
+        }
+
+        public GetPoliceStationNameMaster() {
+
+        }
+
+        @Override
+        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param)
+        {
+
+            return WebServiceHelper.GetPS_Name_Master(AddOfficeUnderPoliceActivity.this, User_Id, Password,Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code(),CommonPref.getPoliceDetails(getApplicationContext()).getSub_Div_Code(),CommonPref.getPoliceDetails(getApplicationContext()).getRange_Code());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ThanaNameList_Entity> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    PSMaster = result;
+                    setThanaSpinner(result);
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "Police Station List Not Loaded", Toast.LENGTH_SHORT).show();
                 }
 
             }
