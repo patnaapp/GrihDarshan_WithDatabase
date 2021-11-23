@@ -102,6 +102,7 @@
                         android:layout_marginTop="4dp"
                         android:background="@drawable/spinner_bg1" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_type_fire_hydrant"
                     android:layout_width="match_parent"
@@ -572,7 +573,6 @@
                 </LinearLayout>
 
 
-
                 <LinearLayout
                     android:id="@+id/ll_kabristan_Village"
                     android:layout_width="match_parent"
@@ -842,9 +842,6 @@
                 </LinearLayout>
 
 
-
-
-
                 <LinearLayout
                     android:id="@+id/ll_jail_add"
                     android:layout_width="match_parent"
@@ -928,8 +925,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -964,12 +961,12 @@
 
                 <LinearLayout
                     android:id="@+id/ll_jail_capcity"
-                    android:layout_marginTop="16dp"
-                    android:padding="8dp"
-                    android:background="@drawable/shape_adapter_cell"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_adapter_cell"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <TextView
                         android:id="@+id/jail_cap"
@@ -977,20 +974,20 @@
                         android:layout_height="wrap_content"
                         android:text="@string/jail_capacity"
                         android:textAlignment="center"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <LinearLayout
-                        android:layout_marginTop="6dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
                         <LinearLayout
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -998,28 +995,29 @@
                                 android:layout_height="wrap_content"
                                 android:text="Male *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_regular_male"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Male"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
+
                         <LinearLayout
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -1027,29 +1025,29 @@
                                 android:layout_height="wrap_content"
                                 android:text="Female *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_regular_female"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Female"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -1057,21 +1055,21 @@
                                 android:layout_height="wrap_content"
                                 android:text="Others *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_regular_others"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Others"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
 
@@ -1082,12 +1080,12 @@
 
                 <LinearLayout
                     android:id="@+id/ll_inmates"
-                    android:layout_marginTop="16dp"
-                    android:padding="8dp"
-                    android:background="@drawable/shape_adapter_cell"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/shape_adapter_cell"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <TextView
                         android:id="@+id/txt_inmates"
@@ -1095,20 +1093,20 @@
                         android:layout_height="wrap_content"
                         android:text="@string/no_of_inmates"
                         android:textAlignment="center"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <LinearLayout
-                        android:layout_marginTop="6dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
                         <LinearLayout
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -1116,28 +1114,29 @@
                                 android:layout_height="wrap_content"
                                 android:text="Male *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_inmates_male"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Male"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
+
                         <LinearLayout
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -1145,29 +1144,29 @@
                                 android:layout_height="wrap_content"
                                 android:text="Female *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_inmates_female"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Female"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -1175,21 +1174,21 @@
                                 android:layout_height="wrap_content"
                                 android:text="Others *"
                                 android:textColor="@color/black_overlay"
-                                android:textSize="12sp"/>
+                                android:textSize="12sp" />
 
                             <EditText
-                                android:layout_marginTop="4dp"
                                 android:id="@+id/et_inmates_others"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
                                 android:hint="No Of Others"
-                                android:padding="10dp"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:padding="10dp"
                                 android:singleLine="true"
                                 android:textColor="#222222"
-                                android:focusableInTouchMode="true"
                                 android:textSize="15sp" />
                         </LinearLayout>
 
@@ -1198,25 +1197,25 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="2"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="14sp"
                             android:layout_weight="1"
-                            android:text="@string/txt_under_trail"/>
+                            android:text="@string/txt_under_trail"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
-                            android:textSize="14sp"
                             android:layout_weight="1"
-                            android:text="@string/txt_convicted"/>
+                            android:text="@string/txt_convicted"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
 
 
                     </LinearLayout>
@@ -1224,13 +1223,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="2"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1242,23 +1243,24 @@
                                     android:layout_height="wrap_content"
                                     android:text="Male *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_under_trail_male"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Male"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1270,21 +1272,21 @@
                                     android:layout_height="wrap_content"
                                     android:text="Female *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_under_trail_female"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Female"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
 
@@ -1299,21 +1301,21 @@
                                     android:layout_height="wrap_content"
                                     android:text="Others *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_under_tails_others"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Others"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
 
@@ -1336,23 +1338,24 @@
                                     android:layout_height="wrap_content"
                                     android:text="Male *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_convicted_male"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Male"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1364,23 +1367,24 @@
                                     android:layout_height="wrap_content"
                                     android:text="Female *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_convicted_female"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Female"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1392,21 +1396,21 @@
                                     android:layout_height="wrap_content"
                                     android:text="Others *"
                                     android:textColor="@color/black_overlay"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                                 <EditText
-                                    android:layout_marginTop="4dp"
                                     android:id="@+id/et_convicted_others"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
                                     android:background="@drawable/textboxshape"
+                                    android:focusableInTouchMode="true"
                                     android:hint="No Of Others"
-                                    android:padding="10dp"
                                     android:inputType="number"
                                     android:maxLength="5"
+                                    android:padding="10dp"
                                     android:singleLine="true"
                                     android:textColor="#222222"
-                                    android:focusableInTouchMode="true"
                                     android:textSize="15sp" />
                             </LinearLayout>
 
@@ -1417,7 +1421,6 @@
 
 
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -1561,39 +1564,37 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/ll_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/ll_location"
                     android:orientation="vertical">
 
                     <Button
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:background="#1BC921"
-                        android:layout_gravity="center"
-                        android:textAllCaps="false"
-                        android:text="Take Location"
                         android:id="@+id/take_loc"
                         android:layout_width="130dp"
                         android:layout_height="40dp"
-                        android:textColor="#ffffff">
-                    </Button>
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="15dp"
+                        android:background="#1BC921"
+                        android:text="Take Location"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"></Button>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="8dp"
                         android:id="@+id/list_gps_taken"
-                        android:nestedScrollingEnabled="false"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false">
 
                     </androidx.recyclerview.widget.RecyclerView>
 
                 </LinearLayout>
-
-
 
 
                 <LinearLayout
@@ -1720,7 +1721,6 @@
                         </LinearLayout>
                     </RelativeLayout>
                 </LinearLayout>
-
 
 
             </LinearLayout>
