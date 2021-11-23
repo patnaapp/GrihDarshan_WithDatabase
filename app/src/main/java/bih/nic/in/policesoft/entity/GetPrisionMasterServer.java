@@ -14,12 +14,13 @@ import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.interfacep.LogoutFromApp;
 import bih.nic.in.policesoft.utility.CommonPref;
 
-public class GetPrisionypeServer implements KvmSerializable, Serializable {
+public class GetPrisionMasterServer implements KvmSerializable, Serializable {
+
+
     LogoutFromApp logoutFromApp;
     private static final long serialVersionUID = 1L;
-   // private String Jail_Name="";
-    private String Jail_Type="";
-    private String Jail_Type_Code="";
+    private String Jail_Name="";
+    private String jail_Code="";
     private String Status="";
     private String message="";
     private String skey="";
@@ -28,9 +29,10 @@ public class GetPrisionypeServer implements KvmSerializable, Serializable {
 
     private Encriptor _encrptor;
 
-    public static Class<GetPrisionypeServer> PrisionType = GetPrisionypeServer.class;
+    public static Class<GetPrisionMasterServer> GetPrisonMaster = GetPrisionMasterServer.class;
 
-    public GetPrisionypeServer(SoapObject obj, String capid, Context context){
+
+    public GetPrisionMasterServer(SoapObject obj, String capid, Context context){
         _encrptor=new Encriptor();
 
         try {
@@ -39,8 +41,8 @@ public class GetPrisionypeServer implements KvmSerializable, Serializable {
             if(skey!=null){
                 this.cap = _encrptor.Decrypt(obj.getProperty("cap").toString(),skey);
                 if(cap!=null && cap.equals(capid)){
-                    this.Jail_Type_Code = _encrptor.Decrypt(obj.getProperty("Jail_Type_Code").toString(),skey);
-                    this.Jail_Type = _encrptor.Decrypt(obj.getProperty("Jail_Type").toString(),skey);
+                    this.Jail_Name = _encrptor.Decrypt(obj.getProperty("Jail_Name").toString(),skey);
+                    this.jail_Code = _encrptor.Decrypt(obj.getProperty("jail_Code").toString(),skey);
                     this.Status ="True";
                     this.Message = _encrptor.Decrypt(obj.getProperty("message").toString(),skey);
                 }else {
@@ -56,24 +58,24 @@ public class GetPrisionypeServer implements KvmSerializable, Serializable {
         }
     }
 
-    public GetPrisionypeServer() {
+    public GetPrisionMasterServer() {
 
     }
 
-    public String getJail_Type() {
-        return Jail_Type;
+    public String getJail_Name() {
+        return Jail_Name;
     }
 
-    public void setJail_Type(String jail_Type) {
-        Jail_Type = jail_Type;
+    public void setJail_Name(String jail_Name) {
+        Jail_Name = jail_Name;
     }
 
-    public String getJail_Type_Code() {
-        return Jail_Type_Code;
+    public String getJail_Code() {
+        return jail_Code;
     }
 
-    public void setJail_Type_Code(String jail_Type_Code) {
-        Jail_Type_Code = jail_Type_Code;
+    public void setJail_Code(String jail_Code) {
+        this.jail_Code = jail_Code;
     }
 
     public String getStatus() {
@@ -128,7 +130,3 @@ public class GetPrisionypeServer implements KvmSerializable, Serializable {
 
     }
 }
-
-
-
-

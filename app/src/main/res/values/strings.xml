@@ -128,7 +128,13 @@
     <string name="jail_type">Jail Type : [*]</string>
     <string name="jail_capacity">No. of Capacity : [*]</string>
     <string name="no_of_inmates">No. of Inmates : [*]</string>
+    <string name="transit">Transit : [*]</string>
+    <string name="inmates_under_18">Inmates Under 18 : [*]</string>
+    <string name="inmates_over_18">Inmates Over 18 : [*]</string>
+    <string name="inmates_foreigner">Inmates Foreigner : [*]</string>
+    <string name="available_amenities">Available Amenities : [*]</string>
     <string name="court_type">Type of Court : [*]</string>
+    <string name="other_facility">Other Facility : [*]</string>
     <string name="name_court">Name of Court : [*]</string>
     <string name="court_address">Court Address : [*]</string>
     <string name="division_fun">Divisions Functioning(Types of Lab) : [*] </string>
@@ -213,8 +219,6 @@
     <string name="ainsp">Assistant Inspector</string>
     <string name="si">Sub-inspector</string>
     <string name="asi">Assistant Sub-inspector	</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="govt">Goverment</string>
     <string name="priv">Private</string>
     <string name="txt_true">Active</string>
@@ -298,5 +302,12 @@
     <string name="empty_skey">Empty Skey !!</string>
     <string name="txt_under_trail">Under Trail</string>
     <string name="txt_convicted">Convicted</string>
+    <string name="dormitory">Dormitory</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="hospital">Hospital</string>
+    <string name="toilet">Toilet</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="add_more_facility">Add More Facility</string>
 
 </resources>

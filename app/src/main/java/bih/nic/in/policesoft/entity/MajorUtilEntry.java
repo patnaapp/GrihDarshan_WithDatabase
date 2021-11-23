@@ -5,10 +5,10 @@ import android.os.Parcelable;
 
 public class MajorUtilEntry implements Parcelable {
     private String Util_Code, Crime_Code, MajorCrimeHeadAddress, Chronic_Disp_Code, LandDisputeAddress, KabristhanName,
-            KabristhanVillage, KbrLand_Code, Boundary_Code, JailType_Code, JailName, JailAddress, Historical_importance, Best_practices, Reform_correctional, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Latitude, Longitude, Photo1;
+            KabristhanVillage, KbrLand_Code, Boundary_Code, JailType_Code, JailName,Jail_Type, JailAddress, Historical_importance, Best_practices, Reform_correctional, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Latitude, Longitude, Photo1;
 
 
-    public MajorUtilEntry(Parcel in) {
+    protected MajorUtilEntry(Parcel in) {
         Util_Code = in.readString();
         Crime_Code = in.readString();
         MajorCrimeHeadAddress = in.readString();
@@ -20,6 +20,7 @@ public class MajorUtilEntry implements Parcelable {
         Boundary_Code = in.readString();
         JailType_Code = in.readString();
         JailName = in.readString();
+        Jail_Type = in.readString();
         JailAddress = in.readString();
         Historical_importance = in.readString();
         Best_practices = in.readString();
@@ -69,6 +70,7 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Boundary_Code);
         dest.writeString(JailType_Code);
         dest.writeString(JailName);
+        dest.writeString(Jail_Type);
         dest.writeString(JailAddress);
         dest.writeString(Historical_importance);
         dest.writeString(Best_practices);
@@ -88,7 +90,7 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Photo1);
     }
 
-    public MajorUtilEntry(String util_Code, String crime_Code, String majorCrimeHeadAddress, String chronic_Disp_Code, String landDisputeAddress, String kabristhanName, String kabristhanVillage, String kbrLand_Code, String boundary_Code, String jailType_Code, String jailName, String jailAddress, String historical_importance, String best_practices, String reform_correctional, String establishYear, String jailCapacity, String court_Code, String nameCourt, String courtAddress, String fairFestival, String fairFestivalAddress, String historicalName, String historicalAddress, String remarks, String latitude, String longitude, String photo1) {
+    public MajorUtilEntry(String util_Code, String crime_Code, String majorCrimeHeadAddress, String chronic_Disp_Code, String landDisputeAddress, String kabristhanName, String kabristhanVillage, String kbrLand_Code, String boundary_Code, String jailType_Code, String jailName, String jail_Type, String jailAddress, String historical_importance, String best_practices, String reform_correctional, String establishYear, String jailCapacity, String court_Code, String nameCourt, String courtAddress, String fairFestival, String fairFestivalAddress, String historicalName, String historicalAddress, String remarks, String latitude, String longitude, String photo1) {
         Util_Code = util_Code;
         Crime_Code = crime_Code;
         MajorCrimeHeadAddress = majorCrimeHeadAddress;
@@ -100,6 +102,7 @@ public class MajorUtilEntry implements Parcelable {
         Boundary_Code = boundary_Code;
         JailType_Code = jailType_Code;
         JailName = jailName;
+        Jail_Type = jail_Type;
         JailAddress = jailAddress;
         Historical_importance = historical_importance;
         Best_practices = best_practices;
@@ -205,6 +208,14 @@ public class MajorUtilEntry implements Parcelable {
 
     public void setJailName(String jailName) {
         JailName = jailName;
+    }
+
+    public String getJail_Type() {
+        return Jail_Type;
+    }
+
+    public void setJail_Type(String jail_Type) {
+        Jail_Type = jail_Type;
     }
 
     public String getJailAddress() {
