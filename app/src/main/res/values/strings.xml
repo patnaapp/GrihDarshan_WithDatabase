@@ -126,7 +126,8 @@
     <string name="reforms_correctional_activities">Reforms/Correctional activities : [*]</string>
     <string name="establish_year">Established / Started Year : [*]</string>
     <string name="jail_type">Jail Type : [*]</string>
-    <string name="jail_capacity">Jail Capacity : [*]</string>
+    <string name="jail_capacity">No. of Capacity : [*]</string>
+    <string name="no_of_inmates">No. of Inmates : [*]</string>
     <string name="court_type">Type of Court : [*]</string>
     <string name="name_court">Name of Court : [*]</string>
     <string name="court_address">Court Address : [*]</string>
@@ -295,5 +296,7 @@
     <string name="good_night">Good Night</string>
     <string name="invalid_cap">Invalid CapId !!</string>
     <string name="empty_skey">Empty Skey !!</string>
+    <string name="txt_under_trail">Under Trail</string>
+    <string name="txt_convicted">Convicted</string>
 
 </resources>

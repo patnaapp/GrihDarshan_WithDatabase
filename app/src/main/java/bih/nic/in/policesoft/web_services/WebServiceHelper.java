@@ -49,6 +49,7 @@ import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.DefaultResponse_New;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.FireTypeServer;
+import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
@@ -1042,6 +1043,73 @@ public class WebServiceHelper {
             return null;
         }
         return pvmArrayList;
+    }
+    public static ArrayList<GetPrisionypeServer> GetPrisionType(Context context, String Uid, String Password, String token){
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GET_PRISION_TYPE_LIST);
+        SoapObject res1;
+        ArrayList<GetPrisionypeServer> pvmArrayList = new ArrayList<GetPrisionypeServer>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_UID = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Uid), RandomNo);
+            Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("Userid", Enc_UID);
+            request.addProperty("password", Enc_Pass);
+            request.addProperty("cap", Enc_CapId);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("PrisionType-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, GetPrisionypeServer.PrisionType.getSimpleName(), GetPrisionypeServer.PrisionType);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + GET_PRISION_TYPE_LIST, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("Prision_Type", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        GetPrisionypeServer Prision_Type = new GetPrisionypeServer(final_object, CapId, context);
+                        pvmArrayList.add(Prision_Type);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+
     }
 
     public static ArrayList<FireTypeServer> GetFireType(Context context, String Uid, String Password, String token){

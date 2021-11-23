@@ -81,6 +81,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     MajorUtilitiesFromServer majorutilFromServer = new MajorUtilitiesFromServer();
     GetTypeOfHydrantServer typeofHydrationServer = new GetTypeOfHydrantServer();
     FireTypeServer fireTypeServer = new FireTypeServer();
+    GetPrisionypeServer getPrisionypeServer = new GetPrisionypeServer();
 
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
@@ -131,7 +132,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llJailName.setVisibility(View.GONE);
         binding.llJailAdd.setVisibility(View.GONE);
         binding.llJailEstbl.setVisibility(View.GONE);
-        binding.llJailCapcity.setVisibility(View.GONE);
+
         binding.llCourtType.setVisibility(View.GONE);
         binding.llCourtName.setVisibility(View.GONE);
         binding.llCourtAdd.setVisibility(View.GONE);
@@ -151,6 +152,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llTypeFireHydrant.setVisibility(View.GONE);
 
         binding.llReligionType.setVisibility(View.GONE);
+
+        binding.llJailCapcity.setVisibility(View.GONE);
+        binding.llInmates.setVisibility(View.GONE);
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(User_Id, Password, Token).execute();
@@ -604,6 +608,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     Util_Name = majorutilFromServer.getUtil_Name();
                     visibleTrueFalse();
 
+
                 } else {
                     Util_Code = null;
                 }
@@ -680,23 +685,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 break;
             case R.id.spn_jail_type:
                 if (i > 0) {
-                    if (getResources().getString(R.string.cent_jail).equals(jailType[i])) {
-                        JailType_Code = "1";
-                    } else if (getResources().getString(R.string.dist_jail).equals(jailType[i])) {
-                        JailType_Code = "2";
-                    } else if (getResources().getString(R.string.sub_jail).equals(jailType[i])) {
-                        JailType_Code = "3";
-                    } else if (getResources().getString(R.string.women_jail).equals(jailType[i])) {
-                        JailType_Code = "4";
-                    } else if (getResources().getString(R.string.borstal_jail).equals(jailType[i])) {
-                        JailType_Code = "5";
-                    } else if (getResources().getString(R.string.open_jail).equals(jailType[i])) {
-                        JailType_Code = "6";
-                    } else if (getResources().getString(R.string.spcl_jail).equals(jailType[i])) {
-                        JailType_Code = "7";
-                    } else if (getResources().getString(R.string.other_jail).equals(jailType[i])) {
-                        JailType_Code = "8";
+                    getPrisionypeServer = PrisionType_List.get(i - 1);
+                    JailType_Code = getPrisionypeServer.getJail_Type_Code();
+                    if (getPrisionypeServer.getJail_Type_Code().equals("1")) {
+
                     }
+
                 } else {
                     JailType_Code = null;
                 }
@@ -746,6 +740,55 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     @Override
     public void OnDoneClick() {
         //new MajorUtil().execute();
+    }
+
+    private class GetPrisionType extends AsyncTask<String, Void, ArrayList<GetPrisionypeServer>> {
+        String userId, Password, Token;
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GetPrisionType(String userId, String password, String token) {
+            this.userId = userId;
+            Password = password;
+            Token = token;
+        }
+
+        @Override
+        protected ArrayList<GetPrisionypeServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token);
+        }
+        @Override
+        protected void onPostExecute(ArrayList<GetPrisionypeServer> result){
+            customAlertDialog.dismisDialog();
+
+            if (result != null){
+                if (result.size() > 0) {
+                    PrisionType_List = result;
+                    setPrision_Type(result);
+
+                }else {
+                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    public void setPrision_Type(ArrayList<GetPrisionypeServer> RangeList){
+        PrisionType_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Prision Type-");
+
+        for (GetPrisionypeServer info : PrisionType_List) {
+            array.add(info.getJail_Name());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnJailType.setAdapter(adaptor);
+        binding.spnJailType.setOnItemSelectedListener(this);
     }
 
     private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>> {
@@ -934,7 +977,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llJailName.setVisibility(View.GONE);
             binding.llJailAdd.setVisibility(View.GONE);
             binding.llJailEstbl.setVisibility(View.GONE);
-            binding.llJailCapcity.setVisibility(View.GONE);
             binding.llCourtType.setVisibility(View.GONE);
             binding.llCourtName.setVisibility(View.GONE);
             binding.llCourtAdd.setVisibility(View.GONE);
@@ -953,6 +995,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
+
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
             load_Major_Crime();
 
@@ -974,7 +1019,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llJailName.setVisibility(View.GONE);
             binding.llJailAdd.setVisibility(View.GONE);
             binding.llJailEstbl.setVisibility(View.GONE);
-            binding.llJailCapcity.setVisibility(View.GONE);
             binding.llCourtType.setVisibility(View.GONE);
             binding.llCourtName.setVisibility(View.GONE);
             binding.llCourtAdd.setVisibility(View.GONE);
@@ -993,6 +1037,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
+
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
             chronic_land();
 
@@ -1013,7 +1060,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llJailName.setVisibility(View.GONE);
             binding.llJailAdd.setVisibility(View.GONE);
             binding.llJailEstbl.setVisibility(View.GONE);
-            binding.llJailCapcity.setVisibility(View.GONE);
             binding.llCourtType.setVisibility(View.GONE);
             binding.llCourtName.setVisibility(View.GONE);
             binding.llCourtAdd.setVisibility(View.GONE);
@@ -1032,6 +1078,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.VISIBLE);
+
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
             load_Land_Details();
             bounadry_Status();
@@ -1054,7 +1103,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llJailName.setVisibility(View.VISIBLE);
             binding.llJailAdd.setVisibility(View.VISIBLE);
             binding.llJailEstbl.setVisibility(View.VISIBLE);
-            binding.llJailCapcity.setVisibility(View.VISIBLE);
             binding.llCourtType.setVisibility(View.GONE);
             binding.llCourtName.setVisibility(View.GONE);
             binding.llCourtAdd.setVisibility(View.GONE);
@@ -1074,7 +1122,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             binding.llReligionType.setVisibility(View.GONE);
 
-            jail_Type();
+            binding.llJailCapcity.setVisibility(View.VISIBLE);
+            binding.llInmates.setVisibility(View.VISIBLE);
+
+            if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+                new GetPrisionType(User_Id, Password, Token).execute();
+            } else {
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            }
+
+
+            //jail_Type();
 
         } else if (Util_Code.equals("5")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
@@ -1112,6 +1170,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
+
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
             Type_Court();
 
@@ -1152,6 +1213,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             binding.llReligionType.setVisibility(View.GONE);
 
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("7")) {
             binding.llHistrocialPlaceName.setVisibility(View.VISIBLE);
             binding.llHistrocialPlaceAdd.setVisibility(View.VISIBLE);
@@ -1188,6 +1252,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
+
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
         } else if (Util_Code.equals("8")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
@@ -1226,6 +1293,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             binding.llReligionType.setVisibility(View.GONE);
 
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("9")) {
             binding.llHistrocialPlaceName.setVisibility(View.GONE);
             binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
@@ -1263,8 +1333,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             binding.llReligionType.setVisibility(View.GONE);
 
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
+
         } else if (Util_Code.equals("10")) {
             binding.llReligionType.setVisibility(View.GONE);
+            binding.llJailCapcity.setVisibility(View.GONE);
+            binding.llInmates.setVisibility(View.GONE);
 
             if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
 
@@ -1529,46 +1604,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
     }
 
-    public void jail_Type() {
-        jailType = new String[]{
-                getResources().getString(R.string.select),
-                getResources().getString(R.string.cent_jail),
-                getResources().getString(R.string.dist_jail),
-                getResources().getString(R.string.sub_jail),
-                getResources().getString(R.string.women_jail),
-                getResources().getString(R.string.borstal_jail),
-                getResources().getString(R.string.open_jail),
-                getResources().getString(R.string.spcl_jail),
-                getResources().getString(R.string.other_jail),
-        };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, jailType) {
-            @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textview = (TextView) view;
-                if (position == 0) {
-                    textview.setTextColor(Color.RED);
-                } else {
-                    textview.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnJailType.setAdapter(adapter);
-        binding.spnJailType.setOnItemSelectedListener(this);
-
-    }
 
     public void Type_Court() {
         courtType = new String[]{
