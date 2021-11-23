@@ -603,6 +603,53 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     cancelRegistration = true;
                 }
             }
+            if (Office_type_Code.equalsIgnoreCase("8")) {
+
+                if (TextUtils.isEmpty(OfficeLevel)) {
+                    //binding.llOfficelevel.setError(getResources().getString(R.string.sanctioned_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Please select office level", Toast.LENGTH_SHORT).show();
+                    focusView = binding.llOfficelevel;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etRegularMale.getText().toString())) {
+                    binding.etRegularMale.setError(getResources().getString(R.string.working_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of male in regular home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRegularMale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etRegularFemale.getText().toString())) {
+                    binding.etRegularFemale.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of female in regular home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRegularFemale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etRegularOthers.getText().toString())) {
+                    binding.etRegularOthers.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of others in regular home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRegularOthers;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etVoluntaryMale.getText().toString())) {
+                    binding.etVoluntaryMale.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of male in voluntary home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etVoluntaryMale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etRegularFemale.getText().toString())) {
+                    binding.etRegularFemale.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of female in voluntary home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etRegularFemale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(binding.etVoluntaryOthers.getText().toString())) {
+                    binding.etVoluntaryOthers.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of others in voluntary home gaurd", Toast.LENGTH_SHORT).show();
+                    focusView = binding.etVoluntaryOthers;
+                    cancelRegistration = true;
+                }
+
+
+            }
             if (Photo1.equalsIgnoreCase("") || Photo1 == null) {
                 Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
                 focusView = binding.imgPic1;
