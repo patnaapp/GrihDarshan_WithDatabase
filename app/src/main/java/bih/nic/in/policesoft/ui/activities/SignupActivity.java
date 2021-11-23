@@ -47,6 +47,7 @@ import bih.nic.in.policesoft.entity.PoliceStationSignup;
 import bih.nic.in.policesoft.entity.Police_District;
 import bih.nic.in.policesoft.entity.Range;
 import bih.nic.in.policesoft.entity.Sub_Division;
+import bih.nic.in.policesoft.entity.ThanaNameList_Entity;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
 import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheet;
@@ -54,6 +55,7 @@ import bih.nic.in.policesoft.ui.dialog.PSDetailsFullScreenDilog;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.Constants;
+import bih.nic.in.policesoft.utility.CustomAlertDialog;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
 
@@ -67,6 +69,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     Range range = new Range();
     Police_District police_district = new Police_District();
     Sub_Division sub_division = new Sub_Division();
+    ThanaNameList_Entity thana = new ThanaNameList_Entity();
     String Range_Code = "", Range_Name = "", Dist_Code = "", Dist_Name = "", SubDiv_Code = "", SubDiv_Name = "", otp = null, ResponseMobile = "", Thana_Notification_Code = "", Thana_Notification_Name = "",
             Thana_Landavail_Code = "", Thana_Landavail_Name = "",Photo1="",Photo2="";
     boolean isVerifiedMobile = false;
@@ -79,12 +82,17 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     private final static int CAMERA_PIC = 99;
     int ThumbnailSize =500;
     String latitude="",longitude="";
+    private CustomAlertDialog customAlertDialog;
+    ArrayList<ThanaNameList_Entity> PSMaster;
+    String Thana_Code="",Thana_Name="";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
-
+        customAlertDialog = new CustomAlertDialog(SignupActivity.this);
 
         load_spinner();
         load_spinner1();
@@ -179,7 +187,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             RangeCode = Range_Code;
             DistCode = Dist_Code;
             SubDivCode = SubDiv_Code;
-            ThanaName = binding.etPoliceStation.getText().toString().trim();
+           // ThanaName = binding.etPoliceStation.getText().toString().trim();
             SHOName = binding.etShoName.getText().toString().trim();
             SHOMobile = binding.etMobileNo.getText().toString().trim();
             Email = binding.etEmailAdd.getText().toString().trim();
@@ -208,10 +216,12 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             } else if (SubDivCode == null) {
                 binding.tvSubdivTitle.setError(null);
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.subdiv_required_field), Toast.LENGTH_SHORT).show();
-            } else if (ThanaName.isEmpty() || ThanaName == null) {
-                binding.etPoliceStation.setError(getResources().getString(R.string.thana_required_field));
-                Toast.makeText(SignupActivity.this, getResources().getString(R.string.thana_required_field), Toast.LENGTH_SHORT).show();
-            } else if (SHOName.isEmpty() || SHOName == null) {
+            }
+//            else if (ThanaName.isEmpty() || ThanaName == null) {
+//                binding.etPoliceStation.setError(getResources().getString(R.string.thana_required_field));
+//                Toast.makeText(SignupActivity.this, getResources().getString(R.string.thana_required_field), Toast.LENGTH_SHORT).show();
+//            }
+            else if (SHOName.isEmpty() || SHOName == null) {
                 binding.etShoName.setError(null);
                 binding.etShoName.setError(getResources().getString(R.string.required_field));
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.sho_required_field), Toast.LENGTH_SHORT).show();
@@ -271,7 +281,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 Utiilties.hideKeyboard(this);
                 PreviewBottonSheet previewBottonSheet = new PreviewBottonSheet();
                 Bundle bundle = new Bundle();
-                model = new PoliceStationSignup(RangeCode, Range_Name, DistCode, Dist_Name, SubDivCode, SubDiv_Name, ThanaName, SHOName, SHOMobile, Thana_Add, LandlineNum, Email, Thana_Notification_Code, Notification_Num, Notificaton_Date, Thana_Landavail_Code, KhataNum, KhesraNum, Password, "",latitude,longitude,Photo1,Photo2);
+                model = new PoliceStationSignup(RangeCode, Range_Name, DistCode, Dist_Name, SubDivCode, SubDiv_Name, Thana_Code, SHOName, SHOMobile, Thana_Add, LandlineNum, Email, Thana_Notification_Code, Notification_Num, Notificaton_Date, Thana_Landavail_Code, KhataNum, KhesraNum, Password, "",latitude,longitude,Photo1,Photo2);
                 bundle.putParcelable(Constants.PS_PARAM, model);
                 previewBottonSheet.setArguments(bundle);
                 previewBottonSheet.show(getSupportFragmentManager(), "TAG");
@@ -720,10 +730,26 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                     sub_division = subdivision_List.get(i - 1);
                     SubDiv_Code = sub_division.get_SubDivisionCode();
                     SubDiv_Name = sub_division.get_SubDivisionName();
+
+                    new GetPoliceStationNameMaster().execute();
                 } else {
                     sub_division = null;
                     SubDiv_Code = null;
                     SubDiv_Name = null;
+                }
+                break;
+
+            case R.id.spn_thana:
+                if (i > 0) {
+                    thana = PSMaster.get(i - 1);
+                    Thana_Code = thana.getPS_Code();
+                    Thana_Name = thana.getPolice_Station();
+
+
+                } else {
+                    Thana_Code = null;
+                    Thana_Name = null;
+
                 }
                 break;
             case R.id.spn_notification:
@@ -879,5 +905,63 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
 
+    private class GetPoliceStationNameMaster extends AsyncTask<String, Void, ArrayList<ThanaNameList_Entity>> {
+        // String userId, Password, Token;
+
+        private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
+
+        @Override
+        protected void onPreExecute()
+        {
+            customAlertDialog.showDialog();
+        }
+
+        public GetPoliceStationNameMaster() {
+
+        }
+
+        @Override
+        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param)
+        {
+
+            return WebServiceHelper.GetPS_Name_MasterForReg(SignupActivity.this, Dist_Code,SubDiv_Code,Range_Code);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ThanaNameList_Entity> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    PSMaster = result;
+                    setThanaSpinner(result);
+                } else
+                {
+                    Toast.makeText(getApplicationContext(), "Police Station List Not Loaded", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    public void setThanaSpinner(ArrayList<ThanaNameList_Entity> CourtSubTypeList)
+    {
+
+        PSMaster = CourtSubTypeList;
+        ArrayList array = new ArrayList<String>();
+
+        array.add("-Select PS Name-");
+
+        for (ThanaNameList_Entity info : PSMaster)
+        {
+            array.add(info.getPolice_Station());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnThana.setAdapter(adaptor);
+        binding.spnThana.setOnItemSelectedListener(this);
+    }
 
 }

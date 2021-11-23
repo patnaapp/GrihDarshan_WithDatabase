@@ -132,6 +132,14 @@
                     android:layout_height="wrap_content"
                     >
 
+                    <RadioButton
+                        android:id="@+id/radioDirectorate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Directorate Of Prosecutor"
+                        android:textSize="15dp" />
+
                     <TextView
                         android:id="@+id/tv_prosecution_office_level"
                         android:layout_width="wrap_content"
@@ -144,14 +152,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioGroupProsecution">
-
-                        <RadioButton
-                            android:id="@+id/radioDirectorate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Directorate Of Prosecutor"
-                            android:checked="false"
-                            android:textSize="15dp" />
 
                         <RadioButton
                             android:id="@+id/radioDistProsecutor"
@@ -618,6 +618,30 @@
 
                     <Spinner
                         android:id="@+id/spn_office"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_thana_nmae"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_thana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/office_name"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_thana"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:layout_marginTop="4dp"

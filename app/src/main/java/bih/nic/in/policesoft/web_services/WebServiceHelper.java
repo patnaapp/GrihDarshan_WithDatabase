@@ -107,6 +107,7 @@ public class WebServiceHelper {
     private static final String Get_CourtType_Master = "GetCourtTypeList";
     private static final String Get_CourtSubType_Master = "GetSubCourtTypeList";
     private static final String Get_PoliceStation_Master = "GetThanaList";
+    private static final String Get_PoliceStationForReg_Master = "GetThana_FrontList";
 
 
     private static Encriptor _encrptor;
@@ -2016,6 +2017,7 @@ public class WebServiceHelper {
             request.addProperty("District_code", Enc_Dist);
             request.addProperty("Office_Code", Enc_Office);
             request.addProperty("cap", Enc_CapId);
+            request.addProperty("Range_Code", Enc_Range);
 
 
             org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
@@ -2238,8 +2240,8 @@ public class WebServiceHelper {
             Enc_range = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(rangecode), RandomNo);
 
             request.addProperty("skey", Enc_SKey);
-            request.addProperty("Userid", Enc_userid);
-            request.addProperty("password", Enc_password);
+//            request.addProperty("Userid", Enc_userid);
+//            request.addProperty("password", Enc_password);
             request.addProperty("cap", Enc_CapId);
             request.addProperty("DistrictCode", Enc_distcode);
             request.addProperty("Sub_DivisionCode", Enc_subdiv);
@@ -2265,6 +2267,82 @@ public class WebServiceHelper {
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + Get_PoliceStation_Master, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        // CourtType_Entity district = new CourtType_Entity(final_object, CapId, context);
+                        ThanaNameList_Entity district = new ThanaNameList_Entity(final_object);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+    }
+
+
+    public static ArrayList<ThanaNameList_Entity> GetPS_Name_MasterForReg(Context context, String distcode,String subdiv_code,String rangecode) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Get_PoliceStationForReg_Master);
+        SoapObject res1;
+        ArrayList<ThanaNameList_Entity> pvmArrayList = new ArrayList<ThanaNameList_Entity>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_distcode,Enc_subdiv,Enc_range;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+
+            Enc_distcode = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(distcode), RandomNo);
+            Enc_subdiv = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(subdiv_code), RandomNo);
+            Enc_range = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(rangecode), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+//            request.addProperty("Userid", Enc_userid);
+//            request.addProperty("password", Enc_password);
+            request.addProperty("cap", Enc_CapId);
+            request.addProperty("DistrictCode", Enc_distcode);
+            request.addProperty("Sub_DivisionCode", Enc_subdiv);
+            request.addProperty("Range_Code", Enc_range);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, "");
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, ThanaNameList_Entity.Thana_CLASS.getSimpleName(), ThanaNameList_Entity.Thana_CLASS);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Get_PoliceStationForReg_Master, envelope);
             res1 = (SoapObject) envelope.getResponse();
             if (res1 != null) {
                 Log.e("ContactList", res1.toString());
