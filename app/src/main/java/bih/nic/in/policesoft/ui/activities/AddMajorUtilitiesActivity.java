@@ -718,8 +718,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (i > 0) {
                     getPrisionypeServer = PrisionType_List.get(i - 1);
                     JailType_Code = getPrisionypeServer.getJail_Type_Code();
-                    if (getPrisionypeServer.getJail_Type_Code().equals("1")) {
 
+                    if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+                        new getPrisonMasterList(User_Id, Password, Token).execute();
+                    } else {
+                        Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -1242,11 +1245,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
             }
 
-            if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-                new getPrisonMasterList(User_Id, Password, Token).execute();
-            } else {
-                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
-            }
 
             //jail_Type();
 
