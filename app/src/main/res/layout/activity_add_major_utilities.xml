@@ -685,6 +685,46 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_jail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jail_name"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_jail_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:id="@+id/ll_historical_importance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -804,44 +844,6 @@
 
 
 
-                <LinearLayout
-                    android:id="@+id/ll_jail_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/jail_name"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/et_jail_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/textboxshape"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/enter_here"
-                            android:inputType="textCapWords"
-                            android:maxLength="30"
-                            android:padding="10dp"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_jail_add"
@@ -922,11 +924,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_jail_capcity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <TextView
@@ -959,6 +961,464 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_jail_capcity"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp"
+                    android:background="@drawable/shape_adapter_cell"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/jail_cap"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jail_capacity"
+                        android:textAlignment="center"
+                        android:textSize="14sp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Male *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_regular_male"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Male"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Female *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_regular_female"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Female"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Others *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_regular_others"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Others"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_inmates"
+                    android:layout_marginTop="16dp"
+                    android:padding="8dp"
+                    android:background="@drawable/shape_adapter_cell"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_inmates"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_of_inmates"
+                        android:textAlignment="center"
+                        android:textSize="14sp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Male *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_inmates_male"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Male"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_marginRight="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Female *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_inmates_female"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Female"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Others *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp"/>
+
+                            <EditText
+                                android:layout_marginTop="4dp"
+                                android:id="@+id/et_inmates_others"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/textboxshape"
+                                android:hint="No Of Others"
+                                android:padding="10dp"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:focusableInTouchMode="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:layout_weight="1"
+                            android:text="@string/txt_under_trail"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:layout_weight="1"
+                            android:text="@string/txt_convicted"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Male *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_under_trail_male"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Male"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Female *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_under_trail_female"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Female"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Others *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_under_tails_others"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Others"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Male *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_convicted_male"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Male"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Female *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_convicted_female"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Female"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Others *"
+                                    android:textColor="@color/black_overlay"
+                                    android:textSize="12sp"/>
+
+                                <EditText
+                                    android:layout_marginTop="4dp"
+                                    android:id="@+id/et_convicted_others"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/textboxshape"
+                                    android:hint="No Of Others"
+                                    android:padding="10dp"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:singleLine="true"
+                                    android:textColor="#222222"
+                                    android:focusableInTouchMode="true"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/ll_court_type"
