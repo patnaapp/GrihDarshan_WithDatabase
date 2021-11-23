@@ -613,39 +613,101 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etRegularMale.getText().toString())) {
-                    binding.etRegularMale.setError(getResources().getString(R.string.working_required_field));
+                    binding.etRegularMale.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of male in regular home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etRegularMale;
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etRegularFemale.getText().toString())) {
-                    binding.etRegularFemale.setError(getResources().getString(R.string.enter_address_required_field));
+                    binding.etRegularFemale.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of female in regular home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etRegularFemale;
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etRegularOthers.getText().toString())) {
-                    binding.etRegularOthers.setError(getResources().getString(R.string.enter_address_required_field));
+                    binding.etRegularOthers.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of others in regular home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etRegularOthers;
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etVoluntaryMale.getText().toString())) {
-                    binding.etVoluntaryMale.setError(getResources().getString(R.string.enter_address_required_field));
+                    binding.etVoluntaryMale.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of male in voluntary home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etVoluntaryMale;
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etRegularFemale.getText().toString())) {
-                    binding.etRegularFemale.setError(getResources().getString(R.string.enter_address_required_field));
+                    binding.etRegularFemale.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of female in voluntary home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etRegularFemale;
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(binding.etVoluntaryOthers.getText().toString())) {
-                    binding.etVoluntaryOthers.setError(getResources().getString(R.string.enter_address_required_field));
+                    binding.etVoluntaryOthers.setError("Required Field");
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, "Enter no of others in voluntary home gaurd", Toast.LENGTH_SHORT).show();
                     focusView = binding.etVoluntaryOthers;
+                    cancelRegistration = true;
+                }
+
+                if (TextUtils.isEmpty(Address)) {
+                    binding.etAddress.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.enter_address_required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etAddress;
+                    cancelRegistration = true;
+                }
+
+
+            }
+
+            if (Office_type_Code.equalsIgnoreCase("9")) {
+
+                if (TextUtils.isEmpty(prosecutor_office_level)) {
+                    //binding.llOfficelevel.setError(getResources().getString(R.string.sanctioned_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Please select prosecution office level", Toast.LENGTH_SHORT).show();
+                    focusView = binding.llProsecutionOfficeLevel;
+                    cancelRegistration = true;
+                }
+
+
+                if (TextUtils.isEmpty(Address)) {
+                    binding.etAddress.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.enter_address_required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etAddress;
+                    cancelRegistration = true;
+                }
+
+
+            }
+
+            if (Office_type_Code.equalsIgnoreCase("10")) {
+
+                if (TextUtils.isEmpty(courtCateg)) {
+                    //binding.llOfficelevel.setError(getResources().getString(R.string.sanctioned_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Please select court category", Toast.LENGTH_SHORT).show();
+                    focusView = binding.llCourtCateg;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(courtType_Code)) {
+                    binding.tvCourtType.setError(getResources().getString(R.string.sanctioned_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, "Please select court type", Toast.LENGTH_SHORT).show();
+                    focusView = binding.spnCourtType;
+                    cancelRegistration = true;
+                }
+                if (courtType_Code.equals("1"))
+                {
+                    if (TextUtils.isEmpty(courtSubType_Code)) {
+                        binding.tvCourtSubType.setError(getResources().getString(R.string.sanctioned_required_field));
+                        Toast.makeText(AddOfficeUnderPoliceActivity.this, "Please select sub court type", Toast.LENGTH_SHORT).show();
+                        focusView = binding.spnCourtSubType;
+                        cancelRegistration = true;
+                    }
+                }
+
+
+                if (TextUtils.isEmpty(Address)) {
+                    binding.etAddress.setError(getResources().getString(R.string.enter_address_required_field));
+                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.enter_address_required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etAddress;
                     cancelRegistration = true;
                 }
 
@@ -714,8 +776,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
 
                     AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                    ab.setMessage(Html.fromHtml(
-                            "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
+                    ab.setMessage(Html.fromHtml("<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
                     ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -726,8 +787,24 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
                     ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
                     ab.show();
-                }else{
-                    new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                }else
+                {
+                    if (Office_type_Code.equals("4"))
+                    {
+                        if (listgps.size()>=4)
+                        {
+                            new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    else {
+
+                        new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                    }
+
                     //new stateData().execute();
                 }
             }
@@ -782,15 +859,15 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 //                    {
 //                        binding.llThanaNmae.setVisibility(View.GONE);
 //                        binding.llOfficeNmae.setVisibility(View.VISIBLE);
-                        if (officeNameListMaster!=null)
-                        {
-                            officeNameListMaster.clear();
-                            officenamearray.clear();
+                    if (officeNameListMaster!=null)
+                    {
+                        officeNameListMaster.clear();
+                        officenamearray.clear();
 
-                            binding.spnOffice.setAdapter(new ArrayAdapter<String>(AddOfficeUnderPoliceActivity.this,android.R.layout.simple_spinner_item,officenamearray));
+                        binding.spnOffice.setAdapter(new ArrayAdapter<String>(AddOfficeUnderPoliceActivity.this,android.R.layout.simple_spinner_item,officenamearray));
 
-                        }
-                        new GetOfficeNameList_Master().execute();
+                    }
+                    new GetOfficeNameList_Master().execute();
                     //}
 
                     truefalse();
@@ -822,11 +899,11 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 //                        Office_Name = PSname.getPolice_Station();
 //                    }
 //                    else {
-                        officename = officeNameListMaster.get(i - 1);
-                        Office_Code = officename.getOfficeCode();
-                        Office_Name = officename.getOfficeName();
+                    officename = officeNameListMaster.get(i - 1);
+                    Office_Code = officename.getOfficeCode();
+                    Office_Name = officename.getOfficeName();
 
-                  //  }
+                    //  }
 
                 } else {
                     range_Code = null;

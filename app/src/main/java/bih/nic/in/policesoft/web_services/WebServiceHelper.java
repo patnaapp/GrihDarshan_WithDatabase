@@ -1782,7 +1782,7 @@ public class WebServiceHelper {
             e.printStackTrace();
         }
         //--------------Array-----------------//
-        Element pdlsElement = doc.createElement("UnderPsNew");
+        Element pdlsElement = doc.createElement("UnderPsNew1");
         ArrayList<InspectionDetailsModel> list = requirements;
 
         try {
@@ -1800,7 +1800,8 @@ public class WebServiceHelper {
                 pdElement.appendChild(vLebel);
 
                 Element vLebel11 = doc.createElement("User_id");
-                vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
+                //vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
+                vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("PS000034"), RandomNo)));
                 pdElement.appendChild(vLebel11);
 
                 Element vLebel12 = doc.createElement("Entry_Mode");
@@ -1808,15 +1809,18 @@ public class WebServiceHelper {
                 pdElement.appendChild(vLebel12);
 
                 Element vLebel13 = doc.createElement("Imei_Num");
-                vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+               // vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+                vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("12354211221s"), RandomNo)));
                 pdElement.appendChild(vLebel13);
 
                 Element vLebel14 = doc.createElement("App_Ver");
-                vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+               // vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+                vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("1.0"), RandomNo)));
                 pdElement.appendChild(vLebel14);
 
                 Element vLebel15 = doc.createElement("Device_Type");
-                vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+                //vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+                vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("realme"), RandomNo)));
                 pdElement.appendChild(vLebel15);
 
                 Element vLebel16 = doc.createElement("skey");

@@ -82,7 +82,7 @@
     <string name="add_outpost">Add OutPost</string>
     <string name="add_contact">Add Important Contact</string>
     <string name="major_utilities">Add Major Public Utilities Places</string>
-    <string name="add_offices">Add Offices Under Police Department</string>
+    <string name="add_offices">Add Offices</string>
 
     <string name="postoffice_address">Post Office Address : [*]</string>
     <string name="postoffice_contact">Post Office Contact Number : [*]</string>
@@ -262,14 +262,14 @@
     <string name="enter_female_barrack"> Please Enter Capacity of Female Barrack</string>
     <string name="enter_khesra_num"> Please Enter Khesra Number</string>
     <string name="capture_photo"> Please Capture Photo</string>
-    <string name="add_office_type">Offices Under Police Department</string>
+    <string name="add_office_type">Offices</string>
     <string name="office_type">Office Type : [*]</string>
     <string name="office_address">Address : [*]</string>
     <string name="office_landline">Landline : [*]</string>
     <string name="own_build">Police Own Building ? : [*]</string>
     <string name="total_land_area">Total area of land on which office is built (in Square fit) : [*]</string>
     <string name="other_offices">Other Offices (if any) being operated in this building : [*]</string>
-    <string name="office_name">Office Name  : [*]</string>
+    <string name="office_name">Other Office Name  : [*]</string>
     <string name="range_name">Range Name  : [*]</string>
     <string name="houseing_facility_available">Housing Facilities Availability : [*]</string>
     <string name="ls_quarter">Capacity of LS Quarter : [*]</string>
