@@ -119,20 +119,25 @@ public class WebServiceHelper {
     public static Versioninfo CheckVersion(String version) {
         Versioninfo versioninfo;
         SoapObject res1;
-        try {
+        try
+        {
 
             res1 = getServerData(APPVERSION_METHOD, Versioninfo.Versioninfo_CLASS, "IMEI", "Ver", "0", version);
             SoapObject final_object = (SoapObject) res1.getProperty(0);
 
             versioninfo = new Versioninfo(final_object);
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
         return versioninfo;
 
     }
+
+
 
 
     public static PoliceUser_Details Login_Ps(String userId, String Pass, Context context) {
@@ -1470,7 +1475,7 @@ public class WebServiceHelper {
         res1 = getServerData(SLIDER, SliderModel.SLIDER_CLASS);
         if (res1 != null) {
             return new SliderModel((SoapObject) res1);
-        } else {
+        }else {
             return null;
         }
     }
@@ -1735,248 +1740,262 @@ public class WebServiceHelper {
     }
 
 
-    public static String UploadOfficeUnderPolice_Details(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements, String UserId, String IMEI, String App_Ver, String Device_Type, String token) {
-        SoapObject request = new SoapObject(SERVICENAMESPACE, INSERT_OFFICE);
 
-
-        context = context;
-        Object result11 = new Object();
-        SoapObject res1;
-        RandomNo = Utiilties.getTimeStamp();
-        CapId = RandomString.randomAlphaNumeric(8);
-        String Enc_UID, Enc_CapId = "", Enc_SKey = "", Enc_Token = "";
-        Encriptor _encrptor = new Encriptor();
-        try {
-            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
-
-            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
-            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-        dbfac.setNamespaceAware(true);
-        DocumentBuilder docBuilder = null;
-
-        try {
-            docBuilder = dbfac.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            //return "0, ParserConfigurationException!!";
-        }
-        DOMImplementation domImpl = docBuilder.getDOMImplementation();
-        Document doc = domImpl.createDocument(SERVICENAMESPACE, INSERT_OFFICE, null);
-        doc.setXmlVersion("1.0");
-        doc.setXmlStandalone(true);
-        org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
-        header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
-        org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
-        Token.addChild(Node.TEXT, Enc_Token);
-        header[0].addChild(Node.ELEMENT, Token);
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.dotNet = true;
-        envelope.headerOut = header;
-        envelope.setOutputSoapObject(request);
-        Log.e("Resquest", request.toString());
-        Log.e("Token", Enc_Token);
-        envelope.addMapping(SERVICENAMESPACE, DefaultResponse_OutPost.DefaultResponse_CLASS.getSimpleName(), DefaultResponse_OutPost.DefaultResponse_CLASS);
-        Element poleElement = doc.getDocumentElement();
-        try {
-
-            poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPolice_Dist_Code()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getRange_Code()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Office_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOfficeType_Code()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_Name()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "PoliceOwn_Buil_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getPoliceOwnBuild_Code()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhata_Num()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Kheshra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhesra_Num()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "TotalAreaOf_Land", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTotal_Area_Land()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Offices()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Office_Name()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getAddress()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Housing_Fac_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHouseing_Faci()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Ls_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLsQuarter()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Us_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getUsQuarter()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Male_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMale_Barrack()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Female_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getFemale_Barrack()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Mazing_Build_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getArmoury_Magazine()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Ongoing_Civil_Work", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOngoing_CivilWork()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Office_Incharge", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_In_Charge()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Office_Incharge_Mob", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMobile_No()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Designation", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getDesignation()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Landline_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLandline_No()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Started_Year", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEstablish_Year()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Institute_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "TypeOf_TrainingCourse", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseName()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "CourseWise_TrainingCap", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseCapacity()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Email", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEmail_id()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Unit_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Sanction_Strength", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getSanction_Strength()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Working_Strength", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getWorking_Strength()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Photo", workDetail.getPhoto()));
-            poleElement.appendChild(getSoapPropert(doc, "Latitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLatitude()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Longitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLongitude()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Entry_Mode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Imei_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "App_Ver", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Device_Type", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_State_Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGStateOffice()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_District_Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGDistOffice()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_Office_Level", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGOfficeLevel_ID()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Court_Category_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtCategId()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Court_Type", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtTypeId()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Court_SubType", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtSubTypeId()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Precuration_Office_Level", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getProsecutionOfficelevel()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Regular", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Male()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Regular", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Female()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Regular", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Others()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Voluntary", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Male()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Voluntary", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Female()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Voluntary", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Others()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "skey", Enc_SKey));
-            poleElement.appendChild(getSoapPropert(doc, "cap", Enc_CapId));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //--------------Array-----------------//
-        Element pdlsElement = doc.createElement("UnderPsNew1");
-        ArrayList<InspectionDetailsModel> list = requirements;
-
-        try {
-
-            for (int x = 0; x < list.size(); x++) {
-                Element pdElement = doc.createElement("UnderPs");
-
-                Element fid = doc.createElement("Latitude");
-                fid.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
-                pdElement.appendChild(fid);
-
-                Element vLebel = doc.createElement("Longitude");
-                vLebel.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
-                pdElement.appendChild(vLebel);
-
-                Element vLebel11 = doc.createElement("User_id");
-                //vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
-                vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("PS000034"), RandomNo)));
-                pdElement.appendChild(vLebel11);
-
-                Element vLebel12 = doc.createElement("Entry_Mode");
-                vLebel12.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
-                pdElement.appendChild(vLebel12);
-
-                Element vLebel13 = doc.createElement("Imei_Num");
-                // vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
-                vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("12354211221s"), RandomNo)));
-                pdElement.appendChild(vLebel13);
-
-                Element vLebel14 = doc.createElement("App_Ver");
-                // vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
-                vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("1.0"), RandomNo)));
-                pdElement.appendChild(vLebel14);
-
-                Element vLebel15 = doc.createElement("Device_Type");
-                //vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
-                vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("realme"), RandomNo)));
-                pdElement.appendChild(vLebel15);
-
-                Element vLebel16 = doc.createElement("skey");
-                vLebel16.appendChild(doc.createTextNode(Enc_SKey));
-                pdElement.appendChild(vLebel16);
-                Element vLebel17 = doc.createElement("cap");
-                vLebel17.appendChild(doc.createTextNode(Enc_CapId));
-                pdElement.appendChild(vLebel17);
-
-                pdlsElement.appendChild(pdElement);
-            }
-            poleElement.appendChild(pdlsElement);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        TransformerFactory transfac = TransformerFactory.newInstance();
-        Transformer trans = null;
-        String res = "0";
-        try {
-
-            try {
-                trans = transfac.newTransformer();
-            } catch (TransformerConfigurationException e1) {
-
-                // TODO Auto-generated catch block
-
-                e1.printStackTrace();
-                return "0, TransformerConfigurationException";
-            }
-
-            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            trans.setOutputProperty(OutputKeys.INDENT, "yes");
-
-            // create string from xml tree
-            StringWriter sw = new StringWriter();
-            StreamResult result = new StreamResult(sw);
-            DOMSource source = new DOMSource(doc);
-
-            BasicHttpResponse httpResponse = null;
-
-            try {
-                trans.transform(source, result);
-            } catch (TransformerException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return "0, TransformerException";
-            }
-
-            String SOAPRequestXML = sw.toString();
-
-            String startTag = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchem\" "
-                    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" >  "
-                    + "<soap:Body > ";
-            String endTag = "</soap:Body > " + "</soap:Envelope>";
-
-            try {
-
-                HttpPost httppost = new HttpPost(SERVICEURL1);
-
-                StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML + endTag, HTTP.UTF_8);
-
-                sEntity.setContentType("text/xml;charset=UTF-8");
-                httppost.setEntity(sEntity);
-                HttpClient httpClient = new DefaultHttpClient();
-                httpResponse = (BasicHttpResponse) httpClient.execute(httppost);
-
-                HttpEntity entity = httpResponse.getEntity();
-
-                if (httpResponse.getStatusLine().getStatusCode() == 200 || httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK")) {
-                    String output = _getResponseBody(entity);
-
-                    res = parseRespnse(output);
-                    //return new DefaultResponse_OutPost((SoapObject) entity,"");
-
-
-                } else {
-                    res = "0, Server no reponse";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "0, Exception Caught";
-            }
-
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "0, Exception Caught";
-        }
-
-        // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
-//        return new DefaultResponse_OutPost((SoapObject) result11, CapId);
-        return res;
-    }
+//    public static String UploadOfficeUnderPolice_Details(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements,String UserId,String IMEI,String App_Ver,String Device_Type,String token) {
+//        SoapObject request = new SoapObject(SERVICENAMESPACE, INSERT_OFFICE);
+//
+//
+//        context=context;
+//        Object result11=new Object();
+//        SoapObject res1;
+//        RandomNo = Utiilties.getTimeStamp();
+//        CapId = RandomString.randomAlphaNumeric(8);
+//        String Enc_UID, Enc_CapId="", Enc_SKey="", Enc_Token = "";
+//        Encriptor _encrptor = new Encriptor();
+//        try
+//        {
+//            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+//
+//            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+//            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+//        dbfac.setNamespaceAware(true);
+//        DocumentBuilder docBuilder = null;
+//
+//        try {
+//            docBuilder = dbfac.newDocumentBuilder();
+//        } catch (ParserConfigurationException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            //return "0, ParserConfigurationException!!";
+//        }
+//
+////        org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+////        header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+////        org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+////        Token.addChild(Node.TEXT, Enc_Token);
+////        header[0].addChild(Node.ELEMENT, Token);
+////
+////        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+////        envelope.dotNet = true;
+////        envelope.headerOut = header;
+////        envelope.setOutputSoapObject(request);
+////        Log.e("Resquest", request.toString());
+////        Log.e("Token", Enc_Token);
+////        envelope.addMapping(SERVICENAMESPACE, DefaultResponse_OutPost.DefaultResponse_CLASS.getSimpleName(), DefaultResponse_OutPost.DefaultResponse_CLASS);
+//
+//        DOMImplementation domImpl = docBuilder.getDOMImplementation();
+//        Document doc = domImpl.createDocument(SERVICENAMESPACE,INSERT_OFFICE, null);
+//        doc.setXmlVersion("1.0");
+//        doc.setXmlStandalone(true);
+//
+//
+//        Element poleElement = doc.getDocumentElement();
+//        try {
+//
+//            poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Dist_Code",  _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPolice_Dist_Code()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getRange_Code()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Office_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOfficeType_Code()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_Code()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "PoliceOwn_Buil_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getPoliceOwnBuild_Code()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhata_Num()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Kheshra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhesra_Num()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "TotalAreaOf_Land", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTotal_Area_Land()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Code",  _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Offices()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Office_Name()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getAddress()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Housing_Fac_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHouseing_Faci()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Ls_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLsQuarter()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Us_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getUsQuarter()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Male_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMale_Barrack()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Female_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getFemale_Barrack()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Mazing_Build_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getArmoury_Magazine()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Ongoing_Civil_Work",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOngoing_CivilWork()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Office_Incharge", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_In_Charge()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Office_Incharge_Mob",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMobile_No()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Designation",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getDesignation()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Landline_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLandline_No()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Started_Year",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEstablish_Year()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Institute_Code",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "TypeOf_TrainingCourse", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseName()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "CourseWise_TrainingCap",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseCapacity()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Email",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEmail_id()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Unit_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Sanction_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getSanction_Strength()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Working_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getWorking_Strength()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Photo", workDetail.getPhoto()));
+//            poleElement.appendChild(getSoapPropert(doc, "Latitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLatitude()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Longitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLongitude()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Entry_Mode",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Imei_Num",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "App_Ver",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Device_Type",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_State_Office_Name",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGStateOffice()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_District_Office_Name",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGDistOffice()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_Office_Level",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGOfficeLevel_ID()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Court_Category_Id",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtCategId()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Court_Type",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtTypeId()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Court_SubType",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtSubTypeId()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "Precuration_Office_Level",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getProsecutionOfficelevel()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Male()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Female()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Others()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Male()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Female()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Others()), RandomNo)));
+//            poleElement.appendChild(getSoapPropert(doc, "skey",Enc_SKey));
+//            poleElement.appendChild(getSoapPropert(doc, "cap",Enc_CapId));
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//        //--------------Array-----------------//
+//        Element pdlsElement = doc.createElement("UnderPsNew1");
+//        ArrayList<InspectionDetailsModel> list = requirements;
+//
+//        try {
+//
+//            for(int x=0;x<list.size();x++)
+//            {
+//                Element pdElement = doc.createElement("UnderPs");
+//
+//                Element fid = doc.createElement("Latitude");
+//                fid.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
+//                pdElement.appendChild(fid);
+//
+//                Element vLebel = doc.createElement("Longitude");
+//                vLebel.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
+//                pdElement.appendChild(vLebel);
+//
+//                Element vLebel11 = doc.createElement("User_id");
+//                vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
+//
+//                pdElement.appendChild(vLebel11);
+//
+//                Element vLebel12 = doc.createElement("Entry_Mode");
+//                vLebel12.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
+//                pdElement.appendChild(vLebel12);
+//
+//                Element vLebel13 = doc.createElement("Imei_Num");
+//                vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+//                pdElement.appendChild(vLebel13);
+//
+//                Element vLebel14 = doc.createElement("App_Ver");
+//                vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+//
+//                pdElement.appendChild(vLebel14);
+//
+//                Element vLebel15 = doc.createElement("Device_Type");
+//                vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+//                pdElement.appendChild(vLebel15);
+//
+//                Element vLebel16 = doc.createElement("skey");
+//                vLebel16.appendChild(doc.createTextNode(Enc_SKey));
+//                pdElement.appendChild(vLebel16);
+//                Element vLebel17 = doc.createElement("cap");
+//                vLebel17.appendChild(doc.createTextNode(Enc_CapId));
+//                pdElement.appendChild(vLebel17);
+//
+//                pdlsElement.appendChild(pdElement);
+//            }
+//            poleElement.appendChild(pdlsElement);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//        TransformerFactory transfac = TransformerFactory.newInstance();
+//        Transformer trans = null;
+//        String res = "0";
+//        try {
+//
+//            try {
+//                trans = transfac.newTransformer();
+//            } catch (TransformerConfigurationException e1) {
+//
+//                // TODO Auto-generated catch block
+//
+//                e1.printStackTrace();
+//                return "0, TransformerConfigurationException";
+//            }
+//
+//            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+//            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+//
+//            // create string from xml tree
+//            StringWriter sw = new StringWriter();
+//            StreamResult result = new StreamResult(sw);
+//            DOMSource source = new DOMSource(doc);
+//
+//            BasicHttpResponse httpResponse = null;
+//
+//            try {
+//                trans.transform(source, result);
+//            } catch (TransformerException e) {
+//                // TODO Auto-generated catch block
+//                e.printStackTrace();
+//                return "0, TransformerException";
+//            }
+//
+//            String SOAPRequestXML = sw.toString();
+//
+//            String startTag = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+//                    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchem\" "
+//                    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" >  "
+//                    + "<soap:Body > ";
+//            String endTag = "</soap:Body > " + "</soap:Envelope>";
+//
+//            try{
+//
+//                HttpPost httppost = new HttpPost(SERVICEURL1);
+//
+//                StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML+ endTag,HTTP.UTF_8);
+//
+//                sEntity.setContentType("text/xml;charset=UTF-8");
+//                httppost.setEntity(sEntity);
+//                HttpClient httpClient = new DefaultHttpClient();
+//                httpResponse = (BasicHttpResponse) httpClient.execute(httppost);
+//
+//                HttpEntity entity = httpResponse.getEntity();
+//
+//                if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK"))
+//                {
+//                    String output = _getResponseBody(entity);
+//
+//                    res = parseRespnse(output);
+//
+//
+//                } else
+//                {
+//                    res = "0, Server no reponse";
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                e.printStackTrace();
+//                return "0, Exception Caught";
+//            }
+//
+//        }
+//        catch (Exception e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return "0, Exception Caught";
+//        }
+//
+//
+//        return res;
+//    }
 
     public static String parseRespnse(String xml) {
         String result = "Failed to parse";
@@ -2000,25 +2019,20 @@ public class WebServiceHelper {
 
     public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
 
-        if (entity == null) {
-            throw new IllegalArgumentException("HTTP entity may not be null");
-        }
+        if (entity == null) { throw new IllegalArgumentException("HTTP entity may not be null"); }
 
         InputStream instream = entity.getContent();
 
-        if (instream == null) {
-            return "";
-        }
+        if (instream == null) { return ""; }
 
-        if (entity.getContentLength() > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException(
+        if (entity.getContentLength() > Integer.MAX_VALUE) { throw new IllegalArgumentException(
 
-                    "HTTP entity too large to be buffered in memory");
-        }
+                "HTTP entity too large to be buffered in memory"); }
 
         String charset = getContentCharSet(entity);
 
-        if (charset == null) {
+        if (charset == null)
+        {
 
             charset = org.apache.http.protocol.HTTP.DEFAULT_CONTENT_CHARSET;
 
@@ -2040,7 +2054,9 @@ public class WebServiceHelper {
 
             }
 
-        } finally {
+        }
+        finally
+        {
 
             reader.close();
 
@@ -2049,14 +2065,14 @@ public class WebServiceHelper {
         return buffer.toString();
 
     }
-
-    public static Element getSoapPropert(Document doc, String key, String value) {
+    public static Element getSoapPropert(Document doc, String key, String value)
+    {
         Element eid = doc.createElement(key);
         eid.appendChild(doc.createTextNode(value));
         return eid;
     }
 
-    public static ArrayList<Office_Name_List_Modal> GetOffice_NameMaster_List(Context context, String dist, String office, String token, String rangecode) {
+    public static ArrayList<Office_Name_List_Modal> GetOffice_NameMaster_List(Context context, String dist, String office, String token,String rangecode) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Office_NameList_Master);
         SoapObject res1;
         ArrayList<Office_Name_List_Modal> pvmArrayList = new ArrayList<Office_Name_List_Modal>();
@@ -2064,7 +2080,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_Dist, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office, Enc_Range;
+        String Enc_Dist, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_Range;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2136,7 +2152,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office, Enc_password, Enc_CourtCateg;
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_CourtCateg;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2211,7 +2227,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office, Enc_password, Enc_ParentId;
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_ParentId;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2278,7 +2294,7 @@ public class WebServiceHelper {
     }
 
 
-    public static ArrayList<ThanaNameList_Entity> GetPS_Name_Master(Context context, String Userid, String password, String token, String distcode, String subdiv_code, String rangecode) {
+    public static ArrayList<ThanaNameList_Entity> GetPS_Name_Master(Context context, String Userid, String password, String token, String distcode,String subdiv_code,String rangecode) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Get_PoliceStation_Master);
         SoapObject res1;
         ArrayList<ThanaNameList_Entity> pvmArrayList = new ArrayList<ThanaNameList_Entity>();
@@ -2286,7 +2302,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office, Enc_password, Enc_distcode, Enc_subdiv, Enc_range;
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_distcode,Enc_subdiv,Enc_range;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2357,7 +2373,7 @@ public class WebServiceHelper {
     }
 
 
-    public static ArrayList<ThanaNameList_Entity> GetPS_Name_MasterForReg(Context context, String distcode, String subdiv_code, String rangecode) {
+    public static ArrayList<ThanaNameList_Entity> GetPS_Name_MasterForReg(Context context, String distcode,String subdiv_code,String rangecode) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Get_PoliceStationForReg_Master);
         SoapObject res1;
         ArrayList<ThanaNameList_Entity> pvmArrayList = new ArrayList<ThanaNameList_Entity>();
@@ -2365,7 +2381,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office, Enc_password, Enc_distcode, Enc_subdiv, Enc_range;
+        String Enc_userid, Enc_CapId, Enc_SKey, Enc_Token, Enc_Office,Enc_password,Enc_distcode,Enc_subdiv,Enc_range;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2430,6 +2446,233 @@ public class WebServiceHelper {
             return null;
         }
         return pvmArrayList;
+    }
+
+//new
+    public static String UploadOfficeUnderPolice_Details(Context context, OfficeUnderPsEntity workDetail, ArrayList<InspectionDetailsModel> requirements,String UserId,String IMEI,String App_Ver,String Device_Type,String token) {
+
+        context=context;
+        DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+        dbfac.setNamespaceAware(true);
+        DocumentBuilder docBuilder = null;
+
+        try {
+            docBuilder = dbfac.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0, ParserConfigurationException!!";
+        }
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        String Enc_UID, Enc_CapId="", Enc_SKey="", Enc_Token = "";
+        Encriptor _encrptor = new Encriptor();
+        try
+        {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        DOMImplementation domImpl = docBuilder.getDOMImplementation();
+        Document doc = domImpl.createDocument(SERVICENAMESPACE,INSERT_OFFICE, null);
+        doc.setXmlVersion("1.0");
+        doc.setXmlStandalone(true);
+
+        Element poleElement = doc.getDocumentElement();
+        try {
+        poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getUserID()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Dist_Code",  _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPolice_Dist_Code()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getRange_Code()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Office_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOfficeType_Code()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_Code()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "PoliceOwn_Buil_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getPoliceOwnBuild_Code()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhata_Num()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Kheshra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhesra_Num()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "TotalAreaOf_Land", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTotal_Area_Land()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Code",  _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Offices()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "OtherOffices_Buil_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOther_Office_Name()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getAddress()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Housing_Fac_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHouseing_Faci()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Ls_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLsQuarter()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Us_Quiatar", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getUsQuarter()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Male_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMale_Barrack()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Female_Barrack", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getFemale_Barrack()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Mazing_Build_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getArmoury_Magazine()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Ongoing_Civil_Work",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOngoing_CivilWork()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Office_Incharge", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_In_Charge()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Office_Incharge_Mob",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getMobile_No()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Designation",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getDesignation()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Landline_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLandline_No()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Started_Year",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEstablish_Year()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Institute_Code",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "TypeOf_TrainingCourse", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseName()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "CourseWise_TrainingCap",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getTrainingCourseCapacity()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Email",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getEmail_id()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Unit_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(""), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Sanction_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getSanction_Strength()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Working_Strength",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getWorking_Strength()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Photo", workDetail.getPhoto()));
+        poleElement.appendChild(getSoapPropert(doc, "Latitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLatitude()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Longitude",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getLongitude()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Entry_Mode",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Imei_Num",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "App_Ver",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Device_Type",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_State_Office_Name",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGStateOffice()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_District_Office_Name",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGDistOffice()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_Office_Level",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHGOfficeLevel_ID()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Court_Category_Id",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtCategId()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Court_Type",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtTypeId()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Court_SubType",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getCourtSubTypeId()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "Precuration_Office_Level",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getProsecutionOfficelevel()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Male()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Female()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Regular",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_regular_Others()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Male_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Male()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Female_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Female()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "HG_No_Of_Others_Voluntary",_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getHG_volunatry_Others()), RandomNo)));
+        poleElement.appendChild(getSoapPropert(doc, "skey",Enc_SKey));
+        poleElement.appendChild(getSoapPropert(doc, "cap",Enc_CapId));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        //--------------Array-----------------//
+        Element pdlsElement = doc.createElement("UnderPsNew1");
+
+        ArrayList<InspectionDetailsModel> list = requirements;
+        try {
+            for (int x = 0; x < list.size(); x++) {
+                Element pdElement = doc.createElement("UnderPs");
+
+                Element fid = doc.createElement("Latitude");
+                fid.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
+                pdElement.appendChild(fid);
+
+                Element vLebel = doc.createElement("Longitude");
+                vLebel.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
+                pdElement.appendChild(vLebel);
+
+                Element vLebel11 = doc.createElement("User_id");
+                vLebel11.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("PS000034"), RandomNo)));
+
+                pdElement.appendChild(vLebel11);
+
+                Element vLebel12 = doc.createElement("Entry_Mode");
+                vLebel12.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
+                pdElement.appendChild(vLebel12);
+
+                Element vLebel13 = doc.createElement("Imei_Num");
+                vLebel13.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
+                pdElement.appendChild(vLebel13);
+
+                Element vLebel14 = doc.createElement("App_Ver");
+                vLebel14.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
+
+                pdElement.appendChild(vLebel14);
+
+                Element vLebel15 = doc.createElement("Device_Type");
+                vLebel15.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+                pdElement.appendChild(vLebel15);
+
+                Element vLebel16 = doc.createElement("skey");
+                vLebel16.appendChild(doc.createTextNode(Enc_SKey));
+                pdElement.appendChild(vLebel16);
+                Element vLebel17 = doc.createElement("cap");
+                vLebel17.appendChild(doc.createTextNode(Enc_CapId));
+                pdElement.appendChild(vLebel17);
+
+                pdlsElement.appendChild(pdElement);
+            }
+
+            poleElement.appendChild(pdlsElement);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        TransformerFactory transfac = TransformerFactory.newInstance();
+        Transformer trans = null;
+        String res = "0";
+        try {
+
+            try {
+                trans = transfac.newTransformer();
+            } catch (TransformerConfigurationException e1) {
+
+                // TODO Auto-generated catch block
+
+                e1.printStackTrace();
+                return "0, TransformerConfigurationException";
+            }
+
+            trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            trans.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // create string from xml tree
+            StringWriter sw = new StringWriter();
+            StreamResult result = new StreamResult(sw);
+            DOMSource source = new DOMSource(doc);
+
+            BasicHttpResponse httpResponse = null;
+
+            try {
+                trans.transform(source, result);
+            } catch (TransformerException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "0, TransformerException";
+            }
+
+            String SOAPRequestXML = sw.toString();
+
+            String startTag = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                    + "xmlns:xsd=\"http://www.w3.org/2001/XMLSchem\" "
+                    + "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" >  "
+                    + "<soap:Body > ";
+            String endTag = "</soap:Body > " + "</soap:Envelope>";
+
+            try{
+
+
+                HttpPost httppost = new HttpPost(SERVICEURL1);
+
+                StringEntity sEntity = new StringEntity(startTag + SOAPRequestXML+ endTag,HTTP.UTF_8);
+
+                sEntity.setContentType("text/xml;charset=UTF-8");
+                httppost.setEntity(sEntity);
+                HttpClient httpClient = new DefaultHttpClient();
+                httpResponse = (BasicHttpResponse) httpClient.execute(httppost);
+
+                HttpEntity entity = httpResponse.getEntity();
+
+                if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK")) {
+                    String output = _getResponseBody(entity);
+
+                    res = parseRespnse(output);
+                } else {
+                    res = "0, Server no reponse";
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return "0, Exception Caught";
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "0, Exception Caught";
+        }
+
+        // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
+        return res;
     }
 
 }

@@ -612,7 +612,7 @@
                         android:id="@+id/tv_office"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/office_name"
+                        android:text="Office Name  : [*]"
                         android:textColor="@color/color_black"
                         android:textSize="12sp" />
 

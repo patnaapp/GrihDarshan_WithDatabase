@@ -1832,7 +1832,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         @Override
         protected String doInBackground(String... param) {
 
-            return WebServiceHelper.UploadOfficeUnderPolice_Details(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("OrgId", ""),"","","","");
+            return WebServiceHelper.UploadOfficeUnderPolice_Details(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, User_Id,Utiilties.getDeviceIMEI(getApplicationContext()),Utiilties.getAppVersion(getApplicationContext()),Utiilties.getDeviceName(),Token);
         }
 
         @Override
@@ -1844,54 +1844,61 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             if (result != null)
             {
-
-                String[] res = result.split(",");
-                try
+                if (result.contains(","))
                 {
-                    String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
-                    String response = _encrptor.Decrypt(res[0], skey);
-
-                    if(response.equals("1"))
+                    String[] res = result.split(",");
+                    try
                     {
-                        new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Record Uploaded Successfully")
-                                .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        finish();
-                                    }
-                                })
-                                .show();
-                    }
-                    else if(response.equals("0"))
-                    {
-                        new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
-                                .setTitle("Failed")
-                                .setMessage("Record Not Uploaded Successfully")
-                                .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        finish();
-                                    }
-                                }).show();
-                    } else {
-                        new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
-                                .setTitle("Failed!!")
-                                .setMessage(response)
-                                .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id)
-                                    {
-                                        finish();
-                                    }
-                                })
-                                .show();
-                    }
+                        String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
+                        String response = _encrptor.Decrypt(res[0], skey);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        if(response.equals("1"))
+                        {
+                            new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
+                                    .setTitle("Success")
+                                    .setMessage("Record Uploaded Successfully")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        }
+                        else if(response.equals("0"))
+                        {
+                            new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
+                                    .setTitle("Failed")
+                                    .setMessage("Record Not Uploaded Successfully")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            finish();
+                                        }
+                                    }).show();
+                        } else {
+                            new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
+                                    .setTitle("Failed!!")
+                                    .setMessage(response)
+                                    .setCancelable(true)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id)
+                                        {
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+                else {
+                    Toast.makeText(getApplicationContext(),"Not Uploaded",Toast.LENGTH_LONG).show();
+                }
+
+
 
             } else {
                 Toast.makeText(getApplicationContext(),"Failed!! Null Response. Try again later",Toast.LENGTH_LONG).show();
