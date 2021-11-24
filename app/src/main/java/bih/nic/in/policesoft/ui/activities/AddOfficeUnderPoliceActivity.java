@@ -256,7 +256,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String TrainingCourseName,TrainingCapacity,KhataNum, KhesraNum, TotalLandOfArea, OfficeName, Address, Remarks, LsQuarter, UsQuarter, MaleBarrack, FemaleBarrack, OngoingCivilWork, OfficerInCharge, MobileNumber, LandlineNum, EstablishYear, EmailAdd, SanctionStrength, WorkingStrength, DivisionFunction, MajorDevicesEqui;
+            String TrainingCourseName="",TrainingCapacity="",KhataNum="", KhesraNum="", TotalLandOfArea="", OfficeName="", Address="", Remarks="", LsQuarter="", UsQuarter="", MaleBarrack="", FemaleBarrack="", OngoingCivilWork="", OfficerInCharge, MobileNumber, LandlineNum="", EstablishYear="", EmailAdd="", SanctionStrength="", WorkingStrength="", DivisionFunction="", MajorDevicesEqui="";
             KhataNum = binding.etKhataNum.getText().toString().trim();
             KhesraNum = binding.etKhesraNum.getText().toString().trim();
             TotalLandOfArea = binding.etTotalLandOfArea.getText().toString().trim();
@@ -872,7 +872,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
                     truefalse();
                 } else {
-                    Office_type_Code = null;
+                    Office_type_Code = "";
                 }
                 break;
             case R.id.spn_range:
@@ -886,8 +886,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     //  }
 
                 } else {
-                    range_Code = null;
-                    range_Name = null;
+                    range_Code = "";
+                    range_Name = "";
                 }
 
                 break;
@@ -906,8 +906,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     //  }
 
                 } else {
-                    range_Code = null;
-                    range_Name = null;
+                    range_Code = "";
+                    range_Name = "";
                 }
                 break;
             case R.id.spn_own_build:
@@ -920,7 +920,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.llKhataKhesra.setVisibility(View.GONE);
                     }
                 } else {
-                    OwnBuild_Code = null;
+                    OwnBuild_Code = "";
                 }
                 break;
             case R.id.spn_other_office:
@@ -933,7 +933,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.llOfficeName.setVisibility(View.GONE);
                     }
                 } else {
-                    OwnBuild_Code = null;
+                    OwnBuild_Code = "";
                 }
                 break;
             case R.id.spn_housing_facility:
@@ -948,7 +948,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.llMalebarrack.setVisibility(View.GONE);
                     }
                 } else {
-                    Houseing_Fac_Code = null;
+                    Houseing_Fac_Code = "";
                 }
                 break;
             case R.id.spn_armoury_manazine:
@@ -960,7 +960,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
                     }
                 } else {
-                    Armoury_Mazin_Code = null;
+                    Armoury_Mazin_Code = "";
                 }
                 break;
 
@@ -978,8 +978,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     }
 
                 } else {
-                    courtType_Code = null;
-                    courtType_Name = null;
+                    courtType_Code = "";
+                    courtType_Name = "";
                 }
                 break;
             case R.id.spn_court_sub_type:
@@ -993,8 +993,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     //  }
 
                 } else {
-                    courtSubType_Code = null;
-                    courtSubType_Name = null;
+                    courtSubType_Code = "";
+                    courtSubType_Name = "";
                 }
                 break;
 
