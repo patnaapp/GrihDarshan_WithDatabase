@@ -2024,6 +2024,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -2067,7 +2068,15 @@
                             android:text="@string/add_more_facility"/>
                     </LinearLayout>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_other_facility"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:nestedScrollingEnabled="false">
 
+
+                    </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
 

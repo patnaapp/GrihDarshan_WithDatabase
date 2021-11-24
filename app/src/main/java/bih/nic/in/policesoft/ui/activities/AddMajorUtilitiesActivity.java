@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import bih.nic.in.policesoft.R;
+import bih.nic.in.policesoft.adaptor.FacilityListAdaptor;
 import bih.nic.in.policesoft.adaptor.takegpsListAdaptor;
 import bih.nic.in.policesoft.databinding.ActivityAddContactBinding;
 import bih.nic.in.policesoft.databinding.ActivityAddMajorUtilitiesBinding;
@@ -63,6 +64,7 @@ import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
+import bih.nic.in.policesoft.entity.OtherFacility;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
 import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
@@ -106,7 +108,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     double take_longitude = 0.00;
     takegpsListAdaptor mAdapter;
     ArrayList<InspectionDetailsModel> listgps;
-    ArrayList<String> facilitylist;
+    FacilityListAdaptor facility_Adaptor;
+    ArrayList<OtherFacility> facilitylist;
     boolean doubleBackToExitPressedOnce = false;
     Encriptor _encrptor;
 
@@ -117,6 +120,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_major_utilities);
         customAlertDialog = new CustomAlertDialog(AddMajorUtilitiesActivity.this);
         listgps = new ArrayList<InspectionDetailsModel>();
+        facilitylist = new ArrayList<>();
 
 
         User_Id = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getUserID();
@@ -178,22 +182,30 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.txtAddMoreFacility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = new EditText(AddMajorUtilitiesActivity.this);
-                editText.setBackground(getResources().getDrawable(R.drawable.textboxshape));
-                binding.llAddOtherFacility.addView(editText);
-                binding.etOtherFacility.setHint(R.string.add_more_facility);
-                binding.tvOtherFacility.setText(R.string.other_facility);
+                //EditText editText = new EditText(AddMajorUtilitiesActivity.this);
+                //editText.setBackground(getResources().getDrawable(R.drawable.textboxshape));
+                //binding.llAddOtherFacility.addView(editText);
+                if (binding.etOtherFacility.getText().length() >0) {
 
-//                InspectionDetailsModel detailsModel = new InspectionDetailsModel();
-//                detailsModel.setLatitude(String.valueOf(take_latitude));
-//                detailsModel.setLongitude(String.valueOf(take_longitude));
 
-                facilitylist.add(binding.etOtherFacility.getText().toString());
+                    binding.etOtherFacility.setHint(R.string.add_more_facility);
+                    binding.tvOtherFacility.setText(R.string.other_facility);
 
-                mAdapter = new takegpsListAdaptor(AddMajorUtilitiesActivity.this, listgps);
-                LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                binding.listGpsTaken.setLayoutManager(mLayoutManager);
-                binding.listGpsTaken.setAdapter(mAdapter);
+                    OtherFacility otherFacility = new OtherFacility();
+                    otherFacility.setText_facility(binding.etOtherFacility.getText().toString());
+
+                    facilitylist.add(otherFacility);
+
+
+                    facility_Adaptor = new FacilityListAdaptor(AddMajorUtilitiesActivity.this, facilitylist);
+                    LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    binding.listOtherFacility.setLayoutManager(mLayoutManager);
+                    binding.listOtherFacility.setAdapter(facility_Adaptor);
+
+                }
+                else {
+                    Toast.makeText(AddMajorUtilitiesActivity.this, "Please Enter Other Facility Name", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

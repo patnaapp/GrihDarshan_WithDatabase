@@ -1822,8 +1822,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Uploading");
             this.dialog.show();
