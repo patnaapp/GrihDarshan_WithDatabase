@@ -196,33 +196,35 @@ public class AddOutpostActivity extends AppCompatActivity implements AdapterView
                 binding.etAddress.setError(null);
                 binding.etAddress.setError(getResources().getString(R.string.required_field));
                 Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.outpost_address_required_field), Toast.LENGTH_SHORT).show();
-            } else if (Thana_Notification_Code == null) {
-                binding.tvNotificationTitle.setError(null);
-                Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_outpost_notification_avail), Toast.LENGTH_SHORT).show();
-                if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
-                    if (Notification_Num.isEmpty() || Notification_Num == null) {
-                        binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
-                        Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
-                    } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
-                        binding.txtNotificationDate.setError(null);
-                        binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
-                        Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
-                    }
-                }
-//            } else if (Thana_Landavail_Code == null) {
-//                binding.tvLandAvailTitle.setError(null);
-//                Toast.makeText(SignupActivity.this, getResources().getString(R.string.required_field), Toast.LENGTH_SHORT).show();
-//            if (Thana_Landavail_Code.equalsIgnoreCase("Y")) {
-//                if (KhataNum.isEmpty() || KhataNum == null) {
-//                    binding.etKhataNum.setError(getResources().getString(R.string.required_field));
-//                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khata_num), Toast.LENGTH_SHORT).show();
-//                } else if (KhesraNum.isEmpty() || KhesraNum == null) {
-//                    binding.etKhesraNum.setError(null);
-//                    binding.etKhesraNum.setError(getResources().getString(R.string.required_field));
-//                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khesra_num), Toast.LENGTH_SHORT).show();
+            }
+//            else if (Thana_Notification_Code == null) {
+//                binding.tvNotificationTitle.setError(null);
+//                Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_outpost_notification_avail), Toast.LENGTH_SHORT).show();
+//                if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
+//                    if (Notification_Num.isEmpty() || Notification_Num == null) {
+//                        binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
+//                        Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
+//                    } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
+//                        binding.txtNotificationDate.setError(null);
+//                        binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
+//                        Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
+//                    }
 //                }
+////            } else if (Thana_Landavail_Code == null) {
+////                binding.tvLandAvailTitle.setError(null);
+////                Toast.makeText(SignupActivity.this, getResources().getString(R.string.required_field), Toast.LENGTH_SHORT).show();
+////            if (Thana_Landavail_Code.equalsIgnoreCase("Y")) {
+////                if (KhataNum.isEmpty() || KhataNum == null) {
+////                    binding.etKhataNum.setError(getResources().getString(R.string.required_field));
+////                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khata_num), Toast.LENGTH_SHORT).show();
+////                } else if (KhesraNum.isEmpty() || KhesraNum == null) {
+////                    binding.etKhesraNum.setError(null);
+////                    binding.etKhesraNum.setError(getResources().getString(R.string.required_field));
+////                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khesra_num), Toast.LENGTH_SHORT).show();
+////                }
+////            }
 //            }
-            } else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
+            else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
                 Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
             } else if (imageData1 == null) {
                 Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();

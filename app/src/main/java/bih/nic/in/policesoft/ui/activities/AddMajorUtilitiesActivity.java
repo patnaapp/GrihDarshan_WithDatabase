@@ -106,6 +106,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     double take_longitude = 0.00;
     takegpsListAdaptor mAdapter;
     ArrayList<InspectionDetailsModel> listgps;
+    ArrayList<String> facilitylist;
     boolean doubleBackToExitPressedOnce = false;
     Encriptor _encrptor;
 
@@ -180,8 +181,19 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 EditText editText = new EditText(AddMajorUtilitiesActivity.this);
                 editText.setBackground(getResources().getDrawable(R.drawable.textboxshape));
                 binding.llAddOtherFacility.addView(editText);
+                binding.etOtherFacility.setHint(R.string.add_more_facility);
+                binding.tvOtherFacility.setText(R.string.other_facility);
 
+//                InspectionDetailsModel detailsModel = new InspectionDetailsModel();
+//                detailsModel.setLatitude(String.valueOf(take_latitude));
+//                detailsModel.setLongitude(String.valueOf(take_longitude));
 
+                facilitylist.add(binding.etOtherFacility.getText().toString());
+
+                mAdapter = new takegpsListAdaptor(AddMajorUtilitiesActivity.this, listgps);
+                LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                binding.listGpsTaken.setLayoutManager(mLayoutManager);
+                binding.listGpsTaken.setAdapter(mAdapter);
             }
         });
 
