@@ -747,6 +747,83 @@
                         android:layout_marginTop="4dp"
                         android:background="@drawable/spinner_bg1" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_jail_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jail_address"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_jail_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="textCapWords"
+                            android:maxLength="30"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_jail_estbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/establish_year"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_establish_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/textboxshape"
+                            android:focusableInTouchMode="true"
+                            android:hint="@string/enter_here"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="#222222"
+                            android:textSize="15sp" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
 
@@ -868,83 +945,6 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/ll_jail_add"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/jail_address"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/et_jail_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/textboxshape"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/enter_here"
-                            android:inputType="textCapWords"
-                            android:maxLength="30"
-                            android:padding="10dp"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_jail_estbl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/establish_year"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/et_establish_year"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/textboxshape"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/enter_here"
-                            android:inputType="number"
-                            android:maxLength="4"
-                            android:padding="10dp"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

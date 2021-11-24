@@ -78,7 +78,7 @@ import bih.nic.in.policesoft.web_services.WebServiceHelper;
 import butterknife.internal.Utils;
 
 public class AddMajorUtilitiesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
-    String User_Id = "", Range_Code = "", Dist_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
+    String User_Id = "", Range_Code = "", Dist_Code = "",Jail_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
     private CustomAlertDialog customAlertDialog;
     private ActivityAddMajorUtilitiesBinding binding;
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
@@ -720,7 +720,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     JailType_Code = getPrisionypeServer.getJail_Type_Code();
 
                     if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-                        new getPrisonMasterList(User_Id, Password, Token).execute();
+                        new getPrisonMasterList(User_Id, Password, Token,Dist_Code,JailType_Code).execute();
                     } else {
                         Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
                     }
@@ -777,22 +777,30 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
     private class getPrisonMasterList extends AsyncTask<String, Void, ArrayList<GetPrisionMasterServer>> {
-        String userId, Password, Token;
+        String userId, Password, Token, Dist_Code,Jail_Code;
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
 
-        public getPrisonMasterList(String userId, String password, String token) {
+       /* public getPrisonMasterList(String userId, String password, String token) {
             this.userId = userId;
             Password = password;
             Token = token;
+        }*/
+
+        public getPrisonMasterList(String userId, String password, String token, String dist_Code, String jail_Code) {
+            this.userId = userId;
+            Password = password;
+            Token = token;
+            Dist_Code = dist_Code;
+            Jail_Code = jail_Code;
         }
 
         @Override
         protected ArrayList<GetPrisionMasterServer> doInBackground(String... strings) {
-            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token);
+            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token,Dist_Code,Jail_Code);
         }
         @Override
         protected void onPostExecute(ArrayList<GetPrisionMasterServer> result){
@@ -841,7 +849,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected ArrayList<GetPrisionypeServer> doInBackground(String... strings) {
-            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token);
+            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
         }
         @Override
         protected void onPostExecute(ArrayList<GetPrisionypeServer> result){
