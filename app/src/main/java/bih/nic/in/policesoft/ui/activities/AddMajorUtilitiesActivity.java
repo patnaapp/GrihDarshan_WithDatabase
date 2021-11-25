@@ -2017,52 +2017,56 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 this.dialog.dismiss();
             }
             if (result != null){
-                String[] res = result.split(",");
-                try {
-                    String sKey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
-                    String response = _encrptor.Decrypt(res[0], sKey);
+                if (result.contains(",")) {
+                    String[] res = result.split(",");
+                    try {
+                        String sKey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
+                        String response = _encrptor.Decrypt(res[0], sKey);
 
-                    if (response.equals("1")){
-                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
-                                .setTitle("Success")
-                                .setMessage("Record Uploaded Successfully")
-                                .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                })
-                                .show();
-                    }
-                    else if (response.equals("0")){
-                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
-                                .setTitle("Failed")
-                                .setMessage("Record Not Upload Successfully")
-                                .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                        if (response.equals("1")) {
+                            new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                    .setTitle("Success")
+                                    .setMessage("Record Uploaded Successfully")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        } else if (response.equals("0")) {
+                            new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                    .setTitle("Failed")
+                                    .setMessage("Record Not Upload Successfully")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                })
-                                .show();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
+                                    .setTitle("Failed!!")
+                                    .setMessage(response)
+                                    .setCancelable(true)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else {
-                        new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
-                                .setTitle("Failed!!")
-                                .setMessage(response)
-                                .setCancelable(true)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                })
-                                .show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }else {
+
+                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+
                 }
 
             } else {

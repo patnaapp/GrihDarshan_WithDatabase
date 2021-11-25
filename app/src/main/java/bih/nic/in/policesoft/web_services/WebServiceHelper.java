@@ -2765,6 +2765,12 @@ public static String parseRespnseMajorUtil(String xml) {
         doc.setXmlVersion("1.0");
         doc.setXmlStandalone(true);
 
+        org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+        header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+        org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+        Token.addChild(Node.TEXT, Enc_Token);
+        header[0].addChild(Node.ELEMENT, Token);
+
         Element poleElement = doc.getDocumentElement();
         try {
             poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
@@ -2795,7 +2801,7 @@ public static String parseRespnseMajorUtil(String xml) {
             poleElement.appendChild(getSoapPropert(doc, "Historical_Place_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getHistorical_Place_Name()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Historical_Place_Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getHistorical_Place_Address()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Remarks", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getRemarks()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Photo", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPhoto()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Photo", majorUtilsDetails.getPhoto()));
             poleElement.appendChild(getSoapPropert(doc, "Latitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getLatitude()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Longitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getLongitude()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Entry_Mode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability("M"), RandomNo)));
@@ -2951,7 +2957,7 @@ public static String parseRespnseMajorUtil(String xml) {
                 if (httpResponse.getStatusLine().getStatusCode() == 200|| httpResponse.getStatusLine().getReasonPhrase().toString().equals("OK")) {
                     String output = _getResponseBody(entity);
 
-                    res = parseRespnse(output);
+                    res = parseRespnseMajorUtil(output);
                 } else {
                     res = "0, Server no reponse";
                 }
