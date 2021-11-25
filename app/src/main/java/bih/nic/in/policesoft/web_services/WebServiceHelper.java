@@ -2557,7 +2557,7 @@ public class WebServiceHelper {
                 pdElement.appendChild(fid);
 
                 Element vLebel = doc.createElement("Longitude");
-                vLebel.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLatitude()), RandomNo)));
+                vLebel.appendChild(doc.createTextNode(_encrptor.Encrypt(Utiilties.cleanStringForVulnerability(list.get(x).getLongitude()), RandomNo)));
                 pdElement.appendChild(vLebel);
 
                 Element vLebel11 = doc.createElement("User_id");
