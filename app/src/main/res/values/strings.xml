@@ -108,7 +108,7 @@
     <string name="txt_fire_prone_location">Fire Prone Name  : [*]</string>
     <string name="historical_name_to_visit_address">Historical Place Address  : [*]</string>
     <string name="major_fair_festival_procession_route">Major Fairs / Festivals / Procession Routes Name  : [*]</string>
-    <string name="major_fair_festival_procession_route_address">Address  : [*]</string>
+    <string name="major_fair_festival_procession_route_address">Please Enter Address  : [*]</string>
     <string name="major_crime_head">Major Crime Head : [*]</string>
     <string name="major_crime_head_address">Major Crime Head Address : [*]</string>
     <string name="chronic_land_disputs">Chronic Land Disputs Place : [*]</string>
@@ -184,6 +184,7 @@
     <string name="major_crime_required_field">Please Select Major Crime Head</string>
     <string name="boundary_wall_required_field">Please Select Boundary Wall Status</string>
     <string name="jail_type_required_field">Please Select Jail Type</string>
+    <string name="jail_name_required_field">Please Select Jail Name</string>
     <string name="court_type_required_field">Please Select Type of Court</string>
     <string name="hospital_required_field">Please Select Type Of Hospital</string>
     <string name="school_required_field">Please Select Type Of School</string>
@@ -198,6 +199,7 @@
     <string name="Officer_charge_name_required_field">Please Enter Officer-in-Charge Name</string>
     <string name="chronic_land_add_required_field">Please Enter Chronic Land Disputs Address</string>
     <string name="kabristan_name_required_field">Please Enter Religion Name</string>
+    <string name="religious_place_type">Please Select Religion Type</string>
     <string name="kabristan_vill_name_required_field">Please Enter Religion Village Name</string>
     <string name="postoffice_address_required_field">Please Enter Post Office Address</string>
     <string name="outpost_required_field">Please Enter OutPost Name</string>
@@ -214,6 +216,7 @@
     <string name="major_divice_required_field">Please Enter Major Devices Equipments Available(with quality)</string>
     <string name="outpost_address_required_field">Please Enter OutPost Address</string>
     <string name="select">--Select--</string>
+    <string name="select_field">Please Select Status</string>
     <string name="txt_status">--Status--</string>
     <string name="insp">Inspector</string>
     <string name="ainsp">Assistant Inspector</string>

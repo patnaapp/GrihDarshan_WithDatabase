@@ -553,7 +553,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/et_kabristhan_name"
+                            android:id="@+id/et_religious_place_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -593,7 +593,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/et_kabristhan_village"
+                            android:id="@+id/et_name_of_village"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -847,7 +847,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/et_historical_importance"
+                            android:id="@+id/et_historical_imp_prison"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
