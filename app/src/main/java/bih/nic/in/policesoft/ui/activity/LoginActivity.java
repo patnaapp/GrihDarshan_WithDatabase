@@ -177,11 +177,13 @@ public class LoginActivity extends Activity {
                 this.dialog.dismiss();
             }
             if (result != null) {
-                if (result.getStatus().equalsIgnoreCase("true")) {
+                if (result.getStatus().equalsIgnoreCase("true"))
+                {
 
 
 
-                    if (result.get_isAuth().equalsIgnoreCase("Y")) {
+                    if (result.get_isAuth().equalsIgnoreCase("Y"))
+                    {
 
                         if (result.getRole().equals("PS")) {
 
@@ -219,10 +221,12 @@ public class LoginActivity extends Activity {
                         }
 
 
-                    } else {
+                    } else
+                    {
                         new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE).setTitleText(result.getMssage()).setContentText("Something went wrong!").show();
                     }
-                } else {
+                }
+                else {
                     new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE).setTitleText(result.getMssage()).setContentText("Something went wrong!").show();
 
                 }
@@ -272,12 +276,15 @@ public class LoginActivity extends Activity {
             }
         }
 
-        try {
+        try
+        {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             TextView tv = (TextView) findViewById(R.id.app_ver);
             tv.setText("ऐप का वर्जन : " + version + " ( " + imei + " )");
 
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
 
         }
     }
@@ -302,18 +309,24 @@ public class LoginActivity extends Activity {
     }
 
 
-    public static String getDeviceName() {
+    public static String getDeviceName()
+    {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer)) {
+        if (model.startsWith(manufacturer))
+        {
             return model.toUpperCase();
-        } else {
+        }
+        else
+        {
             return manufacturer.toUpperCase() + " " + model;
         }
     }
 
-    public String getAppVersion() {
-        try {
+    public String getAppVersion()
+    {
+        try
+        {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 //                TextView tv = (TextView)getActivity().findViewById(R.id.txtVersion_1);
 //                tv.setText(getActivity().getString(R.string.app_version) + version + " ");
@@ -325,7 +338,8 @@ public class LoginActivity extends Activity {
         return version;
     }
 
-    public static boolean isTablet(Context context) {
+    public static boolean isTablet(Context context)
+    {
         return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

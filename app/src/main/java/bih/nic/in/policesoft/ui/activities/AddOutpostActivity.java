@@ -255,8 +255,8 @@ public class AddOutpostActivity extends AppCompatActivity implements AdapterView
                         binding.llNotificationNumDate.setVisibility(View.GONE);
                     }
                 } else {
-                    Thana_Notification_Code = null;
-                    Thana_Notification_Name = null;
+                    Thana_Notification_Code = "";
+                    Thana_Notification_Name = "";
                     binding.llNotificationNumDate.setVisibility(View.GONE);
                 }
                 break;
@@ -270,7 +270,7 @@ public class AddOutpostActivity extends AppCompatActivity implements AdapterView
                         binding.llKhataKhesra.setVisibility(View.GONE);
                     }
                 } else {
-                    Thana_Landavail_Code = null;
+                    Thana_Landavail_Code = "";
 
                 }
                 break;

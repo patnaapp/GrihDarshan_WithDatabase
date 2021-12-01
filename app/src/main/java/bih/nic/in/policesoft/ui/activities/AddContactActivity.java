@@ -400,8 +400,8 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     binding.spnTypeofBusstand.setSelection(0);
                 } else {
                     contactDetailsFromServer = null;
-                    Contact_Code = null;
-                    Contact_Name = null;
+                    Contact_Code = "";
+                    Contact_Name = "";
 
                 }
                 break;
@@ -413,7 +413,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                         Hosp_Code = "P";
                     }
                 } else {
-                    Hosp_Code = null;
+                    Hosp_Code = "";
                 }
                 break;
             case R.id.spn_typeof_school:
@@ -425,7 +425,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     }
                 } else {
 
-                    School_Code = null;
+                    School_Code = "";
                 }
                 break;
             case R.id.spn_typeof_busstand:
@@ -437,7 +437,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     }
                 } else {
 
-                    Bus_Stand_Code = null;
+                    Bus_Stand_Code = "";
                 }
                 break;
         }

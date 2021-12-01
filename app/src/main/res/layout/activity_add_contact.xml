@@ -755,7 +755,7 @@
                         android:layout_weight=".5"
                         android:layout_height="200dp"
                         android:padding="1dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:background="@drawable/rect"
                         >
                         <ImageView

@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void setUserDetail() {
-        txt_Username.setText(Utiilties.returnGreetString(getContext()) + "\n" + CommonPref.getPoliceDetails(getContext()).getSHO_Name());
+        //txt_Username.setText(Utiilties.returnGreetString(getContext()) + "\n" + CommonPref.getPoliceDetails(getContext()).getSHO_Name());
         tv_range.setText(CommonPref.getPoliceDetails(getContext()).getRange_Name());
         tv_thana_dist.setText(CommonPref.getPoliceDetails(getContext()).getDistName());
         tv_subdivision.setText(CommonPref.getPoliceDetails(getContext()).getSubdivision_Name());

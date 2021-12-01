@@ -140,8 +140,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         subDiv_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getSub_Div_Code();
         thana_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getThana_Code();
         password = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPassword();
-        Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
-      //  Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+       // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
+        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(user_id, password, Token).execute();
@@ -603,7 +603,26 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
                     ab.show();
                 } else {
-                    new UploadMajorUtilities(model, listgps, facilitylist).execute();
+
+                    if (major_UtilCode.equals("3"))
+                    {
+                        if (listgps.size()>=4)
+                        {
+                            new UploadMajorUtilities(model, listgps, facilitylist).execute();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    else {
+
+                        new UploadMajorUtilities(model, listgps, facilitylist).execute();
+                    }
+
+
+
+                    //new UploadMajorUtilities(model, listgps, facilitylist).execute();
                     //new stateData().execute();
                 }
             }

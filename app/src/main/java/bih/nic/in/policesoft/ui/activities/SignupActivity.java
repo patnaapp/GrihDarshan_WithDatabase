@@ -452,7 +452,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 if (defaultResponse_new.getStatus().equalsIgnoreCase("True")) {
                     UID = defaultResponse_new.getUseId();
                     PASS = defaultResponse_new.getPassword();
-                    if (UID != null && !PASS.isEmpty()) {
+                    //if (UID != null && !PASS.isEmpty()) {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("isLogin", "Y").commit();
                         Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
                         iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -466,9 +466,9 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 //                        bundle.putParcelable(Constants.PS_PARAM, MModel);
 //                        dialog.setArguments(bundle);
 //                        dialog.show(getSupportFragmentManager(), "TAG");
-                    } else {
-                        Toast.makeText(SignupActivity.this, "OTP Not Received", Toast.LENGTH_SHORT).show();
-                    }
+//                    } else {
+//                        Toast.makeText(SignupActivity.this, "OTP Not Received", Toast.LENGTH_SHORT).show();
+//                    }
                 } else {
                     Toast.makeText(SignupActivity.this, defaultResponse_new.getMessage(), Toast.LENGTH_SHORT).show();
                 }

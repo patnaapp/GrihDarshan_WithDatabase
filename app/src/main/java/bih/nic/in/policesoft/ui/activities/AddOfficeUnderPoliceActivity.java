@@ -113,8 +113,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         SubDiv_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getSub_Div_Code();
         Thana_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getThana_Code();
         Password = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getPassword();
-        Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
-       // Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+       // Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
+        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         load_spinner();
 
@@ -252,6 +252,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             }
         });
+
         binding.btnPreview.setOnClickListener(view -> {
             String TrainingCourseName="",TrainingCapacity="",KhataNum="", KhesraNum="", TotalLandOfArea="", OfficeName="", Address="", Remarks="", LsQuarter="", UsQuarter="", MaleBarrack="", FemaleBarrack="", OngoingCivilWork="", OfficerInCharge, MobileNumber, LandlineNum="", EstablishYear="", EmailAdd="", SanctionStrength="", WorkingStrength="", DivisionFunction="", MajorDevicesEqui="";
             KhataNum = binding.etKhataNum.getText().toString().trim();
@@ -1774,7 +1775,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
+        {
 
             @Override
             public void run() {

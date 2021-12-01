@@ -364,6 +364,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_notification"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -657,11 +658,12 @@
                     <RelativeLayout
                         android:id="@+id/rel_water_res"
                         android:layout_width="0dp"
+
                         android:layout_height="200dp"
                         android:layout_weight=".5"
                         android:background="@drawable/rect"
                         android:padding="1dp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/img_pic2"
