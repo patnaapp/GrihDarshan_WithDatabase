@@ -4,8 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -21,8 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.SyncStateContract;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -43,14 +39,13 @@ import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.databinding.ActivitySignupBinding;
 import bih.nic.in.policesoft.entity.DefaultResponse_New;
 import bih.nic.in.policesoft.entity.MobileOTPModel;
-import bih.nic.in.policesoft.entity.PoliceStationSignup;
 import bih.nic.in.policesoft.entity.Police_District;
 import bih.nic.in.policesoft.entity.Range;
 import bih.nic.in.policesoft.entity.Sub_Division;
 import bih.nic.in.policesoft.entity.ThanaNameList_Entity;
-import bih.nic.in.policesoft.security.Encriptor;
+import bih.nic.in.policesoft.entity.UpdateThanaModel;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
-import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheet;
+import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
 import bih.nic.in.policesoft.ui.dialog.PSDetailsFullScreenDilog;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
@@ -71,21 +66,20 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     Sub_Division sub_division = new Sub_Division();
     ThanaNameList_Entity thana = new ThanaNameList_Entity();
     String Range_Code = "", Range_Name = "", Dist_Code = "", Dist_Name = "", SubDiv_Code = "", SubDiv_Name = "", otp = null, ResponseMobile = "", Thana_Notification_Code = "", Thana_Notification_Name = "",
-            Thana_Landavail_Code = "", Thana_Landavail_Name = "",Photo1="",Photo2="";
+            Thana_Landavail_Code = "", Thana_Landavail_Name = "", Photo1 = "", Photo2 = "";
     boolean isVerifiedMobile = false;
     public int counter;
     String[] yesNo;
     Calendar myCalendar;
-    private PoliceStationSignup model;
+    private UpdateThanaModel model;
     Bitmap im1, im2;
-    byte[] imageData1,imageData2;
+    byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
-    int ThumbnailSize =500;
-    String latitude="",longitude="";
+    int ThumbnailSize = 500;
+    String latitude = "", longitude = "";
     private CustomAlertDialog customAlertDialog;
     ArrayList<ThanaNameList_Entity> PSMaster;
-    String Thana_Code="",Thana_Name="";
-
+    String Thana_Code = "", Thana_Name = "";
 
 
     @Override
@@ -93,6 +87,12 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         customAlertDialog = new CustomAlertDialog(SignupActivity.this);
+
+
+        binding.tvRangeName.setText(CommonPref.getPoliceDetails(SignupActivity.this).getRange_Name());
+        binding.tvThanaDist.setText(CommonPref.getPoliceDetails(SignupActivity.this).getDistName());
+        binding.tvSubDiv.setText(CommonPref.getPoliceDetails(SignupActivity.this).getSubdivision_Name());
+        binding.tvThanaName.setText(CommonPref.getPoliceDetails(SignupActivity.this).getThana_Name());
 
         load_spinner();
         load_spinner1();
@@ -118,11 +118,9 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
 
         if (Utiilties.isOnline(SignupActivity.this)) {
-            new GetRange().execute();
         } else {
             Toast.makeText(getApplicationContext(), "Please Turn On Internet Connection !", Toast.LENGTH_SHORT).show();
         }
-
 
 
         binding.btnNoVerify.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +171,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
+/*
         binding.imgPic2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,12 +181,13 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
+*/
         binding.btnPreview.setOnClickListener(view -> {
             String RangeCode, DistCode, SubDivCode, ThanaName, SHOName, SHOMobile, Email, Address, LandlineNum, Thana_Add, Notification_Num, Notificaton_Date, KhataNum, KhesraNum, Password, ConfirmPassword;
             RangeCode = Range_Code;
             DistCode = Dist_Code;
             SubDivCode = SubDiv_Code;
-           // ThanaName = binding.etPoliceStation.getText().toString().trim();
+            // ThanaName = binding.etPoliceStation.getText().toString().trim();
             SHOName = binding.etShoName.getText().toString().trim();
             SHOMobile = binding.etMobileNo.getText().toString().trim();
             Email = binding.etEmailAdd.getText().toString().trim();
@@ -198,30 +198,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             KhataNum = binding.etKhataNum.getText().toString().trim();
             KhesraNum = binding.etKhesraNum.getText().toString().trim();
             String MobileOTP = binding.etMobOtp.getText().toString().trim();
-            Password = binding.etPassword.getText().toString().trim();
-            ConfirmPassword = binding.etConfPassword.getText().toString().trim();
-//            Gender = GENDER;
-//            MobileNo = binding.etMobileNo.getText().toString().trim();
-//            String MobileOTP = binding.etMobOtp.getText().toString().trim();
-//            EmailId = binding.etEmailid.getText().toString().trim();
-//            String EmailOTP = binding.etEmailOtp.getText().toString().trim();
-//            Password = binding.etPassword.getText().toString().trim();
-//            ConfirmPassword = binding.etConfirmPassword.getText().toString().trim();
-            if (RangeCode == null) {
-                binding.tvRangeTitle.setError(null);
-                Toast.makeText(SignupActivity.this, getResources().getString(R.string.range_required_field), Toast.LENGTH_SHORT).show();
-            } else if (DistCode == null) {
-                binding.tvDistrictTitle.setError(null);
-                Toast.makeText(SignupActivity.this, getResources().getString(R.string.district_required_field), Toast.LENGTH_SHORT).show();
-            } else if (SubDivCode == null) {
-                binding.tvSubdivTitle.setError(null);
-                Toast.makeText(SignupActivity.this, getResources().getString(R.string.subdiv_required_field), Toast.LENGTH_SHORT).show();
-            }
-//            else if (ThanaName.isEmpty() || ThanaName == null) {
-//                binding.etPoliceStation.setError(getResources().getString(R.string.thana_required_field));
-//                Toast.makeText(SignupActivity.this, getResources().getString(R.string.thana_required_field), Toast.LENGTH_SHORT).show();
-//            }
-            else if (SHOName.isEmpty() || SHOName == null) {
+            if (SHOName.isEmpty() || SHOName == null) {
                 binding.etShoName.setError(null);
                 binding.etShoName.setError(getResources().getString(R.string.required_field));
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.sho_required_field), Toast.LENGTH_SHORT).show();
@@ -240,32 +217,20 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             } else if (Thana_Notification_Code == null) {
                 binding.tvNotificationTitle.setError(null);
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notification_avail), Toast.LENGTH_SHORT).show();
-             if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
-                 if (Notification_Num.isEmpty() || Notification_Num == null) {
-                     binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
-                     Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
-                 } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
-                     binding.txtNotificationDate.setError(null);
-                     binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
-                     Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
-                 }
-             }
-//            } else if (Thana_Landavail_Code == null) {
-//                binding.tvLandAvailTitle.setError(null);
-//                Toast.makeText(SignupActivity.this, getResources().getString(R.string.required_field), Toast.LENGTH_SHORT).show();
-//            if (Thana_Landavail_Code.equalsIgnoreCase("Y")) {
-//                if (KhataNum.isEmpty() || KhataNum == null) {
-//                    binding.etKhataNum.setError(getResources().getString(R.string.required_field));
-//                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khata_num), Toast.LENGTH_SHORT).show();
-//                } else if (KhesraNum.isEmpty() || KhesraNum == null) {
-//                    binding.etKhesraNum.setError(null);
-//                    binding.etKhesraNum.setError(getResources().getString(R.string.required_field));
-//                    Toast.makeText(SignupActivity.this, getResources().getString(R.string.enter_khesra_num), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-           } else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
+                if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
+                    if (Notification_Num.isEmpty() || Notification_Num == null) {
+                        binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
+                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
+                    } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
+                        binding.txtNotificationDate.setError(null);
+                        binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
+                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
                 Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
-            } else if (Password.isEmpty() || Password == null) {
+            }
+            /*} else if (Password.isEmpty() || Password == null) {
                 binding.etPassword.setError(null);
                 binding.etPassword.setError(getResources().getString(R.string.required_field));
             } else if (ConfirmPassword.isEmpty() || ConfirmPassword == null) {
@@ -274,22 +239,44 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             } else if (!Password.equals(ConfirmPassword)) {
                 binding.etConfPassword.setError(null);
                 Toast.makeText(SignupActivity.this, "Password not Matched", Toast.LENGTH_SHORT).show();
-            }
+            }*/
             else if (imageData1 == null) {
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
             } else {
-                Utiilties.hideKeyboard(this);
-                PreviewBottonSheet previewBottonSheet = new PreviewBottonSheet();
-                Bundle bundle = new Bundle();
-                model = new PoliceStationSignup(RangeCode, Range_Name, DistCode, Dist_Name, SubDivCode, SubDiv_Name, Thana_Code, SHOName, SHOMobile, Thana_Add, LandlineNum, Email, Thana_Notification_Code, Notification_Num, Notificaton_Date, Thana_Landavail_Code, KhataNum, KhesraNum, Password, "",latitude,longitude,Photo1,Photo2);
-                bundle.putParcelable(Constants.PS_PARAM, model);
-                previewBottonSheet.setArguments(bundle);
-                previewBottonSheet.show(getSupportFragmentManager(), "TAG");
+//                Utiilties.hideKeyboard(this);
+//                PreviewBottonSheet previewBottonSheet = new PreviewBottonSheet();
+//                Bundle bundle = new Bundle();
+//                model = new PoliceStationSignup(RangeCode, Range_Name, DistCode, Dist_Name, SubDivCode, SubDiv_Name, Thana_Code, SHOName, SHOMobile, Thana_Add, LandlineNum, Email, Thana_Notification_Code, Notification_Num, Notificaton_Date, Thana_Landavail_Code, KhataNum, KhesraNum,"", "",latitude,longitude,Photo1,Photo2);
+//                bundle.putParcelable(Constants.PS_PARAM, model);
+//                previewBottonSheet.setArguments(bundle);
+//                previewBottonSheet.show(getSupportFragmentManager(), "TAG");
+                model = new UpdateThanaModel();
+                model.setRange_Code(CommonPref.getPoliceDetails(SignupActivity.this).getRange_Code());
+                model.setPSCode(CommonPref.getPoliceDetails(SignupActivity.this).getThana_Code());
+                model.setPolice_Dist_Code(CommonPref.getPoliceDetails(SignupActivity.this).getPolice_Dist_Code());
+                model.setSub_Div_Code(CommonPref.getPoliceDetails(SignupActivity.this).getSub_Div_Code());
+                model.setThana_Name(CommonPref.getPoliceDetails(SignupActivity.this).getThana_Name());
+
+                model.setSHO_Name(SHOName);
+                model.setSHO_Mobile_Num(SHOMobile);
+                model.setLandline_Num(LandlineNum);
+                model.setEmail_Address(Email);
+                model.setThana_Address(Thana_Add);
+                model.setLand_Avail(Thana_Landavail_Code);
+                model.setKhata_Num(KhataNum);
+                model.setKheshra_Num(KhesraNum);
+                model.setLatitude(latitude);
+                model.setLongitude(longitude);
+                model.setPhoto1(Photo1);
+
+
+                new ThanaDetail().execute();
 
             }
         });
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -303,21 +290,20 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                         case 1:
                             im1 = BitmapFactory.decodeByteArray(imgData, 0, imgData.length);
                             binding.imgPic1.setScaleType(ImageView.ScaleType.FIT_XY);
-                            binding.imgPic1.setImageBitmap(Utiilties.GenerateThumbnail(im1,
-                                    ThumbnailSize, ThumbnailSize));
+                            binding.imgPic1.setImageBitmap(Utiilties.GenerateThumbnail(im1, ThumbnailSize, ThumbnailSize));
                             binding.viewIMG1.setVisibility(View.VISIBLE);
                             imageData1 = imgData;
                             Photo1 = org.kobjects.base64.Base64.encode(imageData1);
                             latitude = data.getStringExtra("Lat");
                             longitude = data.getStringExtra("Lng");
 //                            if(getIntent().hasExtra("KeyId")) {
-                            binding.imgPic2.setEnabled(true);
+                            // binding.imgPic2.setEnabled(true);
                             //}
                             //str_img = "Y";
                             /*String.valueOf(data.get(i).getStringExtra("GPSTime"))*/
                             break;
 
-                        case 3:
+                       /* case 3:
                             binding.imgPic2.setScaleType(ImageView.ScaleType.FIT_XY);
                             im2 = Utiilties.GenerateThumbnail(
                                     BitmapFactory.decodeByteArray(imgData, 0,
@@ -327,10 +313,10 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                             binding.imgPic2.setImageBitmap(im2);
                             imageData2 = imgData;
                             Photo2 = org.kobjects.base64.Base64.encode(imageData2);
-                           /* img2.setOnClickListener(null);
+                           *//* img2.setOnClickListener(null);
                             btnOk.setEnabled(true);
-                            btnOk.setBackgroundResource(R.drawable.buttonbackshape);*/
-                            break;
+                            btnOk.setBackgroundResource(R.drawable.buttonbackshape);*//*
+                            break;*/
 
                     }
 
@@ -340,6 +326,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
     }
+
     public void onClick_ViewImg(View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -373,6 +360,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
+
     public void onClick_ViewImg1(View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -445,7 +433,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             String version = Utiilties.getAppVersion(SignupActivity.this);
             String imei = Utiilties.getDeviceIMEI(SignupActivity.this);
             String devicename = Utiilties.getDeviceName();
-            return WebServiceHelper.PSregistration(model, version,imei,devicename);
+            return WebServiceHelper.PSregistration(model, version, imei, devicename);
         }
 
         @Override
@@ -459,12 +447,19 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                     UID = defaultResponse_new.getUseId();
                     PASS = defaultResponse_new.getPassword();
                     if (UID != null && !PASS.isEmpty()) {
-                        PSDetailsFullScreenDilog dialog = new PSDetailsFullScreenDilog();
-                        Bundle bundle = new Bundle();
-                        PoliceStationSignup MModel = new PoliceStationSignup(model.getRangeCode(), model.getRangeName(), model.getDistCode(), model.getDistName(), model.getSubDivCode(), model.getSubDivName(), model.getPsName(), model.getSHOName(), model.getSHOMobile(), model.getAddress(), model.getLandline(), model.getSHOEmail(), model.getThanaNotification(), model.getThanaNotification_Code(), model.getThanaNotification_Date(), model.getLandAvail(), model.getKhataNum(), model.getKhesraNum(), PASS, UID,latitude,longitude,Photo1,Photo2);
-                        bundle.putParcelable(Constants.PS_PARAM, MModel);
-                        dialog.setArguments(bundle);
-                        dialog.show(getSupportFragmentManager(), "TAG");
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("isLogin", "Y").commit();
+                        Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
+                        iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(iUserHome);
+                        finish();
+//                        PSDetailsFullScreenDilog dialog = new PSDetailsFullScreenDilog();
+//                        Bundle bundle = new Bundle();
+//                        UpdateThanaModel MModel = new UpdateThanaModel(model.getRange_Code(), model.getPSCode(), model.getPolice_Dist_Code(), model.getSub_Div_Code(), model.getThana_Name(),
+//                                model.getSHO_Name(), model.getSHO_Mobile_Num(), model.getEmail_Address(), model.getLandline_Num(), model.getThana_Address(), model.getThana_Notification_Avail(),
+//                                model.getKhata_Num(), model.getKheshra_Num(), Photo1,latitude, longitude,model.getNotification_Num(), model.getNotification_Date(),model.getLand_Avail());
+//                        bundle.putParcelable(Constants.PS_PARAM, MModel);
+//                        dialog.setArguments(bundle);
+//                        dialog.show(getSupportFragmentManager(), "TAG");
                     } else {
                         Toast.makeText(SignupActivity.this, "OTP Not Received", Toast.LENGTH_SHORT).show();
                     }
@@ -517,241 +512,10 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
-    public void setRangeSpinner(ArrayList<Range> RangeList) {
-        range_List = RangeList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Range-");
-
-        for (Range info : range_List) {
-            array.add(info.get_RangeName());
-        }
-
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnRange.setAdapter(adaptor);
-        binding.spnRange.setOnItemSelectedListener(this);
-    }
-
-    public void setPoliceDistrictSpinner(ArrayList<Police_District> PoliceDistrictList) {
-        policedistrict_List = PoliceDistrictList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Police District-");
-
-        for (Police_District info : policedistrict_List) {
-            array.add(info.get_DistName());
-        }
-
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnDistrict.setAdapter(adaptor);
-        binding.spnDistrict.setOnItemSelectedListener(this);
-    }
-
-    public void setSubDivisionSpinner(ArrayList<Sub_Division> subdiv) {
-        subdivision_List = subdiv;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Sub Division-");
-
-        for (Sub_Division info : subdivision_List) {
-            array.add(info.get_SubDivisionName());
-        }
-
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnSubdiv.setAdapter(adaptor);
-        binding.spnSubdiv.setOnItemSelectedListener(this);
-    }
-
-
-    private class GetRange extends AsyncTask<String, Void, ArrayList<Range>> {
-
-        private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Loading Range list...");
-            dialog.show();
-        }
-
-        public GetRange() {
-
-        }
-
-        @Override
-        protected ArrayList<Range> doInBackground(String... param) {
-
-            return WebServiceHelper.getRange_List();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Range> result) {
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-
-            if (result != null) {
-                if (result.size() > 0) {
-
-                    range_List = result;
-                    setRangeSpinner(result);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Range Found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-    }
-
-    private class GetDistrict extends AsyncTask<String, Void, ArrayList<Police_District>> {
-        String RangeCode = "";
-
-        public GetDistrict(String reange_Code) {
-
-            this.RangeCode = reange_Code;
-
-        }
-
-        private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Loading District list...");
-            dialog.show();
-        }
-
-        @Override
-        protected ArrayList<Police_District> doInBackground(String... param) {
-
-            return WebServiceHelper.getDistrict_List(RangeCode);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Police_District> result) {
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    binding.spnSubdiv.setSelection(0);
-                    policedistrict_List = result;
-                    setPoliceDistrictSpinner(result);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Police District Found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-    }
-
-    private class GetSubDivision_List extends AsyncTask<String, Void, ArrayList<Sub_Division>> {
-        String DistCode = "";
-
-        public GetSubDivision_List(String dist_Code) {
-
-            this.DistCode = dist_Code;
-
-        }
-
-        private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Loading Sub Division list...");
-            dialog.show();
-        }
-
-        @Override
-        protected ArrayList<Sub_Division> doInBackground(String... param) {
-
-            return WebServiceHelper.getSubDivision_List(DistCode);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Sub_Division> result) {
-            if (dialog != null) {
-                dialog.dismiss();
-            }
-
-            if (result != null) {
-                if (result.size() > 0) {
-
-                    subdivision_List = result;
-                    setSubDivisionSpinner(result);
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Police District Found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
-            case R.id.spn_range:
-                if (i > 0) {
-
-                    range = range_List.get(i - 1);
-                    Range_Code = range.get_RangeCode();
-                    Range_Name = range.get_RangeName();
-                    if (Utiilties.isOnline(SignupActivity.this)) {
-                        new GetDistrict(Range_Code).execute();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Please Turn On Internet Connection !", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-
-                    range = null;
-                    Range_Code = null;
-                    Range_Name = null;
-                }
-                break;
-            case R.id.spn_district:
-                if (i > 0) {
-                    police_district = policedistrict_List.get(i - 1);
-                    Dist_Code = police_district.get_DistCode();
-                    Dist_Name = police_district.get_DistName();
-                    if (Utiilties.isOnline(SignupActivity.this)) {
-                        new GetSubDivision_List(Dist_Code).execute();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Please Turn On Internet Connection !", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else {
-                    police_district = null;
-                    Dist_Code = null;
-                    Dist_Name = null;
-                }
-                break;
-            case R.id.spn_subdiv:
-                if (i > 0) {
-                    sub_division = subdivision_List.get(i - 1);
-                    SubDiv_Code = sub_division.get_SubDivisionCode();
-                    SubDiv_Name = sub_division.get_SubDivisionName();
-
-                    new GetPoliceStationNameMaster().execute();
-                } else {
-                    sub_division = null;
-                    SubDiv_Code = null;
-                    SubDiv_Name = null;
-                }
-                break;
-
-            case R.id.spn_thana:
-                if (i > 0) {
-                    thana = PSMaster.get(i - 1);
-                    Thana_Code = thana.getPS_Code();
-                    Thana_Name = thana.getPolice_Station();
-
-
-                } else {
-                    Thana_Code = null;
-                    Thana_Name = null;
-
-                }
-                break;
             case R.id.spn_notification:
                 if (i > 0) {
                     if (getResources().getString(R.string.yes).equals(yesNo[i])) {
@@ -852,6 +616,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         binding.spnNotification.setOnItemSelectedListener(this);
 
     }
+
     public void load_spinner1() {
         yesNo = new String[]{
                 getResources().getString(R.string.select),
@@ -911,8 +676,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
 
@@ -921,10 +685,9 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         }
 
         @Override
-        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param)
-        {
+        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param) {
 
-            return WebServiceHelper.GetPS_Name_MasterForReg(SignupActivity.this, Dist_Code,SubDiv_Code,Range_Code);
+            return WebServiceHelper.GetPS_Name_MasterForReg(SignupActivity.this, Dist_Code, SubDiv_Code, Range_Code);
         }
 
         @Override
@@ -935,33 +698,12 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 if (result.size() > 0) {
 
                     PSMaster = result;
-                    setThanaSpinner(result);
-                } else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Police Station List Not Loaded", Toast.LENGTH_SHORT).show();
                 }
 
             }
         }
-    }
-
-    public void setThanaSpinner(ArrayList<ThanaNameList_Entity> CourtSubTypeList)
-    {
-
-        PSMaster = CourtSubTypeList;
-        ArrayList array = new ArrayList<String>();
-
-        array.add("-Select PS Name-");
-
-        for (ThanaNameList_Entity info : PSMaster)
-        {
-            array.add(info.getPolice_Station());
-        }
-
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnThana.setAdapter(adaptor);
-        binding.spnThana.setOnItemSelectedListener(this);
     }
 
 }

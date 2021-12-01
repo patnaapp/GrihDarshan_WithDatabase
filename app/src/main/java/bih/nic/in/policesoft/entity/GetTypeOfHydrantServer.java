@@ -30,7 +30,7 @@ public class GetTypeOfHydrantServer implements KvmSerializable, Serializable {
     public static Class<GetTypeOfHydrantServer> TypeofHydration = GetTypeOfHydrantServer.class;
 
     public GetTypeOfHydrantServer(SoapObject obj, String capid, Context context){
-        _encrptor=new Encriptor();
+        _encrptor = new Encriptor();
         try {
             this.skey = _encrptor.Decrypt(obj.getProperty("skey").toString(), CommonPref.CIPER_KEY);
             //   this.Status = _encrptor.Decrypt(obj.getProperty("Status").toString(),skey);
@@ -52,8 +52,6 @@ public class GetTypeOfHydrantServer implements KvmSerializable, Serializable {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     public GetTypeOfHydrantServer() {

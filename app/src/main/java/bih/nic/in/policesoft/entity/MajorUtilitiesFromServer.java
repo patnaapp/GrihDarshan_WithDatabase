@@ -26,7 +26,7 @@ public class MajorUtilitiesFromServer implements KvmSerializable, Serializable {
     private String Message="";
 
     private Encriptor _encrptor;
-    public static Class<MajorUtilitiesFromServer> ContactDetails_CLASS = MajorUtilitiesFromServer.class;
+    public static Class<MajorUtilitiesFromServer> MajorDetails_CLASS = MajorUtilitiesFromServer.class;
     public MajorUtilitiesFromServer(SoapObject obj, String capid, Context context){
         _encrptor=new Encriptor();
         try {

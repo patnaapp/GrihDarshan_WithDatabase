@@ -61,7 +61,6 @@ import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
 import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.OtherFacility;
 import bih.nic.in.policesoft.entity.OutPostEntry;
-import bih.nic.in.policesoft.entity.PoliceStationSignup;
 import bih.nic.in.policesoft.entity.PoliceUser_Details;
 import bih.nic.in.policesoft.entity.Police_District;
 import bih.nic.in.policesoft.entity.Range;
@@ -69,7 +68,7 @@ import bih.nic.in.policesoft.entity.RangeUnderOffice;
 import bih.nic.in.policesoft.entity.SliderModel;
 import bih.nic.in.policesoft.entity.Sub_Division;
 import bih.nic.in.policesoft.entity.ThanaNameList_Entity;
-import bih.nic.in.policesoft.entity.UserDetails;
+import bih.nic.in.policesoft.entity.UpdateThanaModel;
 import bih.nic.in.policesoft.entity.Versioninfo;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.security.RandomString;
@@ -90,7 +89,7 @@ public class WebServiceHelper {
     public static final String Police_District_List = "GetPoliceDistrictList";
     public static final String SUB_DIVISION_List = "GetSub_DivisionList";
     public static final String GETMOBILE_OTP = "Register_Thana_Signup";
-    public static final String PS_Registration = "insert_Signup";
+    public static final String PS_Registration = "UpdateThana";
     public static final String OUTPOST_Registration = "Insert_Outpost";
     public static final String INSERT_CONTACTS = "Insert_Contact";
     public static final String Authenticate = "Authenticate";
@@ -620,7 +619,7 @@ public class WebServiceHelper {
         }
     }
 
-    public static DefaultResponse_New PSregistration(PoliceStationSignup data, String appVerson, String imei, String devicename) {
+    public static DefaultResponse_New PSregistration(UpdateThanaModel data, String appVerson, String imei, String devicename) {
         DefaultResponse_New userDetails;
         SoapObject request = new SoapObject(SERVICENAMESPACE, PS_Registration);
         RandomNo = Utiilties.getTimeStamp();
@@ -629,29 +628,28 @@ public class WebServiceHelper {
         try {
             request.addProperty("skey", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY));
             request.addProperty("cap", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo));
-            request.addProperty("Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getRangeCode()), RandomNo));
-            request.addProperty("Police_Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getDistCode()), RandomNo));
-            request.addProperty("Sub_Div_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSubDivCode()), RandomNo));
-            request.addProperty("Thana_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getPsName()), RandomNo));
-            request.addProperty("SHO_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSHOName()), RandomNo));
-            request.addProperty("SHO_Mobile_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSHOMobile()), RandomNo));
-            request.addProperty("Email_Address", _encrptor.Encrypt(data.getSHOEmail(), RandomNo));
-            request.addProperty("Landline_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLandline()), RandomNo));
-            request.addProperty("Thana_Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getAddress()), RandomNo));
-            request.addProperty("Thana_Notification_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getThanaNotification()), RandomNo));
-            request.addProperty("Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhataNum()), RandomNo));
-            request.addProperty("Kheshra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhesraNum()), RandomNo));
-            request.addProperty("password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getPassword()), RandomNo));
+            request.addProperty("Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getRange_Code()), RandomNo));
+            request.addProperty("PSCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getPSCode()),RandomNo));
+            request.addProperty("Police_Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getPolice_Dist_Code()), RandomNo));
+            request.addProperty("Sub_Div_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSub_Div_Code()), RandomNo));
+            request.addProperty("Thana_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getThana_Name()), RandomNo));
+            request.addProperty("SHO_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSHO_Name()), RandomNo));
+            request.addProperty("SHO_Mobile_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getSHO_Mobile_Num()), RandomNo));
+            request.addProperty("Email_Address", _encrptor.Encrypt(data.getEmail_Address(), RandomNo));
+            request.addProperty("Landline_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLandline_Num()), RandomNo));
+            request.addProperty("Thana_Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getThana_Address()), RandomNo));
+            request.addProperty("Thana_Notification_Avail", "");
+            request.addProperty("Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhata_Num()), RandomNo));
+            request.addProperty("Kheshra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKheshra_Num()), RandomNo));
             request.addProperty("App_Ver", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(appVerson), RandomNo));
             request.addProperty("Device_Type", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(devicename), RandomNo));
             request.addProperty("Imei_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(imei), RandomNo));
             request.addProperty("Latitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLatitude()), RandomNo));
             request.addProperty("Longitude", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLongitude()), RandomNo));
-            request.addProperty("Notification_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getThanaNotification_Code()), RandomNo));
-            request.addProperty("Notification_Date", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getThanaNotification_Date()), RandomNo));
-            request.addProperty("Land_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLandAvail()), RandomNo));
+            request.addProperty("Notification_Num","");
+            request.addProperty("Notification_Date", "");
+            request.addProperty("Land_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLand_Avail()), RandomNo));
             request.addProperty("Photo1", data.getPhoto1());
-            request.addProperty("Photo2", data.getPhoto2());
             Log.e("StudentRG", request.toString());
 
             SoapObject res1;
@@ -1102,6 +1100,7 @@ public class WebServiceHelper {
             if (res1 != null) {
                 Log.e("Prison_master", res1.toString());
             }
+
             int TotalProperty = res1.getPropertyCount();
 
             for (int ii = 0; ii < TotalProperty; ii++) {
@@ -1370,7 +1369,7 @@ public class WebServiceHelper {
             if (request != null) {
                 Log.e("Cate-->", request.toString());
             }
-            envelope.addMapping(SERVICENAMESPACE, MajorUtilitiesFromServer.ContactDetails_CLASS.getSimpleName(), MajorUtilitiesFromServer.ContactDetails_CLASS);
+            envelope.addMapping(SERVICENAMESPACE, MajorUtilitiesFromServer.MajorDetails_CLASS.getSimpleName(), MajorUtilitiesFromServer.MajorDetails_CLASS);
 
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + Major_Util_Details, envelope);
@@ -2042,6 +2041,7 @@ public static String parseRespnseMajorUtil(String xml) {
         Document doc = builder.parse(is);
         NodeList list = doc.getElementsByTagName("InsertInsert_Major_PublicUtilResult");
         result = list.item(0).getTextContent();
+        Log.e("ReultvalueInData",result);
         //System.out.println(list.item(0).getTextContent());
     } catch (ParserConfigurationException e) {
     } catch (SAXException e) {
@@ -2729,8 +2729,6 @@ public static String parseRespnseMajorUtil(String xml) {
         return res;
     }
 
-
-
     public static String UploadMajorUtilities_Details(Context context, MajorUtilEntry majorUtilsDetails, ArrayList<InspectionDetailsModel> requirements, String UserId, String IMEI, String App_Ver, String Device_Type, String token,ArrayList<OtherFacility> otherFacilityArrayList) {
 
         context=context;
@@ -2749,10 +2747,8 @@ public static String parseRespnseMajorUtil(String xml) {
         CapId = RandomString.randomAlphaNumeric(8);
         String Enc_UID, Enc_CapId="", Enc_SKey="", Enc_Token = "";
         Encriptor _encrptor = new Encriptor();
-        try
-        {
+        try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
-
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
         }
@@ -2765,11 +2761,11 @@ public static String parseRespnseMajorUtil(String xml) {
         doc.setXmlVersion("1.0");
         doc.setXmlStandalone(true);
 
-        org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
-        header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
-        org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
-        Token.addChild(Node.TEXT, Enc_Token);
-        header[0].addChild(Node.ELEMENT, Token);
+//        org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+//        header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+//        org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+//        Token.addChild(Node.TEXT, Enc_Token);
+//        header[0].addChild(Node.ELEMENT, Token);
 
         Element poleElement = doc.getDocumentElement();
         try {
@@ -2811,6 +2807,7 @@ public static String parseRespnseMajorUtil(String xml) {
             poleElement.appendChild(getSoapPropert(doc, "skey", Enc_SKey));
             poleElement.appendChild(getSoapPropert(doc, "cap", Enc_CapId));
 
+            Log.e("TAG", poleElement.toString());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -2873,8 +2870,6 @@ public static String parseRespnseMajorUtil(String xml) {
         try {
             for (int x = 0; x < other_facilty.size(); x++) {
                 Element pdElement1 = doc.createElement("otherfacilities");
-
-
 
                 //add Other Facility
                 Element other_fac1 = doc.createElement("Other_Facility_Name");
@@ -2958,6 +2953,7 @@ public static String parseRespnseMajorUtil(String xml) {
                     String output = _getResponseBody(entity);
 
                     res = parseRespnseMajorUtil(output);
+
                 } else {
                     res = "0, Server no reponse";
                 }

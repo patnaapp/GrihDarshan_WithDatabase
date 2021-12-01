@@ -16,7 +16,6 @@ import bih.nic.in.policesoft.utility.CommonPref;
 
 public class GetPrisionMasterServer implements KvmSerializable, Serializable {
 
-
     LogoutFromApp logoutFromApp;
     private static final long serialVersionUID = 1L;
     private String Jail_Name="";

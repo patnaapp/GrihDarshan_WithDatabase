@@ -81,14 +81,15 @@ import butterknife.internal.Utils;
 
 public class AddMajorUtilitiesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
     //String User_Id = "", Range_Code = "", Dist_Code = "",Jail_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
-    String Token = "",user_id = "", password = "", range_Code = "",subDiv_Code = "", dist_code = "", thana_code = "", major_UtilCode = "", major_CrimeHeadCode = "",
-            major_CrimeHeadAddress = "", chronic_LandDistributeCode = "", chronic_Land_Add = "", Kabrishtan_Name = "", Kabrishtan_VillName = "",land_DetailsCode = "",
-            boundary_StatusCode = "", jail_TypeCode = "", jail_Name = "", jail_Address = "", started_Year = "", jail_Capacity = "", type_Court_Code = "",name_Of_Court = "",
+    String Token = "", user_id = "", password = "", range_Code = "", subDiv_Code = "", dist_code = "", thana_code = "", major_UtilCode = "", major_CrimeHeadCode = "",
+            major_CrimeHeadAddress = "", chronic_LandDistributeCode = "", chronic_Land_Add = "", Kabrishtan_Name = "", Kabrishtan_VillName = "", land_DetailsCode = "",
+            boundary_StatusCode = "", jail_TypeCode = "", jail_Name = "", jail_Address = "", started_Year = "", jail_Capacity = "", type_Court_Code = "", name_Of_Court = "",
             court_Address = "", fair_Festival_Name = "", fair_Festival_Address = "", historical_Place_Name = "", historical_Place_Address = "", remarks = "",
-            photo = "", latitude = "", longitude = "",entry_Mode = "", imei_Num = "", app_Ver = "", device_Type = "", religious_PlaceType = "", religious_PlaceName = "",
-            historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "",fire_TypeCode = "", hydrant_Type_Code = "", hydrant_Name = "", fire_Prone_Name = "",
+            photo = "", latitude = "", longitude = "", entry_Mode = "", imei_Num = "", app_Ver = "", device_Type = "", religious_PlaceType = "", religious_PlaceName = "",
+            historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "", fire_TypeCode = "", hydrant_Type_Code = "", hydrant_Name = "", fire_Prone_Name = "",
             fire_Status = "", skey = "", cap = "";
-    String major_UtilName="";
+
+    String major_UtilName = "";
 
 
     private CustomAlertDialog customAlertDialog;
@@ -109,8 +110,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
     int ThumbnailSize = 500;
-   // String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "", Jail_Type = "", Historical_importance, Best_practices, Reform_correctional,  Court_Code = "", Chronic_Disp_Code = "", Fire_Type = "", Religion_type;
-    String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc,  courtType, religionPlace;
+    // String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "", Jail_Type = "", Historical_importance, Best_practices, Reform_correctional,  Court_Code = "", Chronic_Disp_Code = "", Fire_Type = "", Religion_type;
+    String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc, courtType, religionPlace;
     String[] status;
     MajorUtilEntry model;
     private GpsTracker gpsTracker;
@@ -131,7 +132,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         customAlertDialog = new CustomAlertDialog(AddMajorUtilitiesActivity.this);
         listgps = new ArrayList<InspectionDetailsModel>();
         facilitylist = new ArrayList<>();
-
+        _encrptor = new Encriptor();
 
         user_id = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getUserID();
         range_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRange_Code();
@@ -139,7 +140,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         subDiv_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getSub_Div_Code();
         thana_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getThana_Code();
         password = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPassword();
-        Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
+        //Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
+        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+
+        if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+            new GetMajorUtil(user_id, password, Token).execute();
+
+        } else {
+            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         binding.llHistrocialPlaceName.setVisibility(View.GONE);
         binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
@@ -192,18 +201,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.txtAddMoreFacility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //EditText editText = new EditText(AddMajorUtilitiesActivity.this);
-                //editText.setBackground(getResources().getDrawable(R.drawable.textboxshape));
-                //binding.llAddOtherFacility.addView(editText);
-                if (binding.etOtherFacility.getText().length() >0) {
-
+                if (binding.etOtherFacility.getText().length() > 0) {
 
                     binding.etOtherFacility.setHint(R.string.add_more_facility);
                     binding.tvOtherFacility.setText(R.string.other_facility);
 
                     OtherFacility otherFacility = new OtherFacility();
                     otherFacility.setText_facility(binding.etOtherFacility.getText().toString());
-
                     facilitylist.add(otherFacility);
 
 
@@ -212,19 +216,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     binding.listOtherFacility.setLayoutManager(mLayoutManager);
                     binding.listOtherFacility.setAdapter(facility_Adaptor);
 
-                }
-                else {
+                } else {
                     Toast.makeText(AddMajorUtilitiesActivity.this, "Please Enter Other Facility Name", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-            new GetMajorUtil(user_id, password, Token).execute();
 
-        } else {
-            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
-        }
         binding.imgPic1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +243,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress, chronicLandDisputeAddress, religious_place_name, name_Of_Village, JailName, JailAddress, EstablishYear, Historical_imp_of_prison, Best_Practices_Prison, Reform_Activities_Prison, major_fair_festival_name, major_fair_festival_add, Historical_place_Name, Historical_Place_Address, Hydration_Name,Fire_Prone_Name,Fire_Address,Remarks ;
+            String MajorCrimeHeadAddress, chronicLandDisputeAddress, religious_place_name, name_Of_Village, JailName, JailAddress, EstablishYear, Historical_imp_of_prison, Best_Practices_Prison, Reform_Activities_Prison, major_fair_festival_name, major_fair_festival_add, Historical_place_Name, Historical_Place_Address, Hydration_Name, Fire_Prone_Name, Fire_Address, Remarks;
 
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             chronicLandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
@@ -256,10 +254,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             Historical_imp_of_prison = binding.etHistoricalImpPrison.getText().toString().trim();
             Best_Practices_Prison = binding.etBestPractices.getText().toString().trim();
             Reform_Activities_Prison = binding.etReformsCorrectionalActivities.getText().toString().trim();
-            major_fair_festival_name =  binding.etFairFestival.getText().toString().trim();
-            major_fair_festival_add =  binding.etFairFestivalAddress.getText().toString().trim();
-            Historical_place_Name =  binding.etHistoricalName.getText().toString().trim();
-            Historical_Place_Address =  binding.etHistoricalAddress.getText().toString().trim();
+            major_fair_festival_name = binding.etFairFestival.getText().toString().trim();
+            major_fair_festival_add = binding.etFairFestivalAddress.getText().toString().trim();
+            Historical_place_Name = binding.etHistoricalName.getText().toString().trim();
+            Historical_Place_Address = binding.etHistoricalAddress.getText().toString().trim();
             Hydration_Name = binding.etHydrantName.getText().toString().trim();
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
             Fire_Address = binding.etFairFestivalAddress.getText().toString();
@@ -270,16 +268,14 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             String isValied = "yes";
             View focusView = null;
 
-/*
-            if (TextUtils.isEmpty(Util_Code)) {
+           /* if (TextUtils.isEmpty(major_UtilCode)) {
                 binding.tvMajorPublicUtilities.setError(null);
                 binding.tvMajorPublicUtilities.setError(getResources().getString(R.string.major_util_required_field));
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_required_field), Toast.LENGTH_SHORT).show();
                 focusView = binding.spnMajorUtilities;
                 cancelRegistration = true;
 
-            }
-*/
+            }*/
 
             if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("1")) {
                 if (TextUtils.isEmpty(major_CrimeHeadCode)) {
@@ -348,7 +344,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
                 if (TextUtils.isEmpty(land_DetailsCode)) {
                     binding.tvLandAvailTitle.setError(null);
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_crime_required_field), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.kabristan_land_details), Toast.LENGTH_SHORT).show();
                     focusView = binding.spnKbrLandDetils;
                     cancelRegistration = true;
                 }
@@ -527,26 +523,21 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
             }
 
-            if (photo.equals("") || photo == null) {
+            if (photo.equalsIgnoreCase("") || photo == null) {
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
+                focusView = binding.imgPic1;
+                cancelRegistration = true;
             }
             if (cancelRegistration) {
-                // error in login
                 focusView.requestFocus();
 
-            } else {
-                Utiilties.hideKeyboard(AddMajorUtilitiesActivity.this);
-               // PreviewBottonSheetAddContact previewBottonSheet = new PreviewBottonSheetAddContact();
-                Bundle bundle = new Bundle();
+            }else{
                 //model = new MajorUtilEntry(Util_Code, Crime_Code, MajorCrimeHeadAddress, Chronic_Disp_Code, LandDisputeAddress, KabristhanName, KabristhanVillage, KbrLand_Code, Boundary_Code,Jail_Type, JailType_Code,Best_practices,Historical_importance,Reform_correctional,JailName, JailAddress, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, latitude, longitude, Photo1);
                 model = new MajorUtilEntry(user_id, password, range_Code, subDiv_Code, dist_code, thana_code, major_UtilCode, major_CrimeHeadCode, major_CrimeHeadAddress,
                         chronic_LandDistributeCode, chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, land_DetailsCode, boundary_StatusCode, jail_TypeCode, jail_Name, jail_Address,
-                        started_Year, jail_Capacity, type_Court_Code, name_Of_Court, court_Address, fair_Festival_Name,fair_Festival_Address, historical_Place_Name,
-                        historical_Place_Address, remarks,  photo, latitude, longitude, entry_Mode, imei_Num, app_Ver, device_Type, religious_PlaceType, religious_PlaceName,
+                        started_Year, jail_Capacity, type_Court_Code, name_Of_Court, court_Address, fair_Festival_Name, fair_Festival_Address, historical_Place_Name,
+                        historical_Place_Address, remarks, photo, latitude, longitude, entry_Mode, imei_Num, app_Ver, device_Type, religious_PlaceType, religious_PlaceName,
                         historical_Imp_Prison, best_Practices_Prison, reform_Activities_Prison, fire_TypeCode, hydrant_Type_Code, hydrant_Name, fire_Prone_Name, fire_Status, skey, cap);
-               // bundle.putParcelable(Constants.PS_PARAM, model);
-//                previewBottonSheet.setArguments(bundle);
-//                previewBottonSheet.show(getSupportFragmentManager(), "TAG");
 
                 model.setUser_Id(user_id);
                 model.setMajor_UtilCode(major_UtilCode);
@@ -611,15 +602,14 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
                     ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
                     ab.show();
-                }else{
-                    new UploadMajorUtilities(model,listgps,facilitylist).execute();
+                } else {
+                    new UploadMajorUtilities(model, listgps, facilitylist).execute();
                     //new stateData().execute();
                 }
             }
 
 
-        });
-
+                    });
 
 
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
@@ -657,7 +647,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     major_UtilCode = majorutilFromServer.getUtil_Code();
                     major_UtilName = majorutilFromServer.getUtil_Name();
                     visibleTrueFalse();
-
 
                 } else {
                     major_UtilCode = "";
@@ -698,13 +687,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                         religious_PlaceType = "T";
                     } else if (getResources().getString(R.string.churches).equals(religionPlace[i])) {
                         religious_PlaceType = "C";
-                    } else if (getResources().getString(R.string.mosques).equals(religionPlace[i])){
+                    } else if (getResources().getString(R.string.mosques).equals(religionPlace[i])) {
                         religious_PlaceType = "M";
-                    } else if (getResources().getString(R.string.gurdwaras).equals(religionPlace[i])){
+                    } else if (getResources().getString(R.string.gurdwaras).equals(religionPlace[i])) {
                         religious_PlaceType = "G";
-                    } else if (getResources().getString(R.string.synagogues).equals(religionPlace[i])){
+                    } else if (getResources().getString(R.string.synagogues).equals(religionPlace[i])) {
                         religious_PlaceType = "S";
-                    } else if (getResources().getString(R.string.kabristan).equals(religionPlace[i])){
+                    } else if (getResources().getString(R.string.kabristan).equals(religionPlace[i])) {
                         religious_PlaceType = "K";
                     }
                 } else {
@@ -714,7 +703,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             case R.id.spn_kbr_land_detils:
                 if (i > 0) {
                     if (getResources().getString(R.string.govt).equals(govtPrivate[i])) {
-                         land_DetailsCode = "G";
+                        land_DetailsCode = "G";
                     } else if (getResources().getString(R.string.rape).equals(govtPrivate[i])) {
                         land_DetailsCode = "P";
                     }
@@ -740,7 +729,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     jail_TypeCode = getPrisionypeServer.getJail_Type_Code();
 
                     if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-                        new getPrisonMasterList(user_id, password, Token,dist_code,jail_TypeCode).execute();
+                        new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
                     } else {
                         Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
                     }
@@ -754,8 +743,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     getPrisionMasterServer = prisionMaster_List.get(i - 1);
                     jail_Name = getPrisionMasterServer.getJail_Code();
 
-
-
                 } else {
                     jail_Name = "";
                 }
@@ -763,17 +750,14 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             case R.id.spn_fire_status:
                 if (i > 0) {
-                    if (i==1)
-                    {
-                        fire_Status="1";
-                    }
-                    else if (i==2)
-                    {
-                        fire_Status="2";
+                    if (i == 1) {
+                        fire_Status = "1";
+                    } else if (i == 2) {
+                        fire_Status = "2";
                     }
 
                 } else {
-                    fire_Status="";
+                    fire_Status = "";
                 }
 
 
@@ -790,7 +774,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                         binding.llHydrantName.setVisibility(View.GONE);
                         binding.llFireProneLocation.setVisibility(View.VISIBLE);
                     }
-                    // visibleTrueFalse();
 
                 } else {
                     major_UtilCode = "";
@@ -811,18 +794,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
     private class getPrisonMasterList extends AsyncTask<String, Void, ArrayList<GetPrisionMasterServer>> {
-        String userId, Password, Token, Dist_Code,Jail_Code;
+        String userId, Password, Token, Dist_Code, Jail_Code;
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
-
-       /* public getPrisonMasterList(String userId, String password, String token) {
-            this.userId = userId;
-            Password = password;
-            Token = token;
-        }*/
 
         public getPrisonMasterList(String userId, String password, String token, String dist_Code, String jail_Code) {
             this.userId = userId;
@@ -834,24 +812,26 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected ArrayList<GetPrisionMasterServer> doInBackground(String... strings) {
-            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token,Dist_Code,Jail_Code);
+            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token, Dist_Code, Jail_Code);
         }
+
         @Override
-        protected void onPostExecute(ArrayList<GetPrisionMasterServer> result){
+        protected void onPostExecute(ArrayList<GetPrisionMasterServer> result) {
             customAlertDialog.dismisDialog();
 
-            if (result != null){
+            if (result != null) {
                 if (result.size() > 0) {
                     prisionMaster_List = result;
                     setPrisonMaster_List(result);
 
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
-    public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList){
+
+    public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList) {
         prisionMaster_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Prison Master-");
@@ -883,25 +863,26 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected ArrayList<GetPrisionypeServer> doInBackground(String... strings) {
-            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
+            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token, CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
         }
+
         @Override
-        protected void onPostExecute(ArrayList<GetPrisionypeServer> result){
+        protected void onPostExecute(ArrayList<GetPrisionypeServer> result) {
             customAlertDialog.dismisDialog();
 
-            if (result != null){
+            if (result != null) {
                 if (result.size() > 0) {
                     PrisionType_List = result;
                     setPrision_Type(result);
 
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
-    public void setPrision_Type(ArrayList<GetPrisionypeServer> RangeList){
+    public void setPrision_Type(ArrayList<GetPrisionypeServer> RangeList) {
         PrisionType_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Prison Type-");
@@ -1056,7 +1037,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
 
                     Major_Util_List = result;
-                    setcontactDetailsSpinner(result);
+                    setMajorDetailsSpinner(result);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }
@@ -1065,7 +1046,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
     }
 
-    public void setcontactDetailsSpinner(ArrayList<MajorUtilitiesFromServer> RangeList) {
+    public void setMajorDetailsSpinner(ArrayList<MajorUtilitiesFromServer> RangeList) {
         Major_Util_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Major Utilities-");
@@ -1951,7 +1932,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         if (imageData1 != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(imageData1, 0, imageData1.length);
 
-
             imgview.setImageBitmap(bmp);
 
         }
@@ -1986,7 +1966,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }, 2000);
     }
 
-    private class UploadMajorUtilities extends AsyncTask<String, Void, String>{
+    private class UploadMajorUtilities extends AsyncTask<String, Void, String> {
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
 
         MajorUtilEntry majorUtilEntry;
@@ -2000,7 +1980,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage("Uploading");
             this.dialog.show();
@@ -2008,20 +1988,20 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected String doInBackground(String... strings) {
-            return WebServiceHelper.UploadMajorUtilities_Details(AddMajorUtilitiesActivity.this,majorUtilEntry,inspectionDetailsModelArrayList,user_id,Utiilties.getDeviceIMEI(getApplicationContext()),Utiilties.getAppVersion(getApplicationContext()),Utiilties.getDeviceName(),Token,otherFacilityArrayList);
+            return WebServiceHelper.UploadMajorUtilities_Details(AddMajorUtilitiesActivity.this, majorUtilEntry, inspectionDetailsModelArrayList, user_id, Utiilties.getDeviceIMEI(getApplicationContext()), Utiilties.getAppVersion(getApplicationContext()), Utiilties.getDeviceName(), Token, otherFacilityArrayList);
         }
 
         @Override
-        protected void onPostExecute(String result){
-            if (this.dialog.isShowing()){
+        protected void onPostExecute(String result) {
+            if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
-            if (result != null){
+            if (result != null) {
                 if (result.contains(",")) {
                     String[] res = result.split(",");
                     try {
-                        String sKey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
-                        String response = _encrptor.Decrypt(res[0], sKey);
+                        String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
+                        String response = _encrptor.Decrypt(res[0], skey);
 
                         if (response.equals("1")) {
                             new AlertDialog.Builder(AddMajorUtilitiesActivity.this)
@@ -2043,7 +2023,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
+                                            finish();
                                         }
                                     })
                                     .show();
@@ -2063,9 +2043,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
 
-                        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
 
                 }
 

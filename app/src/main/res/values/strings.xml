@@ -32,14 +32,14 @@
     <string name="outpost_reg">Add Outpost</string>
     <string name="major_public_utilities">Major Public Utilities Places</string>
     <string name="important_contact">Important Contact</string>
-    <string name="range">Range : [*]</string>
+    <string name="range">Range Name :</string>
     <string name="departmentType">Department Type : [*]</string>
     <string name="range_dis">Range</string>
-    <string name="district">Thana District : [*]</string>
+    <string name="district">Thana District :</string>
     <string name="district_dis">District</string>
-    <string name="subdiv">Sub Division : [*]</string>
+    <string name="subdiv">Sub Division :</string>
     <string name="subdiv_dis">Sub Division</string>
-    <string name="police_station">Thana Name : [*]</string>
+    <string name="police_station">Thana Name :</string>
     <string name="police_station_dis">Thana Name</string>
     <string name="outpost_station">Outpost Name : [*]</string>
     <string name="postoffice_name">Post Office Name : [*]</string>
@@ -75,6 +75,7 @@
     <string name="confirm_password_en">Confirm Password: [*]</string>
     <string name="enter_here">Enter Here..</string>
     <string name="preview_befor_registration">Preview Before Registration</string>
+    <string name="btn_submit">Submit</string>
     <string name="save">Save</string>
     <string name="getotp">Get Otp</string>
     <string name="verify_otp">Verify OTP</string>

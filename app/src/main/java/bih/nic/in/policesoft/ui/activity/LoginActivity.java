@@ -83,15 +83,15 @@ public class LoginActivity extends Activity {
         signUpBtn = (TextView) findViewById(R.id.tv_signup);
         TextView tv_forgot_Password = (TextView) findViewById(R.id.tv_forgot_Password);
         sp_userRole = findViewById(R.id.spinner_role);
+        signUpBtn.setVisibility(View.GONE);
 
-
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
+       /* signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(i);
             }
-        });
+        });*/
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +160,6 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-
             this.dialog.setCanceledOnTouchOutside(false);
             this.dialog.setMessage(getResources().getString(R.string.authenticating));
             this.dialog.show();
@@ -181,14 +180,28 @@ public class LoginActivity extends Activity {
                 if (result.getStatus().equalsIgnoreCase("true")) {
 
                     if (result.get_isAuth().equalsIgnoreCase("Y")) {
-                        GlobalVariables.PoliceLoggedUser = result;
-                        GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
-                        GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
-                        CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId",username).commit();
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token",result.getToken()).commit();
-                        Toast.makeText(LoginActivity.this, " Authentication Success", Toast.LENGTH_SHORT).show();
-                        start();
+
+                        if (result.getIsLock().equalsIgnoreCase("N")) {
+
+                            GlobalVariables.PoliceLoggedUser = result;
+                            GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
+                            GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
+                            CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId", username).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
+                            update();
+
+                        } else if (result.getIsLock().equalsIgnoreCase("Y")) {
+                            GlobalVariables.PoliceLoggedUser = result;
+                            GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
+                            GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
+                            CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId", username).commit();
+                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
+                            Toast.makeText(LoginActivity.this, " Authentication Success", Toast.LENGTH_SHORT).show();
+                            start();
+
+                        }
 
                     } else {
                         new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE).setTitleText(result.getMssage()).setContentText("Something went wrong!").show();
@@ -207,13 +220,18 @@ public class LoginActivity extends Activity {
     }
 
 
+    public void update() {
+        Intent iUserHome = new Intent(getApplicationContext(), SignupActivity.class);
+        iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(iUserHome);
+        finish();
+    }
+
     public void start() {
-
-
-            Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
-            iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(iUserHome);
-            finish();
+        Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
+        iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(iUserHome);
+        finish();
 
     }
 
@@ -237,9 +255,6 @@ public class LoginActivity extends Activity {
                 e.printStackTrace();
             }
         }
-
-//        EditText userName = (EditText) findViewById(R.id.UserText);
-//        userName.setText(CommonPref.getUserDetails(getApplicationContext()).get_UserID());
 
         try {
             version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;

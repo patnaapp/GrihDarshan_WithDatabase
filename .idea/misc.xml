@@ -6,7 +6,8 @@
         <entry key="..\:/PoliceSoft/app/src/main/res/drawable/card_top_wave.xml" value="0.2846153846153846" />
         <entry key="..\:/PoliceSoft/app/src/main/res/drawable/shape_adapter_cell.xml" value="0.2846153846153846" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_major_utilities.xml" value="0.22" />
-        <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_office_under_police.xml" value="0.17982155113246398" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_office_under_police.xml" value="0.33" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_splash.xml" value="0.2" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/adaptor_take_gps_list.xml" value="0.27291666666666664" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/add_other_facility.xml" value="0.27291666666666664" />

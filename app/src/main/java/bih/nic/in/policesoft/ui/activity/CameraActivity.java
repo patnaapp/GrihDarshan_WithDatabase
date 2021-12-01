@@ -144,7 +144,6 @@ public class CameraActivity extends Activity {
 
                 }
 
-
                 if (camType == Camera.CameraInfo.CAMERA_FACING_BACK) {
                     camType = Camera.CameraInfo.CAMERA_FACING_FRONT;
 

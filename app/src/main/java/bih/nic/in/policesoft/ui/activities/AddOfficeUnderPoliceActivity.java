@@ -118,13 +118,11 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         load_spinner();
 
-        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this))
-        {
+        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
             new GetOfficeList(User_Id, Password, Token).execute();
         }
-        else
-        {
-
+        else {
+            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
         }
         binding.llRange.setVisibility(View.GONE);
         binding.llThanaNmae.setVisibility(View.GONE);
@@ -195,8 +193,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             }
         });
 
-        binding.radioGroupProsecution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        binding.radioGroupProsecution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId){
                     case R.id.radioDirectorate:
@@ -859,8 +856,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 //                    {
 //                        binding.llThanaNmae.setVisibility(View.GONE);
 //                        binding.llOfficeNmae.setVisibility(View.VISIBLE);
-                    if (officeNameListMaster!=null)
-                    {
+                    if (officeNameListMaster!=null) {
                         officeNameListMaster.clear();
                         officenamearray.clear();
 
@@ -1031,7 +1027,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         @Override
         protected ArrayList<OfficeListFromServer> doInBackground(String... param) {
-
             return WebServiceHelper.GetOffice(AddOfficeUnderPoliceActivity.this, userId, Password, Token);
         }
 
@@ -1067,22 +1062,19 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnOfficeType.setOnItemSelectedListener(this);
     }
 
-    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList)
-    {
+    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList) {
         officeNameListMaster = RangeList;
 
         officenamearray.add("-Select Offices Name-");
 
-        for (Office_Name_List_Modal info : officeNameListMaster)
-        {
+        for (Office_Name_List_Modal info : officeNameListMaster) {
             officenamearray.add(info.getOfficeName());
         }
 
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, officenamearray);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnOffice.setAdapter(adaptor);
-        if (Office_type_Code.equals("1"))
-        {
+        if (Office_type_Code.equals("1")) {
 
             binding.spnOffice.setSelection(((ArrayAdapter<String>) binding.spnOffice.getAdapter()).getPosition(CommonPref.getPoliceDetails(getApplicationContext()).getRange_Name()));
 
@@ -1091,8 +1083,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
     }
 
-    public void setCourtTypeSpinner(ArrayList<CourtType_Entity> CourtTypeList)
-    {
+    public void setCourtTypeSpinner(ArrayList<CourtType_Entity> CourtTypeList) {
 
         courtTypeMaster = CourtTypeList;
         ArrayList array = new ArrayList<String>();
@@ -1110,8 +1101,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnCourtType.setOnItemSelectedListener(this);
     }
 
-    public void setCourtSubTypeSpinner(ArrayList<CourtSubType_Entity> CourtSubTypeList)
-    {
+    public void setCourtSubTypeSpinner(ArrayList<CourtSubType_Entity> CourtSubTypeList) {
 
         courtSubTypeMaster = CourtSubTypeList;
         ArrayList array = new ArrayList<String>();
@@ -1830,29 +1820,24 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         @Override
         protected String doInBackground(String... param) {
-
             return WebServiceHelper.UploadOfficeUnderPolice_Details(AddOfficeUnderPoliceActivity.this,workInfo,reqrmnts, User_Id,Utiilties.getDeviceIMEI(getApplicationContext()),Utiilties.getAppVersion(getApplicationContext()),Utiilties.getDeviceName(),Token);
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (this.dialog.isShowing())
-            {
+            if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
 
-            if (result != null)
-            {
-                if (result.contains(","))
-                {
+            if (result != null) {
+                if (result.contains(",")) {
                     String[] res = result.split(",");
                     try
                     {
                         String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
                         String response = _encrptor.Decrypt(res[0], skey);
 
-                        if(response.equals("1"))
-                        {
+                        if(response.equals("1")) {
                             new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
                                     .setTitle("Success")
                                     .setMessage("Record Uploaded Successfully")
@@ -1864,8 +1849,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                                     })
                                     .show();
                         }
-                        else if(response.equals("0"))
-                        {
+                        else if(response.equals("0")) {
                             new AlertDialog.Builder(AddOfficeUnderPoliceActivity.this)
                                     .setTitle("Failed")
                                     .setMessage("Record Not Uploaded Successfully")
