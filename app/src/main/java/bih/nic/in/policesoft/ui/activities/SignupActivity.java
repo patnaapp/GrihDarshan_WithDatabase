@@ -227,12 +227,10 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                         Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-            else if (binding.etEmailAdd.getText().length()>0)
-            {
+            } else if (binding.etEmailAdd.getText().length() > 0) {
                 if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
-                Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
-            }
+                    Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
+                }
             }
 
             /*} else if (Password.isEmpty() || Password == null) {

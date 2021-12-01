@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment{
         new GetSliderFromServer().execute();
 
 
-        if (CommonPref.getPoliceDetails(getContext()).getRole().equals(""))
+        if (CommonPref.getPoliceDetails(getContext()).getRole().equals("PS"))
         {
             rl_addoutpost.setVisibility(View.VISIBLE);
             rl_addcont.setVisibility(View.VISIBLE);
