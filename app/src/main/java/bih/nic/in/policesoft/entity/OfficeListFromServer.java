@@ -1,6 +1,9 @@
 package bih.nic.in.policesoft.entity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
@@ -11,6 +14,8 @@ import java.util.Hashtable;
 
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.security.Encriptor;
+import bih.nic.in.policesoft.ui.activity.LoginActivity;
+import bih.nic.in.policesoft.ui.activity.SplashActivity;
 import bih.nic.in.policesoft.ui.interfacep.LogoutFromApp;
 import bih.nic.in.policesoft.utility.CommonPref;
 
@@ -42,9 +47,41 @@ public class OfficeListFromServer implements KvmSerializable, Serializable {
                 }else {
                     this.Message = context.getResources().getString(R.string.invalid_cap);
                     logoutFromApp = (LogoutFromApp) context;
+
                     logoutFromApp.Logout();
+                    SplashActivity.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor editor = SplashActivity.prefs.edit();
+                    editor.putBoolean("username", false);
+                    editor.putBoolean("password", false);
+                    editor.putBoolean("password", false);
+                    editor.putString("isLogin", "");
+                    editor.commit();
+
+                    UserDetails userInfo = CommonPref.getUserDetails(context);
+                    userInfo.setAuthenticated(false);
+                    CommonPref.setUserDetails(context, userInfo);
+
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    context.startActivity(intent);
+
                 }
             }else {
+                SplashActivity.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = SplashActivity.prefs.edit();
+                editor.putBoolean("username", false);
+                editor.putBoolean("password", false);
+                editor.putBoolean("password", false);
+                editor.putString("isLogin", "");
+                editor.commit();
+
+                UserDetails userInfo = CommonPref.getUserDetails(context);
+                userInfo.setAuthenticated(false);
+                CommonPref.setUserDetails(context, userInfo);
+
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                context.startActivity(intent);
                 this.Message = context.getResources().getString(R.string.empty_skey);
             }
         }catch (Exception e){
