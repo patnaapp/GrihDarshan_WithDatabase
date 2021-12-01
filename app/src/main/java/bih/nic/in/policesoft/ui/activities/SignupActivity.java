@@ -141,6 +141,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         });
         binding.mobOtpVerify.setOnClickListener(view -> {
 
+
             String EnterOTP = binding.etMobOtp.getText().toString().trim();
             if (otp != null) {
                 if (EnterOTP.equals(otp)) {
@@ -193,8 +194,8 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             Email = binding.etEmailAdd.getText().toString().trim();
             LandlineNum = binding.etLandlineNum.getText().toString().trim();
             Thana_Add = binding.etAddress.getText().toString().trim();
-            Notification_Num = binding.etNotificationNum.getText().toString().trim();
-            Notificaton_Date = binding.txtNotificationDate.getText().toString().trim();
+//            Notification_Num = binding.etNotificationNum.getText().toString().trim();
+//            Notificaton_Date = binding.txtNotificationDate.getText().toString().trim();
             KhataNum = binding.etKhataNum.getText().toString().trim();
             KhesraNum = binding.etKhesraNum.getText().toString().trim();
             String MobileOTP = binding.etMobOtp.getText().toString().trim();
@@ -214,24 +215,26 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 binding.etAddress.setError(null);
                 binding.etAddress.setError(getResources().getString(R.string.required_field));
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.address_required_field), Toast.LENGTH_SHORT).show();
-            } else if (Thana_Notification_Code == null) {
-                binding.tvNotificationTitle.setError(null);
-                Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notification_avail), Toast.LENGTH_SHORT).show();
-                if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
-                    if (Notification_Num.isEmpty() || Notification_Num == null) {
-                        binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
-                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
-                    } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
-                        binding.txtNotificationDate.setError(null);
-                        binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
-                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            } else if (binding.etEmailAdd.getText().length() > 0) {
-                if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
-                    Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
-                }
             }
+//            else if (Thana_Notification_Code == null) {
+//                binding.tvNotificationTitle.setError(null);
+//                Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notification_avail), Toast.LENGTH_SHORT).show();
+//                if (Thana_Notification_Code.equalsIgnoreCase("Y")) {
+//                    if (Notification_Num.isEmpty() || Notification_Num == null) {
+//                        binding.etNotificationNum.setError(getResources().getString(R.string.required_field));
+//                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_num), Toast.LENGTH_SHORT).show();
+//                    } else if (Notificaton_Date.isEmpty() || Notificaton_Date == null) {
+//                        binding.txtNotificationDate.setError(null);
+//                        binding.txtNotificationDate.setError(getResources().getString(R.string.required_field));
+//                        Toast.makeText(SignupActivity.this, getResources().getString(R.string.select_notif_date), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//            else if (binding.etEmailAdd.getText().length() > 0) {
+//                if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
+//                    Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
+//                }
+//            }
 
             /*} else if (Password.isEmpty() || Password == null) {
                 binding.etPassword.setError(null);
@@ -418,7 +421,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void OnDoneClick() {
 
-        new ThanaDetail().execute();
+       // new ThanaDetail().execute();
     }
 
     private class ThanaDetail extends AsyncTask<String, Void, DefaultResponse_New> {
@@ -503,6 +506,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                         Toast.makeText(SignupActivity.this, mobileOTPModel.getMessage(), Toast.LENGTH_SHORT).show();
                         StartTimerMobile();
                         binding.otpLayout.setVisibility(View.VISIBLE);
+                        binding.etMobileNo.setEnabled(false);
                     } else {
                         Toast.makeText(SignupActivity.this, "OTP Not Received", Toast.LENGTH_SHORT).show();
                     }

@@ -58,7 +58,7 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="true">
         <activity android:name=".ui.activities.AddOfficeUnderPoliceActivity"></activity>
         <activity android:name=".ui.activities.AddContactActivity" />
         <activity android:name=".ui.activity.CameraActivity" />

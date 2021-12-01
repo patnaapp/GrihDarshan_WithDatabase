@@ -113,8 +113,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         SubDiv_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getSub_Div_Code();
         Thana_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getThana_Code();
         Password = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getPassword();
-        //Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
-        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+        Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
+       // Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         load_spinner();
 

@@ -140,8 +140,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         subDiv_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getSub_Div_Code();
         thana_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getThana_Code();
         password = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPassword();
-        //Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
-        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+        Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
+      //  Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(user_id, password, Token).execute();

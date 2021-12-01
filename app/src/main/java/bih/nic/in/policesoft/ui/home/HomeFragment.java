@@ -33,19 +33,18 @@ import bih.nic.in.policesoft.web_services.WebServiceHelper;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     public UserHomeListener listenr;
-    TextView txt_Username,tv_range,tv_thana_dist,tv_subdivision,tv_thana_name;
-    RelativeLayout rl_addoutpost,rl_addcont,rl_addmajorutil,rl_addofficeunder;
+    TextView txt_Username, tv_range, tv_thana_dist, tv_subdivision, tv_thana_name;
+    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder;
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
     com.smarteist.autoimageslider.SliderView sliderView1;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         customAlertDialog = new CustomAlertDialog(getContext());
 
@@ -53,12 +52,10 @@ public class HomeFragment extends Fragment{
         new GetSliderFromServer().execute();
 
 
-        if (CommonPref.getPoliceDetails(getContext()).getRole().equals("PS"))
-        {
+        if (CommonPref.getPoliceDetails(getContext()).getRole().equals("PS")) {
             rl_addoutpost.setVisibility(View.VISIBLE);
             rl_addcont.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             rl_addoutpost.setVisibility(View.GONE);
             rl_addcont.setVisibility(View.GONE);
         }
@@ -96,27 +93,26 @@ public class HomeFragment extends Fragment{
         });
 
 
-
         return root;
     }
 
 
     void initializeViews(View root) {
-        txt_Username=(TextView)root.findViewById(R.id.txt_Username);
-        tv_range=(TextView)root.findViewById(R.id.tv_range);
-        tv_thana_dist=(TextView)root.findViewById(R.id.tv_thana_dist);
-        tv_subdivision=(TextView)root.findViewById(R.id.tv_subdivision);
-        tv_thana_name=(TextView)root.findViewById(R.id.tv_thana_name);
-        rl_addoutpost=(RelativeLayout) root.findViewById(R.id.rl_addoutpost);
-        rl_addcont=(RelativeLayout) root.findViewById(R.id.rl_addcont);
-        rl_addmajorutil=(RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
-        rl_addofficeunder=(RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
-        sliderView=( com.smarteist.autoimageslider.SliderView) root.findViewById(R.id.slider);
-
+        txt_Username = (TextView) root.findViewById(R.id.txt_Username);
+        tv_range = (TextView) root.findViewById(R.id.tv_range);
+        tv_thana_dist = (TextView) root.findViewById(R.id.tv_thana_dist);
+        tv_subdivision = (TextView) root.findViewById(R.id.tv_subdivision);
+        tv_thana_name = (TextView) root.findViewById(R.id.tv_thana_name);
+        rl_addoutpost = (RelativeLayout) root.findViewById(R.id.rl_addoutpost);
+        rl_addcont = (RelativeLayout) root.findViewById(R.id.rl_addcont);
+        rl_addmajorutil = (RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
+        rl_addofficeunder = (RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
+        sliderView = (com.smarteist.autoimageslider.SliderView) root.findViewById(R.id.slider);
 
 
     }
-    public void setUserDetail(){
+
+    public void setUserDetail() {
         txt_Username.setText(Utiilties.returnGreetString(getContext()) + "\n" + CommonPref.getPoliceDetails(getContext()).getSHO_Name());
         tv_range.setText(CommonPref.getPoliceDetails(getContext()).getRange_Name());
         tv_thana_dist.setText(CommonPref.getPoliceDetails(getContext()).getDistName());
@@ -130,6 +126,7 @@ public class HomeFragment extends Fragment{
         super.onResume();
 
     }
+
     private class GetSliderFromServer extends AsyncTask<String, Void, SliderModel> {
         private final ProgressDialog dialog = new ProgressDialog(getContext());
 
@@ -168,8 +165,6 @@ public class HomeFragment extends Fragment{
 
         }
     }
-
-
 
 
 }

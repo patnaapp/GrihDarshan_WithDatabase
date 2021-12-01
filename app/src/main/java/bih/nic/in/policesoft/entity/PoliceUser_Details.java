@@ -111,7 +111,7 @@ public class PoliceUser_Details implements KvmSerializable, Serializable {
                         this.setEmail_Address(_encrptor.Decrypt(obj.getProperty("Email_Address").toString(), skey));
                         this.setLandline_Num(_encrptor.Decrypt(obj.getProperty("Landline_Num").toString(), skey));
                         this.setThana_Address(_encrptor.Decrypt(obj.getProperty("Thana_Address").toString(), skey));
-                        this.setThana_Notification_Avail(_encrptor.Decrypt(obj.getProperty("Thana_Notification_Avail").toString(), skey));
+                      //  this.setThana_Notification_Avail(_encrptor.Decrypt(obj.getProperty("Thana_Notification_Avail").toString(), skey));
                         this.setKhata_Num(_encrptor.Decrypt(obj.getProperty("Khata_Num").toString(), skey));
                         this.setKheshra_Num(_encrptor.Decrypt(obj.getProperty("Kheshra_Num").toString(), skey));
                         this.setPhoto1(_encrptor.Decrypt(obj.getProperty("Photo1").toString(), skey));

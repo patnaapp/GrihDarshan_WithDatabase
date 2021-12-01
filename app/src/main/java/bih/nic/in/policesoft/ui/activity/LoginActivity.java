@@ -183,8 +183,8 @@ public class LoginActivity extends Activity {
 
                     if (result.get_isAuth().equalsIgnoreCase("Y")) {
 
-                        if (result.getRole().equals("PS"))
-                        {
+                        if (result.getRole().equals("PS")) {
+
                             if (result.getIsLock().equalsIgnoreCase("N")) {
 
                                 GlobalVariables.PoliceLoggedUser = result;
