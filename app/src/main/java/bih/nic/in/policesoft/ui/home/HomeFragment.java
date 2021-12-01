@@ -52,6 +52,17 @@ public class HomeFragment extends Fragment{
         initializeViews(root);
         new GetSliderFromServer().execute();
 
+
+        if (CommonPref.getPoliceDetails(getContext()).getRole().equals(""))
+        {
+            rl_addoutpost.setVisibility(View.VISIBLE);
+            rl_addcont.setVisibility(View.VISIBLE);
+        }
+        else {
+            rl_addoutpost.setVisibility(View.GONE);
+            rl_addcont.setVisibility(View.GONE);
+        }
+
         setUserDetail();
 
 
@@ -101,6 +112,8 @@ public class HomeFragment extends Fragment{
         rl_addmajorutil=(RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
         rl_addofficeunder=(RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
         sliderView=( com.smarteist.autoimageslider.SliderView) root.findViewById(R.id.slider);
+
+
 
     }
     public void setUserDetail(){

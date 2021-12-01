@@ -179,19 +179,35 @@ public class LoginActivity extends Activity {
             if (result != null) {
                 if (result.getStatus().equalsIgnoreCase("true")) {
 
+
+
                     if (result.get_isAuth().equalsIgnoreCase("Y")) {
 
-                        if (result.getIsLock().equalsIgnoreCase("N")) {
+                        if (result.getRole().equals(""))
+                        {
+                            if (result.getIsLock().equalsIgnoreCase("N")) {
 
-                            GlobalVariables.PoliceLoggedUser = result;
-                            GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
-                            GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
-                            CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId", username).commit();
-                            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
-                            update();
+                                GlobalVariables.PoliceLoggedUser = result;
+                                GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
+                                GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
+                                CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId", username).commit();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
+                                update();
 
-                        } else if (result.getIsLock().equalsIgnoreCase("Y")) {
+                            } else if (result.getIsLock().equalsIgnoreCase("Y")) {
+                                GlobalVariables.PoliceLoggedUser = result;
+                                GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
+                                GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
+                                CommonPref.setPoliceDetails(getApplicationContext(), GlobalVariables.PoliceLoggedUser);
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("UserId", username).commit();
+                                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
+                                Toast.makeText(LoginActivity.this, " Authentication Success", Toast.LENGTH_SHORT).show();
+                                start();
+
+                            }
+                        }
+                        else {
                             GlobalVariables.PoliceLoggedUser = result;
                             GlobalVariables.PoliceLoggedUser.setUserID(userName.getText().toString().trim().toUpperCase());
                             GlobalVariables.PoliceLoggedUser.setPassword(userPass.getText().toString().trim());
@@ -200,8 +216,8 @@ public class LoginActivity extends Activity {
                             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("Token", result.getToken()).commit();
                             Toast.makeText(LoginActivity.this, " Authentication Success", Toast.LENGTH_SHORT).show();
                             start();
-
                         }
+
 
                     } else {
                         new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE).setTitleText(result.getMssage()).setContentText("Something went wrong!").show();
