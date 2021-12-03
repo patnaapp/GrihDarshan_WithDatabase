@@ -567,6 +567,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
 
     }
+
     public void visibleTrueFalse() {
         if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) || (Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
             binding.llOfficerName.setVisibility(View.VISIBLE);
@@ -712,12 +713,9 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                             btnOk.setEnabled(true);
                             btnOk.setBackgroundResource(R.drawable.buttonbackshape);*/
                             break;
-
                     }
 
-
                 }
-
         }
 
     }

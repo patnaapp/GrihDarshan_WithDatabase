@@ -266,7 +266,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Regular Home Gaurd"
+                        android:text="Regular Home Guard"
                         android:textAlignment="center"
                         android:textSize="14sp"/>
 
@@ -383,7 +383,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Voluantary Home Gaurd"
+                        android:text="Voluantary Home Guard"
                         android:textAlignment="center"
                         android:textSize="14sp"/>
 

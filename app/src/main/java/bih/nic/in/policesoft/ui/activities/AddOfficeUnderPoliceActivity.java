@@ -969,8 +969,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     courtType_Name = courtType.get_CourtName();
                     //  }
 
-                    if (courtCateg.equals("1"))
-                    {
+                    if (courtCateg.equals("1")) {
                         new GetCourtSubTypeMaster().execute();
                     }
 
