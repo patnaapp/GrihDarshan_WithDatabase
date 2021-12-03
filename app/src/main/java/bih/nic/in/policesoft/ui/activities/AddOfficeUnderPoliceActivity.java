@@ -711,7 +711,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
 
             }
-            if (Photo1.equalsIgnoreCase("") || Photo1 == null) {
+            if (Photo1.equalsIgnoreCase("") || Photo1 == null)
+            {
                 Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
                 focusView = binding.imgPic1;
                 cancelRegistration = true;
@@ -950,13 +951,17 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 break;
             case R.id.spn_armoury_manazine:
                 if (i > 0) {
-                    if (getResources().getString(R.string.yes).equals(yesNo[i])) {
+                    if (getResources().getString(R.string.yes).equals(yesNo[i]))
+                    {
                         Armoury_Mazin_Code = "Y";
-                    } else if (getResources().getString(R.string.no).equals(yesNo[i])) {
-                        Armoury_Mazin_Code = "N";
-
                     }
-                } else {
+                    else if (getResources().getString(R.string.no).equals(yesNo[i]))
+                    {
+                        Armoury_Mazin_Code = "N";
+                    }
+                }
+                else
+                    {
                     Armoury_Mazin_Code = "";
                 }
                 break;
@@ -1047,12 +1052,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
     }
 
-    public void setOfficeDetailsSpinner(ArrayList<OfficeListFromServer> RangeList) {
+    public void setOfficeDetailsSpinner(ArrayList<OfficeListFromServer> RangeList)
+    {
         officesFromServersList = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Offices Type-");
 
-        for (OfficeListFromServer info : officesFromServersList) {
+        for (OfficeListFromServer info : officesFromServersList)
+        {
             array.add(info.getOffice_Name());
         }
 
@@ -1062,7 +1069,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnOfficeType.setOnItemSelectedListener(this);
     }
 
-    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList) {
+    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList)
+    {
         officeNameListMaster = RangeList;
 
         officenamearray.add("-Select Offices Name-");

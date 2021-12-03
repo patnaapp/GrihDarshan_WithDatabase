@@ -258,6 +258,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             }
             if (Photo1.equals("") || Photo1 == null) {
                 Toast.makeText(AddContactActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
+                cancelRegistration = true;
             }
             if (cancelRegistration) {
                 // error in login

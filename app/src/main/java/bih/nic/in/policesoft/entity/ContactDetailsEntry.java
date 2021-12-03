@@ -103,7 +103,7 @@ public class ContactDetailsEntry implements Parcelable {
         BusStand_Add = busStand_Name;
         Latitude = latitude;
         Longitude = longitude;
-        Photo1 = photo2;
+        Photo1 = photo1;
         Photo2 = photo2;
 
     }
