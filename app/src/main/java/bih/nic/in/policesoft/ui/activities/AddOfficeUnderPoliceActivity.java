@@ -194,8 +194,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         });
 
         binding.radioGroupProsecution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                switch(checkedId)
+                {
                     case R.id.radioDirectorate:
 
                         prosecutor_office_level="1";
