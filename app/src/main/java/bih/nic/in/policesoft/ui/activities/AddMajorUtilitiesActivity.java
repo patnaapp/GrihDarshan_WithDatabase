@@ -36,6 +36,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +91,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             fire_Status = "", skey = "", cap = "";
 
     String major_UtilName = "";
+    String isToilet_avail="",isKitchen_Avail="",isHospital_Avail="",isDormitory_Avail="";
 
 
     private CustomAlertDialog customAlertDialog;
@@ -140,8 +142,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         subDiv_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getSub_Div_Code();
         thana_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getThana_Code();
         password = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPassword();
-       // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
-        Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
+        // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
+        Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(user_id, password, Token).execute();
@@ -158,7 +160,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llMajorCrimeAdd.setVisibility(View.GONE);
         binding.llChronicLandDisputs.setVisibility(View.GONE);
         binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-        binding.llKabristanName.setVisibility(View.GONE);
+        binding.llReligiousName.setVisibility(View.GONE);
         binding.llKabristanVillage.setVisibility(View.GONE);
         binding.llKbrLandDetails.setVisibility(View.GONE);
         binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -242,13 +244,98 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             }
         });
+
+        binding.chkToiletYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkToiletNo.setChecked(false);
+                    isToilet_avail="Y";
+
+                }
+            }
+        });
+        binding.chkToiletNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkToiletYes.setChecked(false);
+                    isToilet_avail="N";
+                }
+            }
+        });
+
+        binding.chkKitchenYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkKitchenNo.setChecked(false);
+                    isKitchen_Avail="Y";
+
+                }
+            }
+        });
+        binding.chkKitchenNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkKitchenYes.setChecked(false);
+                    isKitchen_Avail="N";
+                }
+            }
+        });
+
+        binding.chkHospitalYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkHospitalNo.setChecked(false);
+                    isHospital_Avail="Y";
+
+                }
+            }
+        });
+        binding.chkHospitalNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkHospitalYes.setChecked(false);
+                    isHospital_Avail="N";
+                }
+            }
+        });
+
+        binding.chkDormitoryYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    binding.chkDormitoryNo.setChecked(false);
+                    isDormitory_Avail="Y";
+                }
+            }
+        });
+        binding.chkDormitoryNo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    binding.chkDormitoryYes.setChecked(false);
+                    isDormitory_Avail="N";
+                }
+            }
+        });
+
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress, chronicLandDisputeAddress, religious_place_name, name_Of_Village, JailName, JailAddress, EstablishYear, Historical_imp_of_prison, Best_Practices_Prison, Reform_Activities_Prison, major_fair_festival_name, major_fair_festival_add, Historical_place_Name, Historical_Place_Address, Hydration_Name, Fire_Prone_Name, Fire_Address, Remarks;
+            String MajorCrimeHeadAddress="", chronicLandDisputeAddress="", religious_place_name="", name_Of_Village, JailName, JailAddress="", EstablishYear="",
+                    Historical_imp_of_prison="", Best_Practices_Prison="", Reform_Activities_Prison="", major_fair_festival_name="", major_fair_festival_add="",
+                    Historical_place_Name="", Historical_Place_Address="", Hydration_Name="", Fire_Prone_Name="", Fire_Address="", Remarks="", Male_Capacity="",
+                    Female_Capacity="", Other_Capacity="", Under_Trial_Male="", Under_Trial_Female="", Under_Trial_Other="", Convicted_Male="", Convicted_Female="", Convicted_Other="",
+                    Transit_Male="", Transit_Female="", Transit_Other="", Male_Under_Eighteen="", Female_Under_Eighteen="", Other_Under_Eighteen="", Male_Over_Eighteen="", Female_Over_Eighteen="",
+                    Other_Over_Eighteen="", Male_Foreigner="", Female_Foreigner="", Other_Foreigner="", Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory;
 
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             chronicLandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
             religious_place_name = binding.etReligiousPlaceName.getText().toString().trim();
-            name_Of_Village = binding.etNameOfVillage.getText().toString().trim();
+            //name_Of_Village = binding.etNameOfVillage.getText().toString().trim();
             JailAddress = binding.etJailAddress.getText().toString().trim();
             EstablishYear = binding.etEstablishYear.getText().toString().trim();
             Historical_imp_of_prison = binding.etHistoricalImpPrison.getText().toString().trim();
@@ -263,21 +350,49 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             Fire_Address = binding.etFairFestivalAddress.getText().toString();
             Remarks = binding.etRemarks.getText().toString().trim();
 
+            Male_Capacity = binding.etMaleCapacity.getText().toString().trim();
+            Female_Capacity = binding.etFemaleCapacity.getText().toString().trim();
+            Other_Capacity = binding.etOtherCapacity.getText().toString().trim();
+
+            Under_Trial_Male = binding.etUnderTrailMale.getText().toString().trim();
+            Under_Trial_Female = binding.etUnderTrailFemale.getText().toString().trim();
+            Under_Trial_Other = binding.etUnderTailsOthers.getText().toString().trim();
+
+            Convicted_Male = binding.etConvictedMale.getText().toString().trim();
+            Convicted_Female = binding.etConvictedFemale.getText().toString().trim();
+            Convicted_Other = binding.etConvictedOthers.getText().toString().trim();
+
+            Transit_Male = binding.etTransitMale.getText().toString().trim();
+            Transit_Female = binding.etTransitFemale.getText().toString().trim();
+            Transit_Other = binding.etTransitOthers.getText().toString().trim();
+
+            Male_Under_Eighteen = binding.etMaleUnderEighteen.getText().toString().trim();
+            Female_Under_Eighteen = binding.etFemaleUnderEighteen.getText().toString().trim();
+            Other_Under_Eighteen = binding.etOtherUnderEighteen.getText().toString().trim();
+
+            Male_Over_Eighteen = binding.etMaleOverEighteen.getText().toString().trim();
+            Female_Over_Eighteen = binding.etFemaleOverEighteen.getText().toString().trim();
+            Other_Over_Eighteen = binding.etOtherOverEighteen.getText().toString().trim();
+
+            Male_Foreigner = binding.etMaleForeigner.getText().toString().trim();
+            Female_Foreigner = binding.etFemaleForeigner.getText().toString().trim();
+            Other_Foreigner = binding.etOtherForeigner.getText().toString().trim();
+
 
             boolean cancelRegistration = false;
             String isValied = "yes";
             View focusView = null;
 
-           /* if (TextUtils.isEmpty(major_UtilCode)) {
+            if (TextUtils.isEmpty(major_UtilCode)) {
                 binding.tvMajorPublicUtilities.setError(null);
                 binding.tvMajorPublicUtilities.setError(getResources().getString(R.string.major_util_required_field));
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_required_field), Toast.LENGTH_SHORT).show();
                 focusView = binding.spnMajorUtilities;
                 cancelRegistration = true;
+            }
 
-            }*/
 
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("1")) {
+            if (major_UtilCode.equalsIgnoreCase("1")) {
                 if (TextUtils.isEmpty(major_CrimeHeadCode)) {
                     binding.tvMajorCrimeHead.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_crime_required_field), Toast.LENGTH_SHORT).show();
@@ -299,7 +414,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
 
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("2")) {
+            if (major_UtilCode.equalsIgnoreCase("2")) {
                 if (TextUtils.isEmpty(chronic_LandDistributeCode)) {
                     binding.tvChronicLandDisputs.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.chronic_land_required_field), Toast.LENGTH_SHORT).show();
@@ -322,7 +437,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
 
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("3")) {
+            if (major_UtilCode.equalsIgnoreCase("3")) {
                 if (TextUtils.isEmpty(religious_PlaceType)) {
                     binding.tvReligionType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.religious_place_type), Toast.LENGTH_SHORT).show();
@@ -330,15 +445,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
                 if (TextUtils.isEmpty(religious_place_name)) {
-                    binding.etReligiousPlaceName.setError(getResources().getString(R.string.kabristan_name_required_field));
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.kabristan_name_required_field), Toast.LENGTH_SHORT).show();
+                    binding.etReligiousPlaceName.setError(getResources().getString(R.string.religious_name_required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.religious_name_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.etReligiousPlaceName;
-                    cancelRegistration = true;
-                }
-                if (TextUtils.isEmpty(name_Of_Village)) {
-                    binding.etNameOfVillage.setError(getResources().getString(R.string.kabristan_vill_name_required_field));
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.kabristan_vill_name_required_field), Toast.LENGTH_SHORT).show();
-                    focusView = binding.etNameOfVillage;
                     cancelRegistration = true;
                 }
 
@@ -364,7 +473,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
 
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("4")) {
+            if (major_UtilCode.equalsIgnoreCase("4")) {
                 if (TextUtils.isEmpty(jail_TypeCode)) {
                     binding.tvJailType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.jail_type_required_field), Toast.LENGTH_SHORT).show();
@@ -413,7 +522,155 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
 
-                if (TextUtils.isEmpty(Remarks)) {
+                if (TextUtils.isEmpty(Male_Capacity)) {
+                    binding.etMaleCapacity.setError(null);
+                    binding.etMaleCapacity.setError(getResources().getString(R.string.male_capacity));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.male_capacity), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etMaleCapacity;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Female_Capacity)) {
+                    binding.etFemaleCapacity.setError(null);
+                    binding.etFemaleCapacity.setError(getResources().getString(R.string.female_capacity));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.female_capacity), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFemaleCapacity;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Other_Capacity)) {
+                    binding.etOtherCapacity.setError(null);
+                    binding.etOtherCapacity.setError(getResources().getString(R.string.other_capacity));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.other_capacity), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOtherCapacity;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Under_Trial_Male)) {
+                    binding.etUnderTrailMale.setError(null);
+                    binding.etUnderTrailMale.setError(getResources().getString(R.string.under_trail_male));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.under_trail_male), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etUnderTrailMale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Under_Trial_Female)) {
+                    binding.etUnderTrailFemale.setError(null);
+                    binding.etUnderTrailFemale.setError(getResources().getString(R.string.under_trail_female));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.under_trail_female), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etUnderTrailFemale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Under_Trial_Other)) {
+                    binding.etUnderTailsOthers.setError(null);
+                    binding.etUnderTailsOthers.setError(getResources().getString(R.string.under_trail_other));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.under_trail_other), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etUnderTailsOthers;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Convicted_Male)) {
+                    binding.etConvictedMale.setError(null);
+                    binding.etConvictedMale.setError(getResources().getString(R.string.convicted_male));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.convicted_male), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etConvictedMale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Convicted_Female)) {
+                    binding.etConvictedFemale.setError(null);
+                    binding.etConvictedFemale.setError(getResources().getString(R.string.convicted_female));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.convicted_female), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etConvictedFemale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Convicted_Other)) {
+                    binding.etConvictedOthers.setError(null);
+                    binding.etConvictedOthers.setError(getResources().getString(R.string.convicted_other));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.convicted_other), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etConvictedOthers;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Transit_Male)) {
+                    binding.etTransitMale.setError(null);
+                    binding.etTransitMale.setError(getResources().getString(R.string.transit_male));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.transit_male), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etTransitMale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Transit_Female)) {
+                    binding.etTransitFemale.setError(null);
+                    binding.etTransitFemale.setError(getResources().getString(R.string.transit_female));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.transit_female), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etTransitFemale;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Transit_Other)) {
+                    binding.etTransitOthers.setError(null);
+                    binding.etTransitOthers.setError(getResources().getString(R.string.transit_other));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.transit_other), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etTransitOthers;
+                    cancelRegistration = true;
+                }
+
+                if (TextUtils.isEmpty(Male_Under_Eighteen)) {
+                    binding.etMaleUnderEighteen.setError(null);
+                    binding.etMaleUnderEighteen.setError(getResources().getString(R.string.male_under_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.male_under_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etMaleUnderEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Female_Under_Eighteen)) {
+                    binding.etFemaleUnderEighteen.setError(null);
+                    binding.etFemaleUnderEighteen.setError(getResources().getString(R.string.female_under_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.female_under_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFemaleUnderEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Other_Under_Eighteen)) {
+                    binding.etOtherUnderEighteen.setError(null);
+                    binding.etOtherUnderEighteen.setError(getResources().getString(R.string.other_under_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.other_under_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOtherUnderEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Male_Over_Eighteen)) {
+                    binding.etMaleOverEighteen.setError(null);
+                    binding.etMaleOverEighteen.setError(getResources().getString(R.string.male_over_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.male_over_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etMaleOverEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Female_Over_Eighteen)) {
+                    binding.etFemaleOverEighteen.setError(null);
+                    binding.etFemaleOverEighteen.setError(getResources().getString(R.string.female_over_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.female_over_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFemaleOverEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Other_Over_Eighteen)) {
+                    binding.etOtherOverEighteen.setError(null);
+                    binding.etOtherOverEighteen.setError(getResources().getString(R.string.other_over_eighteen));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.other_over_eighteen), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOtherOverEighteen;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Male_Foreigner)) {
+                    binding.etMaleForeigner.setError(null);
+                    binding.etMaleForeigner.setError(getResources().getString(R.string.male_foreigner));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.male_foreigner), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etMaleForeigner;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Female_Foreigner)) {
+                    binding.etFemaleForeigner.setError(null);
+                    binding.etFemaleForeigner.setError(getResources().getString(R.string.female_foreigner));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.female_foreigner), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFemaleForeigner;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(Other_Foreigner)) {
+                    binding.etOtherForeigner.setError(null);
+                    binding.etOtherForeigner.setError(getResources().getString(R.string.other_foreigner));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.other_foreigner), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOtherForeigner;
+                    cancelRegistration = true;
+                }
+                    if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
@@ -421,8 +678,40 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
 
+                if (TextUtils.isEmpty(isToilet_avail)) {
+                    binding.chkToiletYes.setError(null);
+                    binding.chkToiletYes.setError("Please check toilet available or not");
+                    Toast.makeText(AddMajorUtilitiesActivity.this, "Please check toilet available or not", Toast.LENGTH_SHORT).show();
+                    focusView = binding.chkToiletYes;
+                    cancelRegistration = true;
+                }
+
+                if (TextUtils.isEmpty(isKitchen_Avail)) {
+                    binding.chkKitchenYes.setError(null);
+                    binding.chkKitchenYes.setError("Please check kitchen available or not");
+                    Toast.makeText(AddMajorUtilitiesActivity.this, "Please check kitchen available or not", Toast.LENGTH_SHORT).show();
+                    focusView = binding.chkKitchenYes;
+                    cancelRegistration = true;
+                }
+
+                if (TextUtils.isEmpty(isHospital_Avail)) {
+                    binding.chkHospitalYes.setError(null);
+                    binding.chkHospitalYes.setError("Please check hospital available or not");
+                    Toast.makeText(AddMajorUtilitiesActivity.this, "Please check hospital available or not", Toast.LENGTH_SHORT).show();
+                    focusView = binding.chkHospitalYes;
+                    cancelRegistration = true;
+                }
+
+                if (TextUtils.isEmpty(isDormitory_Avail)) {
+                    binding.chkDormitoryYes.setError(null);
+                    binding.chkDormitoryYes.setError("Please check dormitory available or not");
+                    Toast.makeText(AddMajorUtilitiesActivity.this, "Please check dormitory available or not", Toast.LENGTH_SHORT).show();
+                    focusView = binding.chkDormitoryYes;
+                    cancelRegistration = true;
+                }
+
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("5")) {
+            if (major_UtilCode.equalsIgnoreCase("5")) {
                 if (TextUtils.isEmpty(major_fair_festival_name)) {
                     binding.etFairFestival.setError(null);
                     binding.etFairFestival.setError(getResources().getString(R.string.major_fair_festival_procession_route));
@@ -432,8 +721,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
                 if (TextUtils.isEmpty(major_fair_festival_add)) {
                     binding.etFairFestivalAddress.setError(null);
-                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.major_fair_festival_procession_route_address));
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_fair_festival_procession_route_address), Toast.LENGTH_SHORT).show();
+                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.fire_address));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.fire_address), Toast.LENGTH_SHORT).show();
                     focusView = binding.etFairFestivalAddress;
                     cancelRegistration = true;
                 }
@@ -446,7 +735,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("6")) {
+            if (major_UtilCode.equalsIgnoreCase("6")) {
                 if (TextUtils.isEmpty(Historical_place_Name)) {
                     binding.etHistoricalName.setError(null);
                     binding.etHistoricalName.setError(getResources().getString(R.string.historical_place__required_field));
@@ -469,7 +758,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("7")) {
+            if (major_UtilCode.equalsIgnoreCase("7")) {
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -478,7 +767,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("8")) {
+            if (major_UtilCode.equalsIgnoreCase("8")) {
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -487,7 +776,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     cancelRegistration = true;
                 }
             }
-            if (major_UtilCode != null && major_UtilCode.equalsIgnoreCase("9")) {
+            if (major_UtilCode.equalsIgnoreCase("9")) {
                 if (TextUtils.isEmpty(fire_TypeCode)) {
                     binding.tvMajorFireType.setError(null);
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.major_util_fire_type), Toast.LENGTH_SHORT).show();
@@ -514,6 +803,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.spnFireStatus;
                     cancelRegistration = true;
                 }
+                if (TextUtils.isEmpty(Fire_Address)) {
+                    binding.etFairFestivalAddress.setError(null);
+                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.valid_fire_prone_name));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_fire_prone_name), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etFairFestivalAddress;
+                    cancelRegistration = true;
+                }
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -523,6 +819,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
             }
 
+
             if (photo.equalsIgnoreCase("") || photo == null) {
                 Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
                 focusView = binding.imgPic1;
@@ -530,14 +827,15 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
             if (cancelRegistration) {
                 focusView.requestFocus();
-
-            }else{
+            } else {
                 //model = new MajorUtilEntry(Util_Code, Crime_Code, MajorCrimeHeadAddress, Chronic_Disp_Code, LandDisputeAddress, KabristhanName, KabristhanVillage, KbrLand_Code, Boundary_Code,Jail_Type, JailType_Code,Best_practices,Historical_importance,Reform_correctional,JailName, JailAddress, EstablishYear, JailCapacity, Court_Code, NameCourt, CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, latitude, longitude, Photo1);
-                model = new MajorUtilEntry(user_id, password, range_Code, subDiv_Code, dist_code, thana_code, major_UtilCode, major_CrimeHeadCode, major_CrimeHeadAddress,
-                        chronic_LandDistributeCode, chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, land_DetailsCode, boundary_StatusCode, jail_TypeCode, jail_Name, jail_Address,
-                        started_Year, jail_Capacity, type_Court_Code, name_Of_Court, court_Address, fair_Festival_Name, fair_Festival_Address, historical_Place_Name,
-                        historical_Place_Address, remarks, photo, latitude, longitude, entry_Mode, imei_Num, app_Ver, device_Type, religious_PlaceType, religious_PlaceName,
-                        historical_Imp_Prison, best_Practices_Prison, reform_Activities_Prison, fire_TypeCode, hydrant_Type_Code, hydrant_Name, fire_Prone_Name, fire_Status, skey, cap);
+//                model = new MajorUtilEntry(user_id, password, range_Code, subDiv_Code, dist_code, thana_code, major_UtilCode, major_CrimeHeadCode, major_CrimeHeadAddress,
+//                        chronic_LandDistributeCode, chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, land_DetailsCode, boundary_StatusCode, jail_TypeCode, jail_Name, jail_Address,
+//                        started_Year, jail_Capacity, type_Court_Code, name_Of_Court, court_Address, fair_Festival_Name, fair_Festival_Address, historical_Place_Name,
+//                        historical_Place_Address, remarks, photo, latitude, longitude, entry_Mode, imei_Num, app_Ver, device_Type, religious_PlaceType, religious_PlaceName,
+//                        historical_Imp_Prison, best_Practices_Prison, reform_Activities_Prison, fire_TypeCode, hydrant_Type_Code, hydrant_Name, fire_Prone_Name, fire_Status, skey, cap);
+
+                model = new MajorUtilEntry();
 
                 model.setUser_Id(user_id);
                 model.setMajor_UtilCode(major_UtilCode);
@@ -546,25 +844,25 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setDist_Code(dist_code);
                 model.setThana_code(thana_code);
                 model.setMajor_Crime_HeadCode(major_CrimeHeadCode);
-                model.setMajor_Crime_HeadAddress(major_CrimeHeadAddress);
+                model.setMajor_Crime_HeadAddress(MajorCrimeHeadAddress);
                 model.setChronic_Land_DistributeCode(chronic_LandDistributeCode);
-                model.setChronic_Land_Add(chronic_Land_Add);
-                model.setKabrishtan_VillName(Kabrishtan_Name);
-                model.setKabrishtan_VillName(Kabrishtan_VillName);
+                model.setChronic_Land_Add(chronicLandDisputeAddress);
+                // model.setKabrishtan_Name(Kabrishtan_Name);
+                // model.setKabrishtan_VillName(Kabrishtan_VillName);
                 model.setLand_DetailCode(land_DetailsCode);
                 model.setBoundary_StatusCode(boundary_StatusCode);
                 model.setJail_TypeCode(jail_TypeCode);
                 model.setJail_Name(jail_Name);
-                model.setJail_Address(jail_Address);
-                model.setStarted_Year(started_Year);
+                model.setJail_Address(JailAddress);
+                model.setStarted_Year(EstablishYear);
                 model.setJail_Capacity(jail_Capacity);
                 model.setType_Court_Code(type_Court_Code);
                 model.setName_Of_Court(name_Of_Court);
                 model.setCourt_Address(court_Address);
-                model.setFair_Festival_Name(fair_Festival_Name);
-                model.setFair_Festival_Address(fair_Festival_Address);
-                model.setHistorical_Place_Name(historical_Place_Name);
-                model.setHistorical_Place_Address(historical_Place_Address);
+                model.setFair_Festival_Name(major_fair_festival_name);
+                model.setFair_Festival_Address(major_fair_festival_add);
+                model.setHistorical_Place_Name(Historical_place_Name);
+                model.setHistorical_Place_Address(Historical_Place_Address);
                 model.setRemarks(Remarks);
                 model.setPhoto(photo);
                 model.setLatitude(latitude);
@@ -574,21 +872,55 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setApp_Ver(app_Ver);
                 model.setDevice_Type(device_Type);
                 model.setReligious_PlaceType(religious_PlaceType);
-                model.setReligious_PlaceName(religious_PlaceName);
-                model.setHistorical_Imp_Prison(historical_Imp_Prison);
-                model.setBest_Practices_Prison(best_Practices_Prison);
-                model.setReform_Activities_Prison(reform_Activities_Prison);
+                model.setReligious_PlaceName(religious_place_name);
+                model.setHistorical_Imp_Prison(Historical_imp_of_prison);
+                model.setBest_Practices_Prison(Best_Practices_Prison);
+                model.setReform_Activities_Prison(Reform_Activities_Prison);
                 model.setFire_TypeCode(fire_TypeCode);
                 model.setHydrant_Type_Code(hydrant_Type_Code);
-                model.setHydrant_Name(hydrant_Name);
-                model.setFire_Prone_Name(fire_Prone_Name);
+                model.setHydrant_Name(Hydration_Name);
+                model.setFire_Prone_Name(Fire_Prone_Name);
+                //fair to fire shift two time
+                model.setFire_Prone_Address(Fire_Address);
+
+                model.setPerisonMale_Capcity(Male_Capacity);
+                model.setPerisonFemale_Capcity(Female_Capacity);
+                model.setPerisonOther_Capcity(Other_Capacity);
+
+                model.setUnder_Trial_Male(Under_Trial_Male);
+                model.setUnder_Trial_Female(Under_Trial_Female);
+                model.setUnder_Trial_Other(Under_Trial_Other);
+
+                model.setConvicted_Male(Convicted_Male);
+                model.setConvicted_Female(Convicted_Female);
+                model.setConvicted_Other(Convicted_Other);
+
+                model.setTransit_Male(Transit_Male);
+                model.setTransit_Female(Transit_Female);
+                model.setTransit_Other(Transit_Other);
+
+                model.setMale_Under_Eighteen(Male_Under_Eighteen);
+                model.setFemale_Under_Eighteen(Female_Under_Eighteen);
+                model.setOther_Under_Eighteen(Other_Under_Eighteen);
+
+                model.setMale_Over_Eighteen(Male_Over_Eighteen);
+                model.setFemale_Over_Eighteen(Female_Over_Eighteen);
+                model.setOther_Over_Eighteen(Other_Over_Eighteen);
+
+                model.setMale_Foreigner(Male_Foreigner);
+                model.setFemale_Foreigner(Female_Foreigner);
+                model.setOther_Foreigner(Other_Foreigner);
+
                 model.setFire_Status(fire_Status);
+                model.setJail_Toilet(isToilet_avail);
+                model.setJail_Hospital(isHospital_Avail);
+                model.setJail_Kitchen(isKitchen_Avail);
+                model.setJail_Dormitory(isDormitory_Avail);
                 model.setSkey(skey);
                 model.setCap(cap);
 
 
                 if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
-
                     AlertDialog.Builder ab = new AlertDialog.Builder(this);
                     ab.setMessage(Html.fromHtml(
                             "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
@@ -604,22 +936,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     ab.show();
                 } else {
 
-                    if (major_UtilCode.equals("3"))
-                    {
-                        if (listgps.size()>=4)
-                        {
+                    if (major_UtilCode.equals("3")) {
+                        if (listgps.size() >= 4) {
                             new UploadMajorUtilities(model, listgps, facilitylist).execute();
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-                    else {
+                    } else {
 
                         new UploadMajorUtilities(model, listgps, facilitylist).execute();
                     }
-
 
 
                     //new UploadMajorUtilities(model, listgps, facilitylist).execute();
@@ -628,7 +955,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
 
 
-                    });
+        });
 
 
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
@@ -742,6 +1069,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     boundary_StatusCode = "";
                 }
                 break;
+
             case R.id.spn_jail_type:
                 if (i > 0) {
                     getPrisionypeServer = PrisionType_List.get(i - 1);
@@ -1093,7 +1421,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.VISIBLE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1119,7 +1447,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1143,7 +1471,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.VISIBLE);
             binding.llChronicLandDisputsAdd.setVisibility(View.VISIBLE);
-            binding.llKabristanName.setVisibility(View.GONE);
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1169,6 +1496,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
+            binding.llReligiousName.setVisibility(View.GONE);
 
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
@@ -1192,8 +1520,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.VISIBLE);
-            binding.llKabristanVillage.setVisibility(View.VISIBLE);
+
+            binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.VISIBLE);
             binding.llBoundaryStatus.setVisibility(View.VISIBLE);
             binding.llJailType.setVisibility(View.GONE);
@@ -1218,7 +1546,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.VISIBLE);
-
+            binding.llReligiousName.setVisibility(View.VISIBLE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1243,7 +1571,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1269,7 +1597,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.VISIBLE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.VISIBLE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1299,7 +1627,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1326,7 +1654,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1349,7 +1677,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1376,7 +1704,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1397,7 +1725,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1424,7 +1752,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1445,7 +1773,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1472,7 +1800,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1493,7 +1821,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1520,7 +1848,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llReformsCorrectionalActivities.setVisibility(View.GONE);
 
             binding.llReligionType.setVisibility(View.GONE);
-
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1534,6 +1862,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         } else if (major_UtilCode.equals("10")) {
             binding.llReligionType.setVisibility(View.GONE);
+            binding.llReligiousName.setVisibility(View.GONE);
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llInmates.setVisibility(View.GONE);
 
@@ -1564,7 +1893,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorCrimeAdd.setVisibility(View.GONE);
             binding.llChronicLandDisputs.setVisibility(View.GONE);
             binding.llChronicLandDisputsAdd.setVisibility(View.GONE);
-            binding.llKabristanName.setVisibility(View.GONE);
+
             binding.llKabristanVillage.setVisibility(View.GONE);
             binding.llKbrLandDetails.setVisibility(View.GONE);
             binding.llBoundaryStatus.setVisibility(View.GONE);
@@ -1862,45 +2191,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         take_longitude = longitude;
         return location;
     }
-//    private class MajorUtil extends AsyncTask<String, Void, DefaultResponse_OutPost> {
-//        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-//
-//        @Override
-//        protected void onPreExecute() {
-//            this.dialog.setCanceledOnTouchOutside(false);
-//            this.dialog.setMessage("Processing...");
-//            this.dialog.show();
-//        }
-//
-//        @Override
-//        protected DefaultResponse_OutPost doInBackground(String... param) {
-//            String version = Utiilties.getAppVersion(AddMajorUtilitiesActivity.this);
-//            String imei = Utiilties.getDeviceIMEI(AddMajorUtilitiesActivity.this);
-//            String devicename = Utiilties.getDeviceName();
-//            return WebServiceHelper.InsertMajorUtil(model, User_Id, Range_Code, Dist_Code, SubDiv_Code, Thana_Code, Password, Token, version, imei, devicename);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(DefaultResponse_OutPost defaultResponse_new) {
-//            String UID = null, PASS = null;
-//            if (this.dialog.isShowing()) {
-//                this.dialog.dismiss();
-//            }
-//            if (defaultResponse_new != null) {
-//                if (defaultResponse_new.getStatus().equalsIgnoreCase("True")) {
-//                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.success), Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//
-//                } else {
-//                    Toast.makeText(AddMajorUtilitiesActivity.this, defaultResponse_new.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

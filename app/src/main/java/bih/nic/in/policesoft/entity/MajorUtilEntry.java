@@ -9,13 +9,15 @@ public class MajorUtilEntry implements Parcelable {
             Historical_importance, Best_practices, Reform_correctional, EstablishYear, JailCapacity, Court_Code, NameCourt,
             CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Latitude, Longitude, Photo1;*/
 
-    private String User_Id,password,Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode, Major_Crime_HeadCode,Major_Crime_HeadAddress,
-    Chronic_Land_DistributeCode, Chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, Land_DetailCode, Boundary_StatusCode, Jail_TypeCode,
-    Jail_Name, Jail_Address,Started_Year, Jail_Capacity, Type_Court_Code, Name_Of_Court, Court_Address, Fair_Festival_Name, Fair_Festival_Address,
-    Historical_Place_Name, Historical_Place_Address, Remarks, Photo, Latitude, Longitude,Entry_Mode,Imei_Num,App_Ver,Device_Type,Religious_PlaceType,
-    Religious_PlaceName,Historical_Imp_Prison,Best_Practices_Prison,Reform_Activities_Prison,Fire_TypeCode,Hydrant_Type_Code,Hydrant_Name,
-    Fire_Prone_Name,Fire_Status,skey,cap;
-
+    private String User_Id, password, Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode, Major_Crime_HeadCode, Major_Crime_HeadAddress,
+            Chronic_Land_DistributeCode, Chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, Land_DetailCode, Boundary_StatusCode, Jail_TypeCode,
+            Jail_Name, Jail_Address, Started_Year, Jail_Capacity, Type_Court_Code, Name_Of_Court, Court_Address, Fair_Festival_Name, Fair_Festival_Address,
+            Historical_Place_Name, Historical_Place_Address, Remarks, Photo, Latitude, Longitude, Entry_Mode, Imei_Num, App_Ver, Device_Type, Religious_PlaceType,
+            Religious_PlaceName, Historical_Imp_Prison, Best_Practices_Prison, Reform_Activities_Prison, Fire_TypeCode, Hydrant_Type_Code, Hydrant_Name,
+            Fire_Prone_Name, Fire_Status, Fire_Prone_Address, PerisonMale_Capcity, PerisonFemale_Capcity, PerisonOther_Capcity, Under_Trial_Male, Under_Trial_Female,
+            Under_Trial_Other, Convicted_Male, Convicted_Female, Convicted_Other, Transit_Male, Transit_Female, Transit_Other, Male_Under_Eighteen, Female_Under_Eighteen,
+            Other_Under_Eighteen, Male_Over_Eighteen, Female_Over_Eighteen, Other_Over_Eighteen, Male_Foreigner, Female_Foreigner, Other_Foreigner,
+            Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory, skey, cap;
 
     protected MajorUtilEntry(Parcel in) {
         User_Id = in.readString();
@@ -63,25 +65,34 @@ public class MajorUtilEntry implements Parcelable {
         Hydrant_Name = in.readString();
         Fire_Prone_Name = in.readString();
         Fire_Status = in.readString();
+        Fire_Prone_Address = in.readString();
+        PerisonMale_Capcity = in.readString();
+        PerisonFemale_Capcity = in.readString();
+        PerisonOther_Capcity = in.readString();
+        Under_Trial_Male = in.readString();
+        Under_Trial_Female = in.readString();
+        Under_Trial_Other = in.readString();
+        Convicted_Male = in.readString();
+        Convicted_Female = in.readString();
+        Convicted_Other = in.readString();
+        Transit_Male = in.readString();
+        Transit_Female = in.readString();
+        Transit_Other = in.readString();
+        Male_Under_Eighteen = in.readString();
+        Female_Under_Eighteen = in.readString();
+        Other_Under_Eighteen = in.readString();
+        Male_Over_Eighteen = in.readString();
+        Female_Over_Eighteen = in.readString();
+        Other_Over_Eighteen = in.readString();
+        Male_Foreigner = in.readString();
+        Female_Foreigner = in.readString();
+        Other_Foreigner = in.readString();
+        Jail_Toilet = in.readString();
+        Jail_Hospital = in.readString();
+        Jail_Kitchen = in.readString();
+        Jail_Dormitory = in.readString();
         skey = in.readString();
         cap = in.readString();
-    }
-
-    public static final Creator<MajorUtilEntry> CREATOR = new Creator<MajorUtilEntry>() {
-        @Override
-        public MajorUtilEntry createFromParcel(Parcel in) {
-            return new MajorUtilEntry(in);
-        }
-
-        @Override
-        public MajorUtilEntry[] newArray(int size) {
-            return new MajorUtilEntry[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -131,11 +142,58 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Hydrant_Name);
         dest.writeString(Fire_Prone_Name);
         dest.writeString(Fire_Status);
+        dest.writeString(Fire_Prone_Address);
+        dest.writeString(PerisonMale_Capcity);
+        dest.writeString(PerisonFemale_Capcity);
+        dest.writeString(PerisonOther_Capcity);
+        dest.writeString(Under_Trial_Male);
+        dest.writeString(Under_Trial_Female);
+        dest.writeString(Under_Trial_Other);
+        dest.writeString(Convicted_Male);
+        dest.writeString(Convicted_Female);
+        dest.writeString(Convicted_Other);
+        dest.writeString(Transit_Male);
+        dest.writeString(Transit_Female);
+        dest.writeString(Transit_Other);
+        dest.writeString(Male_Under_Eighteen);
+        dest.writeString(Female_Under_Eighteen);
+        dest.writeString(Other_Under_Eighteen);
+        dest.writeString(Male_Over_Eighteen);
+        dest.writeString(Female_Over_Eighteen);
+        dest.writeString(Other_Over_Eighteen);
+        dest.writeString(Male_Foreigner);
+        dest.writeString(Female_Foreigner);
+        dest.writeString(Other_Foreigner);
+        dest.writeString(Jail_Toilet);
+        dest.writeString(Jail_Hospital);
+        dest.writeString(Jail_Kitchen);
+        dest.writeString(Jail_Dormitory);
         dest.writeString(skey);
         dest.writeString(cap);
     }
 
-    public MajorUtilEntry(String user_Id, String password, String range_Code, String subDiv_Code, String dist_Code, String thana_code, String major_UtilCode, String major_Crime_HeadCode, String major_Crime_HeadAddress, String chronic_Land_DistributeCode, String chronic_Land_Add, String kabrishtan_Name, String kabrishtan_VillName, String land_DetailCode, String boundary_StatusCode, String jail_TypeCode, String jail_Name, String jail_Address, String started_Year, String jail_Capacity, String type_Court_Code, String name_Of_Court, String court_Address, String fair_Festival_Name, String fair_Festival_Address, String historical_Place_Name, String historical_Place_Address, String remarks, String photo, String latitude, String longitude, String entry_Mode, String imei_Num, String app_Ver, String device_Type, String religious_PlaceType, String religious_PlaceName, String historical_Imp_Prison, String best_Practices_Prison, String reform_Activities_Prison, String fire_TypeCode, String hydrant_Type_Code, String hydrant_Name, String fire_Prone_Name, String fire_Status, String skey, String cap) {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MajorUtilEntry> CREATOR = new Creator<MajorUtilEntry>() {
+        @Override
+        public MajorUtilEntry createFromParcel(Parcel in) {
+            return new MajorUtilEntry(in);
+        }
+
+        @Override
+        public MajorUtilEntry[] newArray(int size) {
+            return new MajorUtilEntry[size];
+        }
+    };
+
+    public MajorUtilEntry() {
+
+    }
+
+    public MajorUtilEntry(String user_Id, String password, String range_Code, String subDiv_Code, String dist_Code, String thana_code, String major_UtilCode, String major_Crime_HeadCode, String major_Crime_HeadAddress, String chronic_Land_DistributeCode, String chronic_Land_Add, String kabrishtan_Name, String kabrishtan_VillName, String land_DetailCode, String boundary_StatusCode, String jail_TypeCode, String jail_Name, String jail_Address, String started_Year, String jail_Capacity, String type_Court_Code, String name_Of_Court, String court_Address, String fair_Festival_Name, String fair_Festival_Address, String historical_Place_Name, String historical_Place_Address, String remarks, String photo, String latitude, String longitude, String entry_Mode, String imei_Num, String app_Ver, String device_Type, String religious_PlaceType, String religious_PlaceName, String historical_Imp_Prison, String best_Practices_Prison, String reform_Activities_Prison, String fire_TypeCode, String hydrant_Type_Code, String hydrant_Name, String fire_Prone_Name, String fire_Status, String fire_Prone_Address, String perisonMale_Capcity, String perisonFemale_Capcity, String perisonOther_Capcity, String under_Trial_Male, String under_Trial_Female, String under_Trial_Other, String convicted_Male, String convicted_Female, String convicted_Other, String transit_Male, String transit_Female, String transit_Other, String male_Under_Eighteen, String female_Under_Eighteen, String other_Under_Eighteen, String male_Over_Eighteen, String female_Over_Eighteen, String other_Over_Eighteen, String male_Foreigner, String female_Foreigner, String other_Foreigner, String jail_Toilet, String jail_Hospital, String jail_Kitchen, String jail_Dormitory, String skey, String cap) {
         User_Id = user_Id;
         this.password = password;
         Range_Code = range_Code;
@@ -181,6 +239,32 @@ public class MajorUtilEntry implements Parcelable {
         Hydrant_Name = hydrant_Name;
         Fire_Prone_Name = fire_Prone_Name;
         Fire_Status = fire_Status;
+        Fire_Prone_Address = fire_Prone_Address;
+        PerisonMale_Capcity = perisonMale_Capcity;
+        PerisonFemale_Capcity = perisonFemale_Capcity;
+        PerisonOther_Capcity = perisonOther_Capcity;
+        Under_Trial_Male = under_Trial_Male;
+        Under_Trial_Female = under_Trial_Female;
+        Under_Trial_Other = under_Trial_Other;
+        Convicted_Male = convicted_Male;
+        Convicted_Female = convicted_Female;
+        Convicted_Other = convicted_Other;
+        Transit_Male = transit_Male;
+        Transit_Female = transit_Female;
+        Transit_Other = transit_Other;
+        Male_Under_Eighteen = male_Under_Eighteen;
+        Female_Under_Eighteen = female_Under_Eighteen;
+        Other_Under_Eighteen = other_Under_Eighteen;
+        Male_Over_Eighteen = male_Over_Eighteen;
+        Female_Over_Eighteen = female_Over_Eighteen;
+        Other_Over_Eighteen = other_Over_Eighteen;
+        Male_Foreigner = male_Foreigner;
+        Female_Foreigner = female_Foreigner;
+        Other_Foreigner = other_Foreigner;
+        Jail_Toilet = jail_Toilet;
+        Jail_Hospital = jail_Hospital;
+        Jail_Kitchen = jail_Kitchen;
+        Jail_Dormitory = jail_Dormitory;
         this.skey = skey;
         this.cap = cap;
     }
@@ -543,6 +627,214 @@ public class MajorUtilEntry implements Parcelable {
 
     public void setFire_Status(String fire_Status) {
         Fire_Status = fire_Status;
+    }
+
+    public String getFire_Prone_Address() {
+        return Fire_Prone_Address;
+    }
+
+    public void setFire_Prone_Address(String fire_Prone_Address) {
+        Fire_Prone_Address = fire_Prone_Address;
+    }
+
+    public String getPerisonMale_Capcity() {
+        return PerisonMale_Capcity;
+    }
+
+    public void setPerisonMale_Capcity(String perisonMale_Capcity) {
+        PerisonMale_Capcity = perisonMale_Capcity;
+    }
+
+    public String getPerisonFemale_Capcity() {
+        return PerisonFemale_Capcity;
+    }
+
+    public void setPerisonFemale_Capcity(String perisonFemale_Capcity) {
+        PerisonFemale_Capcity = perisonFemale_Capcity;
+    }
+
+    public String getPerisonOther_Capcity() {
+        return PerisonOther_Capcity;
+    }
+
+    public void setPerisonOther_Capcity(String perisonOther_Capcity) {
+        PerisonOther_Capcity = perisonOther_Capcity;
+    }
+
+    public String getUnder_Trial_Male() {
+        return Under_Trial_Male;
+    }
+
+    public void setUnder_Trial_Male(String under_Trial_Male) {
+        Under_Trial_Male = under_Trial_Male;
+    }
+
+    public String getUnder_Trial_Female() {
+        return Under_Trial_Female;
+    }
+
+    public void setUnder_Trial_Female(String under_Trial_Female) {
+        Under_Trial_Female = under_Trial_Female;
+    }
+
+    public String getUnder_Trial_Other() {
+        return Under_Trial_Other;
+    }
+
+    public void setUnder_Trial_Other(String under_Trial_Other) {
+        Under_Trial_Other = under_Trial_Other;
+    }
+
+    public String getConvicted_Male() {
+        return Convicted_Male;
+    }
+
+    public void setConvicted_Male(String convicted_Male) {
+        Convicted_Male = convicted_Male;
+    }
+
+    public String getConvicted_Female() {
+        return Convicted_Female;
+    }
+
+    public void setConvicted_Female(String convicted_Female) {
+        Convicted_Female = convicted_Female;
+    }
+
+    public String getConvicted_Other() {
+        return Convicted_Other;
+    }
+
+    public void setConvicted_Other(String convicted_Other) {
+        Convicted_Other = convicted_Other;
+    }
+
+    public String getTransit_Male() {
+        return Transit_Male;
+    }
+
+    public void setTransit_Male(String transit_Male) {
+        Transit_Male = transit_Male;
+    }
+
+    public String getTransit_Female() {
+        return Transit_Female;
+    }
+
+    public void setTransit_Female(String transit_Female) {
+        Transit_Female = transit_Female;
+    }
+
+    public String getTransit_Other() {
+        return Transit_Other;
+    }
+
+    public void setTransit_Other(String transit_Other) {
+        Transit_Other = transit_Other;
+    }
+
+    public String getMale_Under_Eighteen() {
+        return Male_Under_Eighteen;
+    }
+
+    public void setMale_Under_Eighteen(String male_Under_Eighteen) {
+        Male_Under_Eighteen = male_Under_Eighteen;
+    }
+
+    public String getFemale_Under_Eighteen() {
+        return Female_Under_Eighteen;
+    }
+
+    public void setFemale_Under_Eighteen(String female_Under_Eighteen) {
+        Female_Under_Eighteen = female_Under_Eighteen;
+    }
+
+    public String getOther_Under_Eighteen() {
+        return Other_Under_Eighteen;
+    }
+
+    public void setOther_Under_Eighteen(String other_Under_Eighteen) {
+        Other_Under_Eighteen = other_Under_Eighteen;
+    }
+
+    public String getMale_Over_Eighteen() {
+        return Male_Over_Eighteen;
+    }
+
+    public void setMale_Over_Eighteen(String male_Over_Eighteen) {
+        Male_Over_Eighteen = male_Over_Eighteen;
+    }
+
+    public String getFemale_Over_Eighteen() {
+        return Female_Over_Eighteen;
+    }
+
+    public void setFemale_Over_Eighteen(String female_Over_Eighteen) {
+        Female_Over_Eighteen = female_Over_Eighteen;
+    }
+
+    public String getOther_Over_Eighteen() {
+        return Other_Over_Eighteen;
+    }
+
+    public void setOther_Over_Eighteen(String other_Over_Eighteen) {
+        Other_Over_Eighteen = other_Over_Eighteen;
+    }
+
+    public String getMale_Foreigner() {
+        return Male_Foreigner;
+    }
+
+    public void setMale_Foreigner(String male_Foreigner) {
+        Male_Foreigner = male_Foreigner;
+    }
+
+    public String getFemale_Foreigner() {
+        return Female_Foreigner;
+    }
+
+    public void setFemale_Foreigner(String female_Foreigner) {
+        Female_Foreigner = female_Foreigner;
+    }
+
+    public String getOther_Foreigner() {
+        return Other_Foreigner;
+    }
+
+    public void setOther_Foreigner(String other_Foreigner) {
+        Other_Foreigner = other_Foreigner;
+    }
+
+    public String getJail_Toilet() {
+        return Jail_Toilet;
+    }
+
+    public void setJail_Toilet(String jail_Toilet) {
+        Jail_Toilet = jail_Toilet;
+    }
+
+    public String getJail_Hospital() {
+        return Jail_Hospital;
+    }
+
+    public void setJail_Hospital(String jail_Hospital) {
+        Jail_Hospital = jail_Hospital;
+    }
+
+    public String getJail_Kitchen() {
+        return Jail_Kitchen;
+    }
+
+    public void setJail_Kitchen(String jail_Kitchen) {
+        Jail_Kitchen = jail_Kitchen;
+    }
+
+    public String getJail_Dormitory() {
+        return Jail_Dormitory;
+    }
+
+    public void setJail_Dormitory(String jail_Dormitory) {
+        Jail_Dormitory = jail_Dormitory;
     }
 
     public String getSkey() {

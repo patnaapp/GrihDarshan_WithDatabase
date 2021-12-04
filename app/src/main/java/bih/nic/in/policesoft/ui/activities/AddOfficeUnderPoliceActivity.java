@@ -412,26 +412,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     cancelRegistration = true;
                 }
 
-//                if (TextUtils.isEmpty(OfficerInCharge)) {
-//                    binding.etOfficerInCharge.setError(getResources().getString(R.string.Officer_charge_name_required_field));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Officer_charge_name_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etOfficerInCharge;
-//                    cancelRegistration = true;
-//                }
-//                if (TextUtils.isEmpty(Design_Code)) {
-//                    binding.tvDesign.setError(null);
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Designation_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.spnDesign;
-//                    cancelRegistration = true;
-//                }
-//
-//                if (TextUtils.isEmpty(MobileNumber)) {
-//                    binding.etMobileNumber.setError(null);
-//                    binding.etMobileNumber.setError(getResources().getString(R.string.office_mobile_num_dis));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.office_mobile_num_dis), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etMobileNumber;
-//                    cancelRegistration = true;
-//                }
                 if (TextUtils.isEmpty(EstablishYear)) {
                     binding.etEstablishYear.setError(null);
                     binding.etEstablishYear.setError(getResources().getString(R.string.establish_required_field));
@@ -447,26 +427,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 }
             }
             if (Office_type_Code.equalsIgnoreCase("5")) {
-//                if (TextUtils.isEmpty(OfficerInCharge)) {
-//                    binding.etOfficerInCharge.setError(getResources().getString(R.string.Officer_charge_name_required_field));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Officer_charge_name_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etOfficerInCharge;
-//                    cancelRegistration = true;
-//                }
-//                if (TextUtils.isEmpty(Design_Code)) {
-//                    binding.tvDesign.setError(null);
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Designation_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.spnDesign;
-//                    cancelRegistration = true;
-//                }
-//
-//                if (TextUtils.isEmpty(MobileNumber)) {
-//                    binding.etMobileNumber.setError(null);
-//                    binding.etMobileNumber.setError(getResources().getString(R.string.office_mobile_num_dis));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.office_mobile_num_dis), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etMobileNumber;
-//                    cancelRegistration = true;
-//                }
                 if (TextUtils.isEmpty(EstablishYear)) {
                     binding.etEstablishYear.setError(null);
                     binding.etEstablishYear.setError(getResources().getString(R.string.establish_required_field));
@@ -506,26 +466,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     }
 
                 }
-//                if (TextUtils.isEmpty(OfficerInCharge)) {
-//                    binding.etOfficerInCharge.setError(getResources().getString(R.string.Officer_charge_name_required_field));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Officer_charge_name_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etOfficerInCharge;
-//                    cancelRegistration = true;
-//                }
-//                if (TextUtils.isEmpty(Design_Code)) {
-//                    binding.tvDesign.setError(null);
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Designation_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.spnDesign;
-//                    cancelRegistration = true;
-//                }
-//
-//                if (TextUtils.isEmpty(MobileNumber)) {
-//                    binding.etMobileNumber.setError(null);
-//                    binding.etMobileNumber.setError(getResources().getString(R.string.office_mobile_num_dis));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.office_mobile_num_dis), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etMobileNumber;
-//                    cancelRegistration = true;
-//                }
                 if (TextUtils.isEmpty(EstablishYear)) {
                     binding.etEstablishYear.setError(null);
                     binding.etEstablishYear.setError(getResources().getString(R.string.establish_required_field));
@@ -553,26 +493,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 }
             }
             if (Office_type_Code.equalsIgnoreCase("7")) {
-//                if (TextUtils.isEmpty(OfficerInCharge)) {
-//                    binding.etOfficerInCharge.setError(getResources().getString(R.string.Officer_charge_name_required_field));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Officer_charge_name_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etOfficerInCharge;
-//                    cancelRegistration = true;
-//                }
-//                if (TextUtils.isEmpty(Design_Code)) {
-//                    binding.tvDesign.setError(null);
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.Designation_required_field), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.spnDesign;
-//                    cancelRegistration = true;
-//                }
-//
-//                if (TextUtils.isEmpty(MobileNumber)) {
-//                    binding.etMobileNumber.setError(null);
-//                    binding.etMobileNumber.setError(getResources().getString(R.string.office_mobile_num_dis));
-//                    Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.office_mobile_num_dis), Toast.LENGTH_SHORT).show();
-//                    focusView = binding.etMobileNumber;
-//                    cancelRegistration = true;
-//                }
                 if (TextUtils.isEmpty(SanctionStrength)) {
                     binding.etSanctionStrength.setError(getResources().getString(R.string.sanctioned_required_field));
                     Toast.makeText(AddOfficeUnderPoliceActivity.this, getResources().getString(R.string.sanctioned_required_field), Toast.LENGTH_SHORT).show();

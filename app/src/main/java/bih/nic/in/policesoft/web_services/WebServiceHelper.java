@@ -2765,7 +2765,8 @@ public class WebServiceHelper {
         Element poleElement = doc.getDocumentElement();
         try {
             poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPassword()), RandomNo)));
+          //  poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPassword()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getRange_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "SubDiv_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getSubDiv_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getDist_Code()), RandomNo)));
@@ -2775,8 +2776,8 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Major_Crime_HeadAddress", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getMajor_Crime_HeadAddress()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Chronic_Land_DistributeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getChronic_Land_DistributeCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Chronic_Land_Add", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getChronic_Land_Add()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_Name()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_VillName", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_VillName()), RandomNo)));
+           // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_Name()), RandomNo)));
+           // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_VillName", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_VillName()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Land_DetailCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getLand_DetailCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Boundary_StatusCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getBoundary_StatusCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_TypeCode()), RandomNo)));
@@ -2799,6 +2800,53 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Imei_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(IMEI), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "App_Ver", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(App_Ver), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Device_Type", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Device_Type), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Religious_PlaceType", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getReligious_PlaceType()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Religious_PlaceName", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getReligious_PlaceName()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Historical_Imp_Prison", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getHistorical_Imp_Prison()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Best_Practices_Prison", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getBest_Practices_Prison()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Reform_Activities_Prison", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getReform_Activities_Prison()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Fire_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFire_TypeCode()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Hydrant_Type_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getHydrant_Type_Code()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Hydrant_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFire_Prone_Name()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Fire_Prone_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFire_Prone_Name()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Fire_Status", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFire_Status()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Fire_Prone_Address", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFire_Prone_Address()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "PerisonMale_Capcity", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPerisonMale_Capcity()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "PerisonFemale_Capcity", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPerisonFemale_Capcity()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "PerisonOther_Capcity", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPerisonOther_Capcity()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Under_Trial_Male", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getUnder_Trial_Male()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Under_Trial_Female", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getUnder_Trial_Female()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Under_Trial_Other", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getUnder_Trial_Other()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Convicted_Male", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getConvicted_Male()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Convicted_Female", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getConvicted_Female()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Convicted_Other", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getConvicted_Other()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Transit_Male", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getTransit_Male()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Transit_Female", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getTransit_Female()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Transit_Other", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getTransit_Other()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Male_Under_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getMale_Under_Eighteen()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Female_Under_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFemale_Under_Eighteen()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Other_Under_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getOther_Under_Eighteen()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Male_Over_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getMale_Over_Eighteen()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Female_Over_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFemale_Over_Eighteen()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Other_Over_Eighteen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getOther_Over_Eighteen()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Male_Foreigner", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getMale_Foreigner()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Female_Foreigner", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFemale_Foreigner()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Other_Foreigner", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getOther_Foreigner()), RandomNo)));
+
+            poleElement.appendChild(getSoapPropert(doc, "Jail_Toilet", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Toilet()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Jail_Hospital", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Hospital()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Jail_Kitchen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Kitchen()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Jail_Dormitory", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Dormitory()), RandomNo)));
+
+
+
             poleElement.appendChild(getSoapPropert(doc, "skey", Enc_SKey));
             poleElement.appendChild(getSoapPropert(doc, "cap", Enc_CapId));
 

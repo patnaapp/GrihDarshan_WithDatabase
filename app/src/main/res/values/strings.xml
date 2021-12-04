@@ -110,6 +110,8 @@
     <string name="historical_name_to_visit_address">Historical Place Address  : [*]</string>
     <string name="major_fair_festival_procession_route">Major Fairs / Festivals / Procession Routes Name  : [*]</string>
     <string name="major_fair_festival_procession_route_address">Please Enter Address  : [*]</string>
+    <string name="fire_address">Please Enter Address  : [*]</string>
+
     <string name="major_crime_head">Major Crime Head : [*]</string>
     <string name="major_crime_head_address">Major Crime Head Address : [*]</string>
     <string name="chronic_land_disputs">Chronic Land Disputs Place : [*]</string>
@@ -150,6 +152,27 @@
     <string name="valid_historical_importance">Please Enter Historical importance of Prison</string>
     <string name="valid_best_practices">Please Enter Best Practices</string>
     <string name="valid_reforms_correctional">Please Enter Reforms/Correctional activities</string>
+    <string name="male_capacity">Please Enter Male Capacity</string>
+    <string name="female_capacity">Please Enter Female Capacity</string>
+    <string name="other_capacity">Please Enter Other Capacity</string>
+    <string name="under_trail_male">Please Enter Under Trail Male</string>
+    <string name="under_trail_female">Please Enter Under Trail Female</string>
+    <string name="under_trail_other">Please Enter Under Trail Other</string>
+    <string name="convicted_male">Please Enter Convicted Male</string>
+    <string name="convicted_female">Please Enter Convicted Female</string>
+    <string name="convicted_other">Please Enter Convicted Other</string>
+    <string name="transit_male">Please Enter Transit Male</string>
+    <string name="transit_female">Please Enter Transit Female</string>
+    <string name="transit_other">Please Enter Transit Other</string>
+    <string name="male_under_eighteen">Please Enter Male Under 18</string>
+    <string name="female_under_eighteen">Please Enter Female Under 18</string>
+    <string name="other_under_eighteen">Please Enter Other Under 18</string>
+    <string name="male_over_eighteen">Please Enter Male Over 18</string>
+    <string name="female_over_eighteen">Please Enter Female Over 18</string>
+    <string name="other_over_eighteen">Please Enter Other Over 18</string>
+    <string name="male_foreigner">Please Enter Male Foreigner</string>
+    <string name="female_foreigner">Please Enter Female Foreigner</string>
+    <string name="other_foreigner">Please Enter Other Foreigner</string>
     <string name="jail_address_required_field">Please Enter Jail Address</string>
     <string name="jail_establish_required_field">Please Enter Jail Established / Started Year</string>
     <string name="establish_required_field">Please Enter Established / Started Year</string>
@@ -199,7 +222,7 @@
     <string name="postoffice_name_required_field">Please Enter Post Office Name</string>
     <string name="Officer_charge_name_required_field">Please Enter Officer-in-Charge Name</string>
     <string name="chronic_land_add_required_field">Please Enter Chronic Land Disputs Address</string>
-    <string name="kabristan_name_required_field">Please Enter Religion Name</string>
+    <string name="religious_name_required_field">Please Enter Religion Name</string>
     <string name="religious_place_type">Please Select Religion Type</string>
     <string name="kabristan_vill_name_required_field">Please Enter Religion Village Name</string>
     <string name="postoffice_address_required_field">Please Enter Post Office Address</string>

@@ -434,7 +434,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="text"
-                            android:maxLength="15"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -497,7 +496,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="text"
-                            android:maxLength="15"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -534,7 +532,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/ll_kabristan_name"
+                    android:id="@+id/ll_religious_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -561,7 +559,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="textCapWords"
-                            android:maxLength="30"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -1024,7 +1021,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_regular_male"
+                                android:id="@+id/et_male_capacity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1054,7 +1051,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_regular_female"
+                                android:id="@+id/et_female_capacity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1084,7 +1081,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_regular_others"
+                                android:id="@+id/et_other_capacity"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1598,7 +1595,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="3">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1615,7 +1612,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_under_18_male"
+                                android:id="@+id/et_male_under_eighteen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1645,7 +1642,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_under_18_female"
+                                android:id="@+id/et_female_under_eighteen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1660,7 +1657,39 @@
                                 android:textSize="15sp" />
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Others *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/et_other_under_eighteen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
+                                android:hint="No Of Others"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:padding="10dp"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
+
+
 
                 </LinearLayout>
 
@@ -1686,7 +1715,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="3">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1703,7 +1732,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_over_18_male"
+                                android:id="@+id/et_male_over_eighteen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1733,7 +1762,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_over_18_female"
+                                android:id="@+id/et_female_over_eighteen"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1748,7 +1777,40 @@
                                 android:textSize="15sp" />
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Others *"
+                                android:textColor="@color/black_overlay"
+                                android:textSize="12sp" />
+
+                            <EditText
+                                android:id="@+id/et_other_over_eighteen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:background="@drawable/textboxshape"
+                                android:focusableInTouchMode="true"
+                                android:hint="No Of Others"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:padding="10dp"
+                                android:singleLine="true"
+                                android:textColor="#222222"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
+
+
 
                 </LinearLayout>
 
@@ -1791,7 +1853,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_foreigner_male"
+                                android:id="@+id/et_male_foreigner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1821,7 +1883,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_foreigner_female"
+                                android:id="@+id/et_female_foreigner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1851,7 +1913,7 @@
                                 android:textSize="12sp" />
 
                             <EditText
-                                android:id="@+id/et_inmates_foreigner_other"
+                                android:id="@+id/et_other_foreigner"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -1945,6 +2007,7 @@
                                 android:textSize="14sp" />
 
                             <CheckBox
+                                android:id="@+id/chk_toilet_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -1952,18 +2015,21 @@
                                 android:text="" />
 
                             <CheckBox
+                                android:id="@+id/chk_hospital_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
                                 android:text="" />
 
                             <CheckBox
+                                android:id="@+id/chk_kitchen_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
                                 android:text="" />
 
                             <CheckBox
+                                android:id="@+id/chk_dormitory_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
@@ -1985,6 +2051,7 @@
                                 android:textSize="14sp" />
 
                             <CheckBox
+                                android:id="@+id/chk_toilet_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -1993,18 +2060,21 @@
 
 
                             <CheckBox
+                                android:id="@+id/chk_hospital_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
                                 android:text="" />
 
                             <CheckBox
+                                android:id="@+id/chk_kitchen_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
                                 android:text="" />
 
                             <CheckBox
+                                android:id="@+id/chk_dormitory_no"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
