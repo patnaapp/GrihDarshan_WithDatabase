@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class HomeFragment extends Fragment {
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
     com.smarteist.autoimageslider.SliderView sliderView1;
+    LinearLayout button_layout,ll_subdiv,emailLayout;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,11 +55,15 @@ public class HomeFragment extends Fragment {
 
 
         if (CommonPref.getPoliceDetails(getContext()).getRole().equals("PS")) {
-            rl_addoutpost.setVisibility(View.VISIBLE);
-            rl_addcont.setVisibility(View.VISIBLE);
+            button_layout.setVisibility(View.VISIBLE);
+            ll_subdiv.setVisibility(View.VISIBLE);
+            emailLayout.setVisibility(View.VISIBLE);
+
         } else {
-            rl_addoutpost.setVisibility(View.GONE);
-            rl_addcont.setVisibility(View.GONE);
+            button_layout.setVisibility(View.GONE);
+            ll_subdiv.setVisibility(View.GONE);
+            emailLayout.setVisibility(View.GONE);
+
         }
 
         setUserDetail();
@@ -107,6 +113,9 @@ public class HomeFragment extends Fragment {
         rl_addcont = (RelativeLayout) root.findViewById(R.id.rl_addcont);
         rl_addmajorutil = (RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
         rl_addofficeunder = (RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
+        button_layout = (LinearLayout) root.findViewById(R.id.button_layout);
+        ll_subdiv = (LinearLayout) root.findViewById(R.id.ll_subdiv);
+        emailLayout = (LinearLayout) root.findViewById(R.id.emailLayout);
         sliderView = (com.smarteist.autoimageslider.SliderView) root.findViewById(R.id.slider);
 
 

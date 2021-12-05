@@ -275,7 +275,7 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="number"
-                            android:maxLength="15"
+                            android:maxLength="11"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"

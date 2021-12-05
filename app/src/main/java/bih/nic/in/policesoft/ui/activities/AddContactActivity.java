@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.databinding.ActivityAddContactBinding;
 import bih.nic.in.policesoft.databinding.ActivityAddOutpostBinding;
+import bih.nic.in.policesoft.entity.BlockList;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
@@ -53,9 +54,11 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     private ActivityAddContactBinding binding;
     private CustomAlertDialog customAlertDialog;
     ContactDetailsFromServer contactDetailsFromServer = new ContactDetailsFromServer();
+    BlockList blockFromServer = new BlockList();
     ArrayList<ContactDetailsFromServer> contactDetails_List;
+    ArrayList<BlockList> block_List;
     String[] govtPriv;
-    String Hosp_Code = "", School_Code = "", Bus_Stand_Code = "";
+    String Hosp_Code = "", School_Code = "", Bus_Stand_Code = "",block_Code="",block_Name="";
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
@@ -79,6 +82,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
         Token = CommonPref.getPoliceDetails(AddContactActivity.this).getToken();
 
         binding.llOfficerName.setVisibility(View.GONE);
+        binding.llBlock.setVisibility(View.GONE);
         binding.llOfficerContact.setVisibility(View.GONE);
         binding.llOfficerEmail.setVisibility(View.GONE);
         binding.llPostofficeMame.setVisibility(View.GONE);
@@ -152,7 +156,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                 focusView = binding.spnContactType;
                 cancelRegistration = true;
             }
-            if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) || (Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
+            if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) ) {
                 if (TextUtils.isEmpty(OfficerName)) {
                     binding.etOfficerName.setError(getResources().getString(R.string.officier_name_required_field));
                     Toast.makeText(AddContactActivity.this, getResources().getString(R.string.officier_name_required_field), Toast.LENGTH_SHORT).show();
@@ -163,6 +167,27 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     binding.etOfficerContactNum.setError(getResources().getString(R.string.officier_contact_required_field));
                     Toast.makeText(AddContactActivity.this, getResources().getString(R.string.officier_contact_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.etOfficerContactNum;
+                    cancelRegistration = true;
+                }
+            }
+
+            if ((Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
+                if (TextUtils.isEmpty(OfficerName)) {
+                    binding.etOfficerName.setError(getResources().getString(R.string.officier_name_required_field));
+                    Toast.makeText(AddContactActivity.this, getResources().getString(R.string.officier_name_required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOfficerName;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(OfficerContactNum)) {
+                    binding.etOfficerContactNum.setError(getResources().getString(R.string.officier_contact_required_field));
+                    Toast.makeText(AddContactActivity.this, getResources().getString(R.string.officier_contact_required_field), Toast.LENGTH_SHORT).show();
+                    focusView = binding.etOfficerContactNum;
+                    cancelRegistration = true;
+                }
+                if (TextUtils.isEmpty(block_Code)) {
+                    binding.tvBlock.setError(getResources().getString(R.string.officier_contact_required_field));
+                    Toast.makeText(AddContactActivity.this, "Please select block", Toast.LENGTH_SHORT).show();
+                    focusView = binding.tvBlock;
                     cancelRegistration = true;
                 }
             }
@@ -267,7 +292,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                 Utiilties.hideKeyboard(AddContactActivity.this);
                 PreviewBottonSheetAddContact previewBottonSheet = new PreviewBottonSheetAddContact();
                 Bundle bundle = new Bundle();
-                model = new ContactDetailsEntry(Contact_Code, Contact_Name, OfficerName, OfficerContactNum, OfficerEmail, PostofficeName, PostofficeAdd, PostofficeNum, Hosp_Code, HospName, CapacityOfBeds, HospContctNum, HospAddress, School_Code, SchoolName, SchoolAddress, SchoolContctNum, Bus_Stand_Code, BusstandName, BusstandAdd, latitude, longitude, Photo1, Photo2);
+                model = new ContactDetailsEntry(Contact_Code, Contact_Name, OfficerName, OfficerContactNum, OfficerEmail, PostofficeName, PostofficeAdd, PostofficeNum, Hosp_Code, HospName, CapacityOfBeds, HospContctNum, HospAddress, School_Code, SchoolName, SchoolAddress, SchoolContctNum, Bus_Stand_Code, BusstandName, BusstandAdd, latitude, longitude, Photo1, Photo2,block_Code);
                 bundle.putParcelable(Constants.PS_PARAM, model);
                 previewBottonSheet.setArguments(bundle);
                 previewBottonSheet.show(getSupportFragmentManager(), "TAG");
@@ -441,6 +466,22 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     Bus_Stand_Code = "";
                 }
                 break;
+
+            case R.id.spn_block:
+                if (i > 0) {
+                    blockFromServer = block_List.get(i - 1);
+                    block_Code = blockFromServer.getBlock_Code();
+                    block_Name = blockFromServer.getBlock_Name();
+
+                } else if (i == 0) {
+
+                } else {
+                    blockFromServer = null;
+                    block_Code = "";
+                    block_Name = "";
+
+                }
+                break;
         }
     }
 
@@ -467,6 +508,21 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnContactType.setAdapter(adaptor);
         binding.spnContactType.setOnItemSelectedListener(this);
+    }
+
+    public void setBlockSpinner(ArrayList<BlockList> blocklist) {
+        block_List = blocklist;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Block-");
+
+        for (BlockList info : block_List) {
+            array.add(info.getBlock_Name());
+        }
+
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnBlock.setAdapter(adaptor);
+        binding.spnBlock.setOnItemSelectedListener(this);
     }
 
     private class GetContactDetails extends AsyncTask<String, Void, ArrayList<ContactDetailsFromServer>> {
@@ -570,7 +626,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     }
 
     public void visibleTrueFalse() {
-        if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) || (Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
+        if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) ) {
             binding.llOfficerName.setVisibility(View.VISIBLE);
             binding.llOfficerContact.setVisibility(View.VISIBLE);
             binding.llOfficerEmail.setVisibility(View.VISIBLE);
@@ -590,7 +646,33 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandName.setVisibility(View.GONE);
             binding.llBusstandAdd.setVisibility(View.GONE);
             binding.llPhoto.setVisibility(View.VISIBLE);
-        } else if (Contact_Code.equalsIgnoreCase("8")) {
+            binding.llBlock.setVisibility(View.GONE);
+        }
+        else if ((Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
+            new GETBlockList(User_Id, Password, Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code()).execute();
+            binding.llOfficerName.setVisibility(View.VISIBLE);
+            binding.llOfficerContact.setVisibility(View.VISIBLE);
+            binding.llOfficerEmail.setVisibility(View.VISIBLE);
+            binding.llPostofficeMame.setVisibility(View.GONE);
+            binding.llPostofficeAddress.setVisibility(View.GONE);
+            binding.llPostofficeContact.setVisibility(View.GONE);
+            binding.llTypeofHosp.setVisibility(View.GONE);
+            binding.llHospName.setVisibility(View.GONE);
+            binding.llCapacityBed.setVisibility(View.GONE);
+            binding.llHospContact.setVisibility(View.GONE);
+            binding.llHospAddress.setVisibility(View.GONE);
+            binding.llTypeofSchool.setVisibility(View.GONE);
+            binding.llSchoolName.setVisibility(View.GONE);
+            binding.llSchoolAdd.setVisibility(View.GONE);
+            binding.llSchoolConct.setVisibility(View.GONE);
+            binding.llTypeofBusstand.setVisibility(View.GONE);
+            binding.llBusstandName.setVisibility(View.GONE);
+            binding.llBusstandAdd.setVisibility(View.GONE);
+            binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llBlock.setVisibility(View.VISIBLE);
+        }
+
+        else if (Contact_Code.equalsIgnoreCase("8")) {
             binding.llOfficerName.setVisibility(View.GONE);
             binding.llOfficerContact.setVisibility(View.GONE);
             binding.llOfficerEmail.setVisibility(View.GONE);
@@ -610,6 +692,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandName.setVisibility(View.GONE);
             binding.llBusstandAdd.setVisibility(View.GONE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llBlock.setVisibility(View.GONE);
         } else if (Contact_Code.equalsIgnoreCase("9")) {
             binding.llOfficerName.setVisibility(View.GONE);
             binding.llOfficerContact.setVisibility(View.GONE);
@@ -630,6 +713,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandName.setVisibility(View.GONE);
             binding.llBusstandAdd.setVisibility(View.GONE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llBlock.setVisibility(View.GONE);
         } else if (Contact_Code.equalsIgnoreCase("10")) {
             binding.llOfficerName.setVisibility(View.GONE);
             binding.llOfficerContact.setVisibility(View.GONE);
@@ -650,6 +734,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandName.setVisibility(View.GONE);
             binding.llBusstandAdd.setVisibility(View.GONE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llBlock.setVisibility(View.GONE);
         } else if (Contact_Code.equalsIgnoreCase("11")) {
             binding.llOfficerName.setVisibility(View.GONE);
             binding.llOfficerContact.setVisibility(View.GONE);
@@ -670,6 +755,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandName.setVisibility(View.VISIBLE);
             binding.llBusstandAdd.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
+            binding.llBlock.setVisibility(View.GONE);
         }
     }
 
@@ -827,4 +913,44 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+
+    private class GETBlockList extends AsyncTask<String, Void, ArrayList<BlockList>> {
+        String userId, Password, Token,Dist;
+
+        private final ProgressDialog dialog = new ProgressDialog(AddContactActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GETBlockList(String userId, String password, String token,String distcode) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+            Dist = distcode;
+        }
+
+        @Override
+        protected ArrayList<BlockList> doInBackground(String... param) {
+
+            return WebServiceHelper.GetBlockListt(AddContactActivity.this, userId, Password, Token,Dist);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<BlockList> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    block_List = result;
+                    setBlockSpinner(result);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
 }

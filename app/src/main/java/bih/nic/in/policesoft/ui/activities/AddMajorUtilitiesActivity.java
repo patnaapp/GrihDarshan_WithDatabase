@@ -88,7 +88,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             court_Address = "", fair_Festival_Name = "", fair_Festival_Address = "", historical_Place_Name = "", historical_Place_Address = "", remarks = "",
             photo = "", latitude = "", longitude = "", entry_Mode = "", imei_Num = "", app_Ver = "", device_Type = "", religious_PlaceType = "", religious_PlaceName = "",
             historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "", fire_TypeCode = "", hydrant_Type_Code = "", hydrant_Name = "", fire_Prone_Name = "",
-            fire_Status = "", skey = "", cap = "";
+            fire_Status = "", skey = "", cap = "",firetypecode_Code="";
 
     String major_UtilName = "";
     String isToilet_avail="",isKitchen_Avail="",isHospital_Avail="",isDormitory_Avail="";
@@ -146,7 +146,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-            new GetMajorUtil(user_id, password, Token).execute();
+            new GetMajorUtil(user_id, password, Token,CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
 
         } else {
             Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -168,7 +168,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llJailName.setVisibility(View.GONE);
         binding.llJailAdd.setVisibility(View.GONE);
         binding.llJailEstbl.setVisibility(View.GONE);
-
+        binding.llTypeFireHydrant.setVisibility(View.GONE);
         binding.llCourtType.setVisibility(View.GONE);
         binding.llCourtName.setVisibility(View.GONE);
         binding.llCourtAdd.setVisibility(View.GONE);
@@ -342,12 +342,28 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             Best_Practices_Prison = binding.etBestPractices.getText().toString().trim();
             Reform_Activities_Prison = binding.etReformsCorrectionalActivities.getText().toString().trim();
             major_fair_festival_name = binding.etFairFestival.getText().toString().trim();
-            major_fair_festival_add = binding.etFairFestivalAddress.getText().toString().trim();
+
+
+            if (major_UtilCode.equals("6"))
+            {
+                major_fair_festival_add = binding.etFairFestivalAddress.getText().toString().trim();
+            }
+            else {
+                major_fair_festival_add ="";
+            }
+
             Historical_place_Name = binding.etHistoricalName.getText().toString().trim();
             Historical_Place_Address = binding.etHistoricalAddress.getText().toString().trim();
             Hydration_Name = binding.etHydrantName.getText().toString().trim();
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
-            Fire_Address = binding.etFairFestivalAddress.getText().toString();
+            if (major_UtilCode.equals("10"))
+            {
+                Fire_Address = binding.etFairFestivalAddress.getText().toString();
+            }
+            else {
+                Fire_Address ="";
+            }
+
             Remarks = binding.etRemarks.getText().toString().trim();
 
             Male_Capacity = binding.etMaleCapacity.getText().toString().trim();
@@ -1111,8 +1127,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             case R.id.spn_major_fire_type:
                 if (i > 0) {
                     fireTypeServer = FireType_List.get(i - 1);
-                    //Util_Code = fireTypeServer.getUtil_Code();
-                    //Util_Name = majorutilFromServer.getUtil_Name();
+                    fire_TypeCode = fireTypeServer.getFireType_Code();
+                   // Util_Name = majorutilFromServer.getUtil_Name();
                     if (fireTypeServer.getFireType_Code().equals("1")) {
                         binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
                         binding.llFireProneLocation.setVisibility(View.GONE);
@@ -1123,7 +1139,20 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     }
 
                 } else {
-                    major_UtilCode = "";
+//                    fireTypeServer
+                    fire_TypeCode = "";
+                }
+                break;
+            case R.id.spn_type_fire_hydrant:
+                if (i > 0) {
+                    typeofHydrationServer = TypeofHydration_List.get(i - 1);
+                    hydrant_Type_Code = typeofHydrationServer.getHydrant_Code();
+                    // Util_Name = majorutilFromServer.getUtil_Name();
+
+
+                } else {
+//                    fireTypeServer
+                    hydrant_Type_Code = "";
                 }
                 break;
         }
@@ -1355,7 +1384,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
 
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
-        String userId, Password, Token;
+        String userId, Password, Token,role;
 
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
 
@@ -1364,16 +1393,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             customAlertDialog.showDialog();
         }
 
-        public GetMajorUtil(String userId, String password, String token) {
+        public GetMajorUtil(String userId, String password, String token,String Role) {
             this.userId = userId;
             Token = token;
             Password = password;
+            role = Role;
         }
 
         @Override
         protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
 
-            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token);
+            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token,role);
         }
 
         @Override
@@ -1910,7 +1940,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llLocation.setVisibility(View.GONE);
 
             binding.llMajorFireType.setVisibility(View.VISIBLE);
-            binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
+
             binding.llHydrantName.setVisibility(View.VISIBLE);
             binding.llFireProneLocation.setVisibility(View.VISIBLE);
             binding.llFireStatus.setVisibility(View.VISIBLE);

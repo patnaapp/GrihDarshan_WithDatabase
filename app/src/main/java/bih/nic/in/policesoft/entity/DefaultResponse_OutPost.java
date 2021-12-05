@@ -1,5 +1,9 @@
 package bih.nic.in.policesoft.entity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -7,6 +11,8 @@ import org.ksoap2.serialization.SoapObject;
 import java.util.Hashtable;
 
 import bih.nic.in.policesoft.security.Encriptor;
+import bih.nic.in.policesoft.ui.activity.LoginActivity;
+import bih.nic.in.policesoft.ui.activity.SplashActivity;
 import bih.nic.in.policesoft.utility.CommonPref;
 
 public class DefaultResponse_OutPost implements KvmSerializable {

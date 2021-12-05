@@ -42,6 +42,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import bih.nic.in.policesoft.entity.BlockList;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.CourtSubType_Entity;
@@ -72,6 +73,7 @@ import bih.nic.in.policesoft.entity.UpdateThanaModel;
 import bih.nic.in.policesoft.entity.Versioninfo;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.security.RandomString;
+import bih.nic.in.policesoft.ui.activities.AddContactActivity;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.Utiilties;
 
@@ -80,8 +82,8 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
     // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
-    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
+    public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
+    public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
     // public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
@@ -110,6 +112,7 @@ public class WebServiceHelper {
     private static final String Get_CourtSubType_Master = "GetSubCourtTypeList";
     private static final String Get_PoliceStation_Master = "GetThanaList";
     private static final String Get_PoliceStationForReg_Master = "GetThana_FrontList";
+    private static final String Block_ListMethod = "GetBlockList";
 
     private static Encriptor _encrptor;
     private static String CapId, RandomNo;
@@ -774,6 +777,7 @@ public class WebServiceHelper {
             request.addProperty("Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Range_Code), RandomNo));
             request.addProperty("DistCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Dist_Code), RandomNo));
             request.addProperty("Sub_DivissionCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(SubDicCode), RandomNo));
+            request.addProperty("Block_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getBlock_code()), RandomNo));
             request.addProperty("User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Userid), RandomNo));
             request.addProperty("Password", _encrptor.Encrypt(Password, RandomNo));
 
@@ -1326,7 +1330,7 @@ public class WebServiceHelper {
         return pvmArrayList;
     }
 
-    public static ArrayList<MajorUtilitiesFromServer> GetMajorUtil(Context context, String Uid, String Password, String token) {
+    public static ArrayList<MajorUtilitiesFromServer> GetMajorUtil(Context context, String Uid, String Password, String token,String role) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Major_Util_Details);
         SoapObject res1;
         ArrayList<MajorUtilitiesFromServer> pvmArrayList = new ArrayList<MajorUtilitiesFromServer>();
@@ -1334,7 +1338,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_Role;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -1342,11 +1346,13 @@ public class WebServiceHelper {
             Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_Role = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(role), RandomNo);
 
             request.addProperty("skey", Enc_SKey);
             request.addProperty("Userid", Enc_UID);
             request.addProperty("password", Enc_Pass);
             request.addProperty("cap", Enc_CapId);
+            request.addProperty("User_Role", Enc_Role);
 
 
             org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
@@ -2537,7 +2543,7 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPolice_Dist_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getRange_Code()), RandomNo)));
-            poleElement.appendChild(getSoapPropert(doc, "Office_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOfficeType_Code()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "Office_TypeCode", _encrptor.Encrypt(workDetail.getOfficeType_Code(), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Office_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getOffice_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "PoliceOwn_Buil_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getPoliceOwnBuild_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(workDetail.getKhata_Num()), RandomNo)));
@@ -3013,6 +3019,78 @@ public class WebServiceHelper {
 
         // response.put("HTTPStatus",httpResponse.getStatusLine().toString());
         return res;
+    }
+
+
+    public static ArrayList<BlockList> GetBlockListt(Context context, String Uid, String Password, String token, String distcode) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Block_ListMethod);
+        SoapObject res1;
+        ArrayList<BlockList> pvmArrayList = new ArrayList<BlockList>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_dist;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_UID = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Uid), RandomNo);
+            Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_dist = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(distcode), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("Userid", Enc_UID);
+            request.addProperty("password", Enc_Pass);
+            request.addProperty("DistCode", Enc_dist);
+            request.addProperty("cap", Enc_CapId);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, BlockList.BLOCKLIST.getSimpleName(), BlockList.BLOCKLIST);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Block_ListMethod, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        BlockList district = new BlockList(final_object, CapId, context);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
     }
 
 }

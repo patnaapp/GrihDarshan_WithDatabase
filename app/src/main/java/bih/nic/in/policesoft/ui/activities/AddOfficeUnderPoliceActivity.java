@@ -740,12 +740,30 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     detailsModel.setLatitude(String.valueOf(take_latitude));
                     detailsModel.setLongitude(String.valueOf(take_longitude));
 
-                    listgps.add(detailsModel);
+
+
+//                    if (listgps.size()>0)
+//                    {
+//                        for (InspectionDetailsModel object: listgps) {
+//                            if (object.getLatitude().equals(detailsModel.getLatitude()) && object.getLongitude().equals(detailsModel.getLongitude()))
+//                            {
+//                                Toast.makeText(getApplicationContext(), "Capture location from different point", Toast.LENGTH_LONG).show();
+//                            }
+//                            else {
+//                                listgps.add(detailsModel);
+//                            }
+//                        }
+//                    }
+                  //  else {
+                        listgps.add(detailsModel);
+                   // }
+
 
                     mAdapter = new takegpsListAdaptor(AddOfficeUnderPoliceActivity.this, listgps);
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                     binding.listGpsTaken.setLayoutManager(mLayoutManager);
                     binding.listGpsTaken.setAdapter(mAdapter);
+
                     //binding.listGpsTaken.notify();
 
                 } else {

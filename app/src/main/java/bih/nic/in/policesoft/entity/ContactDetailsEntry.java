@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class ContactDetailsEntry implements Parcelable {
     private String Contact_Code,Contact_Name,Officer_Name,Officer_Contact,Officer_Email,PostOffice_Name,
-                   PostOffice_Add,PostOffice_Number,Hosp_Code,Hosp_Name,Capacity_Bed,Hosp_Contact,Hosp_Add,School_Code,School_Name,School_Add,School_Contact,BusStand_Code,BusStand_Name,BusStand_Add,Latitude,Longitude,Photo1,Photo2;
+                   PostOffice_Add,PostOffice_Number,Hosp_Code,Hosp_Name,Capacity_Bed,Hosp_Contact,Hosp_Add,School_Code,School_Name,School_Add,School_Contact,BusStand_Code,BusStand_Name,BusStand_Add,Latitude,Longitude,Photo1,Photo2,block_code;
 
     protected ContactDetailsEntry(Parcel in) {
         Contact_Code = in.readString();
@@ -32,6 +32,7 @@ public class ContactDetailsEntry implements Parcelable {
         Longitude = in.readString();
         Photo1 = in.readString();
         Photo2 = in.readString();
+        block_code = in.readString();
 
     }
 
@@ -50,6 +51,14 @@ public class ContactDetailsEntry implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getBlock_code() {
+        return block_code;
+    }
+
+    public void setBlock_code(String block_code) {
+        this.block_code = block_code;
     }
 
     @Override
@@ -79,8 +88,9 @@ public class ContactDetailsEntry implements Parcelable {
         parcel.writeString(Longitude);
         parcel.writeString(Photo1);
         parcel.writeString(Photo2);
+        parcel.writeString(block_code);
     }
-    public ContactDetailsEntry(String contact_Code, String contact_Name, String officer_Name, String officer_Contact, String officer_Email, String postOffice_Name, String postOffice_Add, String postOffice_Number, String hosp_Code, String hosp_Name, String capacity_Bed, String hosp_Contact, String hosp_Add, String school_Code, String school_Name, String school_Add,String school_Contact,String busStand_Code,String busStand_Name,String busStand_Add, String latitude, String longitude, String photo1, String photo2) {
+    public ContactDetailsEntry(String contact_Code, String contact_Name, String officer_Name, String officer_Contact, String officer_Email, String postOffice_Name, String postOffice_Add, String postOffice_Number, String hosp_Code, String hosp_Name, String capacity_Bed, String hosp_Contact, String hosp_Add, String school_Code, String school_Name, String school_Add,String school_Contact,String busStand_Code,String busStand_Name,String busStand_Add, String latitude, String longitude, String photo1, String photo2,String blockcode) {
         Contact_Code = contact_Code;
         Contact_Name = contact_Name;
         Officer_Name = officer_Name;
@@ -100,11 +110,12 @@ public class ContactDetailsEntry implements Parcelable {
         School_Contact = school_Contact;
         BusStand_Code = busStand_Code;
         BusStand_Name = busStand_Name;
-        BusStand_Add = busStand_Name;
+        BusStand_Add = busStand_Add;
         Latitude = latitude;
         Longitude = longitude;
         Photo1 = photo1;
         Photo2 = photo2;
+        block_code = blockcode;
 
     }
 
