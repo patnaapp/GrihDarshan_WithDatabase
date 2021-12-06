@@ -145,6 +145,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
         Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
+
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(user_id, password, Token,CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
 
@@ -1416,7 +1417,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     Major_Util_List = result;
                     setMajorDetailsSpinner(result);
                 } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No Utilities Found", Toast.LENGTH_SHORT).show();
                 }
 
             }

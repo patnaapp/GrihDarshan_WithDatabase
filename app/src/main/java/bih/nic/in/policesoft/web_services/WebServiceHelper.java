@@ -82,8 +82,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
     // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-    public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
-    public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+   // public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
+    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
+  // public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
     // public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
@@ -100,6 +102,7 @@ public class WebServiceHelper {
     public static final String Office_List_Details = "GetOfficesList";
     private static final String SLIDER = "GetSliderList";
     private static final String INSERT_OFFICE = "InsertOffice_Under_PS";
+
     private static final String INSERT_OFFICE11 = "InsertOffice_Under_PS";
     private static final String GET_FIRE_TYPE_LIST = "GetFireTypeList";
     private static final String GET_TYPE_OF_HYDRANT_LIST = "GetTypeOfHydrantList";
