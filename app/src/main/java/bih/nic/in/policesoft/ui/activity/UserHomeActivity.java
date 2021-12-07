@@ -145,17 +145,20 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    public void displaySelectedFragment(Fragment fragment) {
+    public void displaySelectedFragment(Fragment fragment)
+    {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
     }
 
-    private void confirmLogout() {
+    private void confirmLogout()
+    {
         SplashActivity.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = SplashActivity.prefs.edit();
         editor.putBoolean("username", false);
         editor.putBoolean("password", false);
+        editor.putString("isLogin", "");
         editor.commit();
 
         UserDetails userInfo = CommonPref.getUserDetails(getApplicationContext());
@@ -168,7 +171,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         finish();
     }
 
-    private void logout() {
+    private void logout()
+    {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setIcon(R.drawable.logo)
@@ -184,14 +188,18 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
-    public void onSyncMasterData() {
+    public void onSyncMasterData()
+    {
         syncData();
     }
 
-    private void syncData() {
-        if (Utiilties.isOnline(this)) {
+    private void syncData()
+    {
+        if (Utiilties.isOnline(this))
+        {
 
-        } else {
+        } else
+            {
             Utiilties.showInternetAlert(this);
         }
 

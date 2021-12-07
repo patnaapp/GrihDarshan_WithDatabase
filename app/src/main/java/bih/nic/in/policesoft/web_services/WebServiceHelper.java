@@ -252,7 +252,8 @@ public class WebServiceHelper {
 
     public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String value1, String value2, String value3) {
         SoapObject res1;
-        try {
+        try
+        {
             SoapObject request = new SoapObject(SERVICENAMESPACE, methodName);
             request.addProperty(param1, value1);
             request.addProperty(param2, value2);
@@ -264,7 +265,9 @@ public class WebServiceHelper {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + methodName, envelope);
             res1 = (SoapObject) envelope.getResponse();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
