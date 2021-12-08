@@ -93,7 +93,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     String major_UtilName = "";
     String isToilet_avail="",isKitchen_Avail="",isHospital_Avail="",isDormitory_Avail="";
 
-
     private CustomAlertDialog customAlertDialog;
     private ActivityAddMajorUtilitiesBinding binding;
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
@@ -144,7 +143,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         password = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPassword();
         // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
         Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
-
 
         if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
             new GetMajorUtil(user_id, password, Token,CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
@@ -346,8 +344,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             major_fair_festival_name = binding.etFairFestival.getText().toString().trim();
 
 
-            if (major_UtilCode.equals("6"))
-            {
+            if (major_UtilCode.equals("5")) {
                 major_fair_festival_add = binding.etFairFestivalAddress.getText().toString().trim();
             }
             else {
@@ -358,8 +355,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             Historical_Place_Address = binding.etHistoricalAddress.getText().toString().trim();
             Hydration_Name = binding.etHydrantName.getText().toString().trim();
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
-            if (major_UtilCode.equals("10"))
-            {
+            if (major_UtilCode.equals("10")) {
                 Fire_Address = binding.etFairFestivalAddress.getText().toString();
             }
             else {
@@ -739,8 +735,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 }
                 if (TextUtils.isEmpty(major_fair_festival_add)) {
                     binding.etFairFestivalAddress.setError(null);
-                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.fire_address));
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.fire_address), Toast.LENGTH_SHORT).show();
+                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.fair_route_add_required_field));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.fair_route_add_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.etFairFestivalAddress;
                     cancelRegistration = true;
                 }
@@ -821,13 +817,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.spnFireStatus;
                     cancelRegistration = true;
                 }
-                if (TextUtils.isEmpty(Fire_Address)) {
+               /* if (TextUtils.isEmpty(Fire_Address)) {
                     binding.etFairFestivalAddress.setError(null);
-                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.valid_fire_prone_name));
-                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_fire_prone_name), Toast.LENGTH_SHORT).show();
+                    binding.etFairFestivalAddress.setError(getResources().getString(R.string.valid_fire_add));
+                    Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.valid_fire_add), Toast.LENGTH_SHORT).show();
                     focusView = binding.etFairFestivalAddress;
                     cancelRegistration = true;
-                }
+                }*/
                 if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
@@ -965,16 +961,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
                         new UploadMajorUtilities(model, listgps, facilitylist).execute();
                     }
-
-
-                    //new UploadMajorUtilities(model, listgps, facilitylist).execute();
-                    //new stateData().execute();
                 }
             }
 
 
         });
-
 
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -992,7 +983,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                     binding.listGpsTaken.setLayoutManager(mLayoutManager);
                     binding.listGpsTaken.setAdapter(mAdapter);
-                    //binding.listGpsTaken.notify();
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Wait for gps to become stable", Toast.LENGTH_LONG).show();
@@ -1068,7 +1058,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (i > 0) {
                     if (getResources().getString(R.string.govt).equals(govtPrivate[i])) {
                         land_DetailsCode = "G";
-                    } else if (getResources().getString(R.string.rape).equals(govtPrivate[i])) {
+                    } else if (getResources().getString(R.string.priv).equals(govtPrivate[i])) {
                         land_DetailsCode = "P";
                     }
                 } else {
@@ -1120,11 +1110,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     } else if (i == 2) {
                         fire_Status = "2";
                     }
-
                 } else {
                     fire_Status = "";
                 }
-
 
             case R.id.spn_major_fire_type:
                 if (i > 0) {
@@ -1141,7 +1129,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     }
 
                 } else {
-//                    fireTypeServer
                     fire_TypeCode = "";
                 }
                 break;
@@ -1150,7 +1137,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     typeofHydrationServer = TypeofHydration_List.get(i - 1);
                     hydrant_Type_Code = typeofHydrationServer.getHydrant_Code();
                     // Util_Name = majorutilFromServer.getUtil_Name();
-
 
                 } else {
 //                    fireTypeServer
@@ -1268,6 +1254,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         for (GetPrisionypeServer info : PrisionType_List) {
             array.add(info.getJail_Type());
         }
+
         ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnJailType.setAdapter(adaptor);
@@ -1292,7 +1279,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         @Override
         protected ArrayList<FireTypeServer> doInBackground(String... strings) {
             return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
-
         }
 
         @Override
@@ -1365,7 +1351,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }
     }
@@ -1383,7 +1368,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnTypeFireHydrant.setAdapter(adaptor);
         binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
     }
-
 
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
         String userId, Password, Token,role;
@@ -1404,7 +1388,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
-
             return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token,role);
         }
 
@@ -1720,11 +1703,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llJailCapcity.setVisibility(View.GONE);
             binding.llCourtType.setVisibility(View.GONE);
             binding.llCourtName.setVisibility(View.GONE);
-            binding.llLocation.setVisibility(View.GONE);
             binding.llCourtAdd.setVisibility(View.GONE);
             binding.llRemarks.setVisibility(View.VISIBLE);
             binding.llPhoto.setVisibility(View.VISIBLE);
-
+            binding.llLocation.setVisibility(View.VISIBLE);
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
@@ -2248,7 +2230,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
                     }
 
-
                 }
 
         }
@@ -2386,6 +2367,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     }
                 } else {
 
+
                     Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
 
                 }
@@ -2395,7 +2377,5 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             }
         }
     }
-
-
 }
 

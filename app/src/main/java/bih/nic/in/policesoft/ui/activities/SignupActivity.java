@@ -351,7 +351,6 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         if (imageData1 != null) {
             Bitmap bmp = BitmapFactory.decodeByteArray(imageData1, 0, imageData1.length);
 
-
             imgview.setImageBitmap(bmp);
 
         }
@@ -374,7 +373,6 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         dialogBuilder.setView(dialogView);
         dialogBuilder.setTitle("-Thana Photo which can be changed-");
 
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -393,7 +391,6 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
-
 
         AlertDialog b = dialogBuilder.create();
         b.show();

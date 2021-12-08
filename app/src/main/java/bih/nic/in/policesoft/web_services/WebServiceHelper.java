@@ -81,12 +81,16 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 
 public class WebServiceHelper {
-    // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-   // public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
-    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
-  // public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+
+   //public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
+   //public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+
+     public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
     public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
+
+    // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
     // public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
+
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
     public static final String RANGE_LIST_Master = "GetMst_RangeList";
@@ -1407,7 +1411,7 @@ public class WebServiceHelper {
         return pvmArrayList;
     }
 
-    public static ArrayList<OfficeListFromServer> GetOffice(Context context, String Uid, String Password, String token) {
+    public static ArrayList<OfficeListFromServer> GetOffice(Context context, String Uid, String Password, String token,String role) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Office_List_Details);
         SoapObject res1;
         ArrayList<OfficeListFromServer> pvmArrayList = new ArrayList<OfficeListFromServer>();
@@ -1415,7 +1419,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_Role;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -1423,11 +1427,13 @@ public class WebServiceHelper {
             Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_Role = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(role), RandomNo);
 
             request.addProperty("skey", Enc_SKey);
             request.addProperty("Userid", Enc_UID);
             request.addProperty("password", Enc_Pass);
             request.addProperty("cap", Enc_CapId);
+            request.addProperty("User_Role", Enc_Role);
 
 
             org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];

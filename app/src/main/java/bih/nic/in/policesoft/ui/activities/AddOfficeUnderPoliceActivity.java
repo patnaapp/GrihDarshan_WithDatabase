@@ -119,7 +119,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         load_spinner();
 
         if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
-            new GetOfficeList(User_Id, Password, Token).execute();
+            new GetOfficeList(User_Id, Password, Token,CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole()).execute();
         }
         else {
             Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -955,7 +955,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     }
 
     private class GetOfficeList extends AsyncTask<String, Void, ArrayList<OfficeListFromServer>> {
-        String userId, Password, Token;
+        String userId, Password, Token,Role;
 
         private final ProgressDialog dialog = new ProgressDialog(AddOfficeUnderPoliceActivity.this);
 
@@ -964,15 +964,16 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             customAlertDialog.showDialog();
         }
 
-        public GetOfficeList(String userId, String password, String token) {
+        public GetOfficeList(String userId, String password, String token, String role) {
             this.userId = userId;
             Token = token;
             Password = password;
+            Role = role;
         }
 
         @Override
         protected ArrayList<OfficeListFromServer> doInBackground(String... param) {
-            return WebServiceHelper.GetOffice(AddOfficeUnderPoliceActivity.this, userId, Password, Token);
+            return WebServiceHelper.GetOffice(AddOfficeUnderPoliceActivity.this, userId, Password, Token,Role);
         }
 
         @Override

@@ -26,7 +26,6 @@
             android:padding="8dp">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/major_public_utilities"
@@ -681,46 +680,46 @@
                         android:background="@drawable/spinner_bg1" />
                 </LinearLayout>
 
-<!--
-                <LinearLayout
-                    android:id="@+id/ll_jail_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                <!--
+                                <LinearLayout
+                                    android:id="@+id/ll_jail_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/jail_name"
-                        android:textColor="@color/color_black"
-                        android:textSize="12sp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/jail_name"
+                                        android:textColor="@color/color_black"
+                                        android:textSize="12sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
 
-                        <EditText
-                            android:id="@+id/et_jail_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:background="@drawable/textboxshape"
-                            android:focusableInTouchMode="true"
-                            android:hint="@string/enter_here"
-                            android:inputType="textCapWords"
-                            android:maxLength="30"
-                            android:padding="10dp"
-                            android:singleLine="true"
-                            android:textColor="#222222"
-                            android:textSize="15sp" />
+                                        <EditText
+                                            android:id="@+id/et_jail_name"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="4dp"
+                                            android:background="@drawable/textboxshape"
+                                            android:focusableInTouchMode="true"
+                                            android:hint="@string/enter_here"
+                                            android:inputType="textCapWords"
+                                            android:maxLength="30"
+                                            android:padding="10dp"
+                                            android:singleLine="true"
+                                            android:textColor="#222222"
+                                            android:textSize="15sp" />
 
 
-                    </RelativeLayout>
+                                    </RelativeLayout>
 
-                </LinearLayout>
--->
+                                </LinearLayout>
+                -->
                 <LinearLayout
                     android:id="@+id/ll_jail_name"
                     android:layout_width="match_parent"
@@ -744,6 +743,7 @@
                         android:layout_marginTop="4dp"
                         android:background="@drawable/spinner_bg1" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_jail_add"
                     android:layout_width="match_parent"
@@ -821,7 +821,6 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -940,7 +939,6 @@
                     </RelativeLayout>
 
                 </LinearLayout>
-
 
 
                 <LinearLayout
@@ -1690,7 +1688,6 @@
                     </LinearLayout>
 
 
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -1809,7 +1806,6 @@
 
 
                     </LinearLayout>
-
 
 
                 </LinearLayout>
@@ -2094,8 +2090,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -2125,17 +2121,18 @@
                             android:singleLine="true"
                             android:textColor="#222222"
                             android:textSize="15sp" />
+
                         <TextView
                             android:id="@+id/txt_add_more_facility"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:textSize="12sp"
-                            android:padding="5dp"
                             android:layout_marginTop="5dp"
-                            android:textColor="@color/color_white"
                             android:background="@drawable/buttonshape"
-                            android:text="@string/add_more_facility"/>
+                            android:padding="5dp"
+                            android:text="@string/add_more_facility"
+                            android:textColor="@color/color_white"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
