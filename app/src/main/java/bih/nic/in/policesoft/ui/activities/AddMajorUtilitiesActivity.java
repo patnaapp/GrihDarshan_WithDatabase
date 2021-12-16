@@ -31,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
@@ -1135,9 +1134,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
                        }
                    }
+                   else {
+                       setPrisonMaster_List();
+                   }
                 }
                 else {
-                    setPrisonMaster_List();
                     jail_TypeCode = "";
                 }
                 break;
