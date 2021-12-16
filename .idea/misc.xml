@@ -8,6 +8,8 @@
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_contact.xml" value="0.2609375" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_major_utilities.xml" value="0.33" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_office_under_police.xml" value="0.33" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_health_sub_centre_entry.xml" value="0.2609375" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_login.xml" value="0.2609375" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_main.xml" value="0.2609375" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_splash.xml" value="0.2" />
@@ -17,7 +19,10 @@
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/demoui.xml" value="0.27291666666666664" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/fragment_home.xml" value="0.27291666666666664" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/header_main.xml" value="0.2609375" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/preview_addcontact_bottom_layout.xml" value="0.2609375" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/preview_addmajorutil_bottom_layout.xml" value="0.27291666666666664" />
+        <entry key="..\:/PoliceSoft/app/src/main/res/layout/psdetails_dilog.xml" value="0.2609375" />
+        <entry key="..\:/Users/NIC/Desktop/PoliceSoftDuplicate/app/src/main/res/layout/activity_add_major_utilities.xml" value="0.2609375" />
       </map>
     </option>
   </component>

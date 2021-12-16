@@ -82,10 +82,10 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
 
-   //public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
-   //public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+    //public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
+    //public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
 
-     public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
+    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
     public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
 
     // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
@@ -141,7 +141,6 @@ public class WebServiceHelper {
             return null;
         }
         return versioninfo;
-
     }
 
 
@@ -256,8 +255,7 @@ public class WebServiceHelper {
 
     public static SoapObject getServerData(String methodName, Class bindClass, String param1, String param2, String param3, String value1, String value2, String value3) {
         SoapObject res1;
-        try
-        {
+        try {
             SoapObject request = new SoapObject(SERVICENAMESPACE, methodName);
             request.addProperty(param1, value1);
             request.addProperty(param2, value2);
@@ -269,9 +267,7 @@ public class WebServiceHelper {
             HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
             androidHttpTransport.call(SERVICENAMESPACE + methodName, envelope);
             res1 = (SoapObject) envelope.getResponse();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -1340,7 +1336,7 @@ public class WebServiceHelper {
         return pvmArrayList;
     }
 
-    public static ArrayList<MajorUtilitiesFromServer> GetMajorUtil(Context context, String Uid, String Password, String token,String role) {
+    public static ArrayList<MajorUtilitiesFromServer> GetMajorUtil(Context context, String Uid, String Password, String token, String role) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Major_Util_Details);
         SoapObject res1;
         ArrayList<MajorUtilitiesFromServer> pvmArrayList = new ArrayList<MajorUtilitiesFromServer>();
@@ -1348,7 +1344,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_Role;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass, Enc_Role;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -1411,7 +1407,7 @@ public class WebServiceHelper {
         return pvmArrayList;
     }
 
-    public static ArrayList<OfficeListFromServer> GetOffice(Context context, String Uid, String Password, String token,String role) {
+    public static ArrayList<OfficeListFromServer> GetOffice(Context context, String Uid, String Password, String token, String role) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Office_List_Details);
         SoapObject res1;
         ArrayList<OfficeListFromServer> pvmArrayList = new ArrayList<OfficeListFromServer>();
@@ -1419,7 +1415,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_Role;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass, Enc_Role;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -2783,7 +2779,7 @@ public class WebServiceHelper {
         Element poleElement = doc.getDocumentElement();
         try {
             poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
-          //  poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPassword()), RandomNo)));
+            //  poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getRange_Code()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "SubDiv_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getSubDiv_Code()), RandomNo)));
@@ -2794,8 +2790,8 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Major_Crime_HeadAddress", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getMajor_Crime_HeadAddress()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Chronic_Land_DistributeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getChronic_Land_DistributeCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Chronic_Land_Add", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getChronic_Land_Add()), RandomNo)));
-           // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_Name()), RandomNo)));
-           // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_VillName", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_VillName()), RandomNo)));
+            // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_Name", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_Name()), RandomNo)));
+            // poleElement.appendChild(getSoapPropert(doc, "Kabrishtan_VillName", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getKabrishtan_VillName()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Land_DetailCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getLand_DetailCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Boundary_StatusCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getBoundary_StatusCode()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_TypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_TypeCode()), RandomNo)));
@@ -2862,7 +2858,6 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Jail_Hospital", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Hospital()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_Kitchen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Kitchen()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_Dormitory", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Dormitory()), RandomNo)));
-
 
 
             poleElement.appendChild(getSoapPropert(doc, "skey", Enc_SKey));
@@ -3042,7 +3037,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_dist;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass, Enc_dist;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);

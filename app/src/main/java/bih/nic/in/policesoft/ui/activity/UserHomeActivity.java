@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
@@ -53,7 +55,6 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
 
     private ProgressDialog dialog;
     HomeFragment homeFrag;
-    SQLiteDatabase db;
     DataBaseHelper dataBaseHelper;
 
     @Override
@@ -63,7 +64,20 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         dataBaseHelper = new DataBaseHelper(getApplicationContext());
+        try {
+            dataBaseHelper.createDataBase();
+        } catch (IOException ioe) {
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            dataBaseHelper.openDataBase();
+        } catch (SQLException sqle) {
+            throw sqle;
+        }
+
 
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
@@ -145,15 +159,13 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
-    public void displaySelectedFragment(Fragment fragment)
-    {
+    public void displaySelectedFragment(Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_host_fragment, fragment);
         ft.commit();
     }
 
-    private void confirmLogout()
-    {
+    private void confirmLogout() {
         SplashActivity.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = SplashActivity.prefs.edit();
         editor.putBoolean("username", false);
@@ -171,8 +183,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         finish();
     }
 
-    private void logout()
-    {
+    private void logout() {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setIcon(R.drawable.logo)
@@ -188,18 +199,14 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     }
 
     @Override
-    public void onSyncMasterData()
-    {
+    public void onSyncMasterData() {
         syncData();
     }
 
-    private void syncData()
-    {
-        if (Utiilties.isOnline(this))
-        {
+    private void syncData() {
+        if (Utiilties.isOnline(this)) {
 
-        } else
-            {
+        } else {
             Utiilties.showInternetAlert(this);
         }
 

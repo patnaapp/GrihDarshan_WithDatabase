@@ -28,26 +28,19 @@ import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.databinding.ActivityAddContactBinding;
-import bih.nic.in.policesoft.databinding.ActivityAddOutpostBinding;
 import bih.nic.in.policesoft.entity.BlockList;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
-import bih.nic.in.policesoft.entity.OutPostEntry;
-import bih.nic.in.policesoft.entity.Range;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
 import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
 import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetAddContact;
-import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetOutPost;
-import bih.nic.in.policesoft.ui.interfacep.LogoutFromApp;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.Constants;
 import bih.nic.in.policesoft.utility.CustomAlertDialog;
-import bih.nic.in.policesoft.utility.GlobalVariables;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddContactActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
     String User_Id = "", Range_Code = "", Dist_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Contact_Code = "", Contact_Name = "";
@@ -528,8 +521,6 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     private class GetContactDetails extends AsyncTask<String, Void, ArrayList<ContactDetailsFromServer>> {
         String userId, Password, Token;
 
-        private final ProgressDialog dialog = new ProgressDialog(AddContactActivity.this);
-
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
@@ -807,7 +798,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
     }
 
-    public void onClick_ViewImg(View v) {
+    public void onClick_ViewImg() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.viewimage, null);
@@ -916,8 +907,6 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
     private class GETBlockList extends AsyncTask<String, Void, ArrayList<BlockList>> {
         String userId, Password, Token,Dist;
-
-        private final ProgressDialog dialog = new ProgressDialog(AddContactActivity.this);
 
         @Override
         protected void onPreExecute() {

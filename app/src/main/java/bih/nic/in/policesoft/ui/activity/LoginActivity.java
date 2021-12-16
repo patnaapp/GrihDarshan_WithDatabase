@@ -182,8 +182,7 @@ public class LoginActivity extends Activity {
 
 
 
-                    if (result.get_isAuth().equalsIgnoreCase("Y"))
-                    {
+                    if (result.get_isAuth().equalsIgnoreCase("Y")) {
 
                         if (result.getRole().equals("PS")) {
 

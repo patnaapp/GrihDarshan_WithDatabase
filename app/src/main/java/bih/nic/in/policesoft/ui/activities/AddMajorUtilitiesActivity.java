@@ -3,23 +3,16 @@ package bih.nic.in.policesoft.ui.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,35 +20,25 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.FacilityListAdaptor;
 import bih.nic.in.policesoft.adaptor.takegpsListAdaptor;
-import bih.nic.in.policesoft.databinding.ActivityAddContactBinding;
+import bih.nic.in.policesoft.database.DataBaseHelper;
 import bih.nic.in.policesoft.databinding.ActivityAddMajorUtilitiesBinding;
-import bih.nic.in.policesoft.entity.ContactDetailsEntry;
-import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
-import bih.nic.in.policesoft.entity.DefaultResponse_OutPost;
 import bih.nic.in.policesoft.entity.FireTypeServer;
 
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
@@ -64,21 +47,16 @@ import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
-import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
 import bih.nic.in.policesoft.entity.OtherFacility;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
-import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
-import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetAddContact;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
-import bih.nic.in.policesoft.utility.Constants;
 import bih.nic.in.policesoft.utility.CustomAlertDialog;
 import bih.nic.in.policesoft.utility.GlobalVariables;
 import bih.nic.in.policesoft.utility.GpsTracker;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
-import butterknife.internal.Utils;
 
 public class AddMajorUtilitiesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
     //String User_Id = "", Range_Code = "", Dist_Code = "",Jail_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
@@ -88,10 +66,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             court_Address = "", fair_Festival_Name = "", fair_Festival_Address = "", historical_Place_Name = "", historical_Place_Address = "", remarks = "",
             photo = "", latitude = "", longitude = "", entry_Mode = "", imei_Num = "", app_Ver = "", device_Type = "", religious_PlaceType = "", religious_PlaceName = "",
             historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "", fire_TypeCode = "", hydrant_Type_Code = "", hydrant_Name = "", fire_Prone_Name = "",
-            fire_Status = "", skey = "", cap = "",firetypecode_Code="";
+            fire_Status = "", skey = "", cap = "", firetypecode_Code = "";
 
     String major_UtilName = "";
-    String isToilet_avail="",isKitchen_Avail="",isHospital_Avail="",isDormitory_Avail="";
+    String isToilet_avail = "", isKitchen_Avail = "", isHospital_Avail = "", isDormitory_Avail = "";
+    DataBaseHelper dataBaseHelper;
 
     private CustomAlertDialog customAlertDialog;
     private ActivityAddMajorUtilitiesBinding binding;
@@ -135,6 +114,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         facilitylist = new ArrayList<>();
         _encrptor = new Encriptor();
 
+
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+
+
+
         user_id = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getUserID();
         range_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRange_Code();
         dist_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPolice_Dist_Code();
@@ -144,12 +128,21 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
         Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
-        if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-            new GetMajorUtil(user_id, password, Token,CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
+        Major_Util_List = dataBaseHelper.getMajorUtilLocal();
+        if (Major_Util_List.size() <= 0) {
+            if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+                new GetMajorUtil(user_id, password, Token, CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
 
-        } else {
-            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
+        else {
+            setMajorDetailsSpinner();
+        }
+
+
+
 
         binding.llHistrocialPlaceName.setVisibility(View.GONE);
         binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
@@ -249,7 +242,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkToiletNo.setChecked(false);
-                    isToilet_avail="Y";
+                    isToilet_avail = "Y";
 
                 }
             }
@@ -260,7 +253,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkToiletYes.setChecked(false);
-                    isToilet_avail="N";
+                    isToilet_avail = "N";
                 }
             }
         });
@@ -270,7 +263,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkKitchenNo.setChecked(false);
-                    isKitchen_Avail="Y";
+                    isKitchen_Avail = "Y";
 
                 }
             }
@@ -280,7 +273,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkKitchenYes.setChecked(false);
-                    isKitchen_Avail="N";
+                    isKitchen_Avail = "N";
                 }
             }
         });
@@ -290,7 +283,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkHospitalNo.setChecked(false);
-                    isHospital_Avail="Y";
+                    isHospital_Avail = "Y";
 
                 }
             }
@@ -300,7 +293,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkHospitalYes.setChecked(false);
-                    isHospital_Avail="N";
+                    isHospital_Avail = "N";
                 }
             }
         });
@@ -310,7 +303,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     binding.chkDormitoryNo.setChecked(false);
-                    isDormitory_Avail="Y";
+                    isDormitory_Avail = "Y";
                 }
             }
         });
@@ -319,18 +312,18 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     binding.chkDormitoryYes.setChecked(false);
-                    isDormitory_Avail="N";
+                    isDormitory_Avail = "N";
                 }
             }
         });
 
         binding.btnPreview.setOnClickListener(view -> {
-            String MajorCrimeHeadAddress="", chronicLandDisputeAddress="", religious_place_name="", name_Of_Village, JailName, JailAddress="", EstablishYear="",
-                    Historical_imp_of_prison="", Best_Practices_Prison="", Reform_Activities_Prison="", major_fair_festival_name="", major_fair_festival_add="",
-                    Historical_place_Name="", Historical_Place_Address="", Hydration_Name="", Fire_Prone_Name="", Fire_Address="", Remarks="", Male_Capacity="",
-                    Female_Capacity="", Other_Capacity="", Under_Trial_Male="", Under_Trial_Female="", Under_Trial_Other="", Convicted_Male="", Convicted_Female="", Convicted_Other="",
-                    Transit_Male="", Transit_Female="", Transit_Other="", Male_Under_Eighteen="", Female_Under_Eighteen="", Other_Under_Eighteen="", Male_Over_Eighteen="", Female_Over_Eighteen="",
-                    Other_Over_Eighteen="", Male_Foreigner="", Female_Foreigner="", Other_Foreigner="", Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory;
+            String MajorCrimeHeadAddress = "", chronicLandDisputeAddress = "", religious_place_name = "", name_Of_Village, JailName, JailAddress = "", EstablishYear = "",
+                    Historical_imp_of_prison = "", Best_Practices_Prison = "", Reform_Activities_Prison = "", major_fair_festival_name = "", major_fair_festival_add = "",
+                    Historical_place_Name = "", Historical_Place_Address = "", Hydration_Name = "", Fire_Prone_Name = "", Fire_Address = "", Remarks = "", Male_Capacity = "",
+                    Female_Capacity = "", Other_Capacity = "", Under_Trial_Male = "", Under_Trial_Female = "", Under_Trial_Other = "", Convicted_Male = "", Convicted_Female = "", Convicted_Other = "",
+                    Transit_Male = "", Transit_Female = "", Transit_Other = "", Male_Under_Eighteen = "", Female_Under_Eighteen = "", Other_Under_Eighteen = "", Male_Over_Eighteen = "", Female_Over_Eighteen = "",
+                    Other_Over_Eighteen = "", Male_Foreigner = "", Female_Foreigner = "", Other_Foreigner = "", Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory;
 
             MajorCrimeHeadAddress = binding.etMajorCrimeHeadAddress.getText().toString().trim();
             chronicLandDisputeAddress = binding.etLandDisputeAddress.getText().toString().trim();
@@ -346,9 +339,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             if (major_UtilCode.equals("5")) {
                 major_fair_festival_add = binding.etFairFestivalAddress.getText().toString().trim();
-            }
-            else {
-                major_fair_festival_add ="";
+            } else {
+                major_fair_festival_add = "";
             }
 
             Historical_place_Name = binding.etHistoricalName.getText().toString().trim();
@@ -357,9 +349,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             Fire_Prone_Name = binding.etFireProneLocation.getText().toString();
             if (major_UtilCode.equals("10")) {
                 Fire_Address = binding.etFairFestivalAddress.getText().toString();
-            }
-            else {
-                Fire_Address ="";
+            } else {
+                Fire_Address = "";
             }
 
             Remarks = binding.etRemarks.getText().toString().trim();
@@ -426,7 +417,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etRemarks;
                     cancelRegistration = true;
                 }
-
             }
             if (major_UtilCode.equalsIgnoreCase("2")) {
                 if (TextUtils.isEmpty(chronic_LandDistributeCode)) {
@@ -684,7 +674,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etOtherForeigner;
                     cancelRegistration = true;
                 }
-                    if (TextUtils.isEmpty(Remarks)) {
+                if (TextUtils.isEmpty(Remarks)) {
                     binding.etRemarks.setError(null);
                     binding.etRemarks.setError(getResources().getString(R.string.remarks__required_field));
                     Toast.makeText(AddMajorUtilitiesActivity.this, getResources().getString(R.string.remarks__required_field), Toast.LENGTH_SHORT).show();
@@ -967,6 +957,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         });
 
+
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -987,11 +978,63 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 } else {
                     Toast.makeText(getApplicationContext(), "Wait for gps to become stable", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
     }
 
+    private void insertIntoLocal() {
+        long id = 0;
+        DataBaseHelper insertData = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        MajorUtilEntry newEntry = new MajorUtilEntry();
+        newEntry.setMajor_UtilCode(major_UtilCode);
+        newEntry.setPassword(password);
+        newEntry.setRange_Code(range_Code);
+        newEntry.setSubDiv_Code(subDiv_Code);
+        newEntry.setDist_Code(dist_code);
+        newEntry.setThana_code(thana_code);
+        newEntry.setMajor_Crime_HeadCode(major_CrimeHeadCode);
+        newEntry.setMajor_Crime_HeadAddress(major_CrimeHeadAddress);
+        newEntry.setChronic_Land_DistributeCode(chronic_LandDistributeCode);
+        newEntry.setChronic_Land_Add(chronic_Land_Add);
+        newEntry.setLand_DetailCode(land_DetailsCode);
+        newEntry.setBoundary_StatusCode(boundary_StatusCode);
+        newEntry.setJail_TypeCode(jail_TypeCode);
+        newEntry.setJail_Name(jail_Name);
+        newEntry.setJail_Address(jail_Address);
+        newEntry.setStarted_Year(started_Year);
+        newEntry.setJail_Capacity(jail_Capacity);
+        newEntry.setType_Court_Code(type_Court_Code);
+        newEntry.setName_Of_Court(name_Of_Court);
+        newEntry.setCourt_Address(court_Address);
+        newEntry.setFair_Festival_Name(fair_Festival_Name);
+        newEntry.setFair_Festival_Address(fair_Festival_Address);
+        newEntry.setHistorical_Place_Name(historical_Place_Name);
+        newEntry.setHistorical_Place_Address(historical_Place_Address);
+        newEntry.setRemarks(remarks);
+        newEntry.setPhoto(photo);
+        newEntry.setLatitude(latitude);
+        newEntry.setLongitude(longitude);
+        newEntry.setEntry_Mode(entry_Mode);
+        newEntry.setImei_Num(imei_Num);
+        newEntry.setFire_Status("status");
+        newEntry.setFire_TypeCode(fire_TypeCode);
+        newEntry.setFire_Prone_Name(fire_Prone_Name);
+
+        id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, newEntry);
+        if (id > 0) {
+
+//            Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
+//            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("index", Long.toString(id)).commit();
+//            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("KeyId", Long.toString(id)).commit();
+//            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("edited", isEdit).commit();
+
+
+            finish();
+
+        } else {
+            Toast.makeText(getApplicationContext(), "डेटा सहेजा नहीं गया", Toast.LENGTH_LONG).show();
+        }
+    }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getId()) {
@@ -1083,13 +1126,18 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     getPrisionypeServer = PrisionType_List.get(i - 1);
                     jail_TypeCode = getPrisionypeServer.getJail_Type_Code();
 
-                    if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-                        new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
-                    } else {
-                        Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
-                    }
+                    prisionMaster_List = dataBaseHelper.getPrisonMasterLocal();
+                   if (prisionMaster_List.size() <= 0) {
+                       if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+                           new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
 
-                } else {
+                       } else {
+                           Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                       }
+                   }
+                }
+                else {
+                    setPrisonMaster_List();
                     jail_TypeCode = "";
                 }
                 break;
@@ -1118,7 +1166,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (i > 0) {
                     fireTypeServer = FireType_List.get(i - 1);
                     fire_TypeCode = fireTypeServer.getFireType_Code();
-                   // Util_Name = majorutilFromServer.getUtil_Name();
+                    // Util_Name = majorutilFromServer.getUtil_Name();
                     if (fireTypeServer.getFireType_Code().equals("1")) {
                         binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
                         binding.llFireProneLocation.setVisibility(View.GONE);
@@ -1185,8 +1233,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             if (result != null) {
                 if (result.size() > 0) {
-                    prisionMaster_List = result;
-                    setPrisonMaster_List(result);
+                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    //prisionMaster_List = result;
+                    long c = dataBaseHelper.setPrisonMasterLocal(result);
+                    if (c>0){
+                        setPrisonMaster_List();
+                    }
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
@@ -1195,8 +1247,11 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
     }
 
-    public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList) {
-        prisionMaster_List = RangeList;
+    // Local DataBase
+    public void setPrisonMaster_List() {
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        prisionMaster_List = dataBaseHelper.getPrisonMasterLocal();
+
         ArrayList array = new ArrayList<String>();
         array.add("-Select Prison Master-");
 
@@ -1208,6 +1263,19 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnJailName.setAdapter(adaptor);
         binding.spnJailName.setOnItemSelectedListener(this);
     }
+  /*  public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList) {
+        prisionMaster_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Prison Master-");
+
+        for (GetPrisionMasterServer info : prisionMaster_List) {
+            array.add(info.getJail_Name());
+        }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnJailName.setAdapter(adaptor);
+        binding.spnJailName.setOnItemSelectedListener(this);
+    }*/
 
 
     private class GetPrisionType extends AsyncTask<String, Void, ArrayList<GetPrisionypeServer>> {
@@ -1370,7 +1438,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
     private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
-        String userId, Password, Token,role;
+        String userId, Password, Token, role;
 
         private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
 
@@ -1379,7 +1447,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             customAlertDialog.showDialog();
         }
 
-        public GetMajorUtil(String userId, String password, String token,String Role) {
+        public GetMajorUtil(String userId, String password, String token, String Role) {
             this.userId = userId;
             Token = token;
             Password = password;
@@ -1388,7 +1456,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
         @Override
         protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
-            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token,role);
+            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token, role);
         }
 
         @Override
@@ -1397,19 +1465,33 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             if (result != null) {
                 if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                   // Major_Util_List = result;
+                    long c = helper.setMajorUtilitiesLocal(result);
 
-                    Major_Util_List = result;
-                    setMajorDetailsSpinner(result);
+                    if(c>0)
+                    {
+                        setMajorDetailsSpinner();
+                    }
+
+
                 } else {
                     Toast.makeText(getApplicationContext(), "No Utilities Found", Toast.LENGTH_SHORT).show();
                 }
 
             }
+            else{
+                Toast.makeText(getApplicationContext(), "Result: null", Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
-    public void setMajorDetailsSpinner(ArrayList<MajorUtilitiesFromServer> RangeList) {
-        Major_Util_List = RangeList;
+    public void setMajorDetailsSpinner() {
+
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        Major_Util_List = dataBaseHelper.getMajorUtilLocal();
+
         ArrayList array = new ArrayList<String>();
         array.add("-Select Major Utilities-");
 
@@ -1424,7 +1506,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
 
     }
-
 
     public void visibleTrueFalse() {
         if (major_UtilCode.equals("1")) {
@@ -2006,6 +2087,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnReligionType.setOnItemSelectedListener(this);
 
     }
+
 
 
     public void load_Major_Crime() {
