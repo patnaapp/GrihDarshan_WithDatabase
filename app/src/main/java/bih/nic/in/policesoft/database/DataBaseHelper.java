@@ -18,7 +18,10 @@ import java.util.ArrayList;
 
 import bih.nic.in.policesoft.entity.CourtSubType_Entity;
 import bih.nic.in.policesoft.entity.CourtType_Entity;
+import bih.nic.in.policesoft.entity.FireTypeServer;
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
+import bih.nic.in.policesoft.entity.GetPrisionypeServer;
+import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
@@ -172,15 +175,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         long c = -1;
 
         try {
-           DataBaseHelper placeData = new DataBaseHelper(newEntryActivity);
+            DataBaseHelper placeData = new DataBaseHelper(newEntryActivity);
             SQLiteDatabase db = placeData.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("major_UtilCode",result.getMajor_UtilCode());
-            values.put("user_id",result.getUser_Id());
-            values.put("password",result.getPassword());
-            values.put("fair_Festival_Name",result.getFair_Festival_Name());
-            values.put("court_Address",result.getCourt_Address());
-            values.put("fair_Festival_Address",result.getFair_Festival_Address());
+            values.put("major_UtilCode", result.getMajor_UtilCode());
+            values.put("user_id", result.getUser_Id());
+            values.put("password", result.getPassword());
+            values.put("fair_Festival_Name", result.getFair_Festival_Name());
+            values.put("court_Address", result.getCourt_Address());
+            values.put("fair_Festival_Address", result.getFair_Festival_Address());
 
             values.put("Flag", "I");
             c = db.insert("majorUtils", null, values);
@@ -195,7 +198,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-
+    //MajorUtilitiesLocal
     public long setMajorUtilitiesLocal(ArrayList<MajorUtilitiesFromServer> list) {
 
 
@@ -265,6 +268,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return bdetail;
     }
 
+    //PrisonMasterLocal
     public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list) {
 
 
@@ -620,5 +624,203 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return bdetail;
     }
+
+
+    //PrisonTypeLocal
+    public long setPrisonTypeLocal(ArrayList<GetPrisionypeServer> list) {
+        long c = -1;
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<GetPrisionypeServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("PrisonType_List", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Jail_Type", info.get(i).getJail_Type());
+                    values.put("Jail_Type_Code", info.get(i).getJail_Type_Code());
+
+                    String[] whereArgs = new String[]{info.get(i).getJail_Type()};
+
+                    c = db.update("PrisonType_List", values, "Jail_Type=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("PrisonType_List", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+
+    public ArrayList<GetPrisionypeServer> getPrisonTypeLocal() {
+        ArrayList<GetPrisionypeServer> bdetail = new ArrayList<GetPrisionypeServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from PrisonType_List order by Jail_Type_Code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                GetPrisionypeServer prisionType = new GetPrisionypeServer();
+                prisionType.setJail_Type_Code(cur.getString(cur.getColumnIndex("Jail_Type_Code")));
+                prisionType.setJail_Type((cur.getString(cur.getColumnIndex("Jail_Type"))));
+                bdetail.add(prisionType);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+    //FireTypeLocal
+    public long setFireTypeLocal(ArrayList<FireTypeServer> list) {
+        long c = -1;
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<FireTypeServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("FireType", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("FireType_Name", info.get(i).getFireType_Name());
+                    values.put("FireType_Code", info.get(i).getFireType_Code());
+
+                    String[] whereArgs = new String[]{info.get(i).getFireType_Name()};
+
+                    c = db.update("FireType", values, "FireType_Name=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("FireType", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public ArrayList<FireTypeServer> getFireTypeLocal() {
+        ArrayList<FireTypeServer> bdetail = new ArrayList<FireTypeServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from FireType order by FireType_Code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                FireTypeServer FireType = new FireTypeServer();
+                FireType.setFireType_Code(cur.getString(cur.getColumnIndex("FireType_Code")));
+                FireType.setFireType_Name((cur.getString(cur.getColumnIndex("FireType_Name"))));
+                bdetail.add(FireType);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+    // TypeOfHydrantLocal
+    public long setTypeOfHydrantLocal(ArrayList<GetTypeOfHydrantServer> list) {
+        long c = -1;
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<GetTypeOfHydrantServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("Hydrant_List", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Hydrant_Type", info.get(i).getHydrant_Type());
+                    values.put("Hydrant_Code", info.get(i).getHydrant_Code());
+
+                    String[] whereArgs = new String[]{info.get(i).getHydrant_Type()};
+
+                    c = db.update("Hydrant_List", values, "Hydrant_Type=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("Hydrant_List", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+
+    public ArrayList<GetTypeOfHydrantServer> getTypeofHydrantLocal() {
+        ArrayList<GetTypeOfHydrantServer> bdetail = new ArrayList<GetTypeOfHydrantServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from Hydrant_List order by Hydrant_Code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                GetTypeOfHydrantServer hydrantServer = new GetTypeOfHydrantServer();
+                hydrantServer.setHydrant_Type(cur.getString(cur.getColumnIndex("Hydrant_Type")));
+                hydrantServer.setHydrant_Code((cur.getString(cur.getColumnIndex("Hydrant_Code"))));
+                bdetail.add(hydrantServer);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
 
 }

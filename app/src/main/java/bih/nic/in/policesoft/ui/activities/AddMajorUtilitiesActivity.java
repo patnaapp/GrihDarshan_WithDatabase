@@ -1301,9 +1301,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             customAlertDialog.dismisDialog();
 
             if (result != null) {
-                if (result.size() > 0) {
-                    PrisionType_List = result;
-                    setPrision_Type(result);
+                if (result.size() > 0){
+                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = dataBaseHelper.setPrisonTypeLocal(result);
+                    if (c > 0) {
+                        setPrision_Type();
+                }
+
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
@@ -1312,8 +1316,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         }
     }
 
-    public void setPrision_Type(ArrayList<GetPrisionypeServer> RangeList) {
-        PrisionType_List = RangeList;
+    public void setPrision_Type() {
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        PrisionType_List = dataBaseHelper.getPrisonTypeLocal();
+        //PrisionType_List = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Prison Type-");
 
@@ -1353,12 +1359,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             if (result != null) {
                 if (result.size() > 0) {
-
-                    FireType_List = result;
-                    setFireType(result);
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = helper.setFireTypeLocal(result);
+                    if (c > 0){
+                        setFireType();
+                    }
+                   // FireType_List = result;
+                    //setFireType(result);
                     new TypeofHydration(user_id, Password, Token).execute();
                 } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No FireType Found", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1366,8 +1376,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
     }
 
-    public void setFireType(ArrayList<FireTypeServer> RangeList) {
-        FireType_List = RangeList;
+    public void setFireType() {
+       // FireType_List = RangeList;
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        FireType_List = dataBaseHelper.getFireTypeLocal();
         ArrayList array = new ArrayList<String>();
         array.add("-Select Fire Type-");
 
@@ -1409,20 +1421,24 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
             if (result != null) {
                 if (result.size() > 0) {
-
-                    TypeofHydration_List = result;
-                    TypeOfHydration(result);
-
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = helper.setTypeOfHydrantLocal(result);
+                    if (c > 0){
+                        TypeOfHydration();
+                    }
+                    //TypeofHydration_List = result;
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "No TypeOfHydrant Found", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
-    public void TypeOfHydration(ArrayList<GetTypeOfHydrantServer> RangeList) {
-        TypeofHydration_List = RangeList;
+    public void TypeOfHydration() {
+        //TypeofHydration_List = RangeList;
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        TypeofHydration_List = dataBaseHelper.getTypeofHydrantLocal();
         ArrayList array = new ArrayList<String>();
         array.add("-Type of Hydrant-");
 
@@ -1467,8 +1483,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                    // Major_Util_List = result;
                     long c = helper.setMajorUtilitiesLocal(result);
 
-                    if(c>0)
-                    {
+                    if(c>0) {
                         setMajorDetailsSpinner();
                     }
 
