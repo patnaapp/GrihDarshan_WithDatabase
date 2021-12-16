@@ -1122,7 +1122,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     getPrisionypeServer = PrisionType_List.get(i - 1);
                     jail_TypeCode = getPrisionypeServer.getJail_Type_Code();
 
-                    prisionMaster_List = dataBaseHelper.getPrisonMasterLocal();
+                    prisionMaster_List = dataBaseHelper.getPrisonMasterLocal(dist_code, jail_TypeCode);
                    if (prisionMaster_List.size() <= 0) {
                        if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
                            new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
@@ -1233,7 +1233,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
                     dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     //prisionMaster_List = result;
-                    long c = dataBaseHelper.setPrisonMasterLocal(result);
+                    long c = dataBaseHelper.setPrisonMasterLocal(result,Dist_Code, Jail_Code);
                     if (c>0){
                         setPrisonMaster_List();
                     }
@@ -1248,7 +1248,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     // Local DataBase
     public void setPrisonMaster_List() {
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-        prisionMaster_List = dataBaseHelper.getPrisonMasterLocal();
+        prisionMaster_List = dataBaseHelper.getPrisonMasterLocal(dist_code, jail_TypeCode);
 
         ArrayList array = new ArrayList<String>();
         array.add("-Select Prison Master-");

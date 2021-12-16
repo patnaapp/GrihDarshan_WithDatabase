@@ -269,7 +269,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //PrisonMasterLocal
-    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list) {
+    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list,String distcode,String jailtype) {
 
 
         long c = -1;
@@ -296,6 +296,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("PrisionName", info.get(i).getJail_Name());
                     values.put("PrisonCode", info.get(i).getJail_Code());
+                    values.put("Distcode",distcode);
+                    values.put("JailType_Code",jailtype);
 
                     String[] whereArgs = new String[]{info.get(i).getJail_Code()};
 
@@ -319,11 +321,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal() {
+    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal(String distcode,String jailtype_code) {
         ArrayList<GetPrisionMasterServer> bdetail = new ArrayList<GetPrisionMasterServer>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("select * from PrisonMaster_List order by PrisonCode", null);
+            String[] whereArgs = new String[]{distcode,jailtype_code};
+            Cursor cur = db.rawQuery("select * from PrisonMaster_List where Distcode=? AND JailType_Code=? order by PrisonCode", whereArgs);
             int x = cur.getCount();
             while (cur.moveToNext()) {
                 GetPrisionMasterServer prisionMaster = new GetPrisionMasterServer();
