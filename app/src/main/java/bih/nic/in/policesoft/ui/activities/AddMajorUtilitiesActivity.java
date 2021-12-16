@@ -140,9 +140,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             setMajorDetailsSpinner();
         }
 
-
-
-
         binding.llHistrocialPlaceName.setVisibility(View.GONE);
         binding.llHistrocialPlaceAdd.setVisibility(View.GONE);
         binding.llMajorFairFestival.setVisibility(View.GONE);

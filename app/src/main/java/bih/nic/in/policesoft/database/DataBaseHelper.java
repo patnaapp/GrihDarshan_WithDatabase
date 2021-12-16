@@ -16,9 +16,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import bih.nic.in.policesoft.entity.CourtSubType_Entity;
+import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
+import bih.nic.in.policesoft.entity.OfficeListFromServer;
+import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.UserDetails;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 
@@ -322,6 +326,293 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 prisionMaster.setJail_Name(cur.getString(cur.getColumnIndex("PrisionName")));
                 prisionMaster.setJail_Code((cur.getString(cur.getColumnIndex("PrisonCode"))));
                 bdetail.add(prisionMaster);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+
+
+    public long setOfficeTypeLocal(ArrayList<OfficeListFromServer> list) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<OfficeListFromServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("mst_OfficeType", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("OfficeType_code", info.get(i).getOffice_Code());
+                    values.put("OfficeType_Name", info.get(i).getOffice_Name());
+
+
+                    String[] whereArgs = new String[]{info.get(i).getOffice_Code()};
+
+                    c = db.update("mst_OfficeType", values, "OfficeType_code=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("mst_OfficeType", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public ArrayList<OfficeListFromServer> getOfficeTypeLocal() {
+        ArrayList<OfficeListFromServer> bdetail = new ArrayList<OfficeListFromServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from mst_OfficeType order by OfficeType_code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                OfficeListFromServer financial_year = new OfficeListFromServer();
+                financial_year.setOffice_Code(cur.getString(cur.getColumnIndex("OfficeType_code")));
+                financial_year.setOffice_Name((cur.getString(cur.getColumnIndex("OfficeType_Name"))));
+                bdetail.add(financial_year);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+    public ArrayList<CourtType_Entity> getCourtTypeLocal(String courtcateg) {
+        ArrayList<CourtType_Entity> bdetail = new ArrayList<CourtType_Entity>();
+        try {
+            String[] Whereargs = {courtcateg};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from mst_CourtType where CourtCateg_ID=?", Whereargs);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                CourtType_Entity financial_year = new CourtType_Entity();
+                financial_year.set_CourtId(cur.getString(cur.getColumnIndex("CourtType_Id")));
+                financial_year.set_CourtName((cur.getString(cur.getColumnIndex("CourtType_Name"))));
+                bdetail.add(financial_year);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+
+    public long setCourtLocal(ArrayList<CourtType_Entity> list,String courtcateg) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<CourtType_Entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("mst_CourtType", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("CourtType_Id", info.get(i).get_CourtId());
+                    values.put("CourtType_Name", info.get(i).get_CourtName());
+                    values.put("CourtCateg_ID",courtcateg);
+
+                    String[] whereArgs = new String[]{info.get(i).get_CourtId()};
+
+                    c = db.update("mst_CourtType", values, "CourtType_Id=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("mst_CourtType", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public long setOfficeNameMaster(ArrayList<Office_Name_List_Modal> list) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<Office_Name_List_Modal> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("mst_OfficeName", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Office_Code", info.get(i).getOfficeCode());
+                    values.put("Officce_Name", info.get(i).getOfficeName());
+                    values.put("Dist_Code",info.get(i).getDistrict_Code());
+                    values.put("OfficeType_Code",info.get(i).getOffice_Type_Code());
+                    values.put("Range_Code",info.get(i).getRange_Code());
+                    values.put("SubDiv_Code",info.get(i).getSubdivision_Code());
+
+                    String[] whereArgs = new String[]{info.get(i).getOfficeCode()};
+
+                    c = db.update("mst_OfficeName", values, "Office_Code=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("mst_OfficeName", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public ArrayList<Office_Name_List_Modal> getOfficeNameLocal(String officeType,String rangecode) {
+        ArrayList<Office_Name_List_Modal> bdetail = new ArrayList<Office_Name_List_Modal>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = new String[]{officeType,rangecode};
+            Cursor cur = db.rawQuery("select * from mst_OfficeName where OfficeType_Code=? or Range_Code=?", whereArgs);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                Office_Name_List_Modal financial_year = new Office_Name_List_Modal();
+                financial_year.setOfficeCode(cur.getString(cur.getColumnIndex("Office_Code")));
+                financial_year.setOfficeName((cur.getString(cur.getColumnIndex("Officce_Name"))));
+                financial_year.setOffice_Type_Code((cur.getString(cur.getColumnIndex("OfficeType_Code"))));
+                financial_year.setDistrict_Code((cur.getString(cur.getColumnIndex("Dist_Code"))));
+                financial_year.setRange_Code((cur.getString(cur.getColumnIndex("Range_Code"))));
+                financial_year.setSubdivision_Code((cur.getString(cur.getColumnIndex("SubDiv_Code"))));
+                bdetail.add(financial_year);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+
+    public long setCourtSubTypeMaster(ArrayList<CourtSubType_Entity> list) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<CourtSubType_Entity> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("CourtSubType", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Court_SubType_Id", info.get(i).get_Court_Sub_Type_Id());
+                    values.put("Court_SubType_Name", info.get(i).get_Court_Sub_Type_Name());
+
+                    String[] whereArgs = new String[]{info.get(i).get_Court_Sub_Type_Id()};
+
+                    c = db.update("CourtSubType", values, "Court_SubType_Id=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("CourtSubType", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+
+    public ArrayList<CourtSubType_Entity> getCourtSubTypeLocal() {
+        ArrayList<CourtSubType_Entity> bdetail = new ArrayList<CourtSubType_Entity>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor cur = db.rawQuery("select * from CourtSubType order by Court_SubType_Id", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                CourtSubType_Entity financial_year = new CourtSubType_Entity();
+                financial_year.set_Court_Sub_Type_Id(cur.getString(cur.getColumnIndex("Court_SubType_Id")));
+                financial_year.set_Court_Sub_Type_Name((cur.getString(cur.getColumnIndex("Court_SubType_Name"))));
+
+                bdetail.add(financial_year);
             }
             cur.close();
             db.close();

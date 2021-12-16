@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.takegpsListAdaptor;
+import bih.nic.in.policesoft.database.DataBaseHelper;
 import bih.nic.in.policesoft.databinding.ActivityAddOfficeUnderPoliceBinding;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
 import bih.nic.in.policesoft.entity.CourtSubType_Entity;
@@ -96,6 +97,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
     String OfficeLevel="",range_Code="",range_Name="",prosecutor_office_level="",courtCateg="";
     ArrayList officenamearray = new ArrayList<String>();
     String courtType_Code="",courtType_Name="",courtSubType_Code="",courtSubType_Name="";
+    DataBaseHelper dbHelper;
 
 
     @Override
@@ -105,6 +107,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         customAlertDialog = new CustomAlertDialog(AddOfficeUnderPoliceActivity.this);
         listgps= new  ArrayList<InspectionDetailsModel>();
         _encrptor=new Encriptor();
+        dbHelper=new DataBaseHelper(this);
 
         User_Id = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getUserID();
         Range_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRange_Code();
@@ -113,17 +116,24 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         SubDiv_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getSub_Div_Code();
         Thana_Code = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getThana_Code();
         Password = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getPassword();
-       // Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
+        // Token = CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getToken();
         Token =PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
         load_spinner();
 
-        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
-            new GetOfficeList(User_Id, Password, Token,CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole()).execute();
+        officesFromServersList=dbHelper.getOfficeTypeLocal();
+        if (officesFromServersList.size()<=0)
+        {
+            if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
+                new GetOfficeList(User_Id, Password, Token,CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole()).execute();
+            }
+            else {
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            setOfficeDetailsSpinner();
         }
-        else {
-            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
-        }
+
         binding.llRange.setVisibility(View.GONE);
         binding.llThanaNmae.setVisibility(View.GONE);
         binding.llRegualrHomegaurd.setVisibility(View.GONE);
@@ -169,8 +179,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         binding.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                switch(checkedId)
+                {
                     case R.id.radioOfficeState:
                         isStateOffice = true;
                         isDistOffice = false;
@@ -224,21 +236,42 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         binding.radioGroupCourt.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
                 switch(checkedId)
                 {
                     case R.id.radioCivilcourt:
                         // do operations specific to this selection
                         binding.llCourtSubType.setVisibility(View.VISIBLE);
                         courtCateg="1";
-                        new GetCourtTypeMaster().execute();
+                        courtTypeMaster=dbHelper.getCourtTypeLocal(courtCateg);
+                        if (courtTypeMaster.size()<=0)
+                        {
+                            if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
+                                new GetCourtTypeMaster().execute();
+                            }
+                            else {
+                                Toast.makeText(AddOfficeUnderPoliceActivity.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+                        else {
+                            setCourtTypeSpinner(courtCateg);
+                        }
                         break;
                     case R.id.radioJuvenileCourt:
                         // do operations specific to this selection
 
                         binding.llCourtSubType.setVisibility(View.GONE);
                         courtCateg="2";
-                        new GetCourtTypeMaster().execute();
+                        courtTypeMaster=dbHelper.getCourtTypeLocal(courtCateg);
+                        if (courtTypeMaster.size()<=0)
+                        {
+                            new GetCourtTypeMaster().execute();
+                        }
+                        else {
+                            setCourtTypeSpinner(courtCateg);
+                        }
                         break;
 
                 }
@@ -255,7 +288,8 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             }
         });
 
-        binding.btnPreview.setOnClickListener(view -> {
+        binding.btnPreview.setOnClickListener(view ->
+        {
             String TrainingCourseName="",TrainingCapacity="",KhataNum="", KhesraNum="", TotalLandOfArea="", OfficeName="", Address="", Remarks="", LsQuarter="", UsQuarter="", MaleBarrack="", FemaleBarrack="", OngoingCivilWork="", OfficerInCharge, MobileNumber, LandlineNum="", EstablishYear="", EmailAdd="", SanctionStrength="", WorkingStrength="", DivisionFunction="", MajorDevicesEqui="";
             KhataNum = binding.etKhataNum.getText().toString().trim();
             KhesraNum = binding.etKhesraNum.getText().toString().trim();
@@ -754,9 +788,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 //                            }
 //                        }
 //                    }
-                  //  else {
-                        listgps.add(detailsModel);
-                   // }
+                    //  else {
+                    listgps.add(detailsModel);
+                    // }
 
 
                     mAdapter = new takegpsListAdaptor(AddOfficeUnderPoliceActivity.this, listgps);
@@ -805,7 +839,16 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.spnOffice.setAdapter(new ArrayAdapter<String>(AddOfficeUnderPoliceActivity.this,android.R.layout.simple_spinner_item,officenamearray));
 
                     }
-                    new GetOfficeNameList_Master().execute();
+                    officeNameListMaster=dbHelper.getOfficeNameLocal(Office_type_Code,range_Code);
+                    if (officeNameListMaster.size()<=0)
+                    {
+                        new GetOfficeNameList_Master().execute();
+                    }
+                    else
+                    {
+                        setOfficeNameSpinner();
+                    }
+
                     //}
 
                     truefalse();
@@ -820,8 +863,15 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     range_Code = range.get_RangeCode();
                     range_Name = range.get_RangeName();
                     binding.llOfficeNmae.setVisibility(View.VISIBLE);
-                    new GetOfficeNameList_Master().execute();
-                    //  }
+                    officeNameListMaster=dbHelper.getOfficeNameLocal(Office_type_Code,range_Code);
+                    if (officeNameListMaster.size()<=0)
+                    {
+                        new GetOfficeNameList_Master().execute();
+                    }
+                    else
+                    {
+                        setOfficeNameSpinner();
+                    }
 
                 } else {
                     range_Code = "";
@@ -901,7 +951,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     }
                 }
                 else
-                    {
+                {
                     Armoury_Mazin_Code = "";
                 }
                 break;
@@ -915,7 +965,15 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     //  }
 
                     if (courtCateg.equals("1")) {
-                        new GetCourtSubTypeMaster().execute();
+                        courtSubTypeMaster=dbHelper.getCourtSubTypeLocal();
+                        if (courtSubTypeMaster.size()<=0)
+                        {
+                            new GetCourtSubTypeMaster().execute();
+                        }
+                        else
+                        {
+                            setCourtSubTypeSpinner();
+                        }
                     }
 
                 } else {
@@ -982,9 +1040,12 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             if (result != null) {
                 if (result.size() > 0) {
+                    long c = dbHelper.setOfficeTypeLocal(result);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        setOfficeDetailsSpinner();
+                    }
 
-                    officesFromServersList = result;
-                    setOfficeDetailsSpinner(result);
                 } else {
                     Toast.makeText(getApplicationContext(), "Office Type List not Loaded", Toast.LENGTH_SHORT).show();
                 }
@@ -993,9 +1054,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         }
     }
 
-    public void setOfficeDetailsSpinner(ArrayList<OfficeListFromServer> RangeList)
+    public void setOfficeDetailsSpinner()
     {
-        officesFromServersList = RangeList;
+        officesFromServersList=dbHelper.getOfficeTypeLocal();
+        // officesFromServersList = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Offices Type-");
 
@@ -1010,9 +1072,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnOfficeType.setOnItemSelectedListener(this);
     }
 
-    public void setOfficeNameSpinner(ArrayList<Office_Name_List_Modal> RangeList)
+    public void setOfficeNameSpinner()
     {
-        officeNameListMaster = RangeList;
+        officeNameListMaster = dbHelper.getOfficeNameLocal(Office_type_Code,range_Code);
 
         officenamearray.add("-Select Offices Name-");
 
@@ -1032,9 +1094,10 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
     }
 
-    public void setCourtTypeSpinner(ArrayList<CourtType_Entity> CourtTypeList) {
+    public void setCourtTypeSpinner(String courtCategId) {
 
-        courtTypeMaster = CourtTypeList;
+        // courtTypeMaster = CourtTypeList;
+        courtTypeMaster=dbHelper.getCourtTypeLocal(courtCategId);
         ArrayList array = new ArrayList<String>();
 
         array.add("-Select Court Type-");
@@ -1050,9 +1113,9 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         binding.spnCourtType.setOnItemSelectedListener(this);
     }
 
-    public void setCourtSubTypeSpinner(ArrayList<CourtSubType_Entity> CourtSubTypeList) {
+    public void setCourtSubTypeSpinner() {
 
-        courtSubTypeMaster = CourtSubTypeList;
+        courtSubTypeMaster=dbHelper.getCourtSubTypeLocal();
         ArrayList array = new ArrayList<String>();
 
         array.add("-Select Court Sub Type-");
@@ -1871,8 +1934,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             if (result != null) {
                 if (result.size() > 0) {
 
-                    officeNameListMaster = result;
-                    setOfficeNameSpinner(result);
+                    long c = dbHelper.setOfficeNameMaster(result);
+
+                    //  officeNameListMaster = result;
+                    if (c>0)
+                    {
+                        setOfficeNameSpinner();
+                    }
+
                 } else
                 {
                     Toast.makeText(getApplicationContext(), "Office name not found", Toast.LENGTH_SHORT).show();
@@ -1912,8 +1981,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             if (result != null) {
                 if (result.size() > 0) {
 
-                    courtTypeMaster = result;
-                    setCourtTypeSpinner(result);
+                    //courtTypeMaster = result;
+                    long c = dbHelper.setCourtLocal(result,courtCateg);
+                    if (c>0)
+                    {
+                        setCourtTypeSpinner(courtCateg);
+                    }
+
                 } else
                 {
                     Toast.makeText(getApplicationContext(), "Court Type List Not Loaded", Toast.LENGTH_SHORT).show();
@@ -1954,8 +2028,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             if (result != null) {
                 if (result.size() > 0) {
 
-                    courtSubTypeMaster = result;
-                    setCourtSubTypeSpinner(result);
+                    long c = dbHelper.setCourtSubTypeMaster(result);
+
+                    //    courtSubTypeMaster = result;
+                    if (c>0)
+                    {
+                        setCourtSubTypeSpinner();
+                    }
+
                 } else
                 {
                     Toast.makeText(getApplicationContext(), "Court Sub Type List Not Loaded", Toast.LENGTH_SHORT).show();
