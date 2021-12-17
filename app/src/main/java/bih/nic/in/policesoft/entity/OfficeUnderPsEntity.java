@@ -7,6 +7,7 @@ public class OfficeUnderPsEntity {
 
     public static Class<OfficeUnderPsEntity> OfficeUnderPsEntity_CLASS = OfficeUnderPsEntity.class;
 
+    private String id = "";
     private String OfficeType_Code = "";
     private String OfficeType_Name = "";
     private String Office_Code = "";
@@ -468,5 +469,13 @@ public class OfficeUnderPsEntity {
 
     public void setProsecutionOfficelevel(String prosecutionOfficelevel) {
         this.prosecutionOfficelevel = prosecutionOfficelevel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

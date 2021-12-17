@@ -52,6 +52,7 @@ import bih.nic.in.policesoft.entity.RangeUnderOffice;
 import bih.nic.in.policesoft.entity.ThanaNameList_Entity;
 import bih.nic.in.policesoft.security.Encriptor;
 import bih.nic.in.policesoft.ui.activity.CameraActivity;
+import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
 import bih.nic.in.policesoft.ui.bottomsheet.PreviewBottonSheetAddContact;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
@@ -267,7 +268,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         courtTypeMaster=dbHelper.getCourtTypeLocal(courtCateg);
                         if (courtTypeMaster.size()<=0)
                         {
+                            if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                             new GetCourtTypeMaster().execute();
+                            }
+                            else {
+                                Toast.makeText(AddOfficeUnderPoliceActivity.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+                            }
                         }
                         else {
                             setCourtTypeSpinner(courtCateg);
@@ -676,10 +683,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
             if (cancelRegistration) {
                 focusView.requestFocus();
             } else {
+                long c1 = 0;
                 officeUnderPsEntity=new OfficeUnderPsEntity();
 
                 officeUnderPsEntity.setOfficeType_Code(Office_type_Code);
+                officeUnderPsEntity.setOfficeType_Name(Office_type_Name);
+
                 officeUnderPsEntity.setOffice_Code(Office_Code);
+                officeUnderPsEntity.setOffice_Name(Office_Name);
                 officeUnderPsEntity.setPoliceOwnBuild_Code(OwnBuild_Code);
                 officeUnderPsEntity.setKhata_Num(KhataNum);
                 officeUnderPsEntity.setKhesra_Num(KhesraNum);
@@ -728,27 +739,57 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 officeUnderPsEntity.setHG_volunatry_Others(binding.etVoluntaryOthers.getText().toString());
 
 
-                if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
-
-                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                    ab.setMessage(Html.fromHtml("<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
-                    ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                            startActivity(I);
-                        }
-                    });
-
-                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                    ab.show();
-                }else
-                {
+//                if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
+//
+//                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
+//                    ab.setMessage(Html.fromHtml("<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
+//                    ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+//                            startActivity(I);
+//                        }
+//                    });
+//
+//                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+//                    ab.show();
+//                }else
+//                {
                     if (Office_type_Code.equals("4"))
                     {
                         if (listgps.size()>=4)
                         {
-                            new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                            //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                            long c = 0;
+
+                            c = dbHelper.InsertOfficeDetails(officeUnderPsEntity,User_Id);
+                            if (c > 0) {
+
+                                c1 = dbHelper.InsertOfficeLatLongs(listgps,User_Id,String.valueOf(c));
+
+                                if (c1>0){
+
+                                    Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+                                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                                    ab.setMessage("Data Successfully Saved !");
+                                    ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            Intent i=new Intent(AddOfficeUnderPoliceActivity.this, UserHomeActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    });
+
+                                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                                    ab.show();
+
+                                }
+
+
+                            } else {
+                                Toast.makeText(AddOfficeUnderPoliceActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
@@ -757,11 +798,34 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     }
                     else {
 
-                        new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                      //  new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                        long c = 0;
+
+                        c = dbHelper.InsertOfficeDetails(officeUnderPsEntity,User_Id);
+                        if (c > 0) {
+
+                            Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                            ab.setMessage("Data Successfully Saved !");
+                            ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Intent i=new Intent(AddOfficeUnderPoliceActivity.this, UserHomeActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            });
+
+                            ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                            ab.show();
+
+                        } else {
+                            Toast.makeText(AddOfficeUnderPoliceActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     //new stateData().execute();
-                }
+               // }
             }
         });
         binding.takeLoc.setOnClickListener(new View.OnClickListener() {
@@ -842,7 +906,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     officeNameListMaster=dbHelper.getOfficeNameLocal(Office_type_Code,range_Code);
                     if (officeNameListMaster.size()<=0)
                     {
+                        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                         new GetOfficeNameList_Master().execute();
+                        }
+                        else {
+                            Toast.makeText(AddOfficeUnderPoliceActivity.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                     else
                     {
@@ -866,7 +936,14 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     officeNameListMaster=dbHelper.getOfficeNameLocal(Office_type_Code,range_Code);
                     if (officeNameListMaster.size()<=0)
                     {
-                        new GetOfficeNameList_Master().execute();
+                        if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
+
+                            new GetOfficeNameList_Master().execute();
+                        }
+                        else {
+                            Toast.makeText(AddOfficeUnderPoliceActivity.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                     else
                     {
@@ -968,7 +1045,13 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         courtSubTypeMaster=dbHelper.getCourtSubTypeLocal();
                         if (courtSubTypeMaster.size()<=0)
                         {
+                            if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                             new GetCourtSubTypeMaster().execute();
+                            }
+                            else {
+                                Toast.makeText(AddOfficeUnderPoliceActivity.this, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+                            }
                         }
                         else
                         {

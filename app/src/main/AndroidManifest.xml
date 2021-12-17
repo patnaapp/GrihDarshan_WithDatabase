@@ -2,11 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="bih.nic.in.policesoft">
-    
+
     <uses-permission
         android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -56,10 +55,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/biharlogo"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.AddOfficeUnderPoliceActivity"></activity>
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
+        <activity android:name=".ui.activities.Office_EditList_Activity"></activity>
+        <activity android:name=".ui.activities.AddOfficeUnderPoliceActivity" />
         <activity android:name=".ui.activities.AddContactActivity" />
         <activity android:name=".ui.activity.CameraActivity" />
         <activity android:name=".ui.activities.AddMajorUtilitiesActivity" />

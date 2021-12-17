@@ -308,7 +308,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:layout_marginTop="10dp"
                                         android:layout_marginRight="20dp"
-                                        android:layout_marginBottom="30dp"
+                                        android:layout_marginBottom="10dp"
                                         android:orientation="horizontal">
 
                                         <androidx.cardview.widget.CardView
@@ -344,6 +344,53 @@
                                         </androidx.cardview.widget.CardView>
 
                                         <androidx.cardview.widget.CardView
+                                            android:id="@+id/edit_major_util"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1"
+                                            app:cardCornerRadius="10dp">
+
+                                            <RelativeLayout
+                                                android:id="@+id/rl_edit_major_util"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/card_bottom_wave" >
+
+                                            </RelativeLayout>
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:fontFamily="sans-serif-black"
+                                                android:gravity="center"
+                                                android:paddingLeft="20dp"
+                                                android:paddingRight="20dp"
+                                                android:text="@string/edit_major_utilities"
+                                                android:textColor="@color/color_text"
+                                                android:textSize="12sp"
+                                                android:textStyle="normal" />
+
+
+                                        </androidx.cardview.widget.CardView>
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginTop="2dp"
+                                        android:layout_marginRight="20dp"
+
+                                        android:orientation="horizontal">
+
+                                        <androidx.cardview.widget.CardView
                                             android:id="@+id/apply_list"
                                             android:layout_width="0dp"
                                             android:layout_height="80dp"
@@ -358,7 +405,9 @@
                                                 android:id="@+id/rl_addofficeunder"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-                                                android:background="@drawable/card_bottom_wave" />
+                                                android:background="@drawable/card_top_wave" >
+
+                                            </RelativeLayout>
 
                                             <TextView
                                                 android:layout_width="match_parent"
@@ -373,12 +422,48 @@
                                                 android:textSize="12sp"
                                                 android:textStyle="normal" />
 
+
+                                        </androidx.cardview.widget.CardView>
+
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/edit_office"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1"
+                                            app:cardCornerRadius="10dp">
+
+                                            <RelativeLayout
+                                                android:id="@+id/rl_editofficeunder"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/card_bottom_wave" >
+
+                                            </RelativeLayout>
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:fontFamily="sans-serif-black"
+                                                android:gravity="center"
+                                                android:paddingLeft="20dp"
+                                                android:paddingRight="20dp"
+                                                android:text="@string/edit_offices"
+                                                android:textColor="@color/color_text"
+                                                android:textSize="12sp"
+                                                android:textStyle="normal" />
+
+
                                         </androidx.cardview.widget.CardView>
                                     </LinearLayout>
-
                                 </LinearLayout>
 
                             </RelativeLayout>
+
 
                         </androidx.cardview.widget.CardView>
 

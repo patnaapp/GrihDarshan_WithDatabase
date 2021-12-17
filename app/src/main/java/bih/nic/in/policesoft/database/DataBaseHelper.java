@@ -20,11 +20,13 @@ import bih.nic.in.policesoft.entity.CourtSubType_Entity;
 import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.FireTypeServer;
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
+import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
+import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
 import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
 import bih.nic.in.policesoft.entity.UserDetails;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
@@ -825,5 +827,404 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return bdetail;
     }
 
+
+
+    public long InsertOfficeDetails(OfficeUnderPsEntity result,String userid) {
+
+        long c = 0;
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("OfficeType_Code", result.getOfficeType_Code());
+            values.put("OfficeType_Name", result.getOfficeType_Name());
+            values.put("Office_Code", result.getOffice_Code());
+            values.put("Office_Name", result.getOffice_Name());
+            values.put("PoliceOwnBuild_Code", result.getPoliceOwnBuild_Code());
+            values.put("PoliceOwnBuild_Name", result.getPoliceOwnBuild_Name());
+            values.put("Khata_Num", result.getKhata_Num());
+            values.put("Khesra_Num", result.getKhesra_Num());
+            values.put("Total_Area_Land", result.getTotal_Area_Land());
+            values.put("Other_Offices", result.getOther_Offices());
+            values.put("Other_Office_Name", result.getOther_Office_Name());
+            values.put("Address", result.getAddress());
+            values.put("Remarks", result.getRemarks());
+            values.put("Houseing_Faci", result.getHouseing_Faci());
+            values.put("LsQuarter", result.getLsQuarter());
+            values.put("UsQuarter", result.getUsQuarter());
+            values.put("Male_Barrack", result.getMale_Barrack());
+            values.put("Female_Barrack", result.getFemale_Barrack());
+            values.put("Armoury_Magazine", result.getArmoury_Magazine());
+            values.put("Ongoing_CivilWork", result.getOngoing_CivilWork());
+            values.put("Office_In_Charge", result.getOffice_In_Charge());
+            values.put("Designation", result.getDesignation());
+            values.put("Mobile_No", result.getMobile_No());
+            values.put("Landline_No", result.getLandline_No());
+            values.put("Establish_Year", result.getEstablish_Year());
+            values.put("Email_id", result.getEmail_id());
+            values.put("TrainingCourseName", result.getTrainingCourseName());
+            values.put("TrainingCourseCapacity", result.getTrainingCourseCapacity());
+            values.put("Sanction_Strength", result.getSanction_Strength());
+            values.put("Working_Strength", result.getWorking_Strength());
+            values.put("Division_Fun", result.getDivision_Fun());
+            values.put("Major_Devices_Equi", result.getMajor_Devices_Equi());
+            values.put("Photo", result.getPhoto());
+            values.put("Latitude", result.getLatitude());
+            values.put("Longitude", result.getLongitude());
+            values.put("stateOfficeName", result.getStateOfficeName());
+            values.put("prosecutionOfficelevel", result.getProsecutionOfficelevel());
+            values.put("courtCategId", result.getCourtCategId());
+
+            values.put("courtTypeId", result.getCourtTypeId());
+            values.put("courtSubTypeId", result.getCourtSubTypeId());
+            values.put("HGOfficeLevel_ID", result.getHGOfficeLevel_ID());
+
+            values.put("HGStateOffice", result.getHGStateOffice());
+            values.put("HGDistOffice", result.getHGDistOffice());
+            Log.e("HG_regular_Male", result.getHG_regular_Male());
+            values.put("HG_regular_Female", result.getHG_regular_Female());
+            values.put("HG_regular_Others", result.getHG_regular_Others());
+            values.put("HG_volunatry_Male", result.getHG_volunatry_Male());
+
+            values.put("HG_volunatry_Female", result.getHG_volunatry_Female());
+            values.put("HG_volunatry_Others", result.getHG_volunatry_Others());
+            values.put("Entry_By", userid);
+
+
+            c = db.insert("InsertOfficesUnderPs", null, values);
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return c;
+        }
+        return c;
+
+    }
+
+    public ArrayList<OfficeUnderPsEntity> getAllOfficeEntryDetail(String Userid) {
+        ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid};
+
+           // Cursor cursor = sqLiteDatabase.rawQuery("Select * from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select id, OfficeType_Code , OfficeType_Name , Office_Code , Office_Name , PoliceOwnBuild_Code , PoliceOwnBuild_Name , Khata_Num , Khesra_Num , Total_Area_Land , Other_Offices , Other_Office_Name , Address , Remarks , Houseing_Faci , LsQuarter , UsQuarter , Male_Barrack , Female_Barrack , Armoury_Magazine , Ongoing_CivilWork , Office_In_Charge , Designation , Mobile_No , Landline_No , Establish_Year , Email_id , TrainingCourseName , TrainingCourseCapacity , Sanction_Strength , Working_Strength , Division_Fun , Major_Devices_Equi , Latitude , Longitude , stateOfficeName , prosecutionOfficelevel , courtCategId , courtTypeId , courtSubTypeId , HGOfficeLevel_ID , HGStateOffice , HGDistOffice , HG_regular_Male , HG_regular_Female , HG_regular_Others , HG_volunatry_Male , HG_volunatry_Female , HG_volunatry_Others , Entry_By , Entry_Date  from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
+            int x = cursor.getCount();
+
+            while (cursor.moveToNext()) {
+                OfficeUnderPsEntity basicInfo = new OfficeUnderPsEntity();
+                String rowID = cursor.getString(cursor.getColumnIndex("id"));
+                basicInfo.setId((cursor.getString(cursor.getColumnIndex("id"))));
+                basicInfo.setOfficeType_Code((cursor.getString(cursor.getColumnIndex("OfficeType_Code"))));
+                basicInfo.setOfficeType_Name((cursor.getString(cursor.getColumnIndex("OfficeType_Name"))));
+                basicInfo.setOffice_Code((cursor.getString(cursor.getColumnIndex("Office_Code"))));
+
+                basicInfo.setOffice_Name((cursor.getString(cursor.getColumnIndex("Office_Name"))));
+                basicInfo.setPoliceOwnBuild_Code((cursor.getString(cursor.getColumnIndex("PoliceOwnBuild_Code"))));
+                basicInfo.setPoliceOwnBuild_Name((cursor.getString(cursor.getColumnIndex("PoliceOwnBuild_Name"))));
+                basicInfo.setKhata_Num((cursor.getString(cursor.getColumnIndex("Khata_Num"))));
+                basicInfo.setKhesra_Num((cursor.getString(cursor.getColumnIndex("Khesra_Num"))));
+                basicInfo.setTotal_Area_Land((cursor.getString(cursor.getColumnIndex("Total_Area_Land"))));
+                basicInfo.setOther_Offices((cursor.getString(cursor.getColumnIndex("Other_Offices"))));
+                basicInfo.setOther_Office_Name((cursor.getString(cursor.getColumnIndex("Other_Office_Name"))));
+                basicInfo.setAddress((cursor.getString(cursor.getColumnIndex("Address"))));
+                basicInfo.setRemarks((cursor.getString(cursor.getColumnIndex("Remarks"))));
+                basicInfo.setHouseing_Faci((cursor.getString(cursor.getColumnIndex("Houseing_Faci"))));
+                basicInfo.setLsQuarter((cursor.getString(cursor.getColumnIndex("LsQuarter"))));
+                basicInfo.setUsQuarter((cursor.getString(cursor.getColumnIndex("UsQuarter"))));
+                basicInfo.setMale_Barrack((cursor.getString(cursor.getColumnIndex("Male_Barrack"))));
+                basicInfo.setFemale_Barrack(cursor.getString((cursor.getColumnIndex("Female_Barrack"))));
+                basicInfo.setArmoury_Magazine((cursor.getString(cursor.getColumnIndex("Armoury_Magazine"))));
+                basicInfo.setOngoing_CivilWork((cursor.getString(cursor.getColumnIndex("Ongoing_CivilWork"))));
+                basicInfo.setOffice_In_Charge((cursor.getString(cursor.getColumnIndex("Office_In_Charge"))));
+                basicInfo.setDesignation((cursor.getString(cursor.getColumnIndex("Designation"))));
+                basicInfo.setMobile_No((cursor.getString(cursor.getColumnIndex("Mobile_No"))));
+                basicInfo.setLandline_No((cursor.getString(cursor.getColumnIndex("Landline_No"))));
+                basicInfo.setEstablish_Year((cursor.getString(cursor.getColumnIndex("Establish_Year"))));
+                basicInfo.setEmail_id((cursor.getString(cursor.getColumnIndex("Email_id"))));
+                basicInfo.setTrainingCourseName((cursor.getString(cursor.getColumnIndex("TrainingCourseName"))));
+                basicInfo.setTrainingCourseCapacity((cursor.getString(cursor.getColumnIndex("TrainingCourseCapacity"))));
+                basicInfo.setSanction_Strength((cursor.getString(cursor.getColumnIndex("Sanction_Strength"))));
+                basicInfo.setWorking_Strength((cursor.getString(cursor.getColumnIndex("Working_Strength"))));
+                basicInfo.setDivision_Fun((cursor.getString(cursor.getColumnIndex("Division_Fun"))));
+                basicInfo.setMajor_Devices_Equi((cursor.getString(cursor.getColumnIndex("Major_Devices_Equi"))));
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Latitude"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Longitude"))));
+                basicInfo.setStateOfficeName((cursor.getString(cursor.getColumnIndex("stateOfficeName"))));
+                basicInfo.setProsecutionOfficelevel((cursor.getString(cursor.getColumnIndex("prosecutionOfficelevel"))));
+                basicInfo.setCourtCategId((cursor.getString(cursor.getColumnIndex("courtCategId"))));
+                basicInfo.setCourtTypeId((cursor.getString(cursor.getColumnIndex("courtTypeId"))));
+                basicInfo.setCourtSubTypeId((cursor.getString(cursor.getColumnIndex("courtSubTypeId"))));
+                basicInfo.setHGOfficeLevel_ID((cursor.getString(cursor.getColumnIndex("HGOfficeLevel_ID"))));
+                basicInfo.setHGStateOffice((cursor.getString(cursor.getColumnIndex("HGStateOffice"))));
+
+                basicInfo.setHGDistOffice((cursor.getString(cursor.getColumnIndex("HGDistOffice"))));
+                basicInfo.setHG_regular_Male((cursor.getString(cursor.getColumnIndex("HG_regular_Male"))));
+                basicInfo.setHG_regular_Female((cursor.getString(cursor.getColumnIndex("HG_regular_Female"))));
+                basicInfo.setHG_regular_Others((cursor.getString(cursor.getColumnIndex("HG_regular_Others"))));
+                basicInfo.setHG_volunatry_Male((cursor.getString(cursor.getColumnIndex("HG_volunatry_Male"))));
+                basicInfo.setHG_volunatry_Female((cursor.getString(cursor.getColumnIndex("HG_volunatry_Female"))));
+
+                basicInfo.setHG_volunatry_Others((cursor.getString(cursor.getColumnIndex("HG_volunatry_Others"))));
+//                basicInfo.sete((cursor.getString(cursor.getColumnIndex("Entry_By"))));
+//                basicInfo.setBundle1((cursor.getString(cursor.getColumnIndex("Entry_Date"))));
+
+
+
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From InsertOfficesUnderPs where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    basicInfo.setPhoto((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+                basicdetail.add(basicInfo);
+                cursor1.close();
+            }
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            basicdetail = null;
+            // TODO: handle exception
+
+        }
+        return basicdetail;
+    }
+
+    public long deleteEditRec(String id, String EntryBy) {
+        long c = -1;
+
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] DeleteWhere = {String.valueOf(EntryBy), String.valueOf(id)};
+            c = db.delete("InsertOfficesUnderPs", "Entry_By=? and id=?", DeleteWhere);
+
+            this.getWritableDatabase().close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return c;
+        }
+        return c;
+
+    }
+
+    public long deleteOfficeLatLong(String id, String EntryBy) {
+        long c = -1;
+
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] DeleteWhere = {String.valueOf(EntryBy), String.valueOf(id)};
+            c = db.delete("InsertOfficeGps_List", "EntryBy=? and Insp_Id=?", DeleteWhere);
+
+            this.getWritableDatabase().close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return c;
+        }
+        return c;
+
+    }
+
+    public OfficeUnderPsEntity getAllEntryDetailsingle(String Userid, String rowid) {
+     //   ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
+        OfficeUnderPsEntity basicInfo = new OfficeUnderPsEntity();
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid, rowid};
+            // Cursor cursor=sqLiteDatabase.rawQuery("select * From BasicDetails where EntryBy=? AND Id=?",args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select id, OfficeType_Code , OfficeType_Name , Office_Code , Office_Name , PoliceOwnBuild_Code , PoliceOwnBuild_Name , Khata_Num , Khesra_Num , Total_Area_Land , Other_Offices , Other_Office_Name , Address , Remarks , Houseing_Faci , LsQuarter , UsQuarter , Male_Barrack , Female_Barrack , Armoury_Magazine , Ongoing_CivilWork , Office_In_Charge , Designation , Mobile_No , Landline_No , Establish_Year , Email_id , TrainingCourseName , TrainingCourseCapacity , Sanction_Strength , Working_Strength , Division_Fun , Major_Devices_Equi , Latitude , Longitude , stateOfficeName , prosecutionOfficelevel , courtCategId , courtTypeId , courtSubTypeId , HGOfficeLevel_ID , HGStateOffice , HGDistOffice , HG_regular_Male , HG_regular_Female , HG_regular_Others , HG_volunatry_Male , HG_volunatry_Female , HG_volunatry_Others , Entry_By , Entry_Date  from InsertOfficesUnderPs where Entry_By=? And id=? ORDER BY Id  DESC", args);
+
+            int x = cursor.getCount();
+
+
+            while (cursor.moveToNext()) {
+
+                String rowID = cursor.getString(cursor.getColumnIndex("id"));
+                basicInfo.setId((cursor.getString(cursor.getColumnIndex("id"))));
+                basicInfo.setOfficeType_Code((cursor.getString(cursor.getColumnIndex("OfficeType_Code"))));
+                basicInfo.setOfficeType_Name((cursor.getString(cursor.getColumnIndex("OfficeType_Name"))));
+                basicInfo.setOffice_Code((cursor.getString(cursor.getColumnIndex("Office_Code"))));
+
+                basicInfo.setOffice_Name((cursor.getString(cursor.getColumnIndex("Office_Name"))));
+                basicInfo.setPoliceOwnBuild_Code((cursor.getString(cursor.getColumnIndex("PoliceOwnBuild_Code"))));
+                basicInfo.setPoliceOwnBuild_Name((cursor.getString(cursor.getColumnIndex("PoliceOwnBuild_Name"))));
+                basicInfo.setKhata_Num((cursor.getString(cursor.getColumnIndex("Khata_Num"))));
+                basicInfo.setKhesra_Num((cursor.getString(cursor.getColumnIndex("Khesra_Num"))));
+                basicInfo.setTotal_Area_Land((cursor.getString(cursor.getColumnIndex("Total_Area_Land"))));
+                basicInfo.setOther_Offices((cursor.getString(cursor.getColumnIndex("Other_Offices"))));
+                basicInfo.setOther_Office_Name((cursor.getString(cursor.getColumnIndex("Other_Office_Name"))));
+                basicInfo.setAddress((cursor.getString(cursor.getColumnIndex("Address"))));
+                basicInfo.setRemarks((cursor.getString(cursor.getColumnIndex("Remarks"))));
+                basicInfo.setHouseing_Faci((cursor.getString(cursor.getColumnIndex("Houseing_Faci"))));
+                basicInfo.setLsQuarter((cursor.getString(cursor.getColumnIndex("LsQuarter"))));
+                basicInfo.setUsQuarter((cursor.getString(cursor.getColumnIndex("UsQuarter"))));
+                basicInfo.setMale_Barrack((cursor.getString(cursor.getColumnIndex("Male_Barrack"))));
+                basicInfo.setFemale_Barrack(cursor.getString((cursor.getColumnIndex("Female_Barrack"))));
+                basicInfo.setArmoury_Magazine((cursor.getString(cursor.getColumnIndex("Armoury_Magazine"))));
+                basicInfo.setOngoing_CivilWork((cursor.getString(cursor.getColumnIndex("Ongoing_CivilWork"))));
+                basicInfo.setOffice_In_Charge((cursor.getString(cursor.getColumnIndex("Office_In_Charge"))));
+                basicInfo.setDesignation((cursor.getString(cursor.getColumnIndex("Designation"))));
+                basicInfo.setMobile_No((cursor.getString(cursor.getColumnIndex("Mobile_No"))));
+                basicInfo.setLandline_No((cursor.getString(cursor.getColumnIndex("Landline_No"))));
+                basicInfo.setEstablish_Year((cursor.getString(cursor.getColumnIndex("Establish_Year"))));
+                basicInfo.setEmail_id((cursor.getString(cursor.getColumnIndex("Email_id"))));
+                basicInfo.setTrainingCourseName((cursor.getString(cursor.getColumnIndex("TrainingCourseName"))));
+                basicInfo.setTrainingCourseCapacity((cursor.getString(cursor.getColumnIndex("TrainingCourseCapacity"))));
+                basicInfo.setSanction_Strength((cursor.getString(cursor.getColumnIndex("Sanction_Strength"))));
+                basicInfo.setWorking_Strength((cursor.getString(cursor.getColumnIndex("Working_Strength"))));
+                basicInfo.setDivision_Fun((cursor.getString(cursor.getColumnIndex("Division_Fun"))));
+                basicInfo.setMajor_Devices_Equi((cursor.getString(cursor.getColumnIndex("Major_Devices_Equi"))));
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Latitude"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Longitude"))));
+                basicInfo.setStateOfficeName((cursor.getString(cursor.getColumnIndex("stateOfficeName"))));
+                basicInfo.setProsecutionOfficelevel((cursor.getString(cursor.getColumnIndex("prosecutionOfficelevel"))));
+                basicInfo.setCourtCategId((cursor.getString(cursor.getColumnIndex("courtCategId"))));
+                basicInfo.setCourtTypeId((cursor.getString(cursor.getColumnIndex("courtTypeId"))));
+                basicInfo.setCourtSubTypeId((cursor.getString(cursor.getColumnIndex("courtSubTypeId"))));
+                basicInfo.setHGOfficeLevel_ID((cursor.getString(cursor.getColumnIndex("HGOfficeLevel_ID"))));
+                basicInfo.setHGStateOffice((cursor.getString(cursor.getColumnIndex("HGStateOffice"))));
+
+                basicInfo.setHGDistOffice((cursor.getString(cursor.getColumnIndex("HGDistOffice"))));
+                basicInfo.setHG_regular_Male((cursor.getString(cursor.getColumnIndex("HG_regular_Male"))));
+                basicInfo.setHG_regular_Female((cursor.getString(cursor.getColumnIndex("HG_regular_Female"))));
+                basicInfo.setHG_regular_Others((cursor.getString(cursor.getColumnIndex("HG_regular_Others"))));
+                basicInfo.setHG_volunatry_Male((cursor.getString(cursor.getColumnIndex("HG_volunatry_Male"))));
+                basicInfo.setHG_volunatry_Female((cursor.getString(cursor.getColumnIndex("HG_volunatry_Female"))));
+
+                basicInfo.setHG_volunatry_Others((cursor.getString(cursor.getColumnIndex("HG_volunatry_Others"))));
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From InsertOfficesUnderPs where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    basicInfo.setPhoto((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+               // basicdetail.add(basicInfo);
+                cursor1.close();
+            }
+
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return basicInfo;
+    }
+
+
+    public ArrayList<InspectionDetailsModel> getOfficeGpsList(String Userid, String rowid) {
+        ArrayList<InspectionDetailsModel> basicdetail = new ArrayList<InspectionDetailsModel>();
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid, rowid};
+            // Cursor cursor=sqLiteDatabase.rawQuery("select * From BasicDetails where EntryBy=? AND Id=?",args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select * from InsertOfficeGps_List where EntryBy=? And Insp_Id=? ORDER BY Insp_Id  DESC", args);
+
+            int x = cursor.getCount();
+
+            InspectionDetailsModel basicInfo = new InspectionDetailsModel();
+            while (cursor.moveToNext()) {
+
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Latitude"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Longitude"))));
+
+
+                basicdetail.add(basicInfo);
+
+            }
+
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return basicdetail;
+    }
+
+
+
+    public long InsertOfficeLatLongs(ArrayList<InspectionDetailsModel> list,String userid,String isnpection_id) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<InspectionDetailsModel> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("InsertOfficeGps_List", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Latitude", info.get(i).getLatitude());
+                    values.put("Longitude", info.get(i).getLongitude());
+                    values.put("Insp_Id", isnpection_id);
+                    values.put("EntryBy",userid);
+
+                        c = db.insert("InsertOfficeGps_List", null, values);
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
 
 }

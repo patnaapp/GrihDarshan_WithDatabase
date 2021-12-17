@@ -27,6 +27,7 @@ import bih.nic.in.policesoft.ui.activities.AddContactActivity;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 import bih.nic.in.policesoft.ui.activities.AddOfficeUnderPoliceActivity;
 import bih.nic.in.policesoft.ui.activities.AddOutpostActivity;
+import bih.nic.in.policesoft.ui.activities.Office_EditList_Activity;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.CustomAlertDialog;
 import bih.nic.in.policesoft.utility.Utiilties;
@@ -39,7 +40,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public UserHomeListener listenr;
     TextView txt_Username, tv_range, tv_thana_dist, tv_subdivision, tv_thana_name;
-    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder;
+    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder;
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
     com.smarteist.autoimageslider.SliderView sliderView1;
@@ -97,6 +98,13 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        rl_editofficeunder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), Office_EditList_Activity.class);
+                startActivity(i);
+            }
+        });
 
 
         return root;
@@ -113,6 +121,7 @@ public class HomeFragment extends Fragment {
         rl_addcont = (RelativeLayout) root.findViewById(R.id.rl_addcont);
         rl_addmajorutil = (RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
         rl_addofficeunder = (RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
+        rl_editofficeunder = (RelativeLayout) root.findViewById(R.id.rl_editofficeunder);
         button_layout = (LinearLayout) root.findViewById(R.id.button_layout);
         ll_subdiv = (LinearLayout) root.findViewById(R.id.ll_subdiv);
         emailLayout = (LinearLayout) root.findViewById(R.id.emailLayout);
