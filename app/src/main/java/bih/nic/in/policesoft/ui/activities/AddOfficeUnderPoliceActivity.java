@@ -123,8 +123,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
         load_spinner();
 
         officesFromServersList=dbHelper.getOfficeTypeLocal();
-        if (officesFromServersList.size()<=0)
-        {
+        if (officesFromServersList.size()<=0) {
             if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                 new GetOfficeList(User_Id, Password, Token,CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole()).execute();
             }
@@ -246,8 +245,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                         binding.llCourtSubType.setVisibility(View.VISIBLE);
                         courtCateg="1";
                         courtTypeMaster=dbHelper.getCourtTypeLocal(courtCateg);
-                        if (courtTypeMaster.size()<=0)
-                        {
+                        if (courtTypeMaster.size()<=0) {
                             if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                                 new GetCourtTypeMaster().execute();
                             }
