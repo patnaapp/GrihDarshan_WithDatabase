@@ -82,14 +82,14 @@ import static org.apache.http.util.EntityUtils.getContentCharSet;
 
 public class WebServiceHelper {
 
-    //public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
-    //public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
+    public static final String SERVICENAMESPACE = "http://homeonline.bih.nic.in/";
+    public static final String SERVICEURL1 = "http://homeonline.bih.nic.in/GrihDarshan/grihdarshanwebservice.asmx";
 
-    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
-    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
+//    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
+//    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
 
-    // public static final String SERVICENAMESPACE = "http://10.133.20.196:8087/";
-    // public static final String SERVICEURL1 = "http://10.133.20.196:8087/PoliceSoftWebService.asmx";
+//     public static final String SERVICENAMESPACE = "http://10.133.20.196:8088/";
+//     public static final String SERVICEURL1 = "http://10.133.20.196:8088/GrihDarshanWebservice.asmx";
 
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
@@ -3086,6 +3086,77 @@ public class WebServiceHelper {
                     if (property instanceof SoapObject) {
                         SoapObject final_object = (SoapObject) property;
                         BlockList district = new BlockList(final_object, CapId, context);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+    }
+
+    public static ArrayList<OfficeListFromServer> GetOfficeTypeList(Context context, String Uid, String Password, String token, String role) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, Office_List_Details);
+        SoapObject res1;
+        ArrayList<OfficeListFromServer> pvmArrayList = new ArrayList<OfficeListFromServer>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass, Enc_Role;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_UID = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Uid), RandomNo);
+            Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_Role = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(role), RandomNo);
+
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("Userid", Enc_UID);
+            request.addProperty("password", Enc_Pass);
+            request.addProperty("Userrole", Enc_Role);
+            request.addProperty("cap",Enc_CapId);
+
+
+            org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
+            header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
+            org.kxml2.kdom.Element Token = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "AuthenticationToken");
+            Token.addChild(Node.TEXT, Enc_Token);
+            header[0].addChild(Node.ELEMENT, Token);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.headerOut = header;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("Cate-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, OfficeListFromServer.ContactDetails_CLASS.getSimpleName(), OfficeListFromServer.ContactDetails_CLASS);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + Office_List_Details, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("ContactList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        OfficeListFromServer district = new OfficeListFromServer(final_object, CapId, context);
                         pvmArrayList.add(district);
                     }
                 } else

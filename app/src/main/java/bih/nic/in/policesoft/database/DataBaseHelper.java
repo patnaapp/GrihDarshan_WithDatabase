@@ -16,6 +16,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import bih.nic.in.policesoft.entity.BlockList;
+import bih.nic.in.policesoft.entity.ContactDetailsEntry;
+import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.CourtSubType_Entity;
 import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.FireTypeServer;
@@ -942,11 +945,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
             values.put("HGStateOffice", result.getHGStateOffice());
             values.put("HGDistOffice", result.getHGDistOffice());
-            Log.e("HG_regular_Male", result.getHG_regular_Male());
+
+           // Log.e("HG_regular_Male", result.getHG_regular_Male());
+            values.put("HG_regular_Male", result.getHG_regular_Male());
             values.put("HG_regular_Female", result.getHG_regular_Female());
             values.put("HG_regular_Others", result.getHG_regular_Others());
-            values.put("HG_volunatry_Male", result.getHG_volunatry_Male());
 
+            values.put("HG_volunatry_Male", result.getHG_volunatry_Male());
             values.put("HG_volunatry_Female", result.getHG_volunatry_Female());
             values.put("HG_volunatry_Others", result.getHG_volunatry_Others());
             values.put("Entry_By", userid);
@@ -1166,18 +1171,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 basicInfo.setCourtSubTypeId((cursor.getString(cursor.getColumnIndex("courtSubTypeId"))));
                 basicInfo.setHGOfficeLevel_ID((cursor.getString(cursor.getColumnIndex("HGOfficeLevel_ID"))));
                 basicInfo.setHGStateOffice((cursor.getString(cursor.getColumnIndex("HGStateOffice"))));
-
                 basicInfo.setHGDistOffice((cursor.getString(cursor.getColumnIndex("HGDistOffice"))));
+
                 basicInfo.setHG_regular_Male((cursor.getString(cursor.getColumnIndex("HG_regular_Male"))));
                 basicInfo.setHG_regular_Female((cursor.getString(cursor.getColumnIndex("HG_regular_Female"))));
                 basicInfo.setHG_regular_Others((cursor.getString(cursor.getColumnIndex("HG_regular_Others"))));
+
                 basicInfo.setHG_volunatry_Male((cursor.getString(cursor.getColumnIndex("HG_volunatry_Male"))));
                 basicInfo.setHG_volunatry_Female((cursor.getString(cursor.getColumnIndex("HG_volunatry_Female"))));
-
                 basicInfo.setHG_volunatry_Others((cursor.getString(cursor.getColumnIndex("HG_volunatry_Others"))));
 
                 String[] args2 = {rowID};
-                String selectSQL = "select Photo From InsertOfficesUnderPs where Id=? ORDER BY Id  DESC";
+                String selectSQL = "select Photo From InsertOfficesUnderPs where id=? ORDER BY Id  DESC";
                 Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
                 Log.e("USERID", Userid);
                 while (cursor1.moveToNext()) {
@@ -1288,4 +1293,385 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public long InsertContactDetails(ContactDetailsEntry result, String userid) {
+
+        long c = 0;
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("Cntct_Type_code", result.getContact_Code());
+            values.put("Cntct_Type_Name", result.getContact_Name());
+            values.put("Officer_Name", result.getOfficer_Name());
+            values.put("email", result.getOfficer_Email());
+            values.put("Photo", result.getPhoto1());
+            values.put("Lat", result.getLatitude());
+            values.put("Long", result.getLongitude());
+            values.put("Block_code", result.getBlock_code());
+          values.put("Block_name", result.getBlock_name());
+            values.put("Dist_Code", result.getDist_code());
+            values.put("Dist_name", result.getDist_name());
+            values.put("Thana_code", result.getThana_code());
+            values.put("Thana_name", result.getThana_name());
+            values.put("Range_Name", result.getRange_name());
+            values.put("Range_Code", result.getRange_name());
+            values.put("Sub_div_code", result.getSub_div_code());
+            values.put("Sub_div_name", result.getSub_div_name());
+            values.put("PostOffice_Name", result.getPostOffice_Name());
+            values.put("PostOffice_Address", result.getPostOffice_Add());
+            values.put("Hospital_type_code", result.getHosp_Code());
+            values.put("Hospital_name", result.getHosp_Name());
+            values.put("Beds_capacity", result.getCapacity_Bed());
+            values.put("Hospital_address", result.getHosp_Add());
+            values.put("BusStand_type", result.getBusStand_Code());
+            values.put("BusStand_name", result.getBusStand_Name());
+            values.put("BusStand_Address", result.getBusStand_Add());
+            values.put("Entry_By", userid);
+            values.put("Officer_Contact",  result.getOfficer_Contact());
+            values.put("HospitalContact",  result.getHosp_Contact());
+            values.put("PostOffice_Contact",  result.getPostOffice_Number());
+            values.put("School_contact",  result.getSchool_Contact());
+            values.put("School_Address",  result.getSchool_Add());
+            values.put("School_Name",  result.getSchool_Name());
+            values.put("School_Type_code",  result.getSchool_Code());
+
+
+
+            c = db.insert("Insert_Imp_Contacts", null, values);
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return c;
+        }
+        return c;
+
+    }
+
+    public ArrayList<ContactDetailsFromServer> getContactTypeLocal() {
+        ArrayList<ContactDetailsFromServer> bdetail = new ArrayList<ContactDetailsFromServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from mst_Contact_Type order by Contact_Type_Code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                ContactDetailsFromServer financial_year = new ContactDetailsFromServer();
+                financial_year.setContact_Id(cur.getString(cur.getColumnIndex("Contact_Type_Code")));
+                financial_year.setContact_Name((cur.getString(cur.getColumnIndex("Contact_Type_Name"))));
+                bdetail.add(financial_year);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+    public ArrayList<BlockList> getBlockListLocal(String Distcode) {
+        ArrayList<BlockList> bdetail = new ArrayList<BlockList>();
+        try {
+            String[] args = {Distcode};
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from BlockList where Dist_Code=? order by Block_Code", args);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                BlockList financial_year = new BlockList();
+                financial_year.setBlock_Code(cur.getString(cur.getColumnIndex("Block_Code")));
+                financial_year.setBlock_Name((cur.getString(cur.getColumnIndex("Block_Name"))));
+                bdetail.add(financial_year);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+
+
+    public long SetContactTypeLocal(ArrayList<ContactDetailsFromServer> list) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<ContactDetailsFromServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("mst_Contact_Type", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Contact_Type_Code", info.get(i).getContact_Id());
+                    values.put("Contact_Type_Name", info.get(i).getContact_Name());
+
+
+                    String[] whereArgs = new String[]{info.get(i).getContact_Id()};
+
+                    c = db.update("mst_Contact_Type", values, "Contact_Type_Code=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("mst_Contact_Type", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public long setBlockListLocal(ArrayList<BlockList> list,String distcode) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<BlockList> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("BlockList", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Block_Code", info.get(i).getBlock_Code());
+                    values.put("Block_Name", info.get(i).getBlock_Name());
+                    values.put("Dist_Code", distcode);
+
+
+                    String[] whereArgs = new String[]{info.get(i).getBlock_Code()};
+
+                    c = db.update("BlockList", values, "Block_Code=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("BlockList", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+
+
+    public ArrayList<ContactDetailsEntry> getAllContactsEntryDetail(String Userid) {
+        ArrayList<ContactDetailsEntry> basicdetail = new ArrayList<ContactDetailsEntry>();
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid};
+
+            // Cursor cursor = sqLiteDatabase.rawQuery("Select * from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select Id , Cntct_Type_code , Cntct_Type_Name , Officer_Name , email , Lat , Long , Block_code , Block_name , Dist_Code , Dist_name , Thana_code , Thana_name , Range_Name , Range_Code , Sub_div_code , Sub_div_name , PostOffice_Name , PostOffice_Address , Hospital_type_code , Hospital_name , Beds_capacity , Hospital_address , BusStand_type , BusStand_name , BusStand_Address , Entry_By , Officer_Contact , HospitalContact , PostOffice_Contact , School_contact,School_Address,School_Name,School_Type_code  from Insert_Imp_Contacts where Entry_By=? ORDER BY Id  DESC", args);
+            int x = cursor.getCount();
+
+            while (cursor.moveToNext()) {
+                ContactDetailsEntry basicInfo = new ContactDetailsEntry();
+                String rowID = cursor.getString(cursor.getColumnIndex("Id"));
+                basicInfo.setId((cursor.getString(cursor.getColumnIndex("Id"))));
+                basicInfo.setContact_Code((cursor.getString(cursor.getColumnIndex("Cntct_Type_code"))));
+                basicInfo.setContact_Name((cursor.getString(cursor.getColumnIndex("Cntct_Type_Name"))));
+                basicInfo.setOfficer_Name((cursor.getString(cursor.getColumnIndex("Officer_Name"))));
+
+                basicInfo.setOfficer_Email((cursor.getString(cursor.getColumnIndex("email"))));
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Lat"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Long"))));
+                basicInfo.setBlock_code((cursor.getString(cursor.getColumnIndex("Block_code"))));
+                basicInfo.setBlock_name((cursor.getString(cursor.getColumnIndex("Block_name"))));
+                basicInfo.setDist_code((cursor.getString(cursor.getColumnIndex("Dist_Code"))));
+                basicInfo.setDist_name((cursor.getString(cursor.getColumnIndex("Dist_name"))));
+                basicInfo.setThana_code((cursor.getString(cursor.getColumnIndex("Thana_code"))));
+                basicInfo.setThana_name((cursor.getString(cursor.getColumnIndex("Thana_name"))));
+                basicInfo.setRange_name((cursor.getString(cursor.getColumnIndex("Range_Name"))));
+                basicInfo.setRange_code((cursor.getString(cursor.getColumnIndex("Range_Code"))));
+                basicInfo.setSub_div_code((cursor.getString(cursor.getColumnIndex("Sub_div_code"))));
+                basicInfo.setSub_div_name((cursor.getString(cursor.getColumnIndex("Sub_div_name"))));
+                basicInfo.setPostOffice_Name(cursor.getString((cursor.getColumnIndex("PostOffice_Name"))));
+                basicInfo.setPostOffice_Add((cursor.getString(cursor.getColumnIndex("PostOffice_Address"))));
+                basicInfo.setHosp_Code((cursor.getString(cursor.getColumnIndex("Hospital_type_code"))));
+                basicInfo.setHosp_Name((cursor.getString(cursor.getColumnIndex("Hospital_name"))));
+                basicInfo.setCapacity_Bed((cursor.getString(cursor.getColumnIndex("Beds_capacity"))));
+                basicInfo.setHosp_Add((cursor.getString(cursor.getColumnIndex("Hospital_address"))));
+                basicInfo.setBusStand_Code((cursor.getString(cursor.getColumnIndex("BusStand_type"))));
+                basicInfo.setBusStand_Name((cursor.getString(cursor.getColumnIndex("BusStand_name"))));
+                basicInfo.setBusStand_Add((cursor.getString(cursor.getColumnIndex("BusStand_Address"))));
+//                basicInfo.sete((cursor.getString(cursor.getColumnIndex("Entry_By"))));
+                basicInfo.setOfficer_Contact((cursor.getString(cursor.getColumnIndex("Officer_Contact"))));
+                basicInfo.setHosp_Contact((cursor.getString(cursor.getColumnIndex("HospitalContact"))));
+                basicInfo.setPostOffice_Number((cursor.getString(cursor.getColumnIndex("PostOffice_Contact"))));
+                basicInfo.setSchool_Contact((cursor.getString(cursor.getColumnIndex("School_contact"))));
+                basicInfo.setSchool_Add((cursor.getString(cursor.getColumnIndex("School_Address"))));
+                basicInfo.setSchool_Name((cursor.getString(cursor.getColumnIndex("School_Name"))));
+                basicInfo.setSchool_Code((cursor.getString(cursor.getColumnIndex("School_Type_code"))));
+
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From Insert_Imp_Contacts where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    basicInfo.setPhoto1((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+                basicdetail.add(basicInfo);
+                cursor1.close();
+            }
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            basicdetail = null;
+            // TODO: handle exception
+
+        }
+        return basicdetail;
+    }
+
+    public ContactDetailsEntry getContactDetailsingle(String Userid, String rowid) {
+        //   ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
+        ContactDetailsEntry basicInfo = new ContactDetailsEntry();
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid, rowid};
+            // Cursor cursor=sqLiteDatabase.rawQuery("select * From BasicDetails where EntryBy=? AND Id=?",args);
+        //    Cursor cursor = sqLiteDatabase.rawQuery("Select id, OfficeType_Code , OfficeType_Name , Office_Code , Office_Name , PoliceOwnBuild_Code , PoliceOwnBuild_Name , Khata_Num , Khesra_Num , Total_Area_Land , Other_Offices , Other_Office_Name , Address , Remarks , Houseing_Faci , LsQuarter , UsQuarter , Male_Barrack , Female_Barrack , Armoury_Magazine , Ongoing_CivilWork , Office_In_Charge , Designation , Mobile_No , Landline_No , Establish_Year , Email_id , TrainingCourseName , TrainingCourseCapacity , Sanction_Strength , Working_Strength , Division_Fun , Major_Devices_Equi , Latitude , Longitude , stateOfficeName , prosecutionOfficelevel , courtCategId , courtTypeId , courtSubTypeId , HGOfficeLevel_ID , HGStateOffice , HGDistOffice , HG_regular_Male , HG_regular_Female , HG_regular_Others , HG_volunatry_Male , HG_volunatry_Female , HG_volunatry_Others , Entry_By , Entry_Date  from Insert_Imp_Contacts where Entry_By=? And Id=? ORDER BY Id  DESC", args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select Id , Cntct_Type_code , Cntct_Type_Name , Officer_Name , email , Lat , Long , Block_code , Block_name , Dist_Code , Dist_name , Thana_code , Thana_name , Range_Name , Range_Code , Sub_div_code , Sub_div_name , PostOffice_Name , PostOffice_Address , Hospital_type_code , Hospital_name , Beds_capacity , Hospital_address , BusStand_type , BusStand_name , BusStand_Address , Entry_By , Officer_Contact , HospitalContact , PostOffice_Contact , School_contact,School_Address,School_Name,School_Type_code  from Insert_Imp_Contacts where Entry_By=? And Id=? ORDER BY Id  DESC", args);
+
+            int x = cursor.getCount();
+
+
+            while (cursor.moveToNext()) {
+
+               // ContactDetailsEntry basicInfo = new ContactDetailsEntry();
+                String rowID = cursor.getString(cursor.getColumnIndex("Id"));
+                basicInfo.setId((cursor.getString(cursor.getColumnIndex("Id"))));
+                basicInfo.setContact_Code((cursor.getString(cursor.getColumnIndex("Cntct_Type_code"))));
+                basicInfo.setContact_Name((cursor.getString(cursor.getColumnIndex("Cntct_Type_Name"))));
+                basicInfo.setOfficer_Name((cursor.getString(cursor.getColumnIndex("Officer_Name"))));
+
+                basicInfo.setOfficer_Email((cursor.getString(cursor.getColumnIndex("email"))));
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Lat"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Long"))));
+                basicInfo.setBlock_code((cursor.getString(cursor.getColumnIndex("Block_code"))));
+                basicInfo.setBlock_name((cursor.getString(cursor.getColumnIndex("Block_name"))));
+                basicInfo.setDist_code((cursor.getString(cursor.getColumnIndex("Dist_Code"))));
+                basicInfo.setDist_name((cursor.getString(cursor.getColumnIndex("Dist_name"))));
+                basicInfo.setThana_code((cursor.getString(cursor.getColumnIndex("Thana_code"))));
+                basicInfo.setThana_name((cursor.getString(cursor.getColumnIndex("Thana_name"))));
+                basicInfo.setRange_name((cursor.getString(cursor.getColumnIndex("Range_Name"))));
+                basicInfo.setRange_code((cursor.getString(cursor.getColumnIndex("Range_Code"))));
+                basicInfo.setSub_div_code((cursor.getString(cursor.getColumnIndex("Sub_div_code"))));
+                basicInfo.setSub_div_name((cursor.getString(cursor.getColumnIndex("Sub_div_name"))));
+                basicInfo.setPostOffice_Name(cursor.getString((cursor.getColumnIndex("PostOffice_Name"))));
+                basicInfo.setPostOffice_Add((cursor.getString(cursor.getColumnIndex("PostOffice_Address"))));
+                basicInfo.setHosp_Code((cursor.getString(cursor.getColumnIndex("Hospital_type_code"))));
+                basicInfo.setHosp_Name((cursor.getString(cursor.getColumnIndex("Hospital_name"))));
+                basicInfo.setCapacity_Bed((cursor.getString(cursor.getColumnIndex("Beds_capacity"))));
+                basicInfo.setHosp_Add((cursor.getString(cursor.getColumnIndex("Hospital_address"))));
+                basicInfo.setBusStand_Code((cursor.getString(cursor.getColumnIndex("BusStand_type"))));
+                basicInfo.setBusStand_Name((cursor.getString(cursor.getColumnIndex("BusStand_name"))));
+                basicInfo.setBusStand_Add((cursor.getString(cursor.getColumnIndex("BusStand_Address"))));
+//                basicInfo.sete((cursor.getString(cursor.getColumnIndex("Entry_By"))));
+                basicInfo.setOfficer_Contact((cursor.getString(cursor.getColumnIndex("Officer_Contact"))));
+                basicInfo.setHosp_Contact((cursor.getString(cursor.getColumnIndex("HospitalContact"))));
+                basicInfo.setPostOffice_Number((cursor.getString(cursor.getColumnIndex("PostOffice_Contact"))));
+                basicInfo.setSchool_Contact((cursor.getString(cursor.getColumnIndex("School_contact"))));
+                basicInfo.setSchool_Add((cursor.getString(cursor.getColumnIndex("School_Address"))));
+                basicInfo.setSchool_Name((cursor.getString(cursor.getColumnIndex("School_Name"))));
+                basicInfo.setSchool_Code((cursor.getString(cursor.getColumnIndex("School_Type_code"))));
+
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From Insert_Imp_Contacts where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    basicInfo.setPhoto1((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+               // basicdetail.add(basicInfo);
+                cursor1.close();
+            }
+
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return basicInfo;
+    }
+
+    public long deleteContactRec(String id, String EntryBy) {
+        long c = -1;
+
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] DeleteWhere = {String.valueOf(EntryBy), String.valueOf(id)};
+            c = db.delete("Insert_Imp_Contacts", "Entry_By=? and Id=?", DeleteWhere);
+
+            this.getWritableDatabase().close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return c;
+        }
+        return c;
+
+    }
 }

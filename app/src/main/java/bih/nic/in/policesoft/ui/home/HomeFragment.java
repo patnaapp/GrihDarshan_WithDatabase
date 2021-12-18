@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,14 +20,21 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.ArrayList;
+
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.ImageSliderAdapter;
 import bih.nic.in.policesoft.adaptor.UserHomeListener;
+import bih.nic.in.policesoft.database.DataBaseHelper;
+import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
+import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
+import bih.nic.in.policesoft.entity.OfficeListFromServer;
 import bih.nic.in.policesoft.entity.SliderModel;
 import bih.nic.in.policesoft.ui.activities.AddContactActivity;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 import bih.nic.in.policesoft.ui.activities.AddOfficeUnderPoliceActivity;
 import bih.nic.in.policesoft.ui.activities.AddOutpostActivity;
+import bih.nic.in.policesoft.ui.activities.Contact_Edit_List_Activity;
 import bih.nic.in.policesoft.ui.activities.Office_EditList_Activity;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.CustomAlertDialog;
@@ -40,11 +48,12 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public UserHomeListener listenr;
     TextView txt_Username, tv_range, tv_thana_dist, tv_subdivision, tv_thana_name;
-    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder;
+    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder,rl_sync_data,rl_uploadcont;
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
     com.smarteist.autoimageslider.SliderView sliderView1;
     LinearLayout button_layout,ll_subdiv,emailLayout;
+    DataBaseHelper dbHelper;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +61,7 @@ public class HomeFragment extends Fragment {
         customAlertDialog = new CustomAlertDialog(getContext());
 
         initializeViews(root);
+        dbHelper=new DataBaseHelper(getActivity());
         new GetSliderFromServer().execute();
 
 
@@ -106,6 +116,20 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        rl_sync_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new GetOfficeList(CommonPref.getPoliceDetails(getContext()).getUserID(), CommonPref.getPoliceDetails(getContext()).getPassword(), CommonPref.getPoliceDetails(getContext()).getToken(),CommonPref.getPoliceDetails(getActivity()).getRole()).execute();
+            }
+        });
+
+        rl_uploadcont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), Contact_Edit_List_Activity.class);
+                startActivity(i);
+            }
+        });
 
         return root;
     }
@@ -122,6 +146,8 @@ public class HomeFragment extends Fragment {
         rl_addmajorutil = (RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
         rl_addofficeunder = (RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
         rl_editofficeunder = (RelativeLayout) root.findViewById(R.id.rl_editofficeunder);
+        rl_sync_data = (RelativeLayout) root.findViewById(R.id.rl_sync_data);
+        rl_uploadcont = (RelativeLayout) root.findViewById(R.id.rl_uploadcont);
         button_layout = (LinearLayout) root.findViewById(R.id.button_layout);
         ll_subdiv = (LinearLayout) root.findViewById(R.id.ll_subdiv);
         emailLayout = (LinearLayout) root.findViewById(R.id.emailLayout);
@@ -184,6 +210,139 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private class GetOfficeList extends AsyncTask<String, Void, ArrayList<OfficeListFromServer>> {
+        String userId, Password, Token,Role;
 
+        private final ProgressDialog dialog = new ProgressDialog(getActivity());
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GetOfficeList(String userId, String password, String token, String role) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+            Role = role;
+        }
+
+        @Override
+        protected ArrayList<OfficeListFromServer> doInBackground(String... param) {
+            return WebServiceHelper.GetOfficeTypeList(getActivity(), userId, Password, Token,Role);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<OfficeListFromServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    long c = dbHelper.setOfficeTypeLocal(result);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        Toast.makeText(getActivity(), "Office Type List Loaded", Toast.LENGTH_SHORT).show();
+                        new GetMajorUtil(userId, Password, Token, CommonPref.getPoliceDetails(getActivity()).getRole()).execute();
+
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "Office Type List not Loaded", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
+        String userId, Password, Token, role;
+
+        private final ProgressDialog dialog = new ProgressDialog(getActivity());
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GetMajorUtil(String userId, String password, String token, String Role) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+            role = Role;
+        }
+
+        @Override
+        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
+            return WebServiceHelper.GetMajorUtil(getActivity(), userId, Password, Token, role);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MajorUtilitiesFromServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(getActivity());
+                    // Major_Util_List = result;
+                    long c = helper.setMajorUtilitiesLocal(result);
+
+                    if(c>0) {
+                        new GetContactDetails(userId, Password, Token).execute();
+                        Toast.makeText(getActivity(), "Utilities Loaded", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    Toast.makeText(getActivity(), "No Utilities Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            else{
+                Toast.makeText(getActivity(), "Result: null", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    private class GetContactDetails extends AsyncTask<String, Void, ArrayList<ContactDetailsFromServer>> {
+        String userId, Password, Token;
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GetContactDetails(String userId, String password, String token) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+        }
+
+        @Override
+        protected ArrayList<ContactDetailsFromServer> doInBackground(String... param) {
+
+            return WebServiceHelper.GetContact(getActivity(), userId, Password, Token);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ContactDetailsFromServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    long c = dbHelper.SetContactTypeLocal(result);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        Toast.makeText(getActivity(), "Contact Type Loaded", Toast.LENGTH_SHORT).show();
+                    }
+                    // contactDetails_List = result;
+
+                } else {
+                    Toast.makeText(getActivity(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
 }
 

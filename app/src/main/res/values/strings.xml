@@ -82,10 +82,11 @@
     <string name="enter_otp">Enter OTP</string>
     <string name="add_outpost">Add OutPost</string>
     <string name="add_contact">Add Important Contact</string>
+    <string name="upload_contact">Upload Important Contact</string>
     <string name="major_utilities">Add Major Public Utilities Places</string>
-    <string name="edit_major_utilities">Edit/Upload Major Public Utilities Places</string>
+    <string name="edit_major_utilities">Upload Major Public Utilities Places</string>
     <string name="add_offices">Offices</string>
-    <string name="edit_offices">Edit/UploadOffices</string>
+    <string name="edit_offices">Upload Offices</string>
 
     <string name="postoffice_address">Post Office Address : [*]</string>
     <string name="postoffice_contact">Post Office Contact Number : [*]</string>

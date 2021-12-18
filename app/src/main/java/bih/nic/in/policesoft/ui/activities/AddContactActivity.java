@@ -27,6 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
+import bih.nic.in.policesoft.database.DataBaseHelper;
 import bih.nic.in.policesoft.databinding.ActivityAddContactBinding;
 import bih.nic.in.policesoft.entity.BlockList;
 import bih.nic.in.policesoft.entity.ContactDetailsEntry;
@@ -51,26 +52,31 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     ArrayList<ContactDetailsFromServer> contactDetails_List;
     ArrayList<BlockList> block_List;
     String[] govtPriv;
-    String Hosp_Code = "", School_Code = "", Bus_Stand_Code = "",block_Code="",block_Name="";
+    String Hosp_Code = "", School_Code = "", Bus_Stand_Code = "",block_Code="",block_Name="",Range_Name="",SubDiv_Name="",Thana_Name="",Dist_Name="";
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
     private final static int CAMERA_PIC = 99;
     int ThumbnailSize = 500;
     String latitude = "", longitude = "", Photo1 = "", Photo2 = "";
     ContactDetailsEntry model;
+    DataBaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_contact);
         customAlertDialog = new CustomAlertDialog(AddContactActivity.this);
-
+        dbHelper=new DataBaseHelper(this);
 
         User_Id = CommonPref.getPoliceDetails(AddContactActivity.this).getUserID();
         Range_Code = CommonPref.getPoliceDetails(AddContactActivity.this).getRange_Code();
+        Range_Name = CommonPref.getPoliceDetails(AddContactActivity.this).getRange_Name();
         Dist_Code = CommonPref.getPoliceDetails(AddContactActivity.this).getPolice_Dist_Code();
+        Dist_Name = CommonPref.getPoliceDetails(AddContactActivity.this).getDistName();
         SubDiv_Code = CommonPref.getPoliceDetails(AddContactActivity.this).getSub_Div_Code();
+        SubDiv_Name = CommonPref.getPoliceDetails(AddContactActivity.this).getSubdivision_Name();
         Thana_Code = CommonPref.getPoliceDetails(AddContactActivity.this).getThana_Code();
+        Thana_Name = CommonPref.getPoliceDetails(AddContactActivity.this).getThana_Name();
         Password = CommonPref.getPoliceDetails(AddContactActivity.this).getPassword();
         Token = CommonPref.getPoliceDetails(AddContactActivity.this).getToken();
 
@@ -97,11 +103,20 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
         load_spinner();
 
-        if (Utiilties.isOnline(AddContactActivity.this)) {
-            new GetContactDetails(User_Id, Password, Token).execute();
-        } else {
 
+
+        contactDetails_List=dbHelper.getContactTypeLocal();
+        if (contactDetails_List.size()<=0) {
+            if (Utiilties.isOnline(AddContactActivity.this)) {
+                new GetContactDetails(User_Id, Password, Token).execute();
+            }
+            else {
+                Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            setcontactDetailsSpinner();
         }
+
         binding.imgPic1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +137,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             }
         });
         binding.btnPreview.setOnClickListener(view -> {
-            String OfficerName, OfficerContactNum, PostofficeName, OfficerEmail, PostofficeAdd, PostofficeNum, HospName, CapacityOfBeds, HospContctNum, HospAddress, SchoolName, SchoolAddress, SchoolContctNum, BusstandName, BusstandAdd;
+            String OfficerName="", OfficerContactNum="", PostofficeName="", OfficerEmail="", PostofficeAdd="", PostofficeNum="", HospName="", CapacityOfBeds="", HospContctNum="", HospAddress="", SchoolName="", SchoolAddress="", SchoolContctNum="", BusstandName="", BusstandAdd="";
             OfficerName = binding.etOfficerName.getText().toString().trim();
             OfficerContactNum = binding.etOfficerContactNum.getText().toString().trim();
             OfficerEmail = binding.etOfficerEmail.getText().toString().trim();
@@ -285,7 +300,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                 Utiilties.hideKeyboard(AddContactActivity.this);
                 PreviewBottonSheetAddContact previewBottonSheet = new PreviewBottonSheetAddContact();
                 Bundle bundle = new Bundle();
-                model = new ContactDetailsEntry(Contact_Code, Contact_Name, OfficerName, OfficerContactNum, OfficerEmail, PostofficeName, PostofficeAdd, PostofficeNum, Hosp_Code, HospName, CapacityOfBeds, HospContctNum, HospAddress, School_Code, SchoolName, SchoolAddress, SchoolContctNum, Bus_Stand_Code, BusstandName, BusstandAdd, latitude, longitude, Photo1, Photo2,block_Code);
+                model = new ContactDetailsEntry(Contact_Code, Contact_Name, OfficerName, OfficerContactNum, OfficerEmail, PostofficeName, PostofficeAdd, PostofficeNum, Hosp_Code, HospName, CapacityOfBeds, HospContctNum, HospAddress, School_Code, SchoolName, SchoolAddress, SchoolContctNum, Bus_Stand_Code, BusstandName, BusstandAdd, latitude, longitude, Photo1, Photo2,block_Code,block_Name,Dist_Code,Dist_Name,Range_Code,Range_Name,SubDiv_Code,SubDiv_Name,Thana_Code,Thana_Name);
                 bundle.putParcelable(Constants.PS_PARAM, model);
                 previewBottonSheet.setArguments(bundle);
                 previewBottonSheet.show(getSupportFragmentManager(), "TAG");
@@ -485,11 +500,36 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void OnDoneClick() {
-        new OutpostDetail().execute();
+       // new OutpostDetail().execute();
+
+        long c = 0;
+
+        c = dbHelper.InsertContactDetails(model,User_Id);
+        if (c > 0) {
+
+            Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder ab = new AlertDialog.Builder(this);
+            ab.setMessage("Data Successfully Saved !");
+            ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Intent i=new Intent(AddContactActivity.this, UserHomeActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
+
+            ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+            ab.show();
+
+        } else {
+            Toast.makeText(AddContactActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void setcontactDetailsSpinner(ArrayList<ContactDetailsFromServer> RangeList) {
-        contactDetails_List = RangeList;
+    public void setcontactDetailsSpinner() {
+      //  contactDetails_List = RangeList;
+        contactDetails_List=dbHelper.getContactTypeLocal();
         ArrayList array = new ArrayList<String>();
         array.add("-Select Contacts-");
 
@@ -503,8 +543,8 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
         binding.spnContactType.setOnItemSelectedListener(this);
     }
 
-    public void setBlockSpinner(ArrayList<BlockList> blocklist) {
-        block_List = blocklist;
+    public void setBlockSpinner() {
+        block_List=dbHelper.getBlockListLocal(CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
         ArrayList array = new ArrayList<String>();
         array.add("-Select Block-");
 
@@ -544,9 +584,13 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 
             if (result != null) {
                 if (result.size() > 0) {
+                    long c = dbHelper.SetContactTypeLocal(result);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        setcontactDetailsSpinner();
+                    }
+                   // contactDetails_List = result;
 
-                    contactDetails_List = result;
-                    setcontactDetailsSpinner(result);
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }
@@ -617,6 +661,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     }
 
     public void visibleTrueFalse() {
+
         if ((Contact_Code.equals("1")) || (Contact_Code.equals("2")) || (Contact_Code.equals("3")) || (Contact_Code.equals("4")) ) {
             binding.llOfficerName.setVisibility(View.VISIBLE);
             binding.llOfficerContact.setVisibility(View.VISIBLE);
@@ -640,7 +685,20 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBlock.setVisibility(View.GONE);
         }
         else if ((Contact_Code.equals("5")) || (Contact_Code.equals("6")) || (Contact_Code.equals("7"))) {
-            new GETBlockList(User_Id, Password, Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code()).execute();
+
+
+            block_List=dbHelper.getBlockListLocal(CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
+            if (block_List.size()<=0) {
+                if (Utiilties.isOnline(AddContactActivity.this)) {
+                    new GETBlockList(User_Id, Password, Token,CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code()).execute();
+                }
+                else {
+                    Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                setBlockSpinner();
+            }
+
             binding.llOfficerName.setVisibility(View.VISIBLE);
             binding.llOfficerContact.setVisibility(View.VISIBLE);
             binding.llOfficerEmail.setVisibility(View.VISIBLE);
@@ -684,7 +742,8 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             binding.llBusstandAdd.setVisibility(View.GONE);
             binding.llPhoto.setVisibility(View.VISIBLE);
             binding.llBlock.setVisibility(View.GONE);
-        } else if (Contact_Code.equalsIgnoreCase("9")) {
+        }
+        else if (Contact_Code.equalsIgnoreCase("9")) {
             binding.llOfficerName.setVisibility(View.GONE);
             binding.llOfficerContact.setVisibility(View.GONE);
             binding.llOfficerEmail.setVisibility(View.GONE);
@@ -933,8 +992,13 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             if (result != null) {
                 if (result.size() > 0) {
 
-                    block_List = result;
-                    setBlockSpinner(result);
+                    long c = dbHelper.setBlockListLocal(result,Dist_Code);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        setBlockSpinner();
+                    }
+                    //block_List = result;
+
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
                 }

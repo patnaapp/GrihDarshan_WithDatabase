@@ -226,6 +226,30 @@
 
                                     </LinearLayout>
 
+
+                                    <RelativeLayout
+                                        android:id="@+id/rl_sync_data"
+                                        android:background="@drawable/buttonshapeborder"
+                                        android:padding="4dp"
+                                        android:gravity="center"
+                                        android:layout_marginLeft="12dp"
+                                        android:layout_marginRight="12dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+
+
+                                        <TextView
+                                            android:layout_marginLeft="4dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerVertical="true"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textColor="#ffff"
+                                            android:text="Synchronize"/>
+                                    </RelativeLayout>
+
                                     <LinearLayout
                                         android:id="@+id/button_layout"
                                         android:layout_width="match_parent"
@@ -234,6 +258,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:layout_marginTop="20dp"
                                         android:layout_marginRight="20dp"
+                                        android:weightSum="3"
                                         android:orientation="horizontal">
 
                                         <androidx.cardview.widget.CardView
@@ -294,6 +319,38 @@
                                                 android:paddingLeft="20dp"
                                                 android:paddingRight="20dp"
                                                 android:text="@string/add_contact"
+                                                android:textColor="@color/color_text"
+                                                android:textSize="12sp"
+                                                android:textStyle="normal" />
+
+                                        </androidx.cardview.widget.CardView>
+
+                                        <androidx.cardview.widget.CardView
+                                            android:id="@+id/upload_cntct"
+                                            android:layout_width="0dp"
+                                            android:layout_height="80dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:layout_marginTop="2dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_marginBottom="2dp"
+                                            android:layout_weight="1"
+                                            app:cardCornerRadius="10dp">
+
+                                            <RelativeLayout
+                                                android:id="@+id/rl_uploadcont"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:background="@drawable/card_bottom_wave" />
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:fontFamily="sans-serif-black"
+                                                android:gravity="center"
+                                                android:paddingLeft="20dp"
+                                                android:paddingRight="20dp"
+                                                android:text="@string/upload_contact"
                                                 android:textColor="@color/color_text"
                                                 android:textSize="12sp"
                                                 android:textStyle="normal" />

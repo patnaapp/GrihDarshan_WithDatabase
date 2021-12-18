@@ -58,7 +58,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.activities.Office_EditList_Activity"></activity>
+        <activity android:name=".ui.activities.Contact_Edit_List_Activity"></activity>
+        <activity android:name=".ui.activities.Office_EditList_Activity" />
         <activity android:name=".ui.activities.AddOfficeUnderPoliceActivity" />
         <activity android:name=".ui.activities.AddContactActivity" />
         <activity android:name=".ui.activity.CameraActivity" />

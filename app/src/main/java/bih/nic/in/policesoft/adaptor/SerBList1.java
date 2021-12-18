@@ -312,8 +312,6 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
                     Toast.makeText(context,"Not Uploaded",Toast.LENGTH_LONG).show();
                 }
 
-
-
             } else {
                 Toast.makeText(context,"Failed!! Null Response. Try again later",Toast.LENGTH_LONG).show();
             }

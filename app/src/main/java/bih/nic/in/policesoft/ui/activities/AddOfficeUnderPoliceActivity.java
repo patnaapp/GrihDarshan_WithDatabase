@@ -729,9 +729,11 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                 officeUnderPsEntity.setHGOfficeLevel_ID(OfficeLevel);
                 officeUnderPsEntity.setHGStateOffice(binding.etStOfficeName.getText().toString());
                 officeUnderPsEntity.setHGDistOffice(binding.etDistOfficeName.getText().toString());
+
                 officeUnderPsEntity.setHG_regular_Male(binding.etRegularMale.getText().toString());
                 officeUnderPsEntity.setHG_regular_Female(binding.etRegularFemale.getText().toString());
                 officeUnderPsEntity.setHG_regular_Others(binding.etRegularOthers.getText().toString());
+
                 officeUnderPsEntity.setHG_volunatry_Male(binding.etVoluntaryMale.getText().toString());
                 officeUnderPsEntity.setHG_volunatry_Female(binding.etVoluntaryFemale.getText().toString());
                 officeUnderPsEntity.setHG_volunatry_Others(binding.etVoluntaryOthers.getText().toString());
@@ -1112,7 +1114,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         @Override
         protected ArrayList<OfficeListFromServer> doInBackground(String... param) {
-            return WebServiceHelper.GetOffice(AddOfficeUnderPoliceActivity.this, userId, Password, Token,Role);
+            return WebServiceHelper.GetOfficeTypeList(AddOfficeUnderPoliceActivity.this, userId, Password, Token,Role);
         }
 
         @Override
