@@ -1,22 +1,18 @@
 package bih.nic.in.policesoft.adaptor;
 
 import android.app.Activity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,26 +22,25 @@ import java.util.ArrayList;
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.database.DataBaseHelper;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
+import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
+import bih.nic.in.policesoft.entity.OtherFacility;
+import bih.nic.in.policesoft.entity.OtherFacilityModel;
 import bih.nic.in.policesoft.security.Encriptor;
-import bih.nic.in.policesoft.ui.activities.AddOfficeUnderPoliceActivity;
+import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 import bih.nic.in.policesoft.utility.CommonPref;
-import bih.nic.in.policesoft.utility.GlobalVariables;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
 
+public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.ViewHolder>{
 
-/**
- * Created by nicsi on 3/23/2018.
- */
-public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
 
     Activity activity;
     Context context;
     View view2;
-    ViewHolder viewHolder2;
+    MajorUtilAdapter.ViewHolder viewHolder2;
     TextView textView;
-    ArrayList<OfficeUnderPsEntity> ListItem1=new ArrayList<>();
+    ArrayList<MajorUtilEntry> majorItem = new ArrayList<>();
     private PopupWindow mPopupWindow;
     String UserId = "",Token="";
     String singlerowid;
@@ -54,31 +49,24 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
     Encriptor _encrptor;
 
 
-    public SerBList1(Context context1, ArrayList<OfficeUnderPsEntity> SubjectValues2,String Userid,String token){
-        ListItem1 = SubjectValues2;
-        context = context1;
-        UserId=Userid;
-        Token=token;
+    public MajorUtilAdapter(Context context, ArrayList<MajorUtilEntry> majorItem, String userId, String token) {
+        this.context = context;
+        this.majorItem = majorItem;
+        UserId = userId;
+        Token = token;
     }
-//
-//    public interface OnItemClicked {
-//        void onItemClick(int position);
-//    }
-//
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-
-        public TextView tv_officeType,tv_office_Name,tv_address,tv_landline;
+        public TextView tv_major_util,tv_add,tv_remarks,tv_landline;
         Button btn_remove,btn_upload;
 
         public ViewHolder(View convertView){
 
             super(convertView);
 
-            tv_officeType = convertView.findViewById(R.id.tv_officeType);
-            tv_office_Name = convertView.findViewById(R.id.tv_office_Name);
-            tv_address = convertView.findViewById(R.id.tv_address);
-            tv_landline = convertView.findViewById(R.id.tv_landline);
+            tv_major_util = convertView.findViewById(R.id.tv_major_util);
+            tv_add = convertView.findViewById(R.id.tv_add);
+            tv_remarks = convertView.findViewById(R.id.tv_remarks);
             btn_remove = convertView.findViewById(R.id.btn_remove);
             btn_upload = convertView.findViewById(R.id.btn_upload);
 
@@ -87,23 +75,23 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public MajorUtilAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
 
-        view2 = LayoutInflater.from(context).inflate(R.layout.activity_adaptor_edit_entry,parent,false);
+        view2 = LayoutInflater.from(context).inflate(R.layout.majorutil_adapteritem,parent,false);
 
-        viewHolder2 = new ViewHolder(view2);
+        viewHolder2 = new MajorUtilAdapter.ViewHolder(view2);
         return viewHolder2;
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder,final int position) {
+    public void onBindViewHolder(final MajorUtilAdapter.ViewHolder holder, final int position) {
         _encrptor=new Encriptor();
 
 
-        holder.tv_officeType.setText(ListItem1.get(position).getOfficeType_Name());
-        holder.tv_office_Name.setText(ListItem1.get(position).getOffice_Name());
-        holder.tv_address.setText(ListItem1.get(position).getAddress());
-        holder.tv_landline.setText(ListItem1.get(position).getLandline_No());
+        holder.tv_major_util.setText(majorItem.get(position).getMajor_UtilName());
+        holder.tv_add.setText(majorItem.get(position).getChronic_Land_Add());
+        holder.tv_remarks.setText(majorItem.get(position).getRemarks());
+
 
 
         holder.btn_remove.setOnClickListener(new View.OnClickListener() {
@@ -121,13 +109,13 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
 
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-                        String _uid = ListItem1.get(position).getId();
-                        dataBaseHelper.deleteEditRec(_uid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                        String _uid = majorItem.get(position).getId();
+                        dataBaseHelper.majordeleteEditRec(_uid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
                         //  ((Edit_entry) activity).setReportListViewDataForAdapter();
-                        ListItem1 = dataBaseHelper.getAllOfficeEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
-                        refresh(ListItem1);
+                        majorItem = dataBaseHelper.getAllMajorUtilEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                        refresh(majorItem);
 
-                        ListItem1 = dataBaseHelper.getAllOfficeEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                        majorItem = dataBaseHelper.getAllMajorUtilEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
 
                     }
 
@@ -161,24 +149,25 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
-                        singlerowid = (ListItem1.get(position).getId());
+                        singlerowid = (majorItem.get(position).getId());
                         DataBaseHelper dbHelper = new DataBaseHelper(context);
                         dialog.dismiss();
 
-                        OfficeUnderPsEntity dataProgress = dbHelper.getAllEntryDetailsingle(UserId, singlerowid);
-                        ArrayList<InspectionDetailsModel> listgps = dbHelper.getOfficeGpsList(UserId, dataProgress.getId());
+                        MajorUtilEntry dataProgress = dbHelper.getAllMajorDetailsingle(UserId, singlerowid);
+                        ArrayList<OtherFacility> listotherfaci = dbHelper.getMajorUtilsOtherList(UserId, singlerowid);
+                        ArrayList<InspectionDetailsModel> listgps = dbHelper.getMajorUtilsGpsList(UserId, singlerowid);
 
 
-                            //for (OfficeUnderPsEntity data : dataProgress) {
-                        if (dataProgress !=null)
-                        {
-                            new UploadOfficeUnderPS(dataProgress,listgps).execute();
+
+                        //for (OfficeUnderPsEntity data : dataProgress) {
+                        if (dataProgress !=null) {
+                            new UploadMajorUtilities(dataProgress,listgps,listotherfaci).execute();
                         }
 
 
-                           // }
+                        // }
 
-                         //   GlobalVariables.listSize = dataProgress.size();
+                        //   GlobalVariables.listSize = dataProgress.size();
 
                     }
 
@@ -202,30 +191,32 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
 
 
 
-    public void refresh(ArrayList<OfficeUnderPsEntity> events) {
-        this.ListItem1.clear();
-        this.ListItem1.addAll(events);
+    public void refresh(ArrayList<MajorUtilEntry> events) {
+        this.majorItem.clear();
+        this.majorItem.addAll(events);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount(){
 
-        return ListItem1.size();
+        return majorItem.size();
     }
 
 
-    private class UploadOfficeUnderPS extends AsyncTask<String, Void, String> {
+    private class UploadMajorUtilities extends AsyncTask<String, Void, String> {
         private final ProgressDialog dialog = new ProgressDialog(context);
 
-        OfficeUnderPsEntity workInfo;
-        ArrayList<InspectionDetailsModel> reqrmnts;
+        MajorUtilEntry majorUtilEntry;
+        ArrayList<InspectionDetailsModel> inspectionDetailsModelArrayList;
+        ArrayList<OtherFacility> otherFacilityArrayList;
         String rowid="";
 
-        public UploadOfficeUnderPS(OfficeUnderPsEntity workInfo, ArrayList<InspectionDetailsModel> reqrmnts) {
-            this.workInfo = workInfo;
-            this.reqrmnts = reqrmnts;
-            rowid=workInfo.getId();
+        public UploadMajorUtilities(MajorUtilEntry majorUtilEntry, ArrayList<InspectionDetailsModel> inspectionDetailsModelArrayList, ArrayList<OtherFacility> otherFacilityArrayList) {
+            this.majorUtilEntry = majorUtilEntry;
+            this.inspectionDetailsModelArrayList = inspectionDetailsModelArrayList;
+            this.otherFacilityArrayList = otherFacilityArrayList;
+            rowid=majorUtilEntry.getId();
         }
 
         @Override
@@ -236,8 +227,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
         }
 
         @Override
-        protected String doInBackground(String... param) {
-            return WebServiceHelper.UploadOfficeUnderPolice_Details(context,workInfo,reqrmnts, UserId, Utiilties.getDeviceIMEI(context),Utiilties.getAppVersion(context),Utiilties.getDeviceName(),Token);
+        protected String doInBackground(String... strings) {
+            return WebServiceHelper.UploadMajorUtilities_Details(context, majorUtilEntry, inspectionDetailsModelArrayList, UserId, Utiilties.getDeviceIMEI(context), Utiilties.getAppVersion(context), Utiilties.getDeviceName(), Token, otherFacilityArrayList);
         }
 
         @Override
@@ -245,74 +236,72 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
             if (this.dialog.isShowing()) {
                 this.dialog.dismiss();
             }
-
             if (result != null) {
                 if (result.contains(",")) {
                     String[] res = result.split(",");
-                    try
-                    {
+                    try {
                         String skey = _encrptor.Decrypt(res[1], CommonPref.CIPER_KEY);
                         String response = _encrptor.Decrypt(res[0], skey);
 
-                        if(response.equals("1")) {
+                        if (response.equals("1")) {
                             new android.app.AlertDialog.Builder(context)
                                     .setTitle("Success")
                                     .setMessage("Record Uploaded Successfully")
                                     .setCancelable(false)
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
                                             DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
 
-                                            dataBaseHelper.deleteEditRec(rowid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
-                                            dataBaseHelper.deleteOfficeLatLong(rowid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                                            dataBaseHelper.majordeleteEditRec(rowid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                                            dataBaseHelper.majordeleteOfficeLatLong(rowid, PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
                                             //  ((Edit_entry) activity).setReportListViewDataForAdapter();
-                                            ListItem1 = dataBaseHelper.getAllOfficeEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
-                                            refresh(ListItem1);
+                                            majorItem = dataBaseHelper.getAllMajorUtilEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
+                                            refresh(majorItem);
 
-                                            ListItem1 = dataBaseHelper.getAllOfficeEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
-
+                                            majorItem = dataBaseHelper.getAllMajorUtilEntryDetail(PreferenceManager.getDefaultSharedPreferences(context).getString("UserId", ""));
 
                                         }
                                     })
                                     .show();
-                        }
-                        else if(response.equals("0")) {
+                        } else if (response.equals("0")) {
                             new android.app.AlertDialog.Builder(context)
                                     .setTitle("Failed")
-                                    .setMessage("Record Not Uploaded Successfully")
+                                    .setMessage("Record Not Upload Successfully")
                                     .setCancelable(false)
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
                                             activity.finish();
                                         }
-                                    }).show();
+                                    })
+                                    .show();
                         } else {
                             new android.app.AlertDialog.Builder(context)
                                     .setTitle("Failed!!")
                                     .setMessage(response)
                                     .setCancelable(true)
                                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id)
-                                        {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
                                             activity.finish();
                                         }
                                     })
                                     .show();
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                else {
-                    Toast.makeText(context,"Not Uploaded",Toast.LENGTH_LONG).show();
+                } else {
+
+
+                    Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+
                 }
 
             } else {
-                Toast.makeText(context,"Failed!! Null Response. Try again later",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Failed!! Null Response. Try again later", Toast.LENGTH_SHORT).show();
             }
-
         }
-
     }
 }

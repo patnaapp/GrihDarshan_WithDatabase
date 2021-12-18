@@ -9,7 +9,7 @@ public class MajorUtilEntry implements Parcelable {
             Historical_importance, Best_practices, Reform_correctional, EstablishYear, JailCapacity, Court_Code, NameCourt,
             CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Latitude, Longitude, Photo1;*/
 
-    private String User_Id, password, Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode, Major_Crime_HeadCode, Major_Crime_HeadAddress,
+    private String User_Id, password, Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode,Major_UtilName, Major_Crime_HeadCode, Major_Crime_HeadAddress,
             Chronic_Land_DistributeCode, Chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, Land_DetailCode, Boundary_StatusCode, Jail_TypeCode,
             Jail_Name, Jail_Address, Started_Year, Jail_Capacity, Type_Court_Code, Name_Of_Court, Court_Address, Fair_Festival_Name, Fair_Festival_Address,
             Historical_Place_Name, Historical_Place_Address, Remarks, Photo, Latitude, Longitude, Entry_Mode, Imei_Num, App_Ver, Device_Type, Religious_PlaceType,
@@ -17,9 +17,10 @@ public class MajorUtilEntry implements Parcelable {
             Fire_Prone_Name, Fire_Status, Fire_Prone_Address, PerisonMale_Capcity, PerisonFemale_Capcity, PerisonOther_Capcity, Under_Trial_Male, Under_Trial_Female,
             Under_Trial_Other, Convicted_Male, Convicted_Female, Convicted_Other, Transit_Male, Transit_Female, Transit_Other, Male_Under_Eighteen, Female_Under_Eighteen,
             Other_Under_Eighteen, Male_Over_Eighteen, Female_Over_Eighteen, Other_Over_Eighteen, Male_Foreigner, Female_Foreigner, Other_Foreigner,
-            Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory, skey, cap;
+            Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory, skey, cap,id = "";
 
     protected MajorUtilEntry(Parcel in) {
+        id = in.readString();
         User_Id = in.readString();
         password = in.readString();
         Range_Code = in.readString();
@@ -27,6 +28,7 @@ public class MajorUtilEntry implements Parcelable {
         Dist_Code = in.readString();
         Thana_code = in.readString();
         Major_UtilCode = in.readString();
+        Major_UtilName = in.readString();
         Major_Crime_HeadCode = in.readString();
         Major_Crime_HeadAddress = in.readString();
         Chronic_Land_DistributeCode = in.readString();
@@ -97,6 +99,7 @@ public class MajorUtilEntry implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(User_Id);
         dest.writeString(password);
         dest.writeString(Range_Code);
@@ -104,6 +107,7 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Dist_Code);
         dest.writeString(Thana_code);
         dest.writeString(Major_UtilCode);
+        dest.writeString(Major_UtilName);
         dest.writeString(Major_Crime_HeadCode);
         dest.writeString(Major_Crime_HeadAddress);
         dest.writeString(Chronic_Land_DistributeCode);
@@ -851,5 +855,22 @@ public class MajorUtilEntry implements Parcelable {
 
     public void setCap(String cap) {
         this.cap = cap;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMajor_UtilName() {
+        return Major_UtilName;
+    }
+
+    public void setMajor_UtilName(String major_UtilName) {
+        Major_UtilName = major_UtilName;
     }
 }

@@ -118,7 +118,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
 
 
-
         user_id = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getUserID();
         range_Code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRange_Code();
         dist_code = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getPolice_Dist_Code();
@@ -136,8 +135,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             } else {
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             setMajorDetailsSpinner();
         }
 
@@ -835,11 +833,13 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 //                        started_Year, jail_Capacity, type_Court_Code, name_Of_Court, court_Address, fair_Festival_Name, fair_Festival_Address, historical_Place_Name,
 //                        historical_Place_Address, remarks, photo, latitude, longitude, entry_Mode, imei_Num, app_Ver, device_Type, religious_PlaceType, religious_PlaceName,
 //                        historical_Imp_Prison, best_Practices_Prison, reform_Activities_Prison, fire_TypeCode, hydrant_Type_Code, hydrant_Name, fire_Prone_Name, fire_Status, skey, cap);
-
+                long c1 = 0;
+                long c2 = 0;
                 model = new MajorUtilEntry();
 
                 model.setUser_Id(user_id);
                 model.setMajor_UtilCode(major_UtilCode);
+                model.setMajor_UtilName(major_UtilName);
                 model.setRange_Code(range_Code);
                 model.setSubDiv_Code(subDiv_Code);
                 model.setDist_Code(dist_code);
@@ -868,9 +868,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setPhoto(photo);
                 model.setLatitude(latitude);
                 model.setLongitude(longitude);
-                model.setEntry_Mode(entry_Mode);
-                model.setImei_Num(imei_Num);
-                model.setApp_Ver(app_Ver);
+                //model.setEntry_Mode(entry_Mode);
+                //model.setImei_Num(imei_Num);
+                //model.setApp_Ver(app_Ver);
                 model.setDevice_Type(device_Type);
                 model.setReligious_PlaceType(religious_PlaceType);
                 model.setReligious_PlaceName(religious_place_name);
@@ -936,33 +936,81 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
                     ab.show();
                 } else {
-
                     if (major_UtilCode.equals("3")) {
                         if (listgps.size() >= 4) {
-                           // new UploadMajorUtilities(model, listgps, facilitylist).execute();
-                            long id = 0;
-                            id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model);
-                            if (id > 0) {
+                            //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                            long c = 0;
+                            c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
 
-                                Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
-                                AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                                ab.setMessage("Data Successfully Saved !");
-                                ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        Intent i=new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                });
+                            if (c > 0) {
 
-                                ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                                ab.show();
+                                c1 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
+
+                                if (c1 > 0) {
+
+                                    Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+                                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                                    ab.setMessage("Data Successfully Saved !");
+                                    ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    });
+
+                                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                                    ab.show();
+
+                                }
 
                             } else {
-                                Toast.makeText(getApplicationContext(), "डेटा सहेजा नहीं गया", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
                             }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                        }
 
+                    } else if (major_UtilCode.equals("6")) {
+                        if (listgps.size() >= 4) {
+                            //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                            long c = 0;
+                            c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
+
+                            if (c > 0) {
+
+                                c1 = dataBaseHelper.InsertMajorUtilitiesOthers(facilitylist, user_id, String.valueOf(c));
+                                if (c1 > 0) {
+
+                                    c2 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
+
+                                    if (c2 > 0) {
+
+                                        Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+                                        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                                        ab.setMessage("Data Successfully Saved !");
+                                        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
+                                                startActivity(i);
+                                                finish();
+                                            }
+                                        });
+
+                                        ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                                        ab.show();
+
+                                    }
+                                } else {
+                                    Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            } else {
+                                Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
                         }
@@ -971,7 +1019,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
                         //new UploadMajorUtilities(model, listgps, facilitylist).execute();
                         long id = 0;
-                        id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model);
+                        id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
                         if (id > 0) {
 
                             Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
@@ -980,7 +1028,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                             ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    Intent i=new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
+                                    Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
                                     startActivity(i);
                                     finish();
                                 }
@@ -1118,19 +1166,17 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     jail_TypeCode = getPrisionypeServer.getJail_Type_Code();
 
                     prisionMaster_List = dataBaseHelper.getPrisonMasterLocal(dist_code, jail_TypeCode);
-                   if (prisionMaster_List.size() <= 0) {
-                       if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
-                           new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
+                    if (prisionMaster_List.size() <= 0) {
+                        if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
+                            new getPrisonMasterList(user_id, password, Token, dist_code, jail_TypeCode).execute();
 
-                       } else {
-                           Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
-                       }
-                   }
-                   else {
-                       setPrisonMaster_List();
-                   }
-                }
-                else {
+                        } else {
+                            Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        setPrisonMaster_List();
+                    }
+                } else {
                     jail_TypeCode = "";
                 }
                 break;
@@ -1228,8 +1274,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
                     dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     //prisionMaster_List = result;
-                    long c = dataBaseHelper.setPrisonMasterLocal(result,Dist_Code, Jail_Code);
-                    if (c>0){
+                    long c = dataBaseHelper.setPrisonMasterLocal(result, Dist_Code, Jail_Code);
+                    if (c > 0) {
                         setPrisonMaster_List();
                     }
 
@@ -1296,12 +1342,12 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             customAlertDialog.dismisDialog();
 
             if (result != null) {
-                if (result.size() > 0){
+                if (result.size() > 0) {
                     dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     long c = dataBaseHelper.setPrisonTypeLocal(result);
                     if (c > 0) {
                         setPrision_Type();
-                }
+                    }
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
@@ -1355,10 +1401,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
                     DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     long c = helper.setFireTypeLocal(result);
-                    if (c > 0){
+                    if (c > 0) {
                         setFireType();
                     }
-                   // FireType_List = result;
+                    // FireType_List = result;
                     //setFireType(result);
                     new TypeofHydration(user_id, Password, Token).execute();
                 } else {
@@ -1371,7 +1417,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     }
 
     public void setFireType() {
-       // FireType_List = RangeList;
+        // FireType_List = RangeList;
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
         FireType_List = dataBaseHelper.getFireTypeLocal();
         ArrayList array = new ArrayList<String>();
@@ -1417,7 +1463,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
                     DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     long c = helper.setTypeOfHydrantLocal(result);
-                    if (c > 0){
+                    if (c > 0) {
                         TypeOfHydration();
                     }
                     //TypeofHydration_List = result;
@@ -1474,10 +1520,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             if (result != null) {
                 if (result.size() > 0) {
                     DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                   // Major_Util_List = result;
+                    // Major_Util_List = result;
                     long c = helper.setMajorUtilitiesLocal(result);
 
-                    if(c>0) {
+                    if (c > 0) {
                         setMajorDetailsSpinner();
                     }
 
@@ -1486,8 +1532,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     Toast.makeText(getApplicationContext(), "No Utilities Found", Toast.LENGTH_SHORT).show();
                 }
 
-            }
-            else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Result: null", Toast.LENGTH_SHORT).show();
             }
         }
@@ -2092,7 +2137,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnReligionType.setOnItemSelectedListener(this);
 
     }
-
 
 
     public void load_Major_Crime() {

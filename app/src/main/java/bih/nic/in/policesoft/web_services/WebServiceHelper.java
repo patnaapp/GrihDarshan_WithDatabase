@@ -2778,7 +2778,7 @@ public class WebServiceHelper {
 
         Element poleElement = doc.getDocumentElement();
         try {
-            poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(UserId), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getUserID()), RandomNo)));
             //  poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "password", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CommonPref.getPoliceDetails(context).getPassword()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getRange_Code()), RandomNo)));

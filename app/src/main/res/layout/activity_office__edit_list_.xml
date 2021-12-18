@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/lin1"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_foot"
             android:layout_width="match_parent"
@@ -24,13 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <include
                     android:id="@+id/headerhome"
                     layout="@layout/header_main"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    />
+                    android:layout_alignParentTop="true" />
 
             </RelativeLayout>
 
@@ -57,7 +56,6 @@
         android:id="@+id/tv_Norecord1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
         android:gravity="center_vertical|center_horizontal"
         android:text="No Record Found"
         android:textAppearance="?android:attr/textAppearanceLarge"

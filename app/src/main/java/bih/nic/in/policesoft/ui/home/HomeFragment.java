@@ -34,6 +34,7 @@ import bih.nic.in.policesoft.ui.activities.AddContactActivity;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 import bih.nic.in.policesoft.ui.activities.AddOfficeUnderPoliceActivity;
 import bih.nic.in.policesoft.ui.activities.AddOutpostActivity;
+import bih.nic.in.policesoft.ui.activities.MajorUtil_ListActivity;
 import bih.nic.in.policesoft.ui.activities.Contact_Edit_List_Activity;
 import bih.nic.in.policesoft.ui.activities.Office_EditList_Activity;
 import bih.nic.in.policesoft.utility.CommonPref;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     public UserHomeListener listenr;
     TextView txt_Username, tv_range, tv_thana_dist, tv_subdivision, tv_thana_name;
-    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder,rl_sync_data,rl_uploadcont;
+    RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder,rl_edit_major_util,rl_sync_data,rl_uploadcont;
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
     com.smarteist.autoimageslider.SliderView sliderView1;
@@ -101,6 +102,14 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        rl_edit_major_util.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), MajorUtil_ListActivity.class);
+                startActivity(i);
+            }
+        });
+
         rl_addofficeunder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +155,7 @@ public class HomeFragment extends Fragment {
         rl_addmajorutil = (RelativeLayout) root.findViewById(R.id.rl_addmajorutil);
         rl_addofficeunder = (RelativeLayout) root.findViewById(R.id.rl_addofficeunder);
         rl_editofficeunder = (RelativeLayout) root.findViewById(R.id.rl_editofficeunder);
+        rl_edit_major_util = (RelativeLayout) root.findViewById(R.id.rl_edit_major_util);
         rl_sync_data = (RelativeLayout) root.findViewById(R.id.rl_sync_data);
         rl_uploadcont = (RelativeLayout) root.findViewById(R.id.rl_uploadcont);
         button_layout = (LinearLayout) root.findViewById(R.id.button_layout);

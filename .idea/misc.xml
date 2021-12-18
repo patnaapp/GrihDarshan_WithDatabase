@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/activity_adaptor_edit_entry.xml" value="0.2609375" />
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/activity_major_util_list.xml" value="0.2609375" />
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/activity_office__edit_list_.xml" value="0.2609375" />
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/fragment_home.xml" value="0.2609375" />
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/header_main.xml" value="0.2609375" />
+        <entry key="..\:/GrihDarshan_WtihLocal/app/src/main/res/layout/majorutil_adapteritem.xml" value="0.2609375" />
         <entry key="..\:/PoliceSoft/app/src/main/res/drawable/card_top_wave.xml" value="0.2846153846153846" />
         <entry key="..\:/PoliceSoft/app/src/main/res/drawable/shape_adapter_cell.xml" value="0.2846153846153846" />
         <entry key="..\:/PoliceSoft/app/src/main/res/layout/activity_add_contact.xml" value="0.2609375" />

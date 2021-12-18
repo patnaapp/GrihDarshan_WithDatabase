@@ -31,6 +31,8 @@ import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
 import bih.nic.in.policesoft.entity.OfficeUnderPsEntity;
 import bih.nic.in.policesoft.entity.Office_Name_List_Modal;
+import bih.nic.in.policesoft.entity.OtherFacility;
+import bih.nic.in.policesoft.entity.OtherFacilityModel;
 import bih.nic.in.policesoft.entity.UserDetails;
 import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 
@@ -176,26 +178,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public long InsertNewEntry(AddMajorUtilitiesActivity newEntryActivity, MajorUtilEntry result) {
+    public long InsertNewEntry(AddMajorUtilitiesActivity newEntryActivity, MajorUtilEntry result,String user_id) {
         long c = -1;
 
         try {
             DataBaseHelper placeData = new DataBaseHelper(newEntryActivity);
             SQLiteDatabase db = placeData.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("id", result.getUser_Id());
-            values.put("password",result.getPassword());
+            values.put("password", result.getPassword());
             values.put("Range_Code", result.getRange_Code());
             values.put("SubDiv_Code", result.getSubDiv_Code());
             values.put("Dist_Code", result.getDist_Code());
             values.put("Thana_code", result.getThana_code());
             values.put("Major_UtilCode", result.getMajor_UtilCode());
+            values.put("Major_UtilName", result.getMajor_UtilName());
             values.put("Major_Crime_HeadCode", result.getMajor_Crime_HeadCode());
             values.put("Major_Crime_HeadAddress", result.getMajor_Crime_HeadAddress());
             values.put("Chronic_Land_DistributeCode", result.getChronic_Land_DistributeCode());
             values.put("Chronic_Land_Add", result.getChronic_Land_Add());
-            values.put("Kabrishtan_Name", result.getKabrishtan_Name());
-            values.put("Kabrishtan_VillName", result.getKabrishtan_VillName());
+           // values.put("Kabrishtan_Name", result.getKabrishtan_Name());
+            //values.put("Kabrishtan_VillName", result.getKabrishtan_VillName());
             values.put("Land_DetailCode", result.getLand_DetailCode());
             values.put("Boundary_StatusCode", result.getBoundary_StatusCode());
             values.put("Jail_TypeCode", result.getJail_TypeCode());
@@ -249,9 +251,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put("Jail_Hospital", result.getJail_Hospital());
             values.put("Jail_Kitchen", result.getJail_Kitchen());
             values.put("Jail_Dormitory", result.getJail_Dormitory());
+            values.put("Jail_Toilet", result.getJail_Toilet());
+            values.put("User_Id", user_id);
 
-
-            values.put("Flag", "I");
             c = db.insert("MajorUtilEntry", null, values);
             db.close();
 
@@ -335,7 +337,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //PrisonMasterLocal
-    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list,String distcode,String jailtype) {
+    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list, String distcode, String jailtype) {
 
 
         long c = -1;
@@ -362,8 +364,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("PrisionName", info.get(i).getJail_Name());
                     values.put("PrisonCode", info.get(i).getJail_Code());
-                    values.put("Distcode",distcode);
-                    values.put("JailType_Code",jailtype);
+                    values.put("Distcode", distcode);
+                    values.put("JailType_Code", jailtype);
 
                     String[] whereArgs = new String[]{info.get(i).getJail_Code()};
 
@@ -387,11 +389,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal(String distcode,String jailtype_code) {
+    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal(String distcode, String jailtype_code) {
         ArrayList<GetPrisionMasterServer> bdetail = new ArrayList<GetPrisionMasterServer>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{distcode,jailtype_code};
+            String[] whereArgs = new String[]{distcode, jailtype_code};
             Cursor cur = db.rawQuery("select * from PrisonMaster_List where Distcode=? AND JailType_Code=? order by PrisonCode", whereArgs);
             int x = cur.getCount();
             while (cur.moveToNext()) {
@@ -406,7 +408,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return bdetail;
     }
-
 
 
     public long setOfficeTypeLocal(ArrayList<OfficeListFromServer> list) {
@@ -498,7 +499,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long setCourtLocal(ArrayList<CourtType_Entity> list,String courtcateg) {
+    public long setCourtLocal(ArrayList<CourtType_Entity> list, String courtcateg) {
 
 
         long c = -1;
@@ -525,7 +526,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("CourtType_Id", info.get(i).get_CourtId());
                     values.put("CourtType_Name", info.get(i).get_CourtName());
-                    values.put("CourtCateg_ID",courtcateg);
+                    values.put("CourtCateg_ID", courtcateg);
 
                     String[] whereArgs = new String[]{info.get(i).get_CourtId()};
 
@@ -574,10 +575,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("Office_Code", info.get(i).getOfficeCode());
                     values.put("Officce_Name", info.get(i).getOfficeName());
-                    values.put("Dist_Code",info.get(i).getDistrict_Code());
-                    values.put("OfficeType_Code",info.get(i).getOffice_Type_Code());
-                    values.put("Range_Code",info.get(i).getRange_Code());
-                    values.put("SubDiv_Code",info.get(i).getSubdivision_Code());
+                    values.put("Dist_Code", info.get(i).getDistrict_Code());
+                    values.put("OfficeType_Code", info.get(i).getOffice_Type_Code());
+                    values.put("Range_Code", info.get(i).getRange_Code());
+                    values.put("SubDiv_Code", info.get(i).getSubdivision_Code());
 
                     String[] whereArgs = new String[]{info.get(i).getOfficeCode()};
 
@@ -599,11 +600,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Office_Name_List_Modal> getOfficeNameLocal(String officeType,String rangecode) {
+    public ArrayList<Office_Name_List_Modal> getOfficeNameLocal(String officeType, String rangecode) {
         ArrayList<Office_Name_List_Modal> bdetail = new ArrayList<Office_Name_List_Modal>();
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{officeType,rangecode};
+            String[] whereArgs = new String[]{officeType, rangecode};
             Cursor cur = db.rawQuery("select * from mst_OfficeName where OfficeType_Code=? or Range_Code=?", whereArgs);
             int x = cur.getCount();
             while (cur.moveToNext()) {
@@ -892,8 +893,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public long InsertOfficeDetails(OfficeUnderPsEntity result,String userid) {
+    public long InsertOfficeDetails(OfficeUnderPsEntity result, String userid) {
 
         long c = 0;
         try {
@@ -968,6 +968,225 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //getAllMajorUtilEntryDetail
+    public ArrayList<MajorUtilEntry> getAllMajorUtilEntryDetail(String Userid) {
+        ArrayList<MajorUtilEntry> majorUtil_basic_details = new ArrayList<MajorUtilEntry>();
+        try {
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid};
+            Cursor cursor =  sqLiteDatabase.rawQuery("Select *  from MajorUtilEntry where User_Id=? ORDER BY Id  DESC", args);
+                    int x = cursor.getCount();
+            while (cursor.moveToNext()){
+                MajorUtilEntry majorUtilInfo = new MajorUtilEntry();
+                String rowID = cursor.getString(cursor.getColumnIndex("id"));
+                majorUtilInfo.setId(cursor.getString(cursor.getColumnIndex("id")));
+                majorUtilInfo.setUser_Id(cursor.getString(cursor.getColumnIndex("User_Id")));
+                majorUtilInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+                majorUtilInfo.setRange_Code(cursor.getString(cursor.getColumnIndex("Range_Code")));
+                majorUtilInfo.setSubDiv_Code(cursor.getString(cursor.getColumnIndex("SubDiv_Code")));
+                majorUtilInfo.setDist_Code(cursor.getString(cursor.getColumnIndex("Dist_Code")));
+                majorUtilInfo.setThana_code(cursor.getString(cursor.getColumnIndex("Thana_code")));
+                majorUtilInfo.setMajor_UtilCode(cursor.getString(cursor.getColumnIndex("Major_UtilCode")));
+                majorUtilInfo.setMajor_UtilName(cursor.getString(cursor.getColumnIndex("Major_UtilName")));
+                majorUtilInfo.setMajor_Crime_HeadCode(cursor.getString(cursor.getColumnIndex("Major_Crime_HeadCode")));
+                majorUtilInfo.setMajor_Crime_HeadAddress(cursor.getString(cursor.getColumnIndex("Major_Crime_HeadAddress")));
+                majorUtilInfo.setChronic_Land_DistributeCode(cursor.getString(cursor.getColumnIndex("Chronic_Land_DistributeCode")));
+                majorUtilInfo.setChronic_Land_Add(cursor.getString(cursor.getColumnIndex("Chronic_Land_Add")));
+                majorUtilInfo.setKabrishtan_Name(cursor.getString(cursor.getColumnIndex("Kabrishtan_Name")));
+                majorUtilInfo.setKabrishtan_VillName(cursor.getString(cursor.getColumnIndex("Kabrishtan_VillName")));
+                majorUtilInfo.setLand_DetailCode(cursor.getString(cursor.getColumnIndex("Land_DetailCode")));
+                majorUtilInfo.setBoundary_StatusCode(cursor.getString(cursor.getColumnIndex("Boundary_StatusCode")));
+                majorUtilInfo.setJail_TypeCode(cursor.getString(cursor.getColumnIndex("Jail_TypeCode")));
+                majorUtilInfo.setJail_Name(cursor.getString(cursor.getColumnIndex("Jail_Name")));
+                majorUtilInfo.setJail_Address(cursor.getString(cursor.getColumnIndex("Jail_Address")));
+                majorUtilInfo.setStarted_Year(cursor.getString(cursor.getColumnIndex("Started_Year")));
+                majorUtilInfo.setJail_Capacity(cursor.getString(cursor.getColumnIndex("Jail_Capacity")));
+                majorUtilInfo.setType_Court_Code(cursor.getString(cursor.getColumnIndex("Type_Court_Code")));
+                majorUtilInfo.setName_Of_Court(cursor.getString(cursor.getColumnIndex("Name_Of_Court")));
+                majorUtilInfo.setCourt_Address(cursor.getString(cursor.getColumnIndex("Court_Address")));
+                majorUtilInfo.setFair_Festival_Name(cursor.getString(cursor.getColumnIndex("Fair_Festival_Name")));
+                majorUtilInfo.setFair_Festival_Address(cursor.getString(cursor.getColumnIndex("Fair_Festival_Address")));
+                majorUtilInfo.setHistorical_Place_Name(cursor.getString(cursor.getColumnIndex("Historical_Place_Name")));
+                majorUtilInfo.setHistorical_Place_Address(cursor.getString(cursor.getColumnIndex("Historical_Place_Address")));
+                majorUtilInfo.setRemarks(cursor.getString(cursor.getColumnIndex("Remarks")));
+               // majorUtilInfo.setPhoto(cursor.getString(cursor.getColumnIndex("Photo")));
+                majorUtilInfo.setLatitude(cursor.getString(cursor.getColumnIndex("Latitude")));
+                majorUtilInfo.setLongitude(cursor.getString(cursor.getColumnIndex("Longitude")));
+                majorUtilInfo.setReligious_PlaceType(cursor.getString(cursor.getColumnIndex("Religious_PlaceType")));
+                majorUtilInfo.setReligious_PlaceName(cursor.getString(cursor.getColumnIndex("Religious_PlaceName")));
+                majorUtilInfo.setHistorical_Imp_Prison(cursor.getString(cursor.getColumnIndex("Historical_Imp_Prison")));
+                majorUtilInfo.setBest_Practices_Prison(cursor.getString(cursor.getColumnIndex("Best_Practices_Prison")));
+                majorUtilInfo.setReform_Activities_Prison(cursor.getString(cursor.getColumnIndex("Reform_Activities_Prison")));
+                majorUtilInfo.setFire_TypeCode(cursor.getString(cursor.getColumnIndex("Fire_TypeCode")));
+                majorUtilInfo.setHydrant_Type_Code(cursor.getString(cursor.getColumnIndex("Hydrant_Type_Code")));
+                majorUtilInfo.setHydrant_Name(cursor.getString(cursor.getColumnIndex("Hydrant_Name")));
+                majorUtilInfo.setFire_Prone_Name(cursor.getString(cursor.getColumnIndex("Fire_Prone_Name")));
+                majorUtilInfo.setFire_Status(cursor.getString(cursor.getColumnIndex("Fire_Status")));
+                majorUtilInfo.setFire_Prone_Address(cursor.getString(cursor.getColumnIndex("Fire_Prone_Address")));
+                majorUtilInfo.setPerisonMale_Capcity(cursor.getString(cursor.getColumnIndex("PerisonMale_Capcity")));
+                majorUtilInfo.setPerisonFemale_Capcity(cursor.getString(cursor.getColumnIndex("PerisonFemale_Capcity")));
+                majorUtilInfo.setPerisonOther_Capcity(cursor.getString(cursor.getColumnIndex("PerisonOther_Capcity")));
+                majorUtilInfo.setUnder_Trial_Male(cursor.getString(cursor.getColumnIndex("Under_Trial_Male")));
+                majorUtilInfo.setUnder_Trial_Female(cursor.getString(cursor.getColumnIndex("Under_Trial_Female")));
+                majorUtilInfo.setUnder_Trial_Other(cursor.getString(cursor.getColumnIndex("Under_Trial_Other")));
+                majorUtilInfo.setConvicted_Male(cursor.getString(cursor.getColumnIndex("Convicted_Male")));
+                majorUtilInfo.setConvicted_Female(cursor.getString(cursor.getColumnIndex("Convicted_Female")));
+                majorUtilInfo.setConvicted_Other(cursor.getString(cursor.getColumnIndex("Convicted_Other")));
+                majorUtilInfo.setTransit_Male(cursor.getString(cursor.getColumnIndex("Transit_Male")));
+                majorUtilInfo.setTransit_Female(cursor.getString(cursor.getColumnIndex("Transit_Female")));
+                majorUtilInfo.setTransit_Other(cursor.getString(cursor.getColumnIndex("Transit_Other")));
+                majorUtilInfo.setMale_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Male_Under_Eighteen")));
+                majorUtilInfo.setFemale_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Female_Under_Eighteen")));
+                majorUtilInfo.setOther_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Other_Under_Eighteen")));
+                majorUtilInfo.setMale_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Male_Over_Eighteen")));
+                majorUtilInfo.setFemale_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Female_Over_Eighteen")));
+                majorUtilInfo.setOther_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Other_Over_Eighteen")));
+                majorUtilInfo.setMale_Foreigner(cursor.getString(cursor.getColumnIndex("Male_Foreigner")));
+                majorUtilInfo.setFemale_Foreigner(cursor.getString(cursor.getColumnIndex("Female_Foreigner")));
+                majorUtilInfo.setOther_Foreigner(cursor.getString(cursor.getColumnIndex("Other_Foreigner")));
+                majorUtilInfo.setJail_Hospital(cursor.getString(cursor.getColumnIndex("Jail_Hospital")));
+                majorUtilInfo.setJail_Kitchen(cursor.getString(cursor.getColumnIndex("Jail_Kitchen")));
+                majorUtilInfo.setJail_Dormitory(cursor.getString(cursor.getColumnIndex("Jail_Dormitory")));
+
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From MajorUtilEntry where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    majorUtilInfo.setPhoto((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+                majorUtil_basic_details.add(majorUtilInfo);
+                cursor1.close();
+            }
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            majorUtil_basic_details = null;
+            // TODO: handle exception
+
+        }
+        return majorUtil_basic_details;
+    }
+    //getAllMajorDetailsingle
+    public MajorUtilEntry getAllMajorDetailsingle(String Userid, String rowid) {
+        //ArrayList<MajorUtilEntry> majorUtil_basic_details = new ArrayList<MajorUtilEntry>();
+
+        MajorUtilEntry majorUtilInfo = new MajorUtilEntry();
+
+        try {
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid,rowid};
+            Cursor cursor =  sqLiteDatabase.rawQuery("Select * from MajorUtilEntry where User_Id=? AND id=?  ORDER BY id  DESC", args);
+            int x = cursor.getCount();
+            while (cursor.moveToNext()){
+                String rowID = cursor.getString(cursor.getColumnIndex("id"));
+                majorUtilInfo.setId((cursor.getString(cursor.getColumnIndex("id"))));
+                majorUtilInfo.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+                majorUtilInfo.setRange_Code(cursor.getString(cursor.getColumnIndex("Range_Code")));
+                majorUtilInfo.setSubDiv_Code(cursor.getString(cursor.getColumnIndex("SubDiv_Code")));
+                majorUtilInfo.setDist_Code(cursor.getString(cursor.getColumnIndex("Dist_Code")));
+                majorUtilInfo.setThana_code(cursor.getString(cursor.getColumnIndex("Thana_code")));
+                majorUtilInfo.setMajor_UtilCode(cursor.getString(cursor.getColumnIndex("Major_UtilCode")));
+                majorUtilInfo.setMajor_UtilName(cursor.getString(cursor.getColumnIndex("Major_UtilName")));
+                majorUtilInfo.setMajor_Crime_HeadCode(cursor.getString(cursor.getColumnIndex("Major_Crime_HeadCode")));
+                majorUtilInfo.setMajor_Crime_HeadAddress(cursor.getString(cursor.getColumnIndex("Major_Crime_HeadAddress")));
+                majorUtilInfo.setChronic_Land_DistributeCode(cursor.getString(cursor.getColumnIndex("Chronic_Land_DistributeCode")));
+                majorUtilInfo.setChronic_Land_Add(cursor.getString(cursor.getColumnIndex("Chronic_Land_Add")));
+                majorUtilInfo.setKabrishtan_Name(cursor.getString(cursor.getColumnIndex("Kabrishtan_Name")));
+                majorUtilInfo.setKabrishtan_VillName(cursor.getString(cursor.getColumnIndex("Kabrishtan_VillName")));
+                majorUtilInfo.setLand_DetailCode(cursor.getString(cursor.getColumnIndex("Land_DetailCode")));
+                majorUtilInfo.setBoundary_StatusCode(cursor.getString(cursor.getColumnIndex("Boundary_StatusCode")));
+                majorUtilInfo.setJail_TypeCode(cursor.getString(cursor.getColumnIndex("Jail_TypeCode")));
+                majorUtilInfo.setJail_Name(cursor.getString(cursor.getColumnIndex("Jail_Name")));
+                majorUtilInfo.setJail_Address(cursor.getString(cursor.getColumnIndex("Jail_Address")));
+                majorUtilInfo.setStarted_Year(cursor.getString(cursor.getColumnIndex("Started_Year")));
+                majorUtilInfo.setJail_Capacity(cursor.getString(cursor.getColumnIndex("Jail_Capacity")));
+                majorUtilInfo.setType_Court_Code(cursor.getString(cursor.getColumnIndex("Type_Court_Code")));
+                majorUtilInfo.setName_Of_Court(cursor.getString(cursor.getColumnIndex("Name_Of_Court")));
+                majorUtilInfo.setCourt_Address(cursor.getString(cursor.getColumnIndex("Court_Address")));
+                majorUtilInfo.setFair_Festival_Name(cursor.getString(cursor.getColumnIndex("Fair_Festival_Name")));
+                majorUtilInfo.setFair_Festival_Address(cursor.getString(cursor.getColumnIndex("Fair_Festival_Address")));
+                majorUtilInfo.setHistorical_Place_Name(cursor.getString(cursor.getColumnIndex("Historical_Place_Name")));
+                majorUtilInfo.setHistorical_Place_Address(cursor.getString(cursor.getColumnIndex("Historical_Place_Address")));
+                majorUtilInfo.setRemarks(cursor.getString(cursor.getColumnIndex("Remarks")));
+                // majorUtilInfo.setPhoto(cursor.getString(cursor.getColumnIndex("Photo")));
+                majorUtilInfo.setLatitude(cursor.getString(cursor.getColumnIndex("Latitude")));
+                majorUtilInfo.setLongitude(cursor.getString(cursor.getColumnIndex("Longitude")));
+                majorUtilInfo.setReligious_PlaceType(cursor.getString(cursor.getColumnIndex("Religious_PlaceType")));
+                majorUtilInfo.setReligious_PlaceName(cursor.getString(cursor.getColumnIndex("Religious_PlaceName")));
+                majorUtilInfo.setHistorical_Imp_Prison(cursor.getString(cursor.getColumnIndex("Historical_Imp_Prison")));
+                majorUtilInfo.setBest_Practices_Prison(cursor.getString(cursor.getColumnIndex("Best_Practices_Prison")));
+                majorUtilInfo.setReform_Activities_Prison(cursor.getString(cursor.getColumnIndex("Reform_Activities_Prison")));
+                majorUtilInfo.setFire_TypeCode(cursor.getString(cursor.getColumnIndex("Fire_TypeCode")));
+                majorUtilInfo.setHydrant_Type_Code(cursor.getString(cursor.getColumnIndex("Hydrant_Type_Code")));
+                majorUtilInfo.setHydrant_Name(cursor.getString(cursor.getColumnIndex("Hydrant_Name")));
+                majorUtilInfo.setFire_Prone_Name(cursor.getString(cursor.getColumnIndex("Fire_Prone_Name")));
+                majorUtilInfo.setFire_Status(cursor.getString(cursor.getColumnIndex("Fire_Status")));
+                majorUtilInfo.setFire_Prone_Address(cursor.getString(cursor.getColumnIndex("Fire_Prone_Address")));
+                majorUtilInfo.setPerisonMale_Capcity(cursor.getString(cursor.getColumnIndex("PerisonMale_Capcity")));
+                majorUtilInfo.setPerisonFemale_Capcity(cursor.getString(cursor.getColumnIndex("PerisonFemale_Capcity")));
+                majorUtilInfo.setPerisonOther_Capcity(cursor.getString(cursor.getColumnIndex("PerisonOther_Capcity")));
+                majorUtilInfo.setUnder_Trial_Male(cursor.getString(cursor.getColumnIndex("Under_Trial_Male")));
+                majorUtilInfo.setUnder_Trial_Female(cursor.getString(cursor.getColumnIndex("Under_Trial_Female")));
+                majorUtilInfo.setUnder_Trial_Other(cursor.getString(cursor.getColumnIndex("Under_Trial_Other")));
+                majorUtilInfo.setConvicted_Male(cursor.getString(cursor.getColumnIndex("Convicted_Male")));
+                majorUtilInfo.setConvicted_Female(cursor.getString(cursor.getColumnIndex("Convicted_Female")));
+                majorUtilInfo.setConvicted_Other(cursor.getString(cursor.getColumnIndex("Convicted_Other")));
+                majorUtilInfo.setTransit_Male(cursor.getString(cursor.getColumnIndex("Transit_Male")));
+                majorUtilInfo.setTransit_Female(cursor.getString(cursor.getColumnIndex("Transit_Female")));
+                majorUtilInfo.setTransit_Other(cursor.getString(cursor.getColumnIndex("Transit_Other")));
+                majorUtilInfo.setMale_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Male_Under_Eighteen")));
+                majorUtilInfo.setFemale_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Female_Under_Eighteen")));
+                majorUtilInfo.setOther_Under_Eighteen(cursor.getString(cursor.getColumnIndex("Other_Under_Eighteen")));
+                majorUtilInfo.setMale_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Male_Over_Eighteen")));
+                majorUtilInfo.setFemale_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Female_Over_Eighteen")));
+                majorUtilInfo.setOther_Over_Eighteen(cursor.getString(cursor.getColumnIndex("Other_Over_Eighteen")));
+                majorUtilInfo.setMale_Foreigner(cursor.getString(cursor.getColumnIndex("Male_Foreigner")));
+                majorUtilInfo.setFemale_Foreigner(cursor.getString(cursor.getColumnIndex("Female_Foreigner")));
+                majorUtilInfo.setOther_Foreigner(cursor.getString(cursor.getColumnIndex("Other_Foreigner")));
+                majorUtilInfo.setJail_Hospital(cursor.getString(cursor.getColumnIndex("Jail_Hospital")));
+                majorUtilInfo.setJail_Kitchen(cursor.getString(cursor.getColumnIndex("Jail_Kitchen")));
+                majorUtilInfo.setJail_Dormitory(cursor.getString(cursor.getColumnIndex("Jail_Dormitory")));
+                majorUtilInfo.setJail_Toilet(cursor.getString(cursor.getColumnIndex("Jail_Toilet")));
+
+
+                String[] args2 = {rowID};
+                String selectSQL = "select Photo From MajorUtilEntry where Id=? ORDER BY Id  DESC";
+                Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
+                Log.e("USERID", Userid);
+                while (cursor1.moveToNext()) {
+                    majorUtilInfo.setPhoto((cursor1.getString(cursor1.getColumnIndex("Photo"))));
+
+                }
+
+                //basicdetail.add(basicInfo);
+
+               // majorUtil_basic_details.add(majorUtilInfo);
+                //cursor1.close();
+            }
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //majorUtil_basic_details = null;
+            // TODO: handle exception
+
+        }
+        return majorUtilInfo;
+    }
+
     public ArrayList<OfficeUnderPsEntity> getAllOfficeEntryDetail(String Userid) {
         ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
 
@@ -976,7 +1195,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
             String[] args = {Userid};
 
-           // Cursor cursor = sqLiteDatabase.rawQuery("Select * from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
+            // Cursor cursor = sqLiteDatabase.rawQuery("Select * from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
             Cursor cursor = sqLiteDatabase.rawQuery("Select id, OfficeType_Code , OfficeType_Name , Office_Code , Office_Name , PoliceOwnBuild_Code , PoliceOwnBuild_Name , Khata_Num , Khesra_Num , Total_Area_Land , Other_Offices , Other_Office_Name , Address , Remarks , Houseing_Faci , LsQuarter , UsQuarter , Male_Barrack , Female_Barrack , Armoury_Magazine , Ongoing_CivilWork , Office_In_Charge , Designation , Mobile_No , Landline_No , Establish_Year , Email_id , TrainingCourseName , TrainingCourseCapacity , Sanction_Strength , Working_Strength , Division_Fun , Major_Devices_Equi , Latitude , Longitude , stateOfficeName , prosecutionOfficelevel , courtCategId , courtTypeId , courtSubTypeId , HGOfficeLevel_ID , HGStateOffice , HGDistOffice , HG_regular_Male , HG_regular_Female , HG_regular_Others , HG_volunatry_Male , HG_volunatry_Female , HG_volunatry_Others , Entry_By , Entry_Date  from InsertOfficesUnderPs where Entry_By=? ORDER BY Id  DESC", args);
             int x = cursor.getCount();
 
@@ -1040,8 +1259,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 //                basicInfo.setBundle1((cursor.getString(cursor.getColumnIndex("Entry_Date"))));
 
 
-
-
                 String[] args2 = {rowID};
                 String selectSQL = "select Photo From InsertOfficesUnderPs where Id=? ORDER BY Id  DESC";
                 Cursor cursor1 = sqLiteDatabase.rawQuery(selectSQL, args2);
@@ -1061,8 +1278,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             sqLiteDatabase.close();
 
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             basicdetail = null;
             // TODO: handle exception
@@ -1070,6 +1286,46 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return basicdetail;
     }
+    public long majordeleteEditRec(String id, String EntryBy) {
+        long c = -1;
+
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] DeleteWhere = {String.valueOf(EntryBy), String.valueOf(id)};
+            c = db.delete("MajorUtilEntry", "User_Id=? and id=?", DeleteWhere);
+
+            this.getWritableDatabase().close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return c;
+        }
+        return c;
+
+    }
+
+    public long majordeleteOfficeLatLong(String id, String EntryBy) {
+        long c = -1;
+
+        try {
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            String[] DeleteWhere = {String.valueOf(EntryBy), String.valueOf(id)};
+            c = db.delete("MajorUtilEntry", "EntryBy=? and Insp_Id=?", DeleteWhere);
+
+            this.getWritableDatabase().close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return c;
+        }
+        return c;
+
+    }
+
 
     public long deleteEditRec(String id, String EntryBy) {
         long c = -1;
@@ -1112,7 +1368,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public OfficeUnderPsEntity getAllEntryDetailsingle(String Userid, String rowid) {
-     //   ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
+        //   ArrayList<OfficeUnderPsEntity> basicdetail = new ArrayList<OfficeUnderPsEntity>();
         OfficeUnderPsEntity basicInfo = new OfficeUnderPsEntity();
         try {
 
@@ -1192,7 +1448,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                 //basicdetail.add(basicInfo);
 
-               // basicdetail.add(basicInfo);
+                // basicdetail.add(basicInfo);
                 cursor1.close();
             }
 
@@ -1209,6 +1465,176 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    //MajorUtilities
+    public ArrayList<InspectionDetailsModel> getMajorUtilsGpsList(String Userid, String rowid) {
+        ArrayList<InspectionDetailsModel> basicdetail = new ArrayList<InspectionDetailsModel>();
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid, rowid};
+            // Cursor cursor=sqLiteDatabase.rawQuery("select * From BasicDetails where EntryBy=? AND Id=?",args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select * from MajorUtil_GpsList where EntryBy=? And Insp_Id=? ORDER BY Insp_Id  DESC", args);
+
+            int x = cursor.getCount();
+
+            InspectionDetailsModel basicInfo = new InspectionDetailsModel();
+            while (cursor.moveToNext()) {
+
+
+                basicInfo.setLatitude((cursor.getString(cursor.getColumnIndex("Latitude"))));
+                basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Longitude"))));
+                basicInfo.setInsp_Id((cursor.getString(cursor.getColumnIndex("Insp_Id"))));
+                basicInfo.setUserid((cursor.getString(cursor.getColumnIndex("EntryBy"))));
+
+
+                basicdetail.add(basicInfo);
+
+            }
+
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return basicdetail;
+    }
+
+    public ArrayList<OtherFacility> getMajorUtilsOtherList(String Userid, String rowid) {
+        ArrayList<OtherFacility> basicdetail = new ArrayList<OtherFacility>();
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+            String[] args = {Userid, rowid};
+            // Cursor cursor=sqLiteDatabase.rawQuery("select * From BasicDetails where EntryBy=? AND Id=?",args);
+            Cursor cursor = sqLiteDatabase.rawQuery("Select * from Other_Facility where User_Id=? And Insp_Id=? ORDER BY Insp_Id  DESC", args);
+
+            int x = cursor.getCount();
+
+            OtherFacility basicInfo = new OtherFacility();
+            while (cursor.moveToNext()) {
+
+
+                basicInfo.setText_facility((cursor.getString(cursor.getColumnIndex("Text_Facility"))));
+                basicInfo.setUser_Id((cursor.getString(cursor.getColumnIndex("User_Id"))));
+                basicInfo.setInsp_Id((cursor.getString(cursor.getColumnIndex("Insp_Id"))));
+                //basicInfo.setLongitude((cursor.getString(cursor.getColumnIndex("Longitude"))));
+
+
+                basicdetail.add(basicInfo);
+
+            }
+
+            cursor.close();
+            this.getReadableDatabase().close();
+            sqLiteDatabase.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+
+        }
+        return basicdetail;
+    }
+
+    //MajorUtilities
+    public long InsertMajorUtilitiesLatLongs(ArrayList<InspectionDetailsModel> list, String userid, String isnpection_id) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<InspectionDetailsModel> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("MajorUtil_GpsList", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Latitude", info.get(i).getLatitude());
+                    values.put("Longitude", info.get(i).getLongitude());
+                    values.put("Insp_Id", isnpection_id);
+                    values.put("EntryBy", userid);
+
+                    c = db.insert("MajorUtil_GpsList", null, values);
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public long InsertMajorUtilitiesOthers(ArrayList<OtherFacility> list, String userid, String isnpection_id) {
+
+
+        long c = -1;
+
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<OtherFacility> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("Other_Facility", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Text_Facility", info.get(i).getText_facility());
+                    values.put("Insp_Id", isnpection_id);
+                    values.put("User_Id", userid);
+
+                    c = db.insert("Other_Facility", null, values);
+
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    //AddOfficeUnderPolice
     public ArrayList<InspectionDetailsModel> getOfficeGpsList(String Userid, String rowid) {
         ArrayList<InspectionDetailsModel> basicdetail = new ArrayList<InspectionDetailsModel>();
 
@@ -1245,9 +1671,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return basicdetail;
     }
 
-
-
-    public long InsertOfficeLatLongs(ArrayList<InspectionDetailsModel> list,String userid,String isnpection_id) {
+    //AddOfficeUnderPolice
+    public long InsertOfficeLatLongs(ArrayList<InspectionDetailsModel> list, String userid, String isnpection_id) {
 
 
         long c = -1;
@@ -1275,9 +1700,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     values.put("Latitude", info.get(i).getLatitude());
                     values.put("Longitude", info.get(i).getLongitude());
                     values.put("Insp_Id", isnpection_id);
-                    values.put("EntryBy",userid);
+                    values.put("EntryBy", userid);
 
-                        c = db.insert("InsertOfficeGps_List", null, values);
+                    c = db.insert("InsertOfficeGps_List", null, values);
 
 
                 }
