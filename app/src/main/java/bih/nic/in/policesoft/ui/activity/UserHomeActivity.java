@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.UserHomeListener;
 import bih.nic.in.policesoft.database.DataBaseHelper;
+import bih.nic.in.policesoft.databinding.ActivityAddMajorUtilitiesBinding;
 import bih.nic.in.policesoft.entity.UserDetails;
 import bih.nic.in.policesoft.ui.changePassword.ChangePasswordFragment;
 import bih.nic.in.policesoft.ui.home.HomeFragment;
@@ -57,6 +59,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     HomeFragment homeFrag;
     DataBaseHelper dataBaseHelper;
     SQLiteDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +159,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_change_password:
                 toolbar.setTitle("Change Password");
                 displaySelectedFragment(new ChangePasswordFragment());
+
                 break;
             case R.id.nav_logOut:
                 logout();

@@ -2105,4 +2105,69 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return c;
 
     }
+
+    //----------------------------------------------------------------
+    public int getTotal_Badge_Imp_contact(String userId) {
+
+        int x = 0;
+        try {
+
+            Log.e("USERID", userId);
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = {userId};
+            Cursor cur = db.rawQuery("Select * from Insert_Imp_Contacts where  Entry_By=?", new String[]{userId});
+            x = cur.getCount();
+//            cur.close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return x;
+
+    }
+
+    //----------------------------------------------------------------
+    public int getTotal_Badge_MajorUtilities(String userId) {
+
+        int x = 0;
+        try {
+
+            Log.e("USERID", userId);
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = {userId};
+            Cursor cur = db.rawQuery("Select * from MajorUtilEntry where  User_Id=?", new String[]{userId});
+            x = cur.getCount();
+//            cur.close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return x;
+
+    }
+    //----------------------------------------------------------------
+    public int getTotal_Badge_Office(String userId) {
+
+        int x = 0;
+        try {
+
+            Log.e("USERID", userId);
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = {userId};
+            Cursor cur = db.rawQuery("Select * from InsertOfficesUnderPs where  Entry_By=?", new String[]{userId});
+            x = cur.getCount();
+//            cur.close();
+            db.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return x;
+
+    }
 }

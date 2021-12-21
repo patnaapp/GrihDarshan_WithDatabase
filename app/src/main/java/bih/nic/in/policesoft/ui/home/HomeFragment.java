@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,13 @@ public class HomeFragment extends Fragment {
     RelativeLayout rl_addoutpost, rl_addcont, rl_addmajorutil, rl_addofficeunder,rl_editofficeunder,rl_edit_major_util,rl_sync_data,rl_uploadcont;
     private CustomAlertDialog customAlertDialog;
     com.smarteist.autoimageslider.SliderView sliderView;
-    com.smarteist.autoimageslider.SliderView sliderView1;
+
     LinearLayout button_layout,ll_subdiv,emailLayout;
     DataBaseHelper dbHelper;
+    String userId;
+
+
+    TextView tvBadge_imp_contact,tvBadge_major_Utilities,tvBadge_upload_office;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,6 +151,9 @@ public class HomeFragment extends Fragment {
 
 
     void initializeViews(View root) {
+        tvBadge_imp_contact = (TextView) root.findViewById(R.id.tvBadge_imp_contact);
+        tvBadge_major_Utilities = (TextView) root.findViewById(R.id.tvBadge_major_Utilities);
+        tvBadge_upload_office = (TextView) root.findViewById(R.id.tvBadge_upload_office);
         txt_Username = (TextView) root.findViewById(R.id.txt_Username);
         tv_range = (TextView) root.findViewById(R.id.tv_range);
         tv_thana_dist = (TextView) root.findViewById(R.id.tv_thana_dist);
@@ -167,6 +175,55 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void showBadgeImp_contact() {
+        int count = dbHelper.getTotal_Badge_Imp_contact(userId);
+        Log.e("Count", String.valueOf(count));
+        if (count > 0) {
+            tvBadge_imp_contact.setText(String.valueOf(count));
+           // tvBadge_major_Utilities.setText(String.valueOf(count));
+           // tvBadge_upload_office.setText(String.valueOf(count));
+        }
+        else {
+            tvBadge_imp_contact.setText("0");
+            //tvBadge_major_Utilities.setText("0");
+           // tvBadge_upload_office.setText("0");
+        }
+
+    }
+    private void showBadgeMajorUtilities() {
+        int count = dbHelper.getTotal_Badge_MajorUtilities(userId);
+        Log.e("Count", String.valueOf(count));
+        if (count > 0) {
+          //  tvBadge_imp_contact.setText(String.valueOf(count));
+            tvBadge_major_Utilities.setText(String.valueOf(count));
+           // tvBadge_upload_office.setText(String.valueOf(count));
+        }
+        else {
+           // tvBadge_imp_contact.setText("0");
+            tvBadge_major_Utilities.setText("0");
+            //tvBadge_upload_office.setText("0");
+        }
+
+    }
+
+    private void showBadgeOffice() {
+        int count = dbHelper.getTotal_Badge_Office(userId);
+        Log.e("Count", String.valueOf(count));
+        if (count > 0) {
+            //tvBadge_imp_contact.setText(String.valueOf(count));
+            //tvBadge_major_Utilities.setText(String.valueOf(count));
+            tvBadge_upload_office.setText(String.valueOf(count));
+        }
+        else {
+           // tvBadge_imp_contact.setText("0");
+            //tvBadge_major_Utilities.setText("0");
+            tvBadge_upload_office.setText("0");
+        }
+
+    }
+
+
+
     public void setUserDetail() {
         //txt_Username.setText(Utiilties.returnGreetString(getContext()) + "\n" + CommonPref.getPoliceDetails(getContext()).getSHO_Name());
         tv_range.setText(CommonPref.getPoliceDetails(getContext()).getRange_Name());
@@ -179,7 +236,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        showBadgeImp_contact();
+        showBadgeMajorUtilities();
+        showBadgeOffice();
     }
 
     private class GetSliderFromServer extends AsyncTask<String, Void, SliderModel> {

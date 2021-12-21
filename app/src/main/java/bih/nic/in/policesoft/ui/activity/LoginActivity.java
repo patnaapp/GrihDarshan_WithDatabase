@@ -85,6 +85,8 @@ public class LoginActivity extends Activity {
         sp_userRole = findViewById(R.id.spinner_role);
         signUpBtn.setVisibility(View.GONE);
 
+        tv_forgot_Password.setVisibility(View.GONE);
+
        /* signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
