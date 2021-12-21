@@ -9,7 +9,7 @@ public class MajorUtilEntry implements Parcelable {
             Historical_importance, Best_practices, Reform_correctional, EstablishYear, JailCapacity, Court_Code, NameCourt,
             CourtAddress, FairFestival, FairFestivalAddress, HistoricalName, HistoricalAddress, Remarks, Latitude, Longitude, Photo1;*/
 
-    private String User_Id, password, Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode,Major_UtilName, Major_Crime_HeadCode, Major_Crime_HeadAddress,
+    private String User_Id, password, Range_Code, SubDiv_Code, Dist_Code, Thana_code, Major_UtilCode,Major_UtilName,Major_UtilAdd, Major_Crime_HeadCode, Major_Crime_HeadAddress,
             Chronic_Land_DistributeCode, Chronic_Land_Add, Kabrishtan_Name, Kabrishtan_VillName, Land_DetailCode, Boundary_StatusCode, Jail_TypeCode,
             Jail_Name, Jail_Address, Started_Year, Jail_Capacity, Type_Court_Code, Name_Of_Court, Court_Address, Fair_Festival_Name, Fair_Festival_Address,
             Historical_Place_Name, Historical_Place_Address, Remarks, Photo, Latitude, Longitude, Entry_Mode, Imei_Num, App_Ver, Device_Type, Religious_PlaceType,
@@ -29,6 +29,7 @@ public class MajorUtilEntry implements Parcelable {
         Thana_code = in.readString();
         Major_UtilCode = in.readString();
         Major_UtilName = in.readString();
+        Major_UtilAdd = in.readString();
         Major_Crime_HeadCode = in.readString();
         Major_Crime_HeadAddress = in.readString();
         Chronic_Land_DistributeCode = in.readString();
@@ -108,6 +109,7 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Thana_code);
         dest.writeString(Major_UtilCode);
         dest.writeString(Major_UtilName);
+        dest.writeString(Major_UtilAdd);
         dest.writeString(Major_Crime_HeadCode);
         dest.writeString(Major_Crime_HeadAddress);
         dest.writeString(Chronic_Land_DistributeCode);
@@ -872,5 +874,13 @@ public class MajorUtilEntry implements Parcelable {
 
     public void setMajor_UtilName(String major_UtilName) {
         Major_UtilName = major_UtilName;
+    }
+
+    public String getMajor_UtilAdd() {
+        return Major_UtilAdd;
+    }
+
+    public void setMajor_UtilAdd(String major_UtilAdd) {
+        Major_UtilAdd = major_UtilAdd;
     }
 }

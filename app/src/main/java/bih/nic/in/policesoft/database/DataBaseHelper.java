@@ -38,7 +38,7 @@ import bih.nic.in.policesoft.ui.activities.AddMajorUtilitiesActivity;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    //private static String DB_PATH = "";
+
     private static String DB_PATH = "";
     //private static String DB_NAME = "eCountingAC.sqlite";
     private static String DB_NAME = "PACSDB1";
@@ -176,6 +176,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
     public long InsertNewEntry(AddMajorUtilitiesActivity newEntryActivity, MajorUtilEntry result,String user_id) {
@@ -192,6 +193,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put("Thana_code", result.getThana_code());
             values.put("Major_UtilCode", result.getMajor_UtilCode());
             values.put("Major_UtilName", result.getMajor_UtilName());
+           // values.put("Major_UtilAddress", result.getMajor_UtilAdd());
             values.put("Major_Crime_HeadCode", result.getMajor_Crime_HeadCode());
             values.put("Major_Crime_HeadAddress", result.getMajor_Crime_HeadAddress());
             values.put("Chronic_Land_DistributeCode", result.getChronic_Land_DistributeCode());

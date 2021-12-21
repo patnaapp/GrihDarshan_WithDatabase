@@ -400,5 +400,4 @@ public class SplashActivity extends Activity {
                 .show();
     }
 
-
 }

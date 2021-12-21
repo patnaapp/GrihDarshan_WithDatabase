@@ -89,7 +89,7 @@ public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.View
 
 
         holder.tv_major_util.setText(majorItem.get(position).getMajor_UtilName());
-        holder.tv_add.setText(majorItem.get(position).getChronic_Land_Add());
+        holder.tv_add.setText(majorItem.get(position).getMajor_Crime_HeadAddress());
         holder.tv_remarks.setText(majorItem.get(position).getRemarks());
 
 
@@ -199,7 +199,6 @@ public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.View
 
     @Override
     public int getItemCount(){
-
         return majorItem.size();
     }
 

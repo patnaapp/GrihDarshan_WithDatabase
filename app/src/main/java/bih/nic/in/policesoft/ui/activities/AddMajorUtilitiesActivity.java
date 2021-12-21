@@ -69,6 +69,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             fire_Status = "", skey = "", cap = "", firetypecode_Code = "";
 
     String major_UtilName = "";
+   // String major_UtilAddress = "";
     String isToilet_avail = "", isKitchen_Avail = "", isHospital_Avail = "", isDormitory_Avail = "";
     DataBaseHelper dataBaseHelper;
 
@@ -433,7 +434,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     focusView = binding.etRemarks;
                     cancelRegistration = true;
                 }
-
 
             }
             if (major_UtilCode.equalsIgnoreCase("3")) {
@@ -840,6 +840,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setUser_Id(user_id);
                 model.setMajor_UtilCode(major_UtilCode);
                 model.setMajor_UtilName(major_UtilName);
+                //model.setMajor_UtilAdd(Major_UtilAdd);
                 model.setRange_Code(range_Code);
                 model.setSubDiv_Code(subDiv_Code);
                 model.setDist_Code(dist_code);
