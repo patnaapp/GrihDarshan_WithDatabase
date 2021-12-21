@@ -108,7 +108,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
         contactDetails_List=dbHelper.getContactTypeLocal();
         if (contactDetails_List.size()<=0) {
             if (Utiilties.isOnline(AddContactActivity.this)) {
-                new GetContactDetails(User_Id, Password, Token).execute();
+                new GetContactDetails(User_Id, Password, Token,Thana_Code).execute();
             }
             else {
                 Toast.makeText(this, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -559,23 +559,24 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
     }
 
     private class GetContactDetails extends AsyncTask<String, Void, ArrayList<ContactDetailsFromServer>> {
-        String userId, Password, Token;
+        String userId, Password, Token,PS_Code;
 
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
 
-        public GetContactDetails(String userId, String password, String token) {
+        public GetContactDetails(String userId, String password, String token,String thanacode) {
             this.userId = userId;
             Token = token;
             Password = password;
+            PS_Code = thanacode;
         }
 
         @Override
         protected ArrayList<ContactDetailsFromServer> doInBackground(String... param) {
 
-            return WebServiceHelper.GetContact(AddContactActivity.this, userId, Password, Token);
+            return WebServiceHelper.GetContact(AddContactActivity.this, userId, Password, Token,PS_Code);
         }
 
         @Override

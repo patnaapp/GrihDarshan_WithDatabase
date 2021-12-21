@@ -79,9 +79,11 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     String latitude = "", longitude = "";
     private CustomAlertDialog customAlertDialog;
     ArrayList<ThanaNameList_Entity> PSMaster;
-    String Thana_Code = "", Thana_Name = "";
+    String Thana_Code = "", Thana_Name = "",khata_avail="",khata_kesra_avail_id="";
+    String typeYesNoArray[] = {"Select", "Yes", "No"};
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,12 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
         load_spinner();
         load_spinner1();
+
+        ArrayAdapter adaptor1 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, typeYesNoArray);
+        adaptor1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnKhataAvailSignup.setAdapter(adaptor1);
+        binding.spnKhataAvailSignup.setOnItemSelectedListener(this);
+
         myCalendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener date;
         date = (view, year, monthOfYear, dayOfMonth) -> {
@@ -106,6 +114,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
             UpdateLabel();
         };
+
         binding.txtNotificationDate.setOnClickListener(view -> {
             DatePickerDialog dialog = new DatePickerDialog(SignupActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
             if (myCalendar.getTimeInMillis() < System.currentTimeMillis()) {
@@ -143,8 +152,10 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
 
             String EnterOTP = binding.etMobOtp.getText().toString().trim();
-            if (otp != null) {
-                if (EnterOTP.equals(otp)) {
+            if (otp != null)
+            {
+                if (EnterOTP.equals(otp))
+                {
                     Utiilties.hideKeyboard(this);
                     isVerifiedMobile = true;
                     binding.etMobileNo.setText(ResponseMobile);
@@ -154,10 +165,14 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                     binding.txtMobilecountMsg.setVisibility(View.GONE);
                     Toast.makeText(SignupActivity.this, getResources().getString(R.string.verified_otp), Toast.LENGTH_SHORT).show();
 
-                } else {
+                }
+                else
+                {
                     Toast.makeText(SignupActivity.this, getResources().getString(R.string.invalid_otp), Toast.LENGTH_SHORT).show();
                 }
-            } else {
+            }
+            else
+            {
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
 
@@ -246,9 +261,26 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 binding.etConfPassword.setError(null);
                 Toast.makeText(SignupActivity.this, "Password not Matched", Toast.LENGTH_SHORT).show();
             }*/
-            else if (imageData1 == null) {
+            else if (Thana_Landavail_Code.equals("Y") && khata_kesra_avail_id.equals("")) {
+
+                Toast.makeText(SignupActivity.this, "Please select kahata khesra available or not?", Toast.LENGTH_SHORT).show();
+            }
+
+            else if (khata_kesra_avail_id.equals("Y")&& binding.etKhataNum.getText().toString().isEmpty() &&binding.etKhesraNum.getText().toString().isEmpty())
+            {
+
+
+                    binding.etKhesraNum.setError(getResources().getString(R.string.required_field));
+                    Toast.makeText(SignupActivity.this, "Required Field", Toast.LENGTH_SHORT).show();
+
+
+            }
+            else if (imageData1 == null)
+            {
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else
+            {
 //                Utiilties.hideKeyboard(this);
 //                PreviewBottonSheet previewBottonSheet = new PreviewBottonSheet();
 //                Bundle bundle = new Bundle();
@@ -274,6 +306,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 model.setLatitude(latitude);
                 model.setLongitude(longitude);
                 model.setPhoto1(Photo1);
+                model.setKhseara_Avail(khata_kesra_avail_id);
 
 
                 new ThanaDetail().execute();
@@ -371,7 +404,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.viewimage, null);
         dialogBuilder.setView(dialogView);
-        dialogBuilder.setTitle("-Thana Photo which can be changed-");
+        dialogBuilder.setTitle("-Photo-");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -418,7 +451,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void OnDoneClick() {
 
-       // new ThanaDetail().execute();
+        // new ThanaDetail().execute();
     }
 
     private class ThanaDetail extends AsyncTask<String, Void, DefaultResponse_New> {
@@ -450,11 +483,11 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                     UID = defaultResponse_new.getUseId();
                     PASS = defaultResponse_new.getPassword();
                     //if (UID != null && !PASS.isEmpty()) {
-                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("isLogin", "Y").commit();
-                        Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
-                        iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(iUserHome);
-                        finish();
+                    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("isLogin", "Y").commit();
+                    Intent iUserHome = new Intent(getApplicationContext(), UserHomeActivity.class);
+                    iUserHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(iUserHome);
+                    finish();
 //                        PSDetailsFullScreenDilog dialog = new PSDetailsFullScreenDilog();
 //                        Bundle bundle = new Bundle();
 //                        UpdateThanaModel MModel = new UpdateThanaModel(model.getRange_Code(), model.getPSCode(), model.getPolice_Dist_Code(), model.getSub_Div_Code(), model.getThana_Name(),
@@ -530,23 +563,56 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                         binding.llNotificationNumDate.setVisibility(View.GONE);
                     }
                 } else {
-                    Thana_Notification_Code = null;
-                    Thana_Notification_Name = null;
+                    Thana_Notification_Code = "";
+                    Thana_Notification_Name = "";
                     binding.llNotificationNumDate.setVisibility(View.GONE);
                 }
                 break;
+
             case R.id.spn_land_avail:
-                if (i > 0) {
-                    if (getResources().getString(R.string.yes).equals(yesNo[i])) {
+                if (i > 0)
+                {
+                    if (getResources().getString(R.string.yes).equals(yesNo[i]))
+                    {
                         Thana_Landavail_Code = "Y";
-                        binding.llKhataKhesra.setVisibility(View.VISIBLE);
-                    } else if (getResources().getString(R.string.no).equals(yesNo[i])) {
+                        binding.llKhataAvail.setVisibility(View.VISIBLE);
+                    }
+                    else if (getResources().getString(R.string.no).equals(yesNo[i]))
+                    {
                         Thana_Landavail_Code = "N";
+                        binding.llKhataAvail.setVisibility(View.GONE);
+                    }
+                }
+                else
+                {
+                    Thana_Landavail_Code = "";
+                    Thana_Landavail_Name = "";
+                    binding.llKhataAvail.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.spn_khata_avail_signup:
+                if (i > 0)
+                {
+                    khata_avail = typeYesNoArray[i];
+                    Toast.makeText(getApplicationContext(), khata_avail, Toast.LENGTH_SHORT).show();
+                    if (khata_avail.equals("Yes"))
+                    {
+                        khata_kesra_avail_id="Y";
+                        binding.llKhataKhesra.setVisibility(View.VISIBLE);
+                    }
+                    else if (khata_avail.equals("No"))
+                    {
+                        khata_kesra_avail_id="N";
                         binding.llKhataKhesra.setVisibility(View.GONE);
                     }
-                } else {
-                    Thana_Landavail_Code = null;
-                    Thana_Landavail_Name = null;
+
+                }
+                else
+                {
+                    khata_kesra_avail_id = "";
+                    khata_avail = "";
+                   // binding.llKhataKhesra.setVisibility(View.GONE);
                 }
                 break;
 
@@ -555,17 +621,23 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView)
+    {
 
     }
 
     private void StartTimerMobile() {
-        new CountDownTimer(30000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                if (isVerifiedMobile) {
+        new CountDownTimer(30000, 1000)
+        {
+            public void onTick(long millisUntilFinished)
+            {
+                if (isVerifiedMobile)
+                {
                     binding.txtMobilecountMsg.setVisibility(View.GONE);
                     binding.btnNoVerify.setVisibility(View.GONE);
-                } else {
+                }
+                else
+                {
                     binding.txtMobilecountMsg.setVisibility(View.VISIBLE);
                     binding.btnNoVerify.setVisibility(View.GONE);
                     binding.txtMobilecountMsg.setText("Resend OTP in " + String.valueOf(millisUntilFinished / 1000) + " Sec");
@@ -573,11 +645,15 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
 
-            public void onFinish() {
-                if (isVerifiedMobile) {
+            public void onFinish()
+            {
+                if (isVerifiedMobile)
+                {
                     binding.txtMobilecountMsg.setVisibility(View.GONE);
                     binding.btnNoVerify.setVisibility(View.GONE);
-                } else {
+                }
+                else
+                {
                     binding.txtMobilecountMsg.setVisibility(View.GONE);
                     binding.btnNoVerify.setVisibility(View.VISIBLE);
                 }
@@ -586,29 +662,34 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         }.start();
     }
 
-    public void load_spinner() {
-        yesNo = new String[]{
-                getResources().getString(R.string.select),
-                getResources().getString(R.string.yes),
-                getResources().getString(R.string.no),
-        };
+    public void load_spinner()
+    {
+        yesNo = new String[]{getResources().getString(R.string.select),getResources().getString(R.string.yes),getResources().getString(R.string.no),};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, yesNo) {
             @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            public boolean isEnabled(int position)
+            {
+                if (position == 0)
+                {
                     return false;
-                } else {
+                }
+                else
+                {
                     return true;
                 }
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textview = (TextView) view;
-                if (position == 0) {
+                if (position == 0)
+                {
                     textview.setTextColor(Color.RED);
-                } else {
+                }
+                else
+                {
                     textview.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -621,7 +702,8 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    public void load_spinner1() {
+    public void load_spinner1()
+    {
         yesNo = new String[]{
                 getResources().getString(R.string.select),
                 getResources().getString(R.string.yes),
@@ -629,21 +711,29 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         };
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, yesNo) {
             @Override
-            public boolean isEnabled(int position) {
-                if (position == 0) {
+            public boolean isEnabled(int position)
+            {
+                if (position == 0)
+                {
                     return false;
-                } else {
+                }
+                else
+                {
                     return true;
                 }
             }
 
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            public View getDropDownView(int position, View convertView, ViewGroup parent)
+            {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView textview = (TextView) view;
-                if (position == 0) {
+                if (position == 0)
+                {
                     textview.setTextColor(Color.RED);
-                } else {
+                }
+                else
+                {
                     textview.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -655,14 +745,18 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+
+
     public void showErrorAlet(final Context context, String title, String message) {
         AlertDialog.Builder ab = new AlertDialog.Builder(context);
         ab.setCancelable(false);
         ab.setTitle(title);
         ab.setMessage(message);
-        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
+            public void onClick(DialogInterface dialog, int whichButton)
+            {
                 dialog.dismiss();
                 // finish();
             }
@@ -680,17 +774,19 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
         private final ProgressDialog dialog = new ProgressDialog(SignupActivity.this);
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             customAlertDialog.showDialog();
         }
 
-        public GetPoliceStationNameMaster() {
+        public GetPoliceStationNameMaster()
+        {
 
         }
 
         @Override
-        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param) {
-
+        protected ArrayList<ThanaNameList_Entity> doInBackground(String... param)
+        {
             return WebServiceHelper.GetPS_Name_MasterForReg(SignupActivity.this, Dist_Code, SubDiv_Code, Range_Code);
         }
 

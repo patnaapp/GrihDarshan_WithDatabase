@@ -66,6 +66,7 @@
     <string name="notification_num">Notification Number :</string>
     <string name="notification_date">Notification Date :</string>
     <string name="land_avail">Thana Land Availability : [*]</string>
+    <string name="khata_avail">Is Khata Khesra Available : [*]</string>
     <string name="outpost_land_avail">Outpost Land Availability : [*]</string>
     <string name="khata_num">Khata Number : [*]</string>
     <string name="state_office_Name">State Level Office Name : [*]</string>

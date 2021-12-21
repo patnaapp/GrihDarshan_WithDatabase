@@ -921,21 +921,21 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setCap(cap);
 
 
-                if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                    ab.setMessage(Html.fromHtml(
-                            "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
-                    ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-                            startActivity(I);
-                        }
-                    });
-
-                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                    ab.show();
-                } else {
+//                if (!GlobalVariables.isOffline && !Utiilties.isOnline(this)) {
+//                    AlertDialog.Builder ab = new AlertDialog.Builder(this);
+//                    ab.setMessage(Html.fromHtml(
+//                            "<font color=#000000>Internet Connection is not avaliable..Please Turn ON Network Connection </font>"));
+//                    ab.setPositiveButton("Turn On Network Connection", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                            Intent I = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
+//                            startActivity(I);
+//                        }
+//                    });
+//
+//                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+//                    ab.show();
+//                } else {
                     if (major_UtilCode.equals("3")) {
                         if (listgps.size() >= 4) {
                             //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
@@ -1020,14 +1020,16 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                         //new UploadMajorUtilities(model, listgps, facilitylist).execute();
                         long id = 0;
                         id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
-                        if (id > 0) {
-
+                        if (id > 0)
+                        {
                             Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
                             AlertDialog.Builder ab = new AlertDialog.Builder(this);
                             ab.setMessage("Data Successfully Saved !");
-                            ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
+                            {
                                 @Override
-                                public void onClick(DialogInterface dialog, int whichButton) {
+                                public void onClick(DialogInterface dialog, int whichButton)
+                                {
                                     Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
                                     startActivity(i);
                                     finish();
@@ -1043,7 +1045,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                         }
 
                     }
-                }
+               // }
             }
 
 

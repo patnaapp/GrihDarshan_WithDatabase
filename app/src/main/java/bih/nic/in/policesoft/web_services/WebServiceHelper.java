@@ -87,7 +87,7 @@ public class WebServiceHelper {
 
 //    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
 //    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
-
+//
 //     public static final String SERVICENAMESPACE = "http://10.133.20.196:8088/";
 //     public static final String SERVICEURL1 = "http://10.133.20.196:8088/GrihDarshanWebservice.asmx";
 
@@ -101,7 +101,7 @@ public class WebServiceHelper {
     public static final String OUTPOST_Registration = "Insert_Outpost";
     public static final String INSERT_CONTACTS = "Insert_Contact";
     public static final String Authenticate = "Authenticate";
-    public static final String Contact_Details = "GetContactList";
+    public static final String Contact_Details = "GetContactList_New";
     public static final String Major_Util_Details = "GetMajorUtilitiesList";
     public static final String Office_List_Details = "GetOfficesList";
     private static final String SLIDER = "GetSliderList";
@@ -654,6 +654,8 @@ public class WebServiceHelper {
             request.addProperty("Notification_Date", "");
             request.addProperty("Land_Avail", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getLand_Avail()), RandomNo));
             request.addProperty("Photo1", data.getPhoto1());
+            request.addProperty("Khata_Kheshra", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhseara_Avail()), RandomNo));
+
             Log.e("StudentRG", request.toString());
 
             SoapObject res1;
@@ -985,7 +987,7 @@ public class WebServiceHelper {
         }
     }
 
-    public static ArrayList<ContactDetailsFromServer> GetContact(Context context, String Uid, String Password, String token) {
+    public static ArrayList<ContactDetailsFromServer> GetContact(Context context, String Uid, String Password, String token,String ps_code) {
         SoapObject request = new SoapObject(SERVICENAMESPACE, Contact_Details);
         SoapObject res1;
         ArrayList<ContactDetailsFromServer> pvmArrayList = new ArrayList<ContactDetailsFromServer>();
@@ -993,7 +995,7 @@ public class WebServiceHelper {
         RandomNo = Utiilties.getTimeStamp();
         CapId = RandomString.randomAlphaNumeric(8);
         Encriptor _encrptor = new Encriptor();
-        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass;
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_Token, Enc_Pass,Enc_pscode;
 
         try {
             Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
@@ -1001,11 +1003,14 @@ public class WebServiceHelper {
             Enc_Pass = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Password), RandomNo);
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
+            Enc_pscode = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(ps_code), RandomNo);
 
             request.addProperty("skey", Enc_SKey);
             request.addProperty("Userid", Enc_UID);
             request.addProperty("password", Enc_Pass);
+            request.addProperty("Ps_Code", Enc_pscode);
             request.addProperty("cap", Enc_CapId);
+
 
 
             org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];

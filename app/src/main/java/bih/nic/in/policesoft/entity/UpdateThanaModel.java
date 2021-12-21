@@ -5,9 +5,40 @@ import android.os.Parcelable;
 
 public class UpdateThanaModel implements Parcelable {
 
-    private String Range_Code,PSCode, Police_Dist_Code, Sub_Div_Code, Thana_Name, SHO_Name, SHO_Mobile_Num, Email_Address,
-            Landline_Num, Thana_Address, Thana_Notification_Avail, Khata_Num, Kheshra_Num, Photo1, App_Ver,Device_Type,
-            Imei_Num, Latitude, Longitude,Notification_Num, Notification_Date, Land_Avail, skey,cap;
+    private String Range_Code;
+    private String PSCode;
+    private String Police_Dist_Code;
+    private String Sub_Div_Code;
+    private String Thana_Name;
+    private String SHO_Name;
+    private String SHO_Mobile_Num;
+    private String Email_Address;
+    private String Landline_Num;
+    private String Thana_Address;
+    private String Thana_Notification_Avail;
+    private String Khata_Num;
+    private String Kheshra_Num;
+    private String Photo1;
+    private String App_Ver;
+    private String Device_Type;
+    private String Imei_Num;
+    private String Latitude;
+    private String Longitude;
+    private String Notification_Num;
+    private String Notification_Date;
+    private String Land_Avail;
+    private String skey;
+    private String cap;
+
+    public String getKhseara_Avail() {
+        return Khseara_Avail;
+    }
+
+    public void setKhseara_Avail(String khseara_Avail) {
+        Khseara_Avail = khseara_Avail;
+    }
+
+    private String Khseara_Avail;
 
     protected UpdateThanaModel(Parcel in) {
         Range_Code = in.readString();
@@ -34,6 +65,7 @@ public class UpdateThanaModel implements Parcelable {
         Land_Avail = in.readString();
         skey = in.readString();
         cap = in.readString();
+        Khseara_Avail = in.readString();
     }
 
     public static final Creator<UpdateThanaModel> CREATOR = new Creator<UpdateThanaModel>() {
@@ -48,7 +80,7 @@ public class UpdateThanaModel implements Parcelable {
         }
     };
 
-    public UpdateThanaModel(String range_code, String psCode, String police_dist_code, String sub_div_code, String thana_name, String sho_name, String sho_mobile_num, String email_address, String landline_num, String thana_address, String thana_notification_avail, String khata_num, String kheshra_num, String photo1, String latitude, String longitude, String notification_num, String notification_date, String land_avail) {
+    public UpdateThanaModel(String range_code, String psCode, String police_dist_code, String sub_div_code, String thana_name, String sho_name, String sho_mobile_num, String email_address, String landline_num, String thana_address, String thana_notification_avail, String khata_num, String kheshra_num, String photo1, String latitude, String longitude, String notification_num, String notification_date, String land_avail,String khatakhsera_avail) {
 
 
     }
@@ -88,10 +120,11 @@ public class UpdateThanaModel implements Parcelable {
         dest.writeString(Land_Avail);
         dest.writeString(skey);
         dest.writeString(cap);
+        dest.writeString(Khseara_Avail);
     }
     
 
-    public UpdateThanaModel(String range_Code, String PSCode, String police_Dist_Code, String sub_Div_Code, String thana_Name, String SHO_Name, String SHO_Mobile_Num, String email_Address, String landline_Num, String thana_Address, String thana_Notification_Avail, String khata_Num, String kheshra_Num, String photo1, String app_Ver, String device_Type, String imei_Num, String latitude, String longitude, String notification_Num, String notification_Date, String land_Avail, String skey, String cap) {
+    public UpdateThanaModel(String range_Code, String PSCode, String police_Dist_Code, String sub_Div_Code, String thana_Name, String SHO_Name, String SHO_Mobile_Num, String email_Address, String landline_Num, String thana_Address, String thana_Notification_Avail, String khata_Num, String kheshra_Num, String photo1, String app_Ver, String device_Type, String imei_Num, String latitude, String longitude, String notification_Num, String notification_Date, String land_Avail, String skey, String cap,String khata_Khesra_avail) {
         Range_Code = range_Code;
         this.PSCode = PSCode;
         Police_Dist_Code = police_Dist_Code;
@@ -116,6 +149,7 @@ public class UpdateThanaModel implements Parcelable {
         Land_Avail = land_Avail;
         this.skey = skey;
         this.cap = cap;
+        this.Khseara_Avail = khata_Khesra_avail;
     }
 
     public String getRange_Code() {

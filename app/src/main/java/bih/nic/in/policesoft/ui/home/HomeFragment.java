@@ -26,6 +26,7 @@ import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.adaptor.ImageSliderAdapter;
 import bih.nic.in.policesoft.adaptor.UserHomeListener;
 import bih.nic.in.policesoft.database.DataBaseHelper;
+import bih.nic.in.policesoft.entity.BlockList;
 import bih.nic.in.policesoft.entity.ContactDetailsFromServer;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
 import bih.nic.in.policesoft.entity.OfficeListFromServer;
@@ -297,7 +298,7 @@ public class HomeFragment extends Fragment {
                     long c = helper.setMajorUtilitiesLocal(result);
 
                     if(c>0) {
-                        new GetContactDetails(userId, Password, Token).execute();
+                        new GetContactDetails(userId, Password, Token,CommonPref.getPoliceDetails(getActivity()).getThana_Code()).execute();
                         Toast.makeText(getActivity(), "Utilities Loaded", Toast.LENGTH_SHORT).show();
                     }
 
@@ -315,37 +316,85 @@ public class HomeFragment extends Fragment {
     }
 
     private class GetContactDetails extends AsyncTask<String, Void, ArrayList<ContactDetailsFromServer>> {
-        String userId, Password, Token;
+        String userId, Password, Token,Ps_Code;
 
         @Override
         protected void onPreExecute() {
             customAlertDialog.showDialog();
         }
 
-        public GetContactDetails(String userId, String password, String token) {
+        public GetContactDetails(String userId, String password, String token,String thana_code) {
             this.userId = userId;
             Token = token;
             Password = password;
+            Ps_Code = thana_code;
         }
 
         @Override
         protected ArrayList<ContactDetailsFromServer> doInBackground(String... param) {
 
-            return WebServiceHelper.GetContact(getActivity(), userId, Password, Token);
+            return WebServiceHelper.GetContact(getActivity(), userId, Password, Token,Ps_Code);
         }
 
         @Override
         protected void onPostExecute(ArrayList<ContactDetailsFromServer> result) {
             customAlertDialog.dismisDialog();
 
-            if (result != null) {
-                if (result.size() > 0) {
+            if (result != null)
+            {
+                if (result.size() > 0)
+                {
                     long c = dbHelper.SetContactTypeLocal(result);
                     // officesFromServersList = result;
-                    if (c>0){
+                    if (c>0)
+                    {
                         Toast.makeText(getActivity(), "Contact Type Loaded", Toast.LENGTH_SHORT).show();
+                        new GETBlockList(userId, Password, Token,CommonPref.getPoliceDetails(getActivity()).getPolice_Dist_Code()).execute();
                     }
                     // contactDetails_List = result;
+
+                } else {
+                    Toast.makeText(getActivity(), "No Contacts Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+
+    private class GETBlockList extends AsyncTask<String, Void, ArrayList<BlockList>> {
+        String userId, Password, Token,Dist;
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        public GETBlockList(String userId, String password, String token,String distcode) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+            Dist = distcode;
+        }
+
+        @Override
+        protected ArrayList<BlockList> doInBackground(String... param) {
+
+            return WebServiceHelper.GetBlockListt(getActivity(), userId, Password, Token,Dist);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<BlockList> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+
+                    long c = dbHelper.setBlockListLocal(result,Dist);
+                    // officesFromServersList = result;
+                    if (c>0){
+                        Toast.makeText(getActivity(), "Block List Loaded", Toast.LENGTH_SHORT).show();
+                    }
+                    //block_List = result;
 
                 } else {
                     Toast.makeText(getActivity(), "No Contacts Found", Toast.LENGTH_SHORT).show();

@@ -56,6 +56,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     private ProgressDialog dialog;
     HomeFragment homeFrag;
     DataBaseHelper dataBaseHelper;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,20 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         } catch (SQLException sqle) {
             throw sqle;
         }
-
+        CREATE_Block_TABLEIFNOTEXIST();
+        CREATE_CourtSubType_TABLEIFNOTEXIST();
+        CREATE_OfficeGps_TABLEIFNOTEXIST();
+        CREATE_OfficesUnderPs_TABLEIFNOTEXIST();
+        CREATE_Imp_Contacts_TABLEIFNOTEXIST();
+        CREATE_MajorUtilities_TABLEIFNOTEXIST();
+        CREATE_PrisonMaster_TABLEIFNOTEXIST();
+        CREATE_Contact_Type_TABLEIFNOTEXIST();
+        CREATE_CourtType_TABLEIFNOTEXIST();
+        CREATE_OfficeName_TABLEIFNOTEXIST();
+        CREATE_OfficeType_TABLEIFNOTEXIST();
+        CREATE_MajorUtilEntry_TABLEIFNOTEXIST();
+        CREATE_MajorUtil_GpsList_TABLEIFNOTEXIST();
+        CREATE_MajorUtil_Other_Facility_TABLEIFNOTEXIST();
 
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
@@ -247,5 +261,259 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         alertDialog.show();
     }
 
+
+    public void CREATE_Block_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS BlockList (Block_Code TEXT,Block_Name TEXT, Dist_Code TEXT )");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "BlockList");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "BlockList");
+        }
+    }
+
+    public void CREATE_CourtSubType_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS CourtSubType (Court_SubType_Id TEXT,Court_SubType_Name TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "CourtSubType");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "CourtSubType");
+        }
+    }
+
+    public void CREATE_OfficeGps_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS InsertOfficeGps_List (Latitude TEXT, Longitude TEXT, Insp_Id TEXT, EntryBy TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "InsertOfficeGps_List");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "InsertOfficeGps_List");
+        }
+    }
+
+    public void CREATE_OfficesUnderPs_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS InsertOfficesUnderPs (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, OfficeType_Code TEXT, OfficeType_Name TEXT, Office_Code TEXT, Office_Name TEXT, PoliceOwnBuild_Code TEXT, PoliceOwnBuild_Name TEXT, Khata_Num TEXT, Khesra_Num TEXT, Total_Area_Land TEXT, Other_Offices TEXT, Other_Office_Name TEXT, Address TEXT, Remarks TEXT, Houseing_Faci TEXT, LsQuarter TEXT, UsQuarter TEXT, Male_Barrack TEXT, Female_Barrack TEXT, Armoury_Magazine TEXT, Ongoing_CivilWork TEXT, Office_In_Charge TEXT, Designation TEXT, Mobile_No TEXT, Landline_No TEXT, Establish_Year TEXT, Email_id TEXT, TrainingCourseName TEXT, TrainingCourseCapacity TEXT, Sanction_Strength TEXT, Working_Strength TEXT, Division_Fun TEXT, Major_Devices_Equi TEXT, Photo TEXT, Latitude TEXT, Longitude TEXT, stateOfficeName TEXT, prosecutionOfficelevel TEXT, courtCategId TEXT, courtTypeId TEXT, courtSubTypeId TEXT, HGOfficeLevel_ID TEXT, HGStateOffice TEXT, HGDistOffice TEXT, HG_regular_Male TEXT, HG_regular_Female TEXT, HG_regular_Others TEXT, HG_volunatry_Male TEXT, HG_volunatry_Female TEXT, HG_volunatry_Others TEXT, Entry_By TEXT, Entry_Date TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "InsertOfficesUnderPs");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "InsertOfficesUnderPs");
+        }
+    }
+
+
+    public void CREATE_Imp_Contacts_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS Insert_Imp_Contacts (Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Cntct_Type_code TEXT, Cntct_Type_Name TEXT, Officer_Name TEXT, email TEXT, Photo TEXT, Lat TEXT, Long TEXT, Block_code TEXT, Block_name TEXT, Dist_Code TEXT, Dist_name TEXT, Thana_code TEXT, Thana_name TEXT, Range_Name TEXT, Range_Code TEXT, Sub_div_code TEXT, Sub_div_name TEXT, PostOffice_Name TEXT, PostOffice_Address TEXT, Hospital_type_code TEXT, Hospital_name TEXT, Beds_capacity TEXT, Hospital_address TEXT, BusStand_type TEXT, BusStand_name TEXT, BusStand_Address TEXT, Entry_By TEXT, Officer_Contact TEXT, HospitalContact TEXT, PostOffice_Contact TEXT, School_contact TEXT, School_Address TEXT, School_Name TEXT, School_Type_code TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "Insert_Imp_Contacts");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "Insert_Imp_Contacts");
+        }
+    }
+
+    public void CREATE_MajorUtilities_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS MajorUtilities_List (Util_Code TEXT, Util_Name TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "MajorUtilities_List");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "MajorUtilities_List");
+        }
+    }
+
+    public void CREATE_PrisonMaster_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS PrisonMaster_List (PrisionName TEXT, PrisonCode TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "PrisonMaster_List");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "PrisonMaster_List");
+        }
+    }
+    public void CREATE_Contact_Type_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS mst_Contact_Type (Contact_Type_Code TEXT, Contact_Type_Name TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "mst_Contact_Type");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "mst_Contact_Type");
+        }
+    }
+
+    public void CREATE_CourtType_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS mst_CourtType (CourtType_Id TEXT, CourtType_Name TEXT, CourtCateg_ID TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "mst_CourtType");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "mst_CourtType");
+        }
+    }
+
+    public void CREATE_OfficeName_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS mst_OfficeName (Office_Code TEXT, Officce_Name TEXT, Dist_Code TEXT, OfficeType_Code TEXT, Range_Code TEXT, SubDiv_Code TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "mst_OfficeName");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "mst_OfficeName");
+        }
+    }
+
+    public void CREATE_OfficeType_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS mst_OfficeType (OfficeType_code TEXT, OfficeType_Name TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "mst_OfficeType");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "mst_OfficeType");
+        }
+    }
+
+    public void CREATE_MajorUtilEntry_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS MajorUtilEntry (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, password TEXT, Range_Code TEXT, SubDiv_Code TEXT, Dist_Code TEXT, Thana_code TEXT, Major_UtilCode TEXT, Major_Crime_HeadCode TEXT, Major_Crime_HeadAddress TEXT, Chronic_Land_DistributeCode TEXT, Chronic_Land_Add TEXT, Kabrishtan_Name TEXT, Kabrishtan_VillName TEXT, Land_DetailCode TEXT, Boundary_StatusCode TEXT, Jail_TypeCode TEXT, Jail_Name TEXT, Jail_Address TEXT, Started_Year TEXT, Jail_Capacity TEXT, Type_Court_Code TEXT, Name_Of_Court TEXT, Court_Address TEXT, Fair_Festival_Name TEXT, Fair_Festival_Address TEXT, Historical_Place_Name TEXT, Historical_Place_Address TEXT, Remarks TEXT, Photo TEXT, Latitude TEXT, Longitude TEXT, Religious_PlaceType TEXT, Religious_PlaceName TEXT, Historical_Imp_Prison TEXT, Best_Practices_Prison TEXT, Reform_Activities_Prison TEXT, Fire_TypeCode TEXT, Hydrant_Type_Code TEXT, Hydrant_Name TEXT, Fire_Prone_Name TEXT, Fire_Status TEXT, Fire_Prone_Address TEXT, PerisonMale_Capcity TEXT, PerisonFemale_Capcity TEXT, PerisonOther_Capcity TEXT, Under_Trial_Male TEXT, Under_Trial_Female TEXT, Under_Trial_Other TEXT, Convicted_Male TEXT, Convicted_Female TEXT, Convicted_Other TEXT, Transit_Male TEXT, Transit_Female TEXT, Transit_Other TEXT, Male_Under_Eighteen TEXT, Female_Under_Eighteen TEXT, Other_Under_Eighteen TEXT, Male_Over_Eighteen TEXT, Female_Over_Eighteen TEXT, Other_Over_Eighteen TEXT, Male_Foreigner TEXT, Female_Foreigner TEXT, Other_Foreigner TEXT, Jail_Hospital TEXT, Jail_Kitchen TEXT, Jail_Dormitory TEXT, User_Id TEXT, Major_UtilName TEXT, Jail_Toilet TEXT, Major_UtilAddress TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "MajorUtilEntry");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "MajorUtilEntry");
+        }
+    }
+
+
+
+    public void CREATE_MajorUtil_GpsList_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS MajorUtil_GpsList (Latitude TEXT, Longitude TEXT, Insp_Id TEXT, EntryBy TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "MajorUtil_GpsList");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "MajorUtil_GpsList");
+        }
+    }
+
+    public void CREATE_MajorUtil_Other_Facility_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS Other_Facility (Text_Facility TEXT, Insp_Id TEXT, User_Id TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "Other_Facility");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "Other_Facility");
+        }
+    }
 
 }

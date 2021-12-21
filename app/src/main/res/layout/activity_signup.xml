@@ -372,7 +372,7 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="number"
-                            android:maxLength="15"
+                            android:maxLength="11"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -585,6 +585,30 @@
 
                     <Spinner
                         android:id="@+id/spn_land_avail"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_khata_avail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_khata_avail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/khata_avail"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_khata_avail_signup"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:layout_marginTop="4dp"

@@ -54,8 +54,8 @@ public class Contact_Adaptors extends RecyclerView.Adapter<Contact_Adaptors.View
     Encriptor _encrptor;
 
 
-    public Contact_Adaptors(Context context1, ArrayList<ContactDetailsEntry> SubjectValues2, String Userid, String token){
-
+    public Contact_Adaptors(Context context1, ArrayList<ContactDetailsEntry> SubjectValues2, String Userid, String token)
+    {
         ListItem1 = SubjectValues2;
         context = context1;
         UserId=Userid;
@@ -381,8 +381,6 @@ public class Contact_Adaptors extends RecyclerView.Adapter<Contact_Adaptors.View
                                 }
                             })
                             .show();
-
-
 
 
                 } else {
