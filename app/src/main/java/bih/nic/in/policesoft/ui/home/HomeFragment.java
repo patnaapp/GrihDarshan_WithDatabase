@@ -249,7 +249,7 @@ public class HomeFragment extends Fragment {
 
             if (result != null) {
                 if (result.size() > 0) {
-                    long c = dbHelper.setOfficeTypeLocal(result);
+                    long c = dbHelper.setOfficeTypeLocal(result,Role);
                     // officesFromServersList = result;
                     if (c>0){
                         Toast.makeText(getActivity(), "Office Type List Loaded", Toast.LENGTH_SHORT).show();
@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment {
                 if (result.size() > 0) {
                     DataBaseHelper helper = new DataBaseHelper(getActivity());
                     // Major_Util_List = result;
-                    long c = helper.setMajorUtilitiesLocal(result);
+                    long c = helper.setMajorUtilitiesLocal(result,role);
 
                     if(c>0) {
                         new GetContactDetails(userId, Password, Token,CommonPref.getPoliceDetails(getActivity()).getThana_Code()).execute();

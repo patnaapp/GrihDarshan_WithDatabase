@@ -128,7 +128,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         // Token = CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getToken();
         Token = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("Token", "");
 
-        Major_Util_List = dataBaseHelper.getMajorUtilLocal();
+        Major_Util_List = dataBaseHelper.getMajorUtilLocal(CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole());
         if (Major_Util_List.size() <= 0) {
             if (Utiilties.isOnline(AddMajorUtilitiesActivity.this)) {
                 new GetMajorUtil(user_id, password, Token, CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole()).execute();
@@ -1524,7 +1524,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 if (result.size() > 0) {
                     DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
                     // Major_Util_List = result;
-                    long c = helper.setMajorUtilitiesLocal(result);
+                    long c = helper.setMajorUtilitiesLocal(result,role);
 
                     if (c > 0) {
                         setMajorDetailsSpinner();
@@ -1545,7 +1545,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     public void setMajorDetailsSpinner() {
 
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-        Major_Util_List = dataBaseHelper.getMajorUtilLocal();
+        Major_Util_List = dataBaseHelper.getMajorUtilLocal(CommonPref.getPoliceDetails(AddMajorUtilitiesActivity.this).getRole());
 
         ArrayList array = new ArrayList<String>();
         array.add("-Select Major Utilities-");

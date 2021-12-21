@@ -78,6 +78,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         } catch (SQLException sqle) {
             throw sqle;
         }
+
+        ModifyTable();
         CREATE_Block_TABLEIFNOTEXIST();
         CREATE_CourtSubType_TABLEIFNOTEXIST();
         CREATE_OfficeGps_TABLEIFNOTEXIST();
@@ -92,6 +94,8 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         CREATE_MajorUtilEntry_TABLEIFNOTEXIST();
         CREATE_MajorUtil_GpsList_TABLEIFNOTEXIST();
         CREATE_MajorUtil_Other_Facility_TABLEIFNOTEXIST();
+        CREATE_FireType_TABLEIFNOTEXIST();
+        CREATE_Hydrant_List_TABLEIFNOTEXIST();
 
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
@@ -512,6 +516,83 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
         {
             e.printStackTrace();
             Log.e("CREATE Failed ", "Other_Facility");
+        }
+    }
+
+
+
+
+    public void CREATE_FireType_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS FireType (FireType_Name TEXT, FireType_Code TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "FireType");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "FireType");
+        }
+    }
+
+    public void CREATE_Hydrant_List_TABLEIFNOTEXIST()
+    {
+        db = dataBaseHelper.getWritableDatabase();
+        try
+        {
+            db.execSQL("CREATE TABLE IF NOT EXISTS Hydrant_List (Hydrant_Type TEXT, Hydrant_Code TEXT)");
+            dataBaseHelper.getWritableDatabase().close();
+            Log.e("CREATE SUCCESS ", "Hydrant_List");
+            dataBaseHelper.getWritableDatabase().close();
+            //db.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Log.e("CREATE Failed ", "Hydrant_List");
+        }
+    }
+
+    public void ModifyTable() {
+
+
+        if (isColumnExists("MajorUtilities_List", "UserRole") == false) {
+            AlterTable("MajorUtilities_List", "UserRole");
+        }
+        if (isColumnExists("mst_OfficeType", "UserRole") == false) {
+            AlterTable("mst_OfficeType", "UserRole");
+        }
+
+    }
+
+    public boolean isColumnExists(String table, String column) {
+        db = dataBaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("PRAGMA table_info(" + table + ")", null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                if (column.equalsIgnoreCase(name)) {
+                    return true;
+                }
+            }
+        }
+        dataBaseHelper.getReadableDatabase().close();
+        return false;
+    }
+
+    public void AlterTable(String tableName, String columnName) {
+        try {
+            db = dataBaseHelper.getWritableDatabase();
+            db.execSQL("ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " TEXT");
+            Log.e("ALTER Done", tableName + "-" + columnName);
+            dataBaseHelper.getWritableDatabase().close();
+        } catch (Exception e) {
+            Log.e("ALTER Failed", tableName + "-" + columnName);
         }
     }
 

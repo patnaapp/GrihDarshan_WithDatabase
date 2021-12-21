@@ -269,7 +269,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     //MajorUtilitiesLocal
-    public long setMajorUtilitiesLocal(ArrayList<MajorUtilitiesFromServer> list) {
+    public long setMajorUtilitiesLocal(ArrayList<MajorUtilitiesFromServer> list,String role) {
 
 
         long c = -1;
@@ -296,6 +296,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("Util_Code", info.get(i).getUtil_Code());
                     values.put("Util_Name", info.get(i).getUtil_Name());
+                    values.put("UserRole", role);
 
 
                     String[] whereArgs = new String[]{info.get(i).getUtil_Code()};
@@ -319,11 +320,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<MajorUtilitiesFromServer> getMajorUtilLocal() {
+    public ArrayList<MajorUtilitiesFromServer> getMajorUtilLocal(String userrole) {
         ArrayList<MajorUtilitiesFromServer> bdetail = new ArrayList<MajorUtilitiesFromServer>();
+        String[] Whereargs = {userrole};
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("select * from MajorUtilities_List order by Util_Code", null);
+            Cursor cur = db.rawQuery("select * from MajorUtilities_List where UserRole=? order by Util_Code", Whereargs);
             int x = cur.getCount();
             while (cur.moveToNext()) {
                 MajorUtilitiesFromServer financial_year = new MajorUtilitiesFromServer();
@@ -412,7 +414,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public long setOfficeTypeLocal(ArrayList<OfficeListFromServer> list) {
+    public long setOfficeTypeLocal(ArrayList<OfficeListFromServer> list,String Role) {
 
 
         long c = -1;
@@ -439,6 +441,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                     values.put("OfficeType_code", info.get(i).getOffice_Code());
                     values.put("OfficeType_Name", info.get(i).getOffice_Name());
+                    values.put("UserRole", Role);
 
 
                     String[] whereArgs = new String[]{info.get(i).getOffice_Code()};
@@ -461,11 +464,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<OfficeListFromServer> getOfficeTypeLocal() {
+    public ArrayList<OfficeListFromServer> getOfficeTypeLocal(String userrole) {
         ArrayList<OfficeListFromServer> bdetail = new ArrayList<OfficeListFromServer>();
+        String[] Whereargs = {userrole};
         try {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor cur = db.rawQuery("select * from mst_OfficeType order by OfficeType_code", null);
+            Cursor cur = db.rawQuery("select * from mst_OfficeType where UserRole=? order by OfficeType_code", Whereargs);
             int x = cur.getCount();
             while (cur.moveToNext()) {
                 OfficeListFromServer financial_year = new OfficeListFromServer();

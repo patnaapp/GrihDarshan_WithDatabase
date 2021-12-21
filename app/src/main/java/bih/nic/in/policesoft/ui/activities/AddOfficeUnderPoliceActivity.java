@@ -122,7 +122,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
         load_spinner();
 
-        officesFromServersList=dbHelper.getOfficeTypeLocal();
+        officesFromServersList=dbHelper.getOfficeTypeLocal(CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole());
         if (officesFromServersList.size()<=0) {
             if (Utiilties.isOnline(AddOfficeUnderPoliceActivity.this)) {
                 new GetOfficeList(User_Id, Password, Token,CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole()).execute();
@@ -1123,7 +1123,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
             if (result != null) {
                 if (result.size() > 0) {
-                    long c = dbHelper.setOfficeTypeLocal(result);
+                    long c = dbHelper.setOfficeTypeLocal(result,Role);
                     // officesFromServersList = result;
                     if (c>0){
                         setOfficeDetailsSpinner();
@@ -1139,7 +1139,7 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
 
     public void setOfficeDetailsSpinner()
     {
-        officesFromServersList=dbHelper.getOfficeTypeLocal();
+        officesFromServersList=dbHelper.getOfficeTypeLocal(CommonPref.getPoliceDetails(AddOfficeUnderPoliceActivity.this).getRole());
         // officesFromServersList = RangeList;
         ArrayList array = new ArrayList<String>();
         array.add("-Select Offices Type-");
