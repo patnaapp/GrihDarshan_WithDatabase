@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void showBadgeImp_contact() {
-        int count = dbHelper.getTotal_Badge_Imp_contact(userId);
+        int count = dbHelper.getTotal_Badge_Imp_contact(CommonPref.getPoliceDetails(getContext()).getUserID());
         Log.e("Count", String.valueOf(count));
         if (count > 0) {
             tvBadge_imp_contact.setText(String.valueOf(count));
@@ -191,7 +191,7 @@ public class HomeFragment extends Fragment {
 
     }
     private void showBadgeMajorUtilities() {
-        int count = dbHelper.getTotal_Badge_MajorUtilities(userId);
+        int count = dbHelper.getTotal_Badge_MajorUtilities(CommonPref.getPoliceDetails(getContext()).getUserID());
         Log.e("Count", String.valueOf(count));
         if (count > 0) {
           //  tvBadge_imp_contact.setText(String.valueOf(count));
@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void showBadgeOffice() {
-        int count = dbHelper.getTotal_Badge_Office(userId);
+        int count = dbHelper.getTotal_Badge_Office(CommonPref.getPoliceDetails(getContext()).getUserID());
         Log.e("Count", String.valueOf(count));
         if (count > 0) {
             //tvBadge_imp_contact.setText(String.valueOf(count));
