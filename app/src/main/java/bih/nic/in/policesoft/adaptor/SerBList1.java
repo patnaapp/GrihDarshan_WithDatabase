@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
 
         public TextView tv_officeType,tv_office_Name,tv_address,tv_landline;
         Button btn_remove,btn_upload;
+        LinearLayout ll_landline,ll_address;
 
         public ViewHolder(View convertView){
 
@@ -81,6 +83,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
             tv_landline = convertView.findViewById(R.id.tv_landline);
             btn_remove = convertView.findViewById(R.id.btn_remove);
             btn_upload = convertView.findViewById(R.id.btn_upload);
+            ll_landline = convertView.findViewById(R.id.ll_landline);
+            ll_address = convertView.findViewById(R.id.ll_address);
 
 
         }
@@ -101,9 +105,36 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
 
 
         holder.tv_officeType.setText(ListItem1.get(position).getOfficeType_Name());
-        holder.tv_office_Name.setText(ListItem1.get(position).getOffice_Name());
-        holder.tv_address.setText(ListItem1.get(position).getAddress());
-        holder.tv_landline.setText(ListItem1.get(position).getLandline_No());
+
+        if(ListItem1.get(position).getOffice_Name().equals(""))
+        {
+            holder.tv_office_Name.setText("NA");
+        }
+        else {
+            holder.tv_office_Name.setText(ListItem1.get(position).getOffice_Name());
+        }
+
+        if(ListItem1.get(position).getAddress().equals(""))
+        {
+            holder.tv_address.setText("NA");
+            holder.ll_address.setVisibility(View.GONE);
+        }
+        else {
+            holder.tv_address.setText(ListItem1.get(position).getAddress());
+            holder.ll_address.setVisibility(View.VISIBLE);
+        }
+
+        if(ListItem1.get(position).getLandline_No().equals(""))
+        {
+            holder.tv_landline.setText("NA");
+            holder.ll_landline.setVisibility(View.GONE);
+        }
+        else {
+            holder.ll_landline.setVisibility(View.VISIBLE);
+            holder.tv_landline.setText(ListItem1.get(position).getLandline_No());
+        }
+
+
 
 
         holder.btn_remove.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView tv_major_util,tv_add,tv_remarks,tv_landline;
         Button btn_remove,btn_upload;
+        LinearLayout ll_address;
 
         public ViewHolder(View convertView){
 
@@ -69,6 +71,7 @@ public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.View
             tv_remarks = convertView.findViewById(R.id.tv_remarks);
             btn_remove = convertView.findViewById(R.id.btn_remove);
             btn_upload = convertView.findViewById(R.id.btn_upload);
+            ll_address = convertView.findViewById(R.id.ll_address);
 
 
         }
@@ -89,7 +92,17 @@ public class MajorUtilAdapter extends RecyclerView.Adapter<MajorUtilAdapter.View
 
 
         holder.tv_major_util.setText(majorItem.get(position).getMajor_UtilName());
-        holder.tv_add.setText(majorItem.get(position).getMajor_Crime_HeadAddress());
+
+        if (majorItem.get(position).getMajor_Crime_HeadAddress().equals(""))
+        {
+            holder.ll_address.setVisibility(View.GONE);
+        }else {
+            holder.ll_address.setVisibility(View.VISIBLE);
+            holder.tv_add.setText(majorItem.get(position).getMajor_Crime_HeadAddress());
+        }
+
+
+
         holder.tv_remarks.setText(majorItem.get(position).getRemarks());
 
 
