@@ -73,8 +73,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
         Button btn_remove,btn_upload;
         LinearLayout ll_landline,ll_address;
 
-        public ViewHolder(View convertView){
-
+        public ViewHolder(View convertView)
+        {
             super(convertView);
 
             tv_officeType = convertView.findViewById(R.id.tv_officeType);
@@ -86,13 +86,12 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
             ll_landline = convertView.findViewById(R.id.ll_landline);
             ll_address = convertView.findViewById(R.id.ll_address);
 
-
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         view2 = LayoutInflater.from(context).inflate(R.layout.activity_adaptor_edit_entry,parent,false);
 
         viewHolder2 = new ViewHolder(view2);
@@ -100,7 +99,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder,final int position) {
+    public void onBindViewHolder(final ViewHolder holder,final int position)
+    {
         _encrptor=new Encriptor();
 
 
@@ -110,7 +110,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
         {
             holder.tv_office_Name.setText("NA");
         }
-        else {
+        else
+        {
             holder.tv_office_Name.setText(ListItem1.get(position).getOffice_Name());
         }
 
@@ -200,16 +201,16 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
                         ArrayList<InspectionDetailsModel> listgps = dbHelper.getOfficeGpsList(UserId, dataProgress.getId());
 
 
-                            //for (OfficeUnderPsEntity data : dataProgress) {
+                        //for (OfficeUnderPsEntity data : dataProgress) {
                         if (dataProgress !=null)
                         {
                             new UploadOfficeUnderPS(dataProgress,listgps).execute();
                         }
 
 
-                           // }
+                        // }
 
-                         //   GlobalVariables.listSize = dataProgress.size();
+                        //   GlobalVariables.listSize = dataProgress.size();
 
                     }
 
