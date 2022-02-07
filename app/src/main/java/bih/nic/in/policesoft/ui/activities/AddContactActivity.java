@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import bih.nic.in.policesoft.R;
 import bih.nic.in.policesoft.database.DataBaseHelper;
@@ -154,6 +155,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
             BusstandName = binding.etBusstandName.getText().toString().trim();
             BusstandAdd = binding.etBusstandAddress.getText().toString().trim();
 
+
             boolean cancelRegistration = false;
             String isValied = "yes";
             View focusView = null;
@@ -176,6 +178,11 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                     Toast.makeText(AddContactActivity.this, getResources().getString(R.string.officier_contact_required_field), Toast.LENGTH_SHORT).show();
                     focusView = binding.etOfficerContactNum;
                     cancelRegistration = true;
+                }
+                if(isValidEmailId(OfficerEmail)){
+                    Toast.makeText(getApplicationContext(), "Valid Email Address.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "InValid Email Address.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -293,6 +300,7 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
                 Toast.makeText(AddContactActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
                 cancelRegistration = true;
             }
+
             if (cancelRegistration) {
                 // error in login
                 focusView.requestFocus();
@@ -418,6 +426,15 @@ public class AddContactActivity extends AppCompatActivity implements AdapterView
 //            }
 //        });
     }
+    private boolean isValidEmailId(String email) {
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

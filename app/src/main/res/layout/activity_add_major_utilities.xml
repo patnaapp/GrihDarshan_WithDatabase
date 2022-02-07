@@ -202,6 +202,31 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_fire_vehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_fire_vehicle_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fire_vehicle"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/spn_fire_vehicle_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/spinner_bg1" />
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/ll_fire_status"
@@ -851,7 +876,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="textCapWords"
-                            android:maxLength="30"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -890,7 +914,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="textCapWords"
-                            android:maxLength="30"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"
@@ -929,7 +952,6 @@
                             android:focusableInTouchMode="true"
                             android:hint="@string/enter_here"
                             android:inputType="textCapWords"
-                            android:maxLength="30"
                             android:padding="10dp"
                             android:singleLine="true"
                             android:textColor="#222222"

@@ -65,9 +65,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_text"
+                android:layout_below="@+id/ll_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_header"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="गृह दर्शन"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="गृह विभाग,बिहार सरकार"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_text"
                 android:layout_marginLeft="26dp"
                 android:layout_marginTop="26dp"
                 android:layout_marginRight="26dp"

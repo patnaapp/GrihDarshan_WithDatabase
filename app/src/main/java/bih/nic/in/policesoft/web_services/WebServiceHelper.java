@@ -53,6 +53,7 @@ import bih.nic.in.policesoft.entity.FireTypeServer;
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
 import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
+import bih.nic.in.policesoft.entity.GetVechileTypeServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
@@ -88,8 +89,8 @@ public class WebServiceHelper {
 //    public static final String SERVICENAMESPACE = "https://fts.bih.nic.in/";
 //    public static final String SERVICEURL1 = "https://www.fts.bih.nic.in/PoliceSoftwebservice.asmx";
 //
-//     public static final String SERVICENAMESPACE = "http://10.133.20.196:8088/";
-//     public static final String SERVICEURL1 = "http://10.133.20.196:8088/GrihDarshanWebservice.asmx";
+     //public static final String SERVICENAMESPACE = "http://10.133.20.196:8088/";
+    // public static final String SERVICEURL1 = "http://10.133.20.196:8088/GrihDarshanWebservice.asmx";
 
     public static final String APPVERSION_METHOD = "getAppLatest";
     public static final String RANGE_LIST = "GetRangeList";
@@ -99,6 +100,7 @@ public class WebServiceHelper {
     public static final String GETMOBILE_OTP = "Register_Thana_Signup";
     public static final String PS_Registration = "UpdateThana";
     public static final String OUTPOST_Registration = "Insert_Outpost";
+    //public static final String OUTPOST_Registration = "Insert_Outpost_New";
     public static final String INSERT_CONTACTS = "Insert_Contact";
     public static final String Authenticate = "Authenticate";
     public static final String Contact_Details = "GetContactList_New";
@@ -110,6 +112,7 @@ public class WebServiceHelper {
     private static final String INSERT_OFFICE11 = "InsertOffice_Under_PS";
     private static final String GET_FIRE_TYPE_LIST = "GetFireTypeList";
     private static final String GET_TYPE_OF_HYDRANT_LIST = "GetTypeOfHydrantList";
+    private static final String GET_VEHICLE_TYPE_LIST = "GetVehicleTypeList";
     private static final String InsertInsert_Major_PublicUtil = "InsertInsert_Major_PublicUtil";
     private static final String Office_NameList_Master = "GetMst_OfficeMasterList";
     private static final String GET_PRISION_TYPE_LIST = "Getjail_TypeMasterList";
@@ -700,7 +703,7 @@ public class WebServiceHelper {
             request.addProperty("Khata_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhataNum()), RandomNo));
             request.addProperty("Khesra_Num", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(data.getKhesraNum()), RandomNo));
             request.addProperty("Photo1", data.getPhoto1());
-            request.addProperty("Photo2", data.getPhoto2());
+            request.addProperty("Photo2", "");
             request.addProperty("User_Id", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Userid), RandomNo));
             request.addProperty("Range_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Range_Code), RandomNo));
             request.addProperty("Dist_Code", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(Dist_Code), RandomNo));
@@ -1171,7 +1174,7 @@ public class WebServiceHelper {
             envelope.headerOut = header;
             envelope.setOutputSoapObject(request);
             if (request != null) {
-                Log.e("PrisonType-->", request.toString());
+                Log.e("Prison_Type-->", request.toString());
             }
             envelope.addMapping(SERVICENAMESPACE, GetPrisionypeServer.PrisionType.getSimpleName(), GetPrisionypeServer.PrisionType);
 
@@ -1289,11 +1292,11 @@ public class WebServiceHelper {
             Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
             Enc_Token = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(token), RandomNo);
 
+            Log.e("HydrantRequestValue"," "+Enc_SKey +"  "+Enc_UID+"   "+Enc_Pass+" "+Enc_CapId);
             request.addProperty("skey", Enc_SKey);
             request.addProperty("Userid", Enc_UID);
             request.addProperty("password", Enc_Pass);
             request.addProperty("cap", Enc_CapId);
-
 
             org.kxml2.kdom.Element[] header = new org.kxml2.kdom.Element[1];
             header[0] = new org.kxml2.kdom.Element().createElement(SERVICENAMESPACE, "SecuredTokenWebservice");
@@ -2863,6 +2866,7 @@ public class WebServiceHelper {
             poleElement.appendChild(getSoapPropert(doc, "Jail_Hospital", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Hospital()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_Kitchen", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Kitchen()), RandomNo)));
             poleElement.appendChild(getSoapPropert(doc, "Jail_Dormitory", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getJail_Dormitory()), RandomNo)));
+            poleElement.appendChild(getSoapPropert(doc, "FireVehicleTypeCode", _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(majorUtilsDetails.getFireVech_Code()), RandomNo)));
 
 
             poleElement.appendChild(getSoapPropert(doc, "skey", Enc_SKey));
@@ -3162,6 +3166,102 @@ public class WebServiceHelper {
                     if (property instanceof SoapObject) {
                         SoapObject final_object = (SoapObject) property;
                         OfficeListFromServer district = new OfficeListFromServer(final_object, CapId, context);
+                        pvmArrayList.add(district);
+                    }
+                } else
+                    return pvmArrayList;
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return pvmArrayList;
+    }
+
+    //public static ArrayList<GetVechileTypeServer> getVechileTypeListFromServer(String fite_Type_Code) {
+//        RandomNo = Utiilties.getTimeStamp();
+//        CapId = RandomString.randomAlphaNumeric(8);
+//        _encrptor = new Encriptor();
+//        String _capId = "", _skey = "",Enc_fite_Type_Code="";
+//
+//        try {
+//            _capId = _encrptor.Encrypt(CapId, RandomNo);
+//            _skey = _encrptor.Encrypt(RandomNo, CommonPref.CIPER_KEY);
+//            Enc_fite_Type_Code = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(fite_Type_Code), RandomNo);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        SoapObject res1;
+//
+//        res1 = getServerData(GET_VEHICLE_TYPE_LIST, GetVechileTypeServer.VechileType, "skey", "VehicletypeCode","cap", _skey, Enc_fite_Type_Code,_capId);
+//        int TotalProperty = 0;
+//        if (res1 != null) TotalProperty = res1.getPropertyCount();
+//        ArrayList<GetVechileTypeServer> fieldList = new ArrayList<GetVechileTypeServer>();
+//
+//        for (int i = 0; i < TotalProperty; i++) {
+//            if (res1.getProperty(i) != null) {
+//                Object property = res1.getProperty(i);
+//                if (property instanceof SoapObject) {
+//                    SoapObject final_object = (SoapObject) property;
+//                    GetVechileTypeServer sm = new GetVechileTypeServer(final_object);
+//                    fieldList.add(sm);
+//                }
+//            } else
+//                return fieldList;
+//        }
+//
+//
+//        return fieldList;
+//    }
+
+    public static ArrayList<GetVechileTypeServer> getVechileTypeListFromServer(Context context, String fite_Type_Code) {
+        SoapObject request = new SoapObject(SERVICENAMESPACE, GET_VEHICLE_TYPE_LIST);
+        SoapObject res1;
+        ArrayList<GetVechileTypeServer> pvmArrayList = new ArrayList<GetVechileTypeServer>();
+
+        RandomNo = Utiilties.getTimeStamp();
+        CapId = RandomString.randomAlphaNumeric(8);
+        Encriptor _encrptor = new Encriptor();
+        String Enc_UID, Enc_CapId, Enc_SKey, Enc_fite_Type_Code, Enc_Pass, Enc_Role;
+
+        try {
+            Enc_CapId = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(CapId), RandomNo);
+            Enc_SKey = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(RandomNo), CommonPref.CIPER_KEY);
+            Enc_fite_Type_Code = _encrptor.Encrypt(Utiilties.cleanStringForVulnerability(fite_Type_Code), RandomNo);
+
+            Log.e("VehicleRequestValue"," "+Enc_SKey +"  "+Enc_fite_Type_Code+"   "+Enc_CapId);
+            request.addProperty("skey", Enc_SKey);
+            request.addProperty("VehicletypeCode", Enc_fite_Type_Code);
+            request.addProperty("cap",Enc_CapId);
+
+
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.dotNet = true;
+            envelope.implicitTypes = true;
+            envelope.setOutputSoapObject(request);
+            if (request != null) {
+                Log.e("GetVehicleTypeList-->", request.toString());
+            }
+            envelope.addMapping(SERVICENAMESPACE, GetVechileTypeServer.VechileType.getSimpleName(), GetVechileTypeServer.VechileType);
+
+            HttpTransportSE androidHttpTransport = new HttpTransportSE(SERVICEURL1);
+            androidHttpTransport.call(SERVICENAMESPACE + GET_VEHICLE_TYPE_LIST, envelope);
+            res1 = (SoapObject) envelope.getResponse();
+            if (res1 != null) {
+                Log.e("GetVehicleTypeList", res1.toString());
+            }
+            int TotalProperty = res1.getPropertyCount();
+
+            for (int ii = 0; ii < TotalProperty; ii++) {
+                if (res1.getProperty(ii) != null) {
+                    Object property = res1.getProperty(ii);
+                    if (property instanceof SoapObject) {
+                        SoapObject final_object = (SoapObject) property;
+                        GetVechileTypeServer district = new GetVechileTypeServer(final_object,CapId,context);
                         pvmArrayList.add(district);
                     }
                 } else

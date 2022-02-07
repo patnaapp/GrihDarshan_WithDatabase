@@ -224,9 +224,10 @@ public class AddOutpostActivity extends AppCompatActivity implements AdapterView
 ////                }
 ////            }
 //            }
-            else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
-                Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
-            } else if (imageData1 == null) {
+//            else if (!isValidEmailId(binding.etEmailAdd.getText().toString().trim())) {
+//                Toast.makeText(getApplicationContext(), "Please Enter valid Email", Toast.LENGTH_SHORT).show();
+//            }
+            else if (imageData1 == null) {
                 Toast.makeText(AddOutpostActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
             } else {
                 Utiilties.hideKeyboard(this);

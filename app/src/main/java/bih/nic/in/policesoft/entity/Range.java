@@ -36,7 +36,6 @@ public class  Range implements KvmSerializable, Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public Range() {

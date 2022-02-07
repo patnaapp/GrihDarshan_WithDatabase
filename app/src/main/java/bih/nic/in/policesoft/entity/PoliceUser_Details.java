@@ -81,8 +81,7 @@ public class PoliceUser_Details implements KvmSerializable, Serializable {
     }
 
 
-    public PoliceUser_Details(SoapObject obj, String CapID, Context context)
-    {
+    public PoliceUser_Details(SoapObject obj, String CapID, Context context) {
         _encrptor=new Encriptor();
         try {
             this.skey = _encrptor.Decrypt(obj.getProperty("skey").toString(), CommonPref.CIPER_KEY);

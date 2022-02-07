@@ -23,6 +23,7 @@ import bih.nic.in.policesoft.entity.CourtSubType_Entity;
 import bih.nic.in.policesoft.entity.CourtType_Entity;
 import bih.nic.in.policesoft.entity.FireTypeServer;
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
+import bih.nic.in.policesoft.entity.GetVechileTypeServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
@@ -254,6 +255,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             values.put("Jail_Kitchen", result.getJail_Kitchen());
             values.put("Jail_Dormitory", result.getJail_Dormitory());
             values.put("Jail_Toilet", result.getJail_Toilet());
+            values.put("FireVech_Code", result.getFireVech_Code());
             values.put("User_Id", user_id);
 
             c = db.insert("MajorUtilEntry", null, values);
@@ -332,79 +334,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 financial_year.setUtil_Code(cur.getString(cur.getColumnIndex("Util_Code")));
                 financial_year.setUtil_Name((cur.getString(cur.getColumnIndex("Util_Name"))));
                 bdetail.add(financial_year);
-            }
-            cur.close();
-            db.close();
-        } catch (Exception e) {
-        }
-        return bdetail;
-    }
-
-    //PrisonMasterLocal
-    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list, String distcode, String jailtype) {
-
-
-        long c = -1;
-
-
-        DataBaseHelper dh = new DataBaseHelper(myContext);
-        try {
-            dh.createDataBase();
-
-
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-            return -1;
-        }
-
-        ArrayList<GetPrisionMasterServer> info = list;
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        db.delete("PrisonMaster_List", null, null);
-        if (info != null) {
-            try {
-                for (int i = 0; i < info.size(); i++) {
-
-                    values.put("PrisionName", info.get(i).getJail_Name());
-                    values.put("PrisonCode", info.get(i).getJail_Code());
-                    values.put("Distcode", distcode);
-                    values.put("JailType_Code", jailtype);
-
-                    String[] whereArgs = new String[]{info.get(i).getJail_Code()};
-
-                    c = db.update("PrisonMaster_List", values, "PrisonCode=?", whereArgs);
-                    if (!(c > 0)) {
-                        c = db.insert("PrisonMaster_List", null, values);
-                    }
-
-                }
-                db.close();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return c;
-            }
-        }
-        return c;
-
-
-    }
-
-
-    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal(String distcode, String jailtype_code) {
-        ArrayList<GetPrisionMasterServer> bdetail = new ArrayList<GetPrisionMasterServer>();
-        try {
-            SQLiteDatabase db = this.getReadableDatabase();
-            String[] whereArgs = new String[]{distcode, jailtype_code};
-            Cursor cur = db.rawQuery("select * from PrisonMaster_List where Distcode=? AND JailType_Code=? order by PrisonCode", whereArgs);
-            int x = cur.getCount();
-            while (cur.moveToNext()) {
-                GetPrisionMasterServer prisionMaster = new GetPrisionMasterServer();
-                prisionMaster.setJail_Name(cur.getString(cur.getColumnIndex("PrisionName")));
-                prisionMaster.setJail_Code((cur.getString(cur.getColumnIndex("PrisonCode"))));
-                bdetail.add(prisionMaster);
             }
             cur.close();
             db.close();
@@ -700,6 +629,74 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return bdetail;
     }
+    //PrisonMasterLocal
+    public long setPrisonMasterLocal(ArrayList<GetPrisionMasterServer> list, String distcode, String jailtype) {
+
+        long c = -1;
+
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<GetPrisionMasterServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("PrisonMaster_List", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("PrisionName", info.get(i).getJail_Name());
+                    values.put("PrisonCode", info.get(i).getJail_Code());
+                    values.put("Distcode", distcode);
+                    values.put("JailType_Code", jailtype);
+
+                    String[] whereArgs = new String[]{info.get(i).getJail_Code()};
+
+                    c = db.update("PrisonMaster_List", values, "PrisonCode=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("PrisonMaster_List", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+    }
+
+    public ArrayList<GetPrisionMasterServer> getPrisonMasterLocal(String distcode, String jailtype_code) {
+        ArrayList<GetPrisionMasterServer> bdetail = new ArrayList<GetPrisionMasterServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String[] whereArgs = new String[]{distcode, jailtype_code};
+            Cursor cur = db.rawQuery("select * from PrisonMaster_List where Distcode=? AND JailType_Code=? order by PrisonCode", whereArgs);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                GetPrisionMasterServer prisionMaster = new GetPrisionMasterServer();
+                prisionMaster.setJail_Name(cur.getString(cur.getColumnIndex("PrisionName")));
+                prisionMaster.setJail_Code((cur.getString(cur.getColumnIndex("PrisonCode"))));
+                bdetail.add(prisionMaster);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
 
 
     //PrisonTypeLocal
@@ -748,6 +745,53 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+/*
+    public long setPrisonTypeLocal(ArrayList<GetPrisionypeServer> list) {
+        long c = -1;
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<GetPrisionypeServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("PrisonMaster_List", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("PrisionName", info.get(i).getJail_Type());
+                    values.put("PrisonCode", info.get(i).getJail_Type_Code());
+
+                    String[] whereArgs = new String[]{info.get(i).getJail_Type()};
+
+                    c = db.update("PrisonMaster_List", values, "PrisionName=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("PrisonMaster_List", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
+
+
+    }
+*/
+
 
     public ArrayList<GetPrisionypeServer> getPrisonTypeLocal() {
         ArrayList<GetPrisionypeServer> bdetail = new ArrayList<GetPrisionypeServer>();
@@ -757,8 +801,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             int x = cur.getCount();
             while (cur.moveToNext()) {
                 GetPrisionypeServer prisionType = new GetPrisionypeServer();
-                prisionType.setJail_Type_Code(cur.getString(cur.getColumnIndex("Jail_Type_Code")));
                 prisionType.setJail_Type((cur.getString(cur.getColumnIndex("Jail_Type"))));
+                prisionType.setJail_Type_Code(cur.getString(cur.getColumnIndex("Jail_Type_Code")));
+
                 bdetail.add(prisionType);
             }
             cur.close();
@@ -876,6 +921,51 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return c;
 
+    }
+
+
+    public long setVechileTypeLocal(ArrayList<GetVechileTypeServer> list) {
+        long c = -1;
+        DataBaseHelper dh = new DataBaseHelper(myContext);
+        try {
+            dh.createDataBase();
+
+
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return -1;
+        }
+
+        ArrayList<GetVechileTypeServer> info = list;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        db.delete("Vehicle_Type", null, null);
+        if (info != null) {
+            try {
+                for (int i = 0; i < info.size(); i++) {
+
+                    values.put("Vehicle_Master_Code", info.get(i).getVehicle_Master_Code());
+                    values.put("Vehicle_Type_Code", info.get(i).getVehicle_Type_Code());
+                    values.put("Vehicle_Type_Name", info.get(i).getVehicle_Type_Name());
+
+                    String[] whereArgs = new String[]{info.get(i).getVehicle_Master_Code()};
+
+                    c = db.update("Vehicle_Type", values, "Vehicle_Master_Code=?", whereArgs);
+                    if (!(c > 0)) {
+                        c = db.insert("Vehicle_Type", null, values);
+                    }
+
+                }
+                db.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return c;
+            }
+        }
+        return c;
 
     }
 
@@ -889,6 +979,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 GetTypeOfHydrantServer hydrantServer = new GetTypeOfHydrantServer();
                 hydrantServer.setHydrant_Type(cur.getString(cur.getColumnIndex("Hydrant_Type")));
                 hydrantServer.setHydrant_Code((cur.getString(cur.getColumnIndex("Hydrant_Code"))));
+                bdetail.add(hydrantServer);
+            }
+            cur.close();
+            db.close();
+        } catch (Exception e) {
+        }
+        return bdetail;
+    }
+    public ArrayList<GetVechileTypeServer> getVechileTypeLocal() {
+        ArrayList<GetVechileTypeServer> bdetail = new ArrayList<GetVechileTypeServer>();
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cur = db.rawQuery("select * from Vehicle_Type order by Vehicle_Type_Code", null);
+            int x = cur.getCount();
+            while (cur.moveToNext()) {
+                GetVechileTypeServer hydrantServer = new GetVechileTypeServer();
+                hydrantServer.setVehicle_Type_Code(cur.getString(cur.getColumnIndex("Vehicle_Type_Code")));
+                hydrantServer.setVehicle_Type_Name((cur.getString(cur.getColumnIndex("Vehicle_Type_Name"))));
+                hydrantServer.setVehicle_Master_Code((cur.getString(cur.getColumnIndex("Vehicle_Master_Code"))));
                 bdetail.add(hydrantServer);
             }
             cur.close();
@@ -1134,6 +1243,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 majorUtilInfo.setReform_Activities_Prison(cursor.getString(cursor.getColumnIndex("Reform_Activities_Prison")));
                 majorUtilInfo.setFire_TypeCode(cursor.getString(cursor.getColumnIndex("Fire_TypeCode")));
                 majorUtilInfo.setHydrant_Type_Code(cursor.getString(cursor.getColumnIndex("Hydrant_Type_Code")));
+
                 majorUtilInfo.setHydrant_Name(cursor.getString(cursor.getColumnIndex("Hydrant_Name")));
                 majorUtilInfo.setFire_Prone_Name(cursor.getString(cursor.getColumnIndex("Fire_Prone_Name")));
                 majorUtilInfo.setFire_Status(cursor.getString(cursor.getColumnIndex("Fire_Status")));
@@ -1163,6 +1273,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 majorUtilInfo.setJail_Kitchen(cursor.getString(cursor.getColumnIndex("Jail_Kitchen")));
                 majorUtilInfo.setJail_Dormitory(cursor.getString(cursor.getColumnIndex("Jail_Dormitory")));
                 majorUtilInfo.setJail_Toilet(cursor.getString(cursor.getColumnIndex("Jail_Toilet")));
+                majorUtilInfo.setFireVech_Code(cursor.getString(cursor.getColumnIndex("FireVech_Code")));
 
 
                 String[] args2 = {rowID};

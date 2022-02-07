@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true" />
 
-
         <RelativeLayout
             android:id="@+id/head"
             android:layout_width="match_parent"

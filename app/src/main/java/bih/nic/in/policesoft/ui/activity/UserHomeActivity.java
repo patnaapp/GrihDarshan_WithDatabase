@@ -207,7 +207,7 @@ public class UserHomeActivity extends AppCompatActivity implements NavigationVie
     private void logout() {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
-                .setIcon(R.drawable.logo)
+                .setIcon(R.drawable.biharlogo)
                 .setMessage("क्या आप सुनिश्चित हैं कि आप ऐप से लॉगआउट करना चाहते हैं??")
                 .setCancelable(false)
                 .setPositiveButton("हाँ", new DialogInterface.OnClickListener() {

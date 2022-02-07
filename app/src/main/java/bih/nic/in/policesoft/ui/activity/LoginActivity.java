@@ -179,9 +179,7 @@ public class LoginActivity extends Activity {
                 this.dialog.dismiss();
             }
             if (result != null) {
-                if (result.getStatus().equalsIgnoreCase("true"))
-                {
-
+                if (result.getStatus().equalsIgnoreCase("true")) {
 
 
                     if (result.get_isAuth().equalsIgnoreCase("Y")) {
@@ -222,9 +220,7 @@ public class LoginActivity extends Activity {
                             start();
                         }
 
-
-                    } else
-                    {
+                    } else {
                         new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE).setTitleText(result.getMssage()).setContentText("Something went wrong!").show();
                     }
                 }
@@ -311,16 +307,13 @@ public class LoginActivity extends Activity {
     }
 
 
-    public static String getDeviceName()
-    {
+    public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
-        if (model.startsWith(manufacturer))
-        {
+        if (model.startsWith(manufacturer)) {
             return model.toUpperCase();
         }
-        else
-        {
+        else {
             return manufacturer.toUpperCase() + " " + model;
         }
     }

@@ -49,7 +49,7 @@ public class MajorUtilitiesFromServer implements KvmSerializable, Serializable {
                     SharedPreferences.Editor editor = SplashActivity.prefs.edit();
                     editor.putBoolean("username", false);
                     editor.putBoolean("password", false);
-                    editor.putBoolean("password", false);
+                    //editor.putBoolean("password", false);
                     editor.putString("isLogin", "");
                     editor.commit();
 

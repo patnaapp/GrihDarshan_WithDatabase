@@ -152,8 +152,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
 
             String EnterOTP = binding.etMobOtp.getText().toString().trim();
-            if (otp != null)
-            {
+            if (otp != null) {
                 if (EnterOTP.equals(otp))
                 {
                     Utiilties.hideKeyboard(this);
@@ -279,8 +278,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             {
                 Toast.makeText(SignupActivity.this, getResources().getString(R.string.capture_photo), Toast.LENGTH_SHORT).show();
             }
-            else
-            {
+            else {
 //                Utiilties.hideKeyboard(this);
 //                PreviewBottonSheet previewBottonSheet = new PreviewBottonSheet();
 //                Bundle bundle = new Bundle();

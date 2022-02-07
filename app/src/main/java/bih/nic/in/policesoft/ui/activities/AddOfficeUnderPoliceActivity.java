@@ -505,7 +505,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                             cancelRegistration = true;
                         }
                     }
-
                 }
                 if (TextUtils.isEmpty(EstablishYear)) {
                     binding.etEstablishYear.setError(null);
@@ -616,8 +615,6 @@ public class AddOfficeUnderPoliceActivity extends AppCompatActivity implements A
                     focusView = binding.etAddress;
                     cancelRegistration = true;
                 }
-
-
             }
 
             if (Office_type_Code.equalsIgnoreCase("9")) {

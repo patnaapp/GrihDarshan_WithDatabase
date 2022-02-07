@@ -55,7 +55,8 @@ public class SerBList1 extends RecyclerView.Adapter<SerBList1.ViewHolder> {
     Encriptor _encrptor;
 
 
-    public SerBList1(Context context1, ArrayList<OfficeUnderPsEntity> SubjectValues2,String Userid,String token){
+    public SerBList1(Context context1, ArrayList<OfficeUnderPsEntity> SubjectValues2,String Userid,String token)
+    {
         ListItem1 = SubjectValues2;
         context = context1;
         UserId=Userid;

@@ -1,14 +1,9 @@
 package bih.nic.in.policesoft.ui.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.SQLException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -31,6 +25,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import java.util.ArrayList;
 
 import bih.nic.in.policesoft.R;
@@ -39,10 +37,10 @@ import bih.nic.in.policesoft.adaptor.takegpsListAdaptor;
 import bih.nic.in.policesoft.database.DataBaseHelper;
 import bih.nic.in.policesoft.databinding.ActivityAddMajorUtilitiesBinding;
 import bih.nic.in.policesoft.entity.FireTypeServer;
-
 import bih.nic.in.policesoft.entity.GetPrisionMasterServer;
 import bih.nic.in.policesoft.entity.GetPrisionypeServer;
 import bih.nic.in.policesoft.entity.GetTypeOfHydrantServer;
+import bih.nic.in.policesoft.entity.GetVechileTypeServer;
 import bih.nic.in.policesoft.entity.InspectionDetailsModel;
 import bih.nic.in.policesoft.entity.MajorUtilEntry;
 import bih.nic.in.policesoft.entity.MajorUtilitiesFromServer;
@@ -53,49 +51,43 @@ import bih.nic.in.policesoft.ui.activity.UserHomeActivity;
 import bih.nic.in.policesoft.ui.interfacep.OnDoneButtonInterface;
 import bih.nic.in.policesoft.utility.CommonPref;
 import bih.nic.in.policesoft.utility.CustomAlertDialog;
-import bih.nic.in.policesoft.utility.GlobalVariables;
 import bih.nic.in.policesoft.utility.GpsTracker;
 import bih.nic.in.policesoft.utility.Utiilties;
 import bih.nic.in.policesoft.web_services.WebServiceHelper;
 
 public class AddMajorUtilitiesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, OnDoneButtonInterface {
+    private final static int CAMERA_PIC = 99;
     //String User_Id = "", Range_Code = "", Dist_Code = "",Jail_Code = "", SubDiv_Code = "", Thana_Code = "", Password = "", Token = "", Util_Code = "", Util_Name = "";
     String Token = "", user_id = "", password = "", range_Code = "", subDiv_Code = "", dist_code = "", thana_code = "", major_UtilCode = "", major_CrimeHeadCode = "",
             major_CrimeHeadAddress = "", chronic_LandDistributeCode = "", chronic_Land_Add = "", Kabrishtan_Name = "", Kabrishtan_VillName = "", land_DetailsCode = "",
             boundary_StatusCode = "", jail_TypeCode = "", jail_Name = "", jail_Address = "", started_Year = "", jail_Capacity = "", type_Court_Code = "", name_Of_Court = "",
             court_Address = "", fair_Festival_Name = "", fair_Festival_Address = "", historical_Place_Name = "", historical_Place_Address = "", remarks = "",
             photo = "", latitude = "", longitude = "", entry_Mode = "", imei_Num = "", app_Ver = "", device_Type = "", religious_PlaceType = "", religious_PlaceName = "",
-            historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "", fire_TypeCode = "", hydrant_Type_Code = "", hydrant_Name = "", fire_Prone_Name = "",
+            historical_Imp_Prison = "", best_Practices_Prison = "", reform_Activities_Prison = "", fire_TypeCode = "", hydrant_Type_Code = "", Fire_Vechile_Type_Code = "", Fire_Vechile_Type_Name = "", hydrant_Name = "", fire_Prone_Name = "",
             fire_Status = "", skey = "", cap = "", firetypecode_Code = "";
-
     String major_UtilName = "";
-   // String major_UtilAddress = "";
+    // String major_UtilAddress = "";
     String isToilet_avail = "", isKitchen_Avail = "", isHospital_Avail = "", isDormitory_Avail = "";
     DataBaseHelper dataBaseHelper;
-
-    private CustomAlertDialog customAlertDialog;
-    private ActivityAddMajorUtilitiesBinding binding;
     ArrayList<MajorUtilitiesFromServer> Major_Util_List;
     ArrayList<GetTypeOfHydrantServer> TypeofHydration_List;
+    ArrayList<GetVechileTypeServer> VechileType_List;
     ArrayList<FireTypeServer> FireType_List;
     ArrayList<GetPrisionypeServer> PrisionType_List;
     ArrayList<GetPrisionMasterServer> prisionMaster_List;
-
     MajorUtilitiesFromServer majorutilFromServer = new MajorUtilitiesFromServer();
     GetTypeOfHydrantServer typeofHydrationServer = new GetTypeOfHydrantServer();
+    GetVechileTypeServer typeofVechileServer = new GetVechileTypeServer();
     FireTypeServer fireTypeServer = new FireTypeServer();
     GetPrisionypeServer getPrisionypeServer = new GetPrisionypeServer();
     GetPrisionMasterServer getPrisionMasterServer = new GetPrisionMasterServer();
-
     Bitmap im1, im2;
     byte[] imageData1, imageData2;
-    private final static int CAMERA_PIC = 99;
     int ThumbnailSize = 500;
     // String latitude = "", longitude = "", Photo1 = "", Crime_Code = "", KbrLand_Code = "", Boundary_Code = "", JailType_Code = "", Jail_Type = "", Historical_importance, Best_practices, Reform_correctional,  Court_Code = "", Chronic_Disp_Code = "", Fire_Type = "", Religion_type;
     String[] majorCrime, govtPrivate, boundaryStatus, landDisp_loc, courtType, religionPlace;
     String[] status;
     MajorUtilEntry model;
-    private GpsTracker gpsTracker;
     double take_latitude = 0.00;
     double take_longitude = 0.00;
     takegpsListAdaptor mAdapter;
@@ -104,7 +96,9 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     ArrayList<OtherFacility> facilitylist;
     boolean doubleBackToExitPressedOnce = false;
     Encriptor _encrptor;
-
+    private CustomAlertDialog customAlertDialog;
+    private ActivityAddMajorUtilitiesBinding binding;
+    private GpsTracker gpsTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +108,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         listgps = new ArrayList<InspectionDetailsModel>();
         facilitylist = new ArrayList<>();
         _encrptor = new Encriptor();
-
 
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
 
@@ -168,6 +161,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.llTypeFireHydrant.setVisibility(View.GONE);
         binding.llHydrantName.setVisibility(View.GONE);
         binding.llFireProneLocation.setVisibility(View.GONE);
+        binding.llFireVehicle.setVisibility(View.GONE);
         binding.llFireStatus.setVisibility(View.GONE);
 
         binding.llHistoricalImportance.setVisibility(View.GONE);
@@ -880,6 +874,8 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 model.setReform_Activities_Prison(Reform_Activities_Prison);
                 model.setFire_TypeCode(fire_TypeCode);
                 model.setHydrant_Type_Code(hydrant_Type_Code);
+                model.setFireVech_Code(Fire_Vechile_Type_Code);
+                model.setFireVech_Name(Fire_Vechile_Type_Name);
                 model.setHydrant_Name(Hydration_Name);
                 model.setFire_Prone_Name(Fire_Prone_Name);
                 //fair to fire shift two time
@@ -937,17 +933,56 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 //                    ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
 //                    ab.show();
 //                } else {
-                    if (major_UtilCode.equals("3")) {
-                        if (listgps.size() >= 4) {
-                            //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
-                            long c = 0;
-                            c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
+                if (major_UtilCode.equals("3")) {
+                    if (listgps.size() >= 4) {
+                        //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                        long c = 0;
+                        c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
 
-                            if (c > 0) {
+                        if (c > 0) {
 
-                                c1 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
+                            c1 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
 
-                                if (c1 > 0) {
+                            if (c1 > 0) {
+
+                                Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                                ab.setMessage("Data Successfully Saved !");
+                                ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                });
+
+                                ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                                ab.show();
+
+                            }
+
+                        } else {
+                            Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else if (major_UtilCode.equals("6")) {
+                    if (listgps.size() >= 4) {
+                        //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
+                        long c = 0;
+                        c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
+
+                        if (c > 0) {
+
+                            c1 = dataBaseHelper.InsertMajorUtilitiesOthers(facilitylist, user_id, String.valueOf(c));
+                            if (c1 > 0) {
+
+                                c2 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
+
+                                if (c2 > 0) {
 
                                     Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
                                     AlertDialog.Builder ab = new AlertDialog.Builder(this);
@@ -965,88 +1000,46 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                                     ab.show();
 
                                 }
-
                             } else {
                                 Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
                             }
+
+
                         } else {
-                            Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
+                    }
 
-                    } else if (major_UtilCode.equals("6")) {
-                        if (listgps.size() >= 4) {
-                            //new UploadOfficeUnderPS(officeUnderPsEntity,listgps).execute();
-                            long c = 0;
-                            c = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
+                } else {
 
-                            if (c > 0) {
-
-                                c1 = dataBaseHelper.InsertMajorUtilitiesOthers(facilitylist, user_id, String.valueOf(c));
-                                if (c1 > 0) {
-
-                                    c2 = dataBaseHelper.InsertMajorUtilitiesLatLongs(listgps, user_id, String.valueOf(c));
-
-                                    if (c2 > 0) {
-
-                                        Toast.makeText(getApplicationContext(), "Data Successfully Saved !", Toast.LENGTH_LONG).show();
-                                        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                                        ab.setMessage("Data Successfully Saved !");
-                                        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                                Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
-                                                startActivity(i);
-                                                finish();
-                                            }
-                                        });
-
-                                        ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                                        ab.show();
-
-                                    }
-                                } else {
-                                    Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
-                                }
-
-
-                            } else {
-                                Toast.makeText(AddMajorUtilitiesActivity.this, "Not successfull", Toast.LENGTH_SHORT).show();
+                    //new UploadMajorUtilities(model, listgps, facilitylist).execute();
+                    long id = 0;
+                    id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
+                    if (id > 0) {
+                        Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+                        ab.setMessage("Data Successfully Saved !");
+                        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
+                                startActivity(i);
+                                finish();
                             }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Please capture atleast 4 critical points", Toast.LENGTH_SHORT).show();
-                        }
+                        });
+
+                        ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                        ab.show();
+
 
                     } else {
-
-                        //new UploadMajorUtilities(model, listgps, facilitylist).execute();
-                        long id = 0;
-                        id = new DataBaseHelper(AddMajorUtilitiesActivity.this).InsertNewEntry(AddMajorUtilitiesActivity.this, model, user_id);
-                        if (id > 0)
-                        {
-                            Toast.makeText(getApplicationContext(), "डेटा सफलतापूर्वक सहेजा गया", Toast.LENGTH_LONG).show();
-                            AlertDialog.Builder ab = new AlertDialog.Builder(this);
-                            ab.setMessage("Data Successfully Saved !");
-                            ab.setPositiveButton("OK", new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialog, int whichButton)
-                                {
-                                    Intent i = new Intent(AddMajorUtilitiesActivity.this, UserHomeActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            });
-
-                            ab.create().getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                            ab.show();
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "डेटा सहेजा नहीं गया", Toast.LENGTH_LONG).show();
-                        }
-
+                        Toast.makeText(getApplicationContext(), "डेटा सहेजा नहीं गया", Toast.LENGTH_LONG).show();
                     }
-               // }
+
+                }
+                // }
             }
 
 
@@ -1210,12 +1203,26 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     fire_TypeCode = fireTypeServer.getFireType_Code();
                     // Util_Name = majorutilFromServer.getUtil_Name();
                     if (fireTypeServer.getFireType_Code().equals("1")) {
+                        // new TypeofHydration(user_id, Password, Token).execute();
                         binding.llTypeFireHydrant.setVisibility(View.VISIBLE);
                         binding.llFireProneLocation.setVisibility(View.GONE);
-                    } else {
+                        binding.llFireVehicle.setVisibility(View.GONE);
+
+                    } else if (fireTypeServer.getFireType_Code().equals("2")) {
                         binding.llTypeFireHydrant.setVisibility(View.GONE);
                         binding.llHydrantName.setVisibility(View.GONE);
                         binding.llFireProneLocation.setVisibility(View.VISIBLE);
+                        binding.llFireVehicle.setVisibility(View.GONE);
+
+                    } else if (fireTypeServer.getFireType_Code().equals("3")) {
+                        new GetVechileTypeList(fire_TypeCode).execute();
+                        binding.llFireVehicle.setVisibility(View.VISIBLE);
+
+                        binding.llTypeFireHydrant.setVisibility(View.GONE);
+                        binding.llFireProneLocation.setVisibility(View.GONE);
+                        binding.llHydrantName.setVisibility(View.GONE);
+                        binding.llFireStatus.setVisibility(View.GONE);
+
                     }
 
                 } else {
@@ -1233,9 +1240,21 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                     hydrant_Type_Code = "";
                 }
                 break;
-        }
+            case R.id.spn_fire_vehicle_type:
+                if (i > 0) {
+                    typeofVechileServer = VechileType_List.get(i - 1);
+                    Fire_Vechile_Type_Code = typeofVechileServer.getVehicle_Type_Code();
+                    Fire_Vechile_Type_Name = typeofVechileServer.getVehicle_Type_Name();
+                    // Util_Name = majorutilFromServer.getUtil_Name();
 
+                } else {
+//                    fireTypeServer
+                    Fire_Vechile_Type_Code = "";
+                }
+                break;
+        }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
@@ -1245,48 +1264,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
     @Override
     public void OnDoneClick() {
         //new MajorUtil().execute();
-    }
-
-    private class getPrisonMasterList extends AsyncTask<String, Void, ArrayList<GetPrisionMasterServer>> {
-        String userId, Password, Token, Dist_Code, Jail_Code;
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            customAlertDialog.showDialog();
-        }
-
-        public getPrisonMasterList(String userId, String password, String token, String dist_Code, String jail_Code) {
-            this.userId = userId;
-            Password = password;
-            Token = token;
-            Dist_Code = dist_Code;
-            Jail_Code = jail_Code;
-        }
-
-        @Override
-        protected ArrayList<GetPrisionMasterServer> doInBackground(String... strings) {
-            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token, Dist_Code, Jail_Code);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<GetPrisionMasterServer> result) {
-            customAlertDialog.dismisDialog();
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                    //prisionMaster_List = result;
-                    long c = dataBaseHelper.setPrisonMasterLocal(result, Dist_Code, Jail_Code);
-                    if (c > 0) {
-                        setPrisonMaster_List();
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 
     // Local DataBase
@@ -1305,59 +1282,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnJailName.setAdapter(adaptor);
         binding.spnJailName.setOnItemSelectedListener(this);
     }
-  /*  public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList) {
-        prisionMaster_List = RangeList;
-        ArrayList array = new ArrayList<String>();
-        array.add("-Select Prison Master-");
-
-        for (GetPrisionMasterServer info : prisionMaster_List) {
-            array.add(info.getJail_Name());
-        }
-        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
-        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spnJailName.setAdapter(adaptor);
-        binding.spnJailName.setOnItemSelectedListener(this);
-    }*/
-
-
-    private class GetPrisionType extends AsyncTask<String, Void, ArrayList<GetPrisionypeServer>> {
-        String userId, Password, Token;
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            customAlertDialog.showDialog();
-        }
-
-        public GetPrisionType(String userId, String password, String token) {
-            this.userId = userId;
-            Password = password;
-            Token = token;
-        }
-
-        @Override
-        protected ArrayList<GetPrisionypeServer> doInBackground(String... strings) {
-            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token, CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<GetPrisionypeServer> result) {
-            customAlertDialog.dismisDialog();
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                    long c = dataBaseHelper.setPrisonTypeLocal(result);
-                    if (c > 0) {
-                        setPrision_Type();
-                    }
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Contacts Found", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
 
     public void setPrision_Type() {
         dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
@@ -1375,49 +1299,19 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnJailType.setAdapter(adaptor);
         binding.spnJailType.setOnItemSelectedListener(this);
     }
+  /*  public void setPrisonMaster_List(ArrayList<GetPrisionMasterServer> RangeList) {
+        prisionMaster_List = RangeList;
+        ArrayList array = new ArrayList<String>();
+        array.add("-Select Prison Master-");
 
-    private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>> {
-        String userId, Password, Token;
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            customAlertDialog.showDialog();
+        for (GetPrisionMasterServer info : prisionMaster_List) {
+            array.add(info.getJail_Name());
         }
-
-        public GetFireType(String userId, String password, String token) {
-            this.userId = userId;
-            Token = token;
-            Password = password;
-        }
-
-        @Override
-        protected ArrayList<FireTypeServer> doInBackground(String... strings) {
-            return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<FireTypeServer> result) {
-            customAlertDialog.dismisDialog();
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                    long c = helper.setFireTypeLocal(result);
-                    if (c > 0) {
-                        setFireType();
-                    }
-                    // FireType_List = result;
-                    //setFireType(result);
-                    new TypeofHydration(user_id, Password, Token).execute();
-                } else {
-                    Toast.makeText(getApplicationContext(), "No FireType Found", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }
-
-    }
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnJailName.setAdapter(adaptor);
+        binding.spnJailName.setOnItemSelectedListener(this);
+    }*/
 
     public void setFireType() {
         // FireType_List = RangeList;
@@ -1433,49 +1327,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnMajorFireType.setAdapter(adaptor);
         binding.spnMajorFireType.setOnItemSelectedListener(this);
-    }
-
-
-    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<GetTypeOfHydrantServer>> {
-        String userId, Password, Token;
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            customAlertDialog.showDialog();
-        }
-
-        public TypeofHydration(String userId, String password, String token) {
-            this.userId = userId;
-            Token = token;
-            Password = password;
-        }
-
-
-        @Override
-        protected ArrayList<GetTypeOfHydrantServer> doInBackground(String... strings) {
-            return WebServiceHelper.GetTypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
-
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<GetTypeOfHydrantServer> result) {
-            customAlertDialog.dismisDialog();
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                    long c = helper.setTypeOfHydrantLocal(result);
-                    if (c > 0) {
-                        TypeOfHydration();
-                    }
-                    //TypeofHydration_List = result;
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "No TypeOfHydrant Found", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 
     public void TypeOfHydration() {
@@ -1494,52 +1345,19 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnTypeFireHydrant.setOnItemSelectedListener(this);
     }
 
-    private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
-        String userId, Password, Token, role;
+    public void VehicleType() {
+        dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+        VechileType_List = dataBaseHelper.getVechileTypeLocal();
+        ArrayList array = new ArrayList<String>();
+        array.add("-Type of Fire Vehicle-");
 
-        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            customAlertDialog.showDialog();
+        for (GetVechileTypeServer info : VechileType_List) {
+            array.add(info.getVehicle_Type_Name());
         }
-
-        public GetMajorUtil(String userId, String password, String token, String Role) {
-            this.userId = userId;
-            Token = token;
-            Password = password;
-            role = Role;
-        }
-
-        @Override
-        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
-            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token, role);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<MajorUtilitiesFromServer> result) {
-            customAlertDialog.dismisDialog();
-
-            if (result != null) {
-                if (result.size() > 0) {
-                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
-                    // Major_Util_List = result;
-                    long c = helper.setMajorUtilitiesLocal(result,role);
-
-                    if (c > 0) {
-                        setMajorDetailsSpinner();
-                    }
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "No Utilities Found", Toast.LENGTH_SHORT).show();
-                }
-
-            } else {
-                Toast.makeText(getApplicationContext(), "Result: null", Toast.LENGTH_SHORT).show();
-            }
-        }
-
+        ArrayAdapter adaptor = new ArrayAdapter(this, android.R.layout.simple_spinner_item, array);
+        adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spnFireVehicleType.setAdapter(adaptor);
+        binding.spnFireVehicleType.setOnItemSelectedListener(this);
     }
 
     public void setMajorDetailsSpinner() {
@@ -1558,7 +1376,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnMajorUtilities.setAdapter(adaptor);
         binding.spnMajorUtilities.setOnItemSelectedListener(this);
-
 
     }
 
@@ -1590,6 +1407,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1639,6 +1457,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1689,6 +1508,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1740,6 +1560,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1797,6 +1618,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1846,6 +1668,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1894,6 +1717,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1942,6 +1766,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -1990,6 +1815,7 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llMajorFireType.setVisibility(View.GONE);
             binding.llTypeFireHydrant.setVisibility(View.GONE);
             binding.llHydrantName.setVisibility(View.GONE);
+            binding.llFireVehicle.setVisibility(View.GONE);
             binding.llFireProneLocation.setVisibility(View.GONE);
             binding.llFireStatus.setVisibility(View.GONE);
 
@@ -2062,10 +1888,10 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
             binding.llHydrantName.setVisibility(View.VISIBLE);
             binding.llFireProneLocation.setVisibility(View.VISIBLE);
             binding.llFireStatus.setVisibility(View.VISIBLE);
+            binding.llFireVehicle.setVisibility(View.VISIBLE);
             status();
         }
     }
-
 
     public void status() {
         status = new String[]{
@@ -2099,7 +1925,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnFireStatus.setAdapter(adapter);
         binding.spnFireStatus.setOnItemSelectedListener(this);
     }
-
 
     public void load_Religion_type() {
         religionPlace = new String[]{
@@ -2140,7 +1965,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
         binding.spnReligionType.setOnItemSelectedListener(this);
 
     }
-
 
     public void load_Major_Crime() {
         majorCrime = new String[]{
@@ -2285,7 +2109,6 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
 
     }
 
-
     public void Type_Court() {
         courtType = new String[]{
                 getResources().getString(R.string.select),
@@ -2420,6 +2243,256 @@ public class AddMajorUtilitiesActivity extends AppCompatActivity implements Adap
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    private class getPrisonMasterList extends AsyncTask<String, Void, ArrayList<GetPrisionMasterServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String userId, Password, Token, Dist_Code, Jail_Code;
+
+        public getPrisonMasterList(String userId, String password, String token, String dist_Code, String jail_Code) {
+            this.userId = userId;
+            Password = password;
+            Token = token;
+            Dist_Code = dist_Code;
+            Jail_Code = jail_Code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<GetPrisionMasterServer> doInBackground(String... strings) {
+            return WebServiceHelper.getPrisonMasterList(AddMajorUtilitiesActivity.this, userId, Password, Token, Dist_Code, Jail_Code);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<GetPrisionMasterServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    //prisionMaster_List = result;
+                    long c = dataBaseHelper.setPrisonMasterLocal(result, Dist_Code, Jail_Code);
+                    if (c > 0) {
+                        setPrisonMaster_List();
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No PrisonMaster Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetPrisionType extends AsyncTask<String, Void, ArrayList<GetPrisionypeServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String userId, Password, Token;
+
+        public GetPrisionType(String userId, String password, String token) {
+            this.userId = userId;
+            Password = password;
+            Token = token;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<GetPrisionypeServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetPrisionType(AddMajorUtilitiesActivity.this, userId, Password, Token, CommonPref.getPoliceDetails(getApplicationContext()).getPolice_Dist_Code());
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<GetPrisionypeServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    dataBaseHelper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = dataBaseHelper.setPrisonTypeLocal(result);
+                    if (c > 0) {
+                        setPrision_Type();
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No PrisonType Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetFireType extends AsyncTask<String, Void, ArrayList<FireTypeServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String userId, Password, Token;
+
+        public GetFireType(String userId, String password, String token) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<FireTypeServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetFireType(AddMajorUtilitiesActivity.this, userId, Password, Token);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<FireTypeServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = helper.setFireTypeLocal(result);
+                    if (c > 0) {
+                        setFireType();
+                    }
+                    // FireType_List = result;
+                    //setFireType(result);
+                    new TypeofHydration(user_id, Password, Token).execute();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No FireType Found", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+    }
+
+    private class TypeofHydration extends AsyncTask<String, Void, ArrayList<GetTypeOfHydrantServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String userId, Password, Token;
+
+        public TypeofHydration(String userId, String password, String token) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<GetTypeOfHydrantServer> doInBackground(String... strings) {
+            return WebServiceHelper.GetTypeofHydration(AddMajorUtilitiesActivity.this, userId, Password, Token);
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<GetTypeOfHydrantServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = helper.setTypeOfHydrantLocal(result);
+                    if (c > 0) {
+                        TypeOfHydration();
+                    }
+                    //TypeofHydration_List = result;
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No TypeOfHydrant Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetVechileTypeList extends AsyncTask<String, Void, ArrayList<GetVechileTypeServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String FireType_Code;
+
+        public GetVechileTypeList(String fire_type_code) {
+            FireType_Code = fire_type_code;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<GetVechileTypeServer> doInBackground(String... strings) {
+            return WebServiceHelper.getVechileTypeListFromServer(AddMajorUtilitiesActivity.this, FireType_Code);
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<GetVechileTypeServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    long c = helper.setVechileTypeLocal(result);
+                    if (c > 0) {
+                        VehicleType();
+                    }
+                    //TypeofHydration_List = result;
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Vehicle Type Found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    private class GetMajorUtil extends AsyncTask<String, Void, ArrayList<MajorUtilitiesFromServer>> {
+        private final ProgressDialog dialog = new ProgressDialog(AddMajorUtilitiesActivity.this);
+        String userId, Password, Token, role;
+
+        public GetMajorUtil(String userId, String password, String token, String Role) {
+            this.userId = userId;
+            Token = token;
+            Password = password;
+            role = Role;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            customAlertDialog.showDialog();
+        }
+
+        @Override
+        protected ArrayList<MajorUtilitiesFromServer> doInBackground(String... param) {
+            return WebServiceHelper.GetMajorUtil(AddMajorUtilitiesActivity.this, userId, Password, Token, role);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MajorUtilitiesFromServer> result) {
+            customAlertDialog.dismisDialog();
+
+            if (result != null) {
+                if (result.size() > 0) {
+                    DataBaseHelper helper = new DataBaseHelper(AddMajorUtilitiesActivity.this);
+                    // Major_Util_List = result;
+                    long c = helper.setMajorUtilitiesLocal(result, role);
+
+                    if (c > 0) {
+                        setMajorDetailsSpinner();
+                    }
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No Utilities Found", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Result: null", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     private class UploadMajorUtilities extends AsyncTask<String, Void, String> {

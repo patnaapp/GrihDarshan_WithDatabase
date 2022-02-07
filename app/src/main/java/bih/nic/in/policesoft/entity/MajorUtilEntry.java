@@ -17,7 +17,7 @@ public class MajorUtilEntry implements Parcelable {
             Fire_Prone_Name, Fire_Status, Fire_Prone_Address, PerisonMale_Capcity, PerisonFemale_Capcity, PerisonOther_Capcity, Under_Trial_Male, Under_Trial_Female,
             Under_Trial_Other, Convicted_Male, Convicted_Female, Convicted_Other, Transit_Male, Transit_Female, Transit_Other, Male_Under_Eighteen, Female_Under_Eighteen,
             Other_Under_Eighteen, Male_Over_Eighteen, Female_Over_Eighteen, Other_Over_Eighteen, Male_Foreigner, Female_Foreigner, Other_Foreigner,
-            Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory, skey, cap,id = "";
+            Jail_Toilet, Jail_Hospital, Jail_Kitchen, Jail_Dormitory, skey, cap,id = "",FireVech_Code="",FireVech_Name="";
 
     protected MajorUtilEntry(Parcel in) {
         id = in.readString();
@@ -94,6 +94,8 @@ public class MajorUtilEntry implements Parcelable {
         Jail_Hospital = in.readString();
         Jail_Kitchen = in.readString();
         Jail_Dormitory = in.readString();
+        FireVech_Code = in.readString();
+        FireVech_Name = in.readString();
         skey = in.readString();
         cap = in.readString();
     }
@@ -174,6 +176,9 @@ public class MajorUtilEntry implements Parcelable {
         dest.writeString(Jail_Hospital);
         dest.writeString(Jail_Kitchen);
         dest.writeString(Jail_Dormitory);
+        dest.writeString(FireVech_Code);
+        dest.writeString(FireVech_Name);
+
         dest.writeString(skey);
         dest.writeString(cap);
     }
@@ -199,7 +204,7 @@ public class MajorUtilEntry implements Parcelable {
 
     }
 
-    public MajorUtilEntry(String user_Id, String password, String range_Code, String subDiv_Code, String dist_Code, String thana_code, String major_UtilCode, String major_Crime_HeadCode, String major_Crime_HeadAddress, String chronic_Land_DistributeCode, String chronic_Land_Add, String kabrishtan_Name, String kabrishtan_VillName, String land_DetailCode, String boundary_StatusCode, String jail_TypeCode, String jail_Name, String jail_Address, String started_Year, String jail_Capacity, String type_Court_Code, String name_Of_Court, String court_Address, String fair_Festival_Name, String fair_Festival_Address, String historical_Place_Name, String historical_Place_Address, String remarks, String photo, String latitude, String longitude, String entry_Mode, String imei_Num, String app_Ver, String device_Type, String religious_PlaceType, String religious_PlaceName, String historical_Imp_Prison, String best_Practices_Prison, String reform_Activities_Prison, String fire_TypeCode, String hydrant_Type_Code, String hydrant_Name, String fire_Prone_Name, String fire_Status, String fire_Prone_Address, String perisonMale_Capcity, String perisonFemale_Capcity, String perisonOther_Capcity, String under_Trial_Male, String under_Trial_Female, String under_Trial_Other, String convicted_Male, String convicted_Female, String convicted_Other, String transit_Male, String transit_Female, String transit_Other, String male_Under_Eighteen, String female_Under_Eighteen, String other_Under_Eighteen, String male_Over_Eighteen, String female_Over_Eighteen, String other_Over_Eighteen, String male_Foreigner, String female_Foreigner, String other_Foreigner, String jail_Toilet, String jail_Hospital, String jail_Kitchen, String jail_Dormitory, String skey, String cap) {
+    public MajorUtilEntry(String user_Id, String password, String range_Code, String subDiv_Code, String dist_Code, String thana_code, String major_UtilCode, String major_Crime_HeadCode, String major_Crime_HeadAddress, String chronic_Land_DistributeCode, String chronic_Land_Add, String kabrishtan_Name, String kabrishtan_VillName, String land_DetailCode, String boundary_StatusCode, String jail_TypeCode, String jail_Name, String jail_Address, String started_Year, String jail_Capacity, String type_Court_Code, String name_Of_Court, String court_Address, String fair_Festival_Name, String fair_Festival_Address, String historical_Place_Name, String historical_Place_Address, String remarks, String photo, String latitude, String longitude, String entry_Mode, String imei_Num, String app_Ver, String device_Type, String religious_PlaceType, String religious_PlaceName, String historical_Imp_Prison, String best_Practices_Prison, String reform_Activities_Prison, String fire_TypeCode, String hydrant_Type_Code, String hydrant_Name, String fire_Prone_Name, String fire_Status, String fire_Prone_Address, String perisonMale_Capcity, String perisonFemale_Capcity, String perisonOther_Capcity, String under_Trial_Male, String under_Trial_Female, String under_Trial_Other, String convicted_Male, String convicted_Female, String convicted_Other, String transit_Male, String transit_Female, String transit_Other, String male_Under_Eighteen, String female_Under_Eighteen, String other_Under_Eighteen, String male_Over_Eighteen, String female_Over_Eighteen, String other_Over_Eighteen, String male_Foreigner, String female_Foreigner, String other_Foreigner, String jail_Toilet, String jail_Hospital, String jail_Kitchen, String jail_Dormitory, String fire_vech_code, String fire_vech_Name, String skey, String cap) {
         User_Id = user_Id;
         this.password = password;
         Range_Code = range_Code;
@@ -271,6 +276,8 @@ public class MajorUtilEntry implements Parcelable {
         Jail_Hospital = jail_Hospital;
         Jail_Kitchen = jail_Kitchen;
         Jail_Dormitory = jail_Dormitory;
+        FireVech_Code = fire_vech_code;
+        FireVech_Name = fire_vech_Name;
         this.skey = skey;
         this.cap = cap;
     }
@@ -882,5 +889,21 @@ public class MajorUtilEntry implements Parcelable {
 
     public void setMajor_UtilAdd(String major_UtilAdd) {
         Major_UtilAdd = major_UtilAdd;
+    }
+
+    public String getFireVech_Code() {
+        return FireVech_Code;
+    }
+
+    public void setFireVech_Code(String fireVech_Code) {
+        FireVech_Code = fireVech_Code;
+    }
+
+    public String getFireVech_Name() {
+        return FireVech_Name;
+    }
+
+    public void setFireVech_Name(String fireVech_Name) {
+        FireVech_Name = fireVech_Name;
     }
 }

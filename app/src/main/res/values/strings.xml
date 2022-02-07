@@ -340,5 +340,6 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="add_more_facility">Add More Facility</string>
+    <string name="fire_vehicle">Fire Vehicle Type : [*]</string>
 
 </resources>

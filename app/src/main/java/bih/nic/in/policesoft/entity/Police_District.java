@@ -41,7 +41,6 @@ public class Police_District implements KvmSerializable, Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public Police_District() {
